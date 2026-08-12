@@ -1,0 +1,72 @@
+# AGENTS.md
+
+## Purpose
+
+This repository is a behavior-preserving refactor of the Half-Life GoldSrc DLL.
+
+The goal is to improve the internal codebase without changing how the game works.
+
+## Core Rules
+
+* Preserve all existing game behavior and functionality.
+* Do not modify public interfaces, protocols, or externally observable behavior.
+* Prefer refactoring over rewriting.
+* Remove duplicated logic where safe.
+* Reduce unnecessary coupling and complexity.
+* Separate responsibilities into focused modules/files.
+* Keep each entity or responsibility in its own file where practical.
+* Prefer simple, explicit code over unnecessary abstractions.
+* Do not introduce dependencies without a clear justification.
+* Preserve compatibility with the existing build and runtime environment.
+
+## Workflow
+
+Before making changes:
+
+1. Inspect the relevant code and surrounding dependencies.
+2. Check `FINDINGS.md`, `TASKS.md`, and `RESULTS.md`.
+3. Identify the smallest safe change that solves the problem.
+
+After making changes:
+
+1. Build the project.
+2. Run available tests and validation tools.
+3. Fix any regressions.
+4. Update the relevant documentation files.
+
+## Documentation
+
+These files must exist at the repository root:
+
+* `FINDINGS.md` — discovered problems and improvement opportunities.
+* `TASKS.md` — planned and completed optimization tasks.
+* `RESULTS.md` — implemented changes and validation results.
+
+Create them when missing.
+
+Do not duplicate existing entries. Keep documentation concise and factual.
+
+## Refactoring Standard
+
+A good refactor should make the code:
+
+* easier to understand
+* easier to navigate
+* less duplicated
+* less coupled
+* more modular
+* easier to test and maintain
+
+Do not refactor code merely for stylistic preference.
+
+## Priority
+
+When choosing between improvements, prioritize:
+
+1. Correctness and behavior preservation
+2. Architectural improvements
+3. Reduction of duplication and coupling
+4. Maintainability and readability
+5. Cosmetic consistency
+
+The final implementation should feel like a professionally engineered, internally optimized version of the original GoldSrc DLL while remaining functionally equivalent.

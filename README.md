@@ -1,67 +1,70 @@
-Half Life 1 SDK LICENSE
-======================
+# GoldSrc Refactored
 
-Half Life 1 SDK Copyright © Valve Corp.
+A behavior-preserving refactor of the Half-Life 1 GoldSrc game DLL codebase.
 
-THIS DOCUMENT DESCRIBES A CONTRACT BETWEEN YOU AND VALVE CORPORATION (“Valve”).  PLEASE READ IT BEFORE DOWNLOADING OR USING THE HALF LIFE 1 SDK (“SDK”). BY DOWNLOADING AND/OR USING THE SOURCE ENGINE SDK YOU ACCEPT THIS LICENSE. IF YOU DO NOT AGREE TO THE TERMS OF THIS LICENSE PLEASE DON’T DOWNLOAD OR USE THE SDK.
+This fork focuses exclusively on improving the **internal architecture, organization, readability, and maintainability** of the original code while keeping its functionality and externally observable behavior unchanged.
 
-You may, free of charge, download and use the SDK to develop a modified Valve game running on the Half-Life engine.  You may distribute your modified Valve game in source and object code form, but only for free. Terms of use for Valve games are found in the Steam Subscriber Agreement located here: https://store.steampowered.com/subscriber_agreement/ 
+## Goals
 
-You may copy, modify, and distribute the SDK and any modifications you make to the SDK in source and object code form, but only for free.  Any distribution of this SDK must include this license.txt and third_party_licenses.txt.  
- 
-Any distribution of the SDK or a substantial portion of the SDK must include the above copyright notice and the following: 
+* Refactor complex or difficult-to-maintain code.
+* Remove duplicated logic.
+* Improve modularity and separation of responsibilities.
+* Split entities and responsibilities into focused files where practical.
+* Reduce unnecessary coupling and complexity.
+* Improve consistency and readability.
+* Preserve the original game behavior and functionality.
 
-DISCLAIMER OF WARRANTIES.  THE SOURCE SDK AND ANY OTHER MATERIAL DOWNLOADED BY LICENSEE IS PROVIDED “AS IS”.  VALVE AND ITS SUPPLIERS DISCLAIM ALL WARRANTIES WITH RESPECT TO THE SDK, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT, TITLE AND FITNESS FOR A PARTICULAR PURPOSE.  
+This project is **not intended to add gameplay features or change how Half-Life works**.
 
-LIMITATION OF LIABILITY.  IN NO EVENT SHALL VALVE OR ITS SUPPLIERS BE LIABLE FOR ANY SPECIAL, INCIDENTAL, INDIRECT, OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR ANY OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OF OR INABILITY TO USE THE ENGINE AND/OR THE SDK, EVEN IF VALVE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.  
- 
- 
-If you would like to use the SDK for a commercial purpose, please contact Valve at sourceengine@valvesoftware.com.
+## Development Philosophy
 
+The target is a cleaner internal implementation of the original GoldSrc DLL:
 
-Half-Life 1
-======================
+> **Same behavior. Better code.**
 
-This is the README for the Half-Life 1 engine and its associated games.
+Changes should provide a concrete architectural or maintenance benefit. Cosmetic refactoring and unnecessary abstractions should be avoided.
 
-Please use this repository to report bugs and feature requests for Half-Life 1 related products.
+## Optimization Process
 
-Reporting Issues
-----------------
+The repository uses three root-level Markdown files to track the ongoing refactoring:
 
-If you encounter an issue while using Half-Life 1 games, first search the [issue list](https://github.com/ValveSoftware/halflife/issues) to see if it has already been reported. Include closed issues in your search.
+* [`FINDINGS.md`](./FINDINGS.md) — identified problems and improvement opportunities.
+* [`TASKS.md`](./TASKS.md) — actionable refactoring tasks.
+* [`RESULTS.md`](./RESULTS.md) — implemented changes and their validation.
 
-If it has not been reported, create a new issue with at least the following information:
+## Building
 
-- a short, descriptive title;
-- a detailed description of the issue, including any output from the command line;
-- steps for reproducing the issue;
-- your system information.\*; and
-- the `version` output from the in-game console.
+Build requirements and procedures remain based on the original Half-Life SDK.
 
-Please place logs either in a code block (press `M` in your browser for a GFM cheat sheet) or a [gist](https://gist.github.com).
+For Windows, the original SDK provides Visual Studio projects under:
 
-\* The preferred and easiest way to get this information is from Steam's Hardware Information viewer from the menu (`Help -> System Information`). Once your information appears: right-click within the dialog, choose `Select All`, right-click again, and then choose `Copy`. Paste this information into your report, preferably in a code block.
+```text
+projects/vs2019
+```
 
-Conduct
--------
+For Linux, build files are provided under:
 
+```text
+linux
+```
 
-There are basic rules of conduct that should be followed at all times by everyone participating in the discussions.  While this is generally a relaxed environment, please remember the following:
+Refer to the original SDK documentation and project files for environment-specific requirements.
 
-- Do not insult, harass, or demean anyone.
-- Do not intentionally multi-post an issue.
-- Do not use ALL CAPS when creating an issue report.
-- Do not repeatedly update an open issue remarking that the issue persists.
+## License
 
-Remember: Just because the issue you reported was reported here does not mean that it is an issue with Half-Life.  As well, should your issue not be resolved immediately, it does not mean that a resolution is not being researched or tested.  Patience is always appreciated.
+This project is derived from the **Half-Life 1 SDK** originally released by Valve Corporation.
 
+The original SDK license and required third-party license information are retained in this repository:
 
-Building the SDK code
--------
+* [`license.txt`](./license.txt)
+* [`third_party_licenses.txt`](./third_party_licenses.txt)
 
-[Visual Studio](https://visualstudio.microsoft.com/) 2019 is required to build mod DLLs on Windows. In the Visual Studio installer, install "**Desktop development with C++**" under "**Workloads**" and "**C++ MFC for latest v142 build tools (x86 & x64)**" under "**Individual components**". VS2019 projects can be found in the `projects\vs2019` folder.
+Copyright © Valve Corp.
 
-Tools have not yet been updated for VS2019, but can be built using the VS2010 projects in the `projects\vs2010` folder. See the `readme.txt` file there.
+See the included license files for the complete terms governing the SDK and derivative works.
 
-Linux binaries can be built using Makefiles found in the `linux` folder. They expect to be built / run in the [Steam Runtime "scout" environment](https://gitlab.steamos.cloud/steamrt/scout/sdk). The built binaries are copied to a directory called `game` at the same level as the root directory for the git repository. You can set `CREATE_OUTPUT_DIRS=1` while building to create the output directory structure automatically.
+## Disclaimer
+
+This project is an independent refactoring effort based on the publicly available Half-Life 1 SDK.
+
+It does not represent an official Valve project and is not affiliated with or endorsed by Valve Corporation.
