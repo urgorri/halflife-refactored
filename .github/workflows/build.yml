@@ -1,0 +1,97 @@
+name: Build Half-Life DLLs
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-windows-client:
+    name: Windows x86 Client DLL
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build Windows Client DLL
+        run: msbuild projects/vs2019/hl_cdll.vcxproj /p:Configuration=Release /p:Platform=Win32 /m
+
+      - name: Upload Windows Client DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-windows-x86
+          path: projects/vs2019/Release/hl_cdll/client.dll
+
+  build-windows-server:
+    name: Windows x86 Server DLL
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build Windows Server DLL
+        run: msbuild projects/vs2019/hldll.vcxproj /p:Configuration=Release /p:Platform=Win32 /m
+
+      - name: Upload Windows Server DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: hl-windows-x86
+          path: projects/vs2019/Release/hldll/hl.dll
+
+  build-linux-client:
+    name: Linux x86 Client DLL
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y gcc-multilib g++-multilib make gcc g++ libc6-dev-i386
+
+      - name: Build Linux Client DLL
+        run: |
+          cd linux
+          sed -i 's/gcc-5/gcc/g' Makefile
+          sed -i 's/g++-5/g++/g' Makefile
+          make hl_cdll ARCH_CFLAGS_I486="-m32" ARCH_CFLAGS_I686="-m32" ARCH_CFLAGS_AMD="-m32" ARCH_CFLAGS_AMD64="-m32" HL_OUTPUT_DIR=release CREATE_OUTPUT_DIRS=1
+
+      - name: Upload Linux Client DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-linux-x86
+          path: linux/release/cl_dlls/client.so
+
+  build-linux-server:
+    name: Linux x86 Server DLL
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y gcc-multilib g++-multilib make gcc g++ libc6-dev-i386
+
+      - name: Build Linux Server DLL
+        run: |
+          cd linux
+          sed -i 's/gcc-5/gcc/g' Makefile
+          sed -i 's/g++-5/g++/g' Makefile
+          make hl ARCH_CFLAGS_I486="-m32" ARCH_CFLAGS_I686="-m32" ARCH_CFLAGS_AMD="-m32" ARCH_CFLAGS_AMD64="-m32" HL_OUTPUT_DIR=release CREATE_OUTPUT_DIRS=1
+
+      - name: Upload Linux Server DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: hl-linux-x86
+          path: linux/release/dlls/hl.so
