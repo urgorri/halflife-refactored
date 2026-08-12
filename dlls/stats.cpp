@@ -5,10 +5,10 @@
 // $NoKeywords: $
 //=============================================================================
 
-#include "extdll.h"
-#include "util.h"
+#include "core/extdll.h"
+#include "core/util.h"
 
-#include "cbase.h"
+#include "core/cbase.h"
 #include "player.h"
 #include "trains.h"
 #include "nodes.h"
