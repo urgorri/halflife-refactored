@@ -20,6 +20,7 @@
 #include "player.h"
 #include "monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_egon.h"
 #include "nodes.h"
 #include "effects.h"
 #include "customentity.h"
@@ -589,3 +590,20 @@ class CEgonAmmo : public CBasePlayerAmmo
 LINK_ENTITY_TO_CLASS( ammo_egonclip, CEgonAmmo );
 
 #endif
+#ifndef CLIENT_DLL
+
+TYPEDESCRIPTION	CEgon::m_SaveData[] =
+{
+//	DEFINE_FIELD( CEgon, m_pBeam, FIELD_CLASSPTR ),
+//	DEFINE_FIELD( CEgon, m_pNoise, FIELD_CLASSPTR ),
+//	DEFINE_FIELD( CEgon, m_pSprite, FIELD_CLASSPTR ),
+	DEFINE_FIELD( CEgon, m_shootTime, FIELD_TIME ),
+	DEFINE_FIELD( CEgon, m_fireState, FIELD_INTEGER ),
+	DEFINE_FIELD( CEgon, m_fireMode, FIELD_INTEGER ),
+	DEFINE_FIELD( CEgon, m_shakeTime, FIELD_TIME ),
+	DEFINE_FIELD( CEgon, m_flAmmoUseTime, FIELD_TIME ),
+};
+IMPLEMENT_SAVERESTORE( CEgon, CBasePlayerWeapon );
+
+
+#endif // CLIENT_DLL

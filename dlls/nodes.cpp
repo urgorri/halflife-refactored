@@ -1654,9 +1654,17 @@ void CTestHull :: BuildNodeGraph( void )
 	// make sure directories have been made
 	GET_GAME_DIR( szNrpFilename );
 	strcat( szNrpFilename, "/maps" );
+	#ifdef _WIN32
 	CreateDirectory( szNrpFilename, NULL );
+#else
+	mkdir( szNrpFilename, 0755 );
+#endif
 	strcat( szNrpFilename, "/graphs" );
+	#ifdef _WIN32
 	CreateDirectory( szNrpFilename, NULL );
+#else
+	mkdir( szNrpFilename, 0755 );
+#endif
 
 	strcat( szNrpFilename, "/" );
 	strcat( szNrpFilename, STRING( gpGlobals->mapname ) );
@@ -2326,9 +2334,17 @@ int CGraph :: FLoadGraph ( char *szMapName )
 	char	szDirName[MAX_PATH];
 	GET_GAME_DIR( szDirName );
 	strcat( szDirName, "/maps" );
+	#ifdef _WIN32
 	CreateDirectory( szDirName, NULL );
+#else
+	mkdir( szDirName, 0755 );
+#endif
 	strcat( szDirName, "/graphs" );
+	#ifdef _WIN32
 	CreateDirectory( szDirName, NULL );
+#else
+	mkdir( szDirName, 0755 );
+#endif
 
 	strcpy ( szFilename, "maps/graphs/" );
 	strcat ( szFilename, szMapName );
@@ -2504,9 +2520,17 @@ int CGraph :: FSaveGraph ( char *szMapName )
 	// make sure directories have been made
 	GET_GAME_DIR( szFilename );
 	strcat( szFilename, "/maps" );
+	#ifdef _WIN32
 	CreateDirectory( szFilename, NULL );
+#else
+	mkdir( szFilename, 0755 );
+#endif
 	strcat( szFilename, "/graphs" );
+	#ifdef _WIN32
 	CreateDirectory( szFilename, NULL );
+#else
+	mkdir( szFilename, 0755 );
+#endif
 
 	strcat( szFilename, "/" );
 	strcat( szFilename, szMapName );

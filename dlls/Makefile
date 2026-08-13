@@ -92,7 +92,7 @@ OBJ = \
 	$(DLL_OBJDIR)/defaultai.o \
 	$(DLL_OBJDIR)/doors.o \
 	$(DLL_OBJDIR)/effects.o \
-	$(DLL_OBJDIR)/egon.o \
+	$(DLL_OBJDIR)/weapons/weapon_egon.o \
 	$(DLL_OBJDIR)/explode.o \
 	$(DLL_OBJDIR)/flyingmonster.o \
 	$(DLL_OBJDIR)/func_break.o \
@@ -100,7 +100,7 @@ OBJ = \
 	$(DLL_OBJDIR)/game.o \
 	$(DLL_OBJDIR)/gamerules.o \
 	$(DLL_OBJDIR)/gargantua.o \
-	$(DLL_OBJDIR)/gauss.o \
+	$(DLL_OBJDIR)/weapons/weapon_gauss.o \
 	$(DLL_OBJDIR)/genericmonster.o \
 	$(DLL_OBJDIR)/ggrenade.o \
 	$(CORE_OBJDIR)/globals.o \
@@ -145,12 +145,12 @@ OBJ = \
 	$(DLL_OBJDIR)/python.o \
 	$(DLL_OBJDIR)/rat.o \
 	$(DLL_OBJDIR)/roach.o \
-	$(DLL_OBJDIR)/rpg.o \
-	$(DLL_OBJDIR)/satchel.o \
+	$(DLL_OBJDIR)/weapons/weapon_rpg.o \
+	$(DLL_OBJDIR)/weapons/weapon_satchel.o \
 	$(DLL_OBJDIR)/schedule.o \
 	$(DLL_OBJDIR)/scientist.o \
 	$(DLL_OBJDIR)/scripted.o \
-	$(DLL_OBJDIR)/shotgun.o \
+	$(DLL_OBJDIR)/weapons/weapon_shotgun.o \
 	$(DLL_OBJDIR)/singleplay_gamerules.o \
 	$(DLL_OBJDIR)/skill.o \
 	$(DLL_OBJDIR)/sound.o \
@@ -168,6 +168,7 @@ OBJ = \
 	$(DLL_OBJDIR)/turret.o \
 	$(CORE_OBJDIR)/util.o \
 	$(DLL_OBJDIR)/weapons.o \
+	$(DLL_OBJDIR)/weapons/weapon_base.o \
 	$(DLL_OBJDIR)/world.o \
 	$(DLL_OBJDIR)/xen.o \
 	$(DLL_OBJDIR)/zombie.o \
@@ -197,3 +198,21 @@ spotless: clean
 	-rm -r $(GAME_SHARED_OBJDIR)
 	-rm -r $(PM_SHARED_OBJDIR)
 
+
+$(DLL_OBJDIR)/weapons/weapon_egon.o: weapons/weapon_egon.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/weapons/weapon_gauss.o: weapons/weapon_gauss.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/weapons/weapon_rpg.o: weapons/weapon_rpg.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/weapons/weapon_satchel.o: weapons/weapon_satchel.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/weapons/weapon_shotgun.o: weapons/weapon_shotgun.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/weapons/weapon_base.o: weapons/weapon_base.cpp
+	$(DO_CC)
