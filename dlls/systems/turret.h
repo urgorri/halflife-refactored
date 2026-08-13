@@ -6,6 +6,8 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "monsters.h"
+#include "effects.h"
+#include "weapons.h"
 
 #define TURRET_SHOTS	2
 #define TURRET_RANGE	(100 * 12)
