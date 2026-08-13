@@ -194,6 +194,8 @@ $(DLLNAME)_$(ARCH).$(SHLIBEXT) : neat $(OBJ)
 
 neat:
 	-mkdir $(DLL_OBJDIR)
+	-mkdir $(DLL_OBJDIR)/gameplay
+	-mkdir $(DLL_OBJDIR)/weapons
 	-mkdir $(DLL_OBJDIR)/items
 	-mkdir $(CORE_OBJDIR)
 	-mkdir $(WPN_SHARED_OBJDIR)
