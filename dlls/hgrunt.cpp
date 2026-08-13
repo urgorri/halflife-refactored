@@ -28,10 +28,10 @@
 */
 
 
-#include	"extdll.h"
+#include "core/extdll.h"
 #include	"plane.h"
-#include	"util.h"
-#include	"cbase.h"
+#include "core/util.h"
+#include "core/cbase.h"
 #include	"monsters.h"
 #include	"schedule.h"
 #include	"animation.h"

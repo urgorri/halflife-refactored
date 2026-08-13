@@ -17,9 +17,9 @@
 //=========================================================
 // Gargantua
 //=========================================================
-#include	"extdll.h"
-#include	"util.h"
-#include	"cbase.h"
+#include "core/extdll.h"
+#include "core/util.h"
+#include "core/cbase.h"
 #include	"nodes.h"
 #include	"monsters.h"
 #include	"schedule.h"
