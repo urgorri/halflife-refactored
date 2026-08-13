@@ -17,7 +17,7 @@
 //=========================================================
 
 //#include "weapons.h"
-//#include "items.h"
+//#include "items/item_base.h"
 class CBasePlayerItem;
 class CBasePlayer;
 class CItem;
