@@ -20,6 +20,8 @@ PM_SHARED_SRCDIR=../pm_shared
 GAME_SHARED_SRCDIR=../game_shared
 
 DLL_OBJDIR=$(DLL_SRCDIR)/obj
+SYSTEMS_SRCDIR=./systems
+SYSTEMS_OBJDIR=$(SYSTEMS_SRCDIR)/obj
 CORE_OBJDIR=$(CORE_SRCDIR)/obj
 WPN_SHARED_OBJDIR=$(WPN_SHARED_SRCDIR)/obj
 PM_SHARED_OBJDIR=$(PM_SHARED_SRCDIR)/obj
@@ -55,6 +57,9 @@ DO_CC=$(CC) $(CFLAGS) $(SHLIBCFLAGS) $(INCLUDEDIRS) -o $@ -c $<
 #############################################################################
 
 $(DLL_OBJDIR)/%.o: $(DLL_SRCDIR)/%.cpp
+	$(DO_CC)
+
+$(SYSTEMS_OBJDIR)/%.o: $(SYSTEMS_SRCDIR)/%.cpp
 	$(DO_CC)
 
 $(CORE_OBJDIR)/%.o: $(CORE_SRCDIR)/%.cpp
@@ -165,7 +170,10 @@ OBJ = \
 	$(DLL_OBJDIR)/tentacle.o \
 	$(DLL_OBJDIR)/triggers.o \
 	$(DLL_OBJDIR)/tripmine.o \
-	$(DLL_OBJDIR)/turret.o \
+	$(SYSTEMS_OBJDIR)/turret.o \
+	$(SYSTEMS_OBJDIR)/turret_base.o \
+	$(SYSTEMS_OBJDIR)/miniturret.o \
+	$(SYSTEMS_OBJDIR)/sentry.o \
 	$(CORE_OBJDIR)/util.o \
 	$(DLL_OBJDIR)/weapons.o \
 	$(DLL_OBJDIR)/weapons/weapon_base.o \
@@ -184,6 +192,7 @@ $(DLLNAME)_$(ARCH).$(SHLIBEXT) : neat $(OBJ)
 neat:
 	-mkdir $(DLL_OBJDIR)
 	-mkdir $(DLL_OBJDIR)/items
+	-mkdir $(SYSTEMS_OBJDIR)
 	-mkdir $(CORE_OBJDIR)
 	-mkdir $(WPN_SHARED_OBJDIR)
 	-mkdir $(GAME_SHARED_OBJDIR)
@@ -193,6 +202,7 @@ clean:
 	-rm -f $(DLLNAME)_$(ARCH).$(SHLIBEXT)
 spotless: clean
 	-rm -r $(DLL_OBJDIR)
+	-rm -r $(SYSTEMS_OBJDIR)
 	-rm -r $(CORE_OBJDIR)
 	-rm -r $(WPN_SHARED_OBJDIR)
 	-rm -r $(GAME_SHARED_OBJDIR)

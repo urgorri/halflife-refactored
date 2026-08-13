@@ -34,6 +34,12 @@
     <Filter Include="Header Files\pm_shared">
       <UniqueIdentifier>{37941113-16fa-4ce0-9bdd-a72a1ced8902}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\systems">
+      <UniqueIdentifier>{6f858c21-12c8-4770-bdc9-2785d0d86e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dlls\systems">
+      <UniqueIdentifier>{7f858c21-12c8-4770-bdc9-2785d0d86e11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlls\aflock.cpp">
@@ -336,8 +342,17 @@
     <ClCompile Include="..\..\dlls\tripmine.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\turret.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\miniturret.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sentry.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\turret.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\turret_base.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\util.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -494,6 +509,9 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\trains.h">
       <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\turret.h">
+      <Filter>Header Files\dlls\systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\util.h">
       <Filter>Header Files\dlls</Filter>
