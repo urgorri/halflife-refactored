@@ -22,7 +22,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "monsters.h"
+#include "ai/monsters.h"
 
 #ifndef ANIMATION_H
 #include "animation.h"
@@ -32,9 +32,9 @@
 #include "core/saverestore.h"
 #endif
 
-#include "schedule.h"
+#include "ai/schedule.h"
 #include "scripted.h"
-#include "defaultai.h"
+#include "ai/defaultai.h"
 
 
 

@@ -17,10 +17,10 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "monsters.h"
+#include "ai/monsters.h"
 #include "weapons.h"
 #include "weapons/weapon_satchel.h"
-#include "nodes.h"
+#include "ai/nodes.h"
 #include "player.h"
 #include "gamerules.h"
 

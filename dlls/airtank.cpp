@@ -15,9 +15,9 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "monsters.h"
+#include "ai/monsters.h"
 #include "weapons.h"
-#include "nodes.h"
+#include "ai/nodes.h"
 #include "player.h"
 
 class CAirtank : public CGrenade 

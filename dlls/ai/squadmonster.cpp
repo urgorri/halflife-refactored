@@ -18,11 +18,11 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "nodes.h"
-#include "monsters.h"
+#include "ai/nodes.h"
+#include "ai/monsters.h"
 #include "animation.h"
 #include "core/saverestore.h"
-#include "squadmonster.h"
+#include "ai/squadmonster.h"
 #include "plane.h"
 
 //=========================================================

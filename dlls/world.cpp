@@ -23,7 +23,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "nodes.h"
+#include "ai/nodes.h"
 #include "soundent.h"
 #include "client.h"
 #include "decals.h"
