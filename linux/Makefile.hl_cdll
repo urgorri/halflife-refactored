@@ -155,6 +155,7 @@ $(HL1_OBJ_DIR):
 $(HL1_SERVER_OBJ_DIR):
 	mkdir -p $(HL1_SERVER_OBJ_DIR)
 	mkdir -p $(HL1_SERVER_OBJ_DIR)/wpn_shared
+	mkdir -p $(HL1_SERVER_OBJ_DIR)/weapons
 
 $(PUBLIC_OBJ_DIR):
 	mkdir -p $(PUBLIC_OBJ_DIR)
