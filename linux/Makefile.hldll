@@ -128,7 +128,30 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/singleplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/tempmonster.o \
 	$(HLDLL_OBJ_DIR)/tentacle.o \
-	$(HLDLL_OBJ_DIR)/triggers.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_auto.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_base.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_camera.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_cdaudio.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_changelevel.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_changetarget.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_counter.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_endsection.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_fireanddie.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_friction.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_gravity.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_hurt.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_ladder.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_monsterjump.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_multi_manager.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_multiple.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_once.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_push.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_relay.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_render_fx.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_save.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_target_cdaudio.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_teleport.o \
+	$(HLDLL_OBJ_DIR)/systems/trigger_volume.o \
 	$(HLDLL_OBJ_DIR)/tripmine.o \
 	$(HLDLL_OBJ_DIR)/turret.o \
 	$(HLCORE_OBJ_DIR)/util.o \
@@ -157,6 +180,7 @@ dirs:
 	-mkdir -p $(HLDLL_OBJ_DIR)
 	-mkdir -p $(HLDLL_OBJ_DIR)/items
 	-mkdir -p $(HLDLL_OBJ_DIR)/weapons
+	-mkdir -p $(HLDLL_OBJ_DIR)/systems
 	-mkdir -p $(HLCORE_OBJ_DIR)
 	-mkdir -p $(HLWPN_OBJ_DIR)
 	-mkdir -p $(PM_OBJ_DIR)
