@@ -24,27 +24,8 @@ The goal is to improve the internal codebase without changing how the game works
 Before making changes:
 
 1. Inspect the relevant code and surrounding dependencies.
-2. Check `FINDINGS.md`, `TASKS.md`, and `RESULTS.md`.
-3. Identify the smallest safe change that solves the problem.
+2. Identify the smallest safe change that solves the problem.
 
-After making changes:
-
-1. Build the project.
-2. Run available tests and validation tools.
-3. Fix any regressions.
-4. Update the relevant documentation files.
-
-## Documentation
-
-These files must exist at the repository root:
-
-* `FINDINGS.md` — discovered problems and improvement opportunities.
-* `TASKS.md` — planned and completed optimization tasks.
-* `RESULTS.md` — implemented changes and validation results.
-
-Create them when missing.
-
-Do not duplicate existing entries. Keep documentation concise and factual.
 
 ## Refactoring Standard
 

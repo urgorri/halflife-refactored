@@ -24,13 +24,6 @@ The target is a cleaner internal implementation of the original GoldSrc DLL:
 
 Changes should provide a concrete architectural or maintenance benefit. Cosmetic refactoring and unnecessary abstractions should be avoided.
 
-## Optimization Process
-
-The repository uses three root-level Markdown files to track the ongoing refactoring:
-
-* [`FINDINGS.md`](./FINDINGS.md) — identified problems and improvement opportunities.
-* [`TASKS.md`](./TASKS.md) — actionable refactoring tasks.
-* [`RESULTS.md`](./RESULTS.md) — implemented changes and their validation.
 
 ## Building
 
