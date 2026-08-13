@@ -1,3 +1,2 @@
-rem @echo off
-rem echo %~f2
-@copy %1 %~f2
+@if not exist "%~dp2" mkdir "%~dp2"
+@copy /y %1 %~f2
