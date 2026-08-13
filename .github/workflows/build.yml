@@ -62,6 +62,7 @@ jobs:
           $dll = "projects/vs2019/Release/hldll/hl.dll"
           if (-not (Test-Path $dll)) {
             throw "Server DLL was not produced: $dll"
+          }
 
       - name: Upload Windows Server DLL
         uses: actions/upload-artifact@v4
