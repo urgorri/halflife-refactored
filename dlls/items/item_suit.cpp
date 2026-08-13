@@ -19,7 +19,7 @@
 #include "player.h"
 #include "skill.h"
 #include "items/item_base.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 #define SF_SUIT_SHORTLOGON		0x0001
 

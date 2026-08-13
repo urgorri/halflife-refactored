@@ -20,7 +20,7 @@
 #include "nodes.h"
 #include "player.h"
 #include "items/item_base.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 extern int gmsgItemPickup;
 

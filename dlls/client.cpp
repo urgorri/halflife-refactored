@@ -31,7 +31,7 @@
 #include "spectator.h"
 #include "client.h"
 #include "soundent.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 #include "game.h"
 #include "customentity.h"
 #include "weapons.h"

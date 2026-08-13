@@ -20,7 +20,7 @@
 #include "weapons.h"
 #include "nodes.h"
 #include "player.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 
 #define	CROWBAR_BODYHIT_VOLUME 128

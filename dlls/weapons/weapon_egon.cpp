@@ -24,7 +24,7 @@
 #include "nodes.h"
 #include "effects.h"
 #include "customentity.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 #define	EGON_PRIMARY_VOLUME		450
 #define EGON_BEAM_SPRITE		"sprites/xbeam1.spr"

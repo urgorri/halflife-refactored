@@ -21,7 +21,7 @@
 #include "weapons.h"
 #include "nodes.h"
 #include "player.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 #ifndef CLIENT_DLL
 #define BOLT_AIR_VELOCITY	2000

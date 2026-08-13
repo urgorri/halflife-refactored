@@ -20,8 +20,8 @@
 #include "core/cbase.h"
 #include	"player.h"
 #include	"weapons.h"
-#include	"gamerules.h"
-#include	"teamplay_gamerules.h"
+#include	"gameplay/gamerules.h"
+#include	"gameplay/teamplay_gamerules.h"
 #include	"game.h"
 
 static char team_names[MAX_TEAMS][MAX_TEAMNAME_LENGTH];

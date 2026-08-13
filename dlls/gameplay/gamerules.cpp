@@ -21,8 +21,8 @@
 #include "core/cbase.h"
 #include	"player.h"
 #include	"weapons.h"
-#include	"gamerules.h"
-#include	"teamplay_gamerules.h"
+#include	"gameplay/gamerules.h"
+#include	"gameplay/teamplay_gamerules.h"
 #include	"skill.h"
 #include	"game.h"
 

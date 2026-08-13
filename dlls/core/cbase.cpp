@@ -18,7 +18,7 @@
 #include "core/saverestore.h"
 #include	"client.h"
 #include	"decals.h"
-#include	"gamerules.h"
+#include	"gameplay/gamerules.h"
 #include	"game.h"
 
 void EntvarsKeyvalue( entvars_t *pev, KeyValueData *pkvd );

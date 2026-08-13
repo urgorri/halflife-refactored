@@ -21,7 +21,7 @@
 #include "nodes.h"
 #include "player.h"
 #include "soundent.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 enum mp5_e
 {
