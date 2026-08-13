@@ -131,7 +131,11 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\explode.cpp" />
     <ClCompile Include="..\..\dlls\flyingmonster.cpp" />
     <ClCompile Include="..\..\dlls\func_break.cpp" />
-    <ClCompile Include="..\..\dlls\func_tank.cpp" />
+    <ClCompile Include="..\..\dlls\systems\func_tank.cpp" />
+    <ClCompile Include="..\..\dlls\systems\func_tankgun.cpp" />
+    <ClCompile Include="..\..\dlls\systems\func_tanklaser.cpp" />
+    <ClCompile Include="..\..\dlls\systems\func_tankmortar.cpp" />
+    <ClCompile Include="..\..\dlls\systems\func_tankrocket.cpp" />
     <ClCompile Include="..\..\dlls\game.cpp" />
     <ClCompile Include="..\..\dlls\gamerules.cpp" />
     <ClCompile Include="..\..\dlls\gargantua.cpp" />

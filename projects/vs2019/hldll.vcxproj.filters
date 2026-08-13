@@ -16,6 +16,9 @@
     <Filter Include="Source Files\dlls">
       <UniqueIdentifier>{a59f65b1-455f-459d-bc2a-75775255cd5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\systems">
+      <UniqueIdentifier>{264c9d96-bfa6-407b-8919-75ec443db459}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\dlls\wpn_shared">
       <UniqueIdentifier>{000b311c-d555-467e-b6cb-5e669fb8c45e}</UniqueIdentifier>
     </Filter>
@@ -117,8 +120,20 @@
     <ClCompile Include="..\..\dlls\func_break.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\func_tank.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\func_tank.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\func_tankgun.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\func_tanklaser.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\func_tankmortar.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\func_tankrocket.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\game.cpp">
       <Filter>Source Files\dlls</Filter>

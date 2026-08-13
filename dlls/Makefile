@@ -96,7 +96,11 @@ OBJ = \
 	$(DLL_OBJDIR)/explode.o \
 	$(DLL_OBJDIR)/flyingmonster.o \
 	$(DLL_OBJDIR)/func_break.o \
-	$(DLL_OBJDIR)/func_tank.o \
+	$(DLL_OBJDIR)/systems/func_tank.o \
+	$(DLL_OBJDIR)/systems/func_tankgun.o \
+	$(DLL_OBJDIR)/systems/func_tanklaser.o \
+	$(DLL_OBJDIR)/systems/func_tankrocket.o \
+	$(DLL_OBJDIR)/systems/func_tankmortar.o \
 	$(DLL_OBJDIR)/game.o \
 	$(DLL_OBJDIR)/gamerules.o \
 	$(DLL_OBJDIR)/gargantua.o \
@@ -184,6 +188,7 @@ $(DLLNAME)_$(ARCH).$(SHLIBEXT) : neat $(OBJ)
 neat:
 	-mkdir $(DLL_OBJDIR)
 	-mkdir $(DLL_OBJDIR)/items
+	-mkdir $(DLL_OBJDIR)/systems
 	-mkdir $(CORE_OBJDIR)
 	-mkdir $(WPN_SHARED_OBJDIR)
 	-mkdir $(GAME_SHARED_OBJDIR)
