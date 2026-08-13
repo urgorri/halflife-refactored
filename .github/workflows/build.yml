@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-windows-client:
-    name: Windows x86 Client DLL
+  build-windows:
+    name: Windows x86 DLLs
     runs-on: windows-latest
 
     steps:
@@ -28,31 +28,6 @@ jobs:
           /p:Platform=Win32
           /m
 
-      - name: Verify architecture
-        shell: pwsh
-        run: |
-          $dll = "projects/vs2019/Release/hl_cdll/client.dll"
-          if (-not (Test-Path $dll)) {
-            throw "Client DLL was not produced: $dll"
-          }
-
-      - name: Upload Windows Client DLL
-        uses: actions/upload-artifact@v4
-        with:
-          name: client-windows-x86
-          path: projects/vs2019/Release/hl_cdll/client.dll
-
-  build-windows-server:
-    name: Windows x86 Server DLL
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
-
       - name: Build Windows Server DLL
         run: >
           msbuild projects/vs2019/hldll.vcxproj
@@ -60,22 +35,39 @@ jobs:
           /p:Platform=Win32
           /m
 
-      - name: Verify output
+      - name: Verify outputs
         shell: pwsh
         run: |
-          $dll = "projects/vs2019/Release/hldll/hl.dll"
-          if (-not (Test-Path $dll)) {
-            throw "Server DLL was not produced: $dll"
+          $client = "projects/vs2019/Release/hl_cdll/client.dll"
+          $server = "projects/vs2019/Release/hldll/hl.dll"
+          if (-not (Test-Path $client)) {
+            throw "Client DLL was not produced: $client"
+          }
+          if (-not (Test-Path $server)) {
+            throw "Server DLL was not produced: $server"
           }
 
-      - name: Upload Windows Server DLL
+      - name: Prepare packaging
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "package/cl_dlls"
+          New-Item -ItemType Directory -Force -Path "package/dlls"
+          Copy-Item "projects/vs2019/Release/hl_cdll/client.dll" "package/cl_dlls/"
+          Copy-Item "projects/vs2019/Release/hldll/hl.dll" "package/dlls/"
+
+      - name: Compress artifacts
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "package/*" -DestinationPath "halflife-windows.zip"
+
+      - name: Upload Windows DLLs Zip
         uses: actions/upload-artifact@v4
         with:
-          name: hl-windows-x86
-          path: projects/vs2019/Release/hldll/hl.dll
+          name: halflife-windows
+          path: halflife-windows.zip
 
-  build-linux-client:
-    name: Linux x86 Client DLL
+  build-linux:
+    name: Linux x86 DLLs
     runs-on: ubuntu-24.04
 
     steps:
@@ -92,7 +84,8 @@ jobs:
             gcc-multilib \
             g++-multilib \
             libc6-dev-i386 \
-            make
+            make \
+            zip
 
       - name: Build Linux Client DLL
         working-directory: linux
@@ -104,37 +97,6 @@ jobs:
             ARCH_CFLAGS_AMD64="-m32" \
             HL_OUTPUT_DIR=release \
             CREATE_OUTPUT_DIRS=1
-
-      - name: Verify architecture
-        run: |
-          file linux/release/cl_dlls/client.so
-          file linux/release/cl_dlls/client.so | grep -q "ELF 32-bit"
-
-      - name: Upload Linux Client DLL
-        uses: actions/upload-artifact@v4
-        with:
-          name: client-linux-x86
-          path: linux/release/cl_dlls/client.so
-
-  build-linux-server:
-    name: Linux x86 Server DLL
-    runs-on: ubuntu-24.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
-          sudo apt-get install -y \
-            gcc \
-            g++ \
-            gcc-multilib \
-            g++-multilib \
-            libc6-dev-i386 \
-            make
 
       - name: Build Linux Server DLL
         working-directory: linux
@@ -149,11 +111,23 @@ jobs:
 
       - name: Verify architecture
         run: |
+          file linux/release/cl_dlls/client.so
+          file linux/release/cl_dlls/client.so | grep -q "ELF 32-bit"
           file linux/release/dlls/hl.so
           file linux/release/dlls/hl.so | grep -q "ELF 32-bit"
 
-      - name: Upload Linux Server DLL
+      - name: Prepare packaging
+        run: |
+          mkdir -p package/cl_dlls package/dlls
+          cp linux/release/cl_dlls/client.so package/cl_dlls/
+          cp linux/release/dlls/hl.so package/dlls/
+
+      - name: Compress artifacts
+        run: |
+          cd package && zip -r ../halflife-linux.zip cl_dlls dlls
+
+      - name: Upload Linux DLLs Zip
         uses: actions/upload-artifact@v4
         with:
-          name: hl-linux-x86
-          path: linux/release/dlls/hl.so
+          name: halflife-linux
+          path: halflife-linux.zip
