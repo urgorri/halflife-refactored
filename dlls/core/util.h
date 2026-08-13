@@ -22,7 +22,7 @@
 #endif
 
 #ifndef ENGINECALLBACK_H
-#include "enginecallback.h"
+#include "core/enginecallback.h"
 #endif
 inline void MESSAGE_BEGIN( int msg_dest, int msg_type, const float *pOrigin, entvars_t *ent );  // implementation later in this file
 

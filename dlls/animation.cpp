@@ -48,7 +48,7 @@ typedef unsigned char byte;
 #endif
 
 #ifndef ENGINECALLBACK_H
-#include "enginecallback.h"
+#include "core/enginecallback.h"
 #endif
 
 extern globalvars_t				*gpGlobals;
