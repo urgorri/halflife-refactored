@@ -84,7 +84,12 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/houndeye.o \
 	$(HLDLL_OBJ_DIR)/ichthyosaur.o \
 	$(HLDLL_OBJ_DIR)/islave.o \
-	$(HLDLL_OBJ_DIR)/items.o \
+	$(HLDLL_OBJ_DIR)/items/item_base.o \
+	$(HLDLL_OBJ_DIR)/items/item_battery.o \
+	$(HLDLL_OBJ_DIR)/items/item_suit.o \
+	$(HLDLL_OBJ_DIR)/items/item_antidote.o \
+	$(HLDLL_OBJ_DIR)/items/item_security.o \
+	$(HLDLL_OBJ_DIR)/items/item_longjump.o \
 	$(HLDLL_OBJ_DIR)/leech.o \
 	$(HLDLL_OBJ_DIR)/lights.o \
 	$(HLDLL_OBJ_DIR)/maprules.o \
