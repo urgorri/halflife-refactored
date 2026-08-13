@@ -16,12 +16,12 @@
 // headcrab.cpp - tiny, jumpy alien parasite
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
-#include	"game.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../schedule.h"
+#include "../game.h"
 
 //=========================================================
 // Monster's Anim Events Go Here

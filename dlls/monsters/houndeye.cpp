@@ -16,16 +16,16 @@
 // Houndeye - spooky sonic dog. 
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
-#include	"animation.h"
-#include	"nodes.h"
-#include	"squadmonster.h"
-#include	"soundent.h"
-#include	"game.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../schedule.h"
+#include "../animation.h"
+#include "../nodes.h"
+#include "../squadmonster.h"
+#include "../soundent.h"
+#include "../game.h"
 
 extern CGraph WorldGraph;
 

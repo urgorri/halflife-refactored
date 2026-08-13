@@ -18,14 +18,14 @@
 // CONTROLLER
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"effects.h"
-#include	"schedule.h"
-#include	"weapons.h"
-#include	"squadmonster.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../effects.h"
+#include "../schedule.h"
+#include "../weapons.h"
+#include "../squadmonster.h"
 
 //=========================================================
 // Monster's Anim Events Go Here

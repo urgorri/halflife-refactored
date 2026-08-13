@@ -36,10 +36,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\dlls\aflock.cpp">
+    <ClCompile Include="..\..\dlls\monsters\aflock.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\agrunt.cpp">
+    <ClCompile Include="..\..\dlls\monsters\agrunt.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\airtank.cpp">
@@ -51,25 +51,25 @@
     <ClCompile Include="..\..\dlls\animation.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\apache.cpp">
+    <ClCompile Include="..\..\dlls\monsters\apache.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\barnacle.cpp">
+    <ClCompile Include="..\..\dlls\monsters\barnacle.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\barney.cpp">
+    <ClCompile Include="..\..\dlls\monsters\barney.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\bigmomma.cpp">
+    <ClCompile Include="..\..\dlls\monsters\bigmomma.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\bloater.cpp">
+    <ClCompile Include="..\..\dlls\monsters\bloater.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\bmodels.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\bullsquid.cpp">
+    <ClCompile Include="..\..\dlls\monsters\bullsquid.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\buttons.cpp">
@@ -84,7 +84,7 @@
     <ClCompile Include="..\..\dlls\combat.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\controller.cpp">
+    <ClCompile Include="..\..\dlls\monsters\controller.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\crossbow.cpp">
@@ -96,7 +96,7 @@
     <ClCompile Include="..\..\dlls\defaultai.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\gman.cpp">
+    <ClCompile Include="..\..\dlls\monsters\gman.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\doors.cpp">
@@ -126,13 +126,13 @@
     <ClCompile Include="..\..\dlls\gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\gargantua.cpp">
+    <ClCompile Include="..\..\dlls\monsters\gargantua.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\genericmonster.cpp">
+    <ClCompile Include="..\..\dlls\monsters\genericmonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\ggrenade.cpp">
@@ -159,16 +159,16 @@
     <ClCompile Include="..\..\dlls\handgrenade.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\hassassin.cpp">
+    <ClCompile Include="..\..\dlls\monsters\hassassin.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\headcrab.cpp">
+    <ClCompile Include="..\..\dlls\monsters\headcrab.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\healthkit.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\hgrunt.cpp">
+    <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp">
@@ -183,13 +183,13 @@
     <ClCompile Include="..\..\dlls\hornetgun.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\houndeye.cpp">
+    <ClCompile Include="..\..\dlls\monsters\houndeye.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\ichthyosaur.cpp">
+    <ClCompile Include="..\..\dlls\monsters\ichthyosaur.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\islave.cpp">
+    <ClCompile Include="..\..\dlls\monsters\islave.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\items\item_base.cpp">
@@ -210,7 +210,7 @@
     <ClCompile Include="..\..\dlls\items\item_longjump.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\leech.cpp">
+    <ClCompile Include="..\..\dlls\monsters\leech.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\lights.cpp">
@@ -237,7 +237,7 @@
     <ClCompile Include="..\..\dlls\multiplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\nihilanth.cpp">
+    <ClCompile Include="..\..\dlls\monsters\nihilanth.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\nodes.cpp">
@@ -246,7 +246,7 @@
     <ClCompile Include="..\..\dlls\observer.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\osprey.cpp">
+    <ClCompile Include="..\..\dlls\monsters\osprey.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\pathcorner.cpp">
@@ -270,10 +270,10 @@
     <ClCompile Include="..\..\dlls\python.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\rat.cpp">
+    <ClCompile Include="..\..\dlls\monsters\rat.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\roach.cpp">
+    <ClCompile Include="..\..\dlls\monsters\roach.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_rpg.cpp">
@@ -285,7 +285,7 @@
     <ClCompile Include="..\..\dlls\schedule.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\scientist.cpp">
+    <ClCompile Include="..\..\dlls\monsters\scientist.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\scripted.cpp">
@@ -327,7 +327,7 @@
     <ClCompile Include="..\..\dlls\tempmonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\tentacle.cpp">
+    <ClCompile Include="..\..\dlls\monsters\tentacle.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\triggers.cpp">
@@ -345,7 +345,7 @@
     <ClCompile Include="..\..\game_shared\voice_gamemgr.cpp">
       <Filter>Source Files\game_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\zombie.cpp">
+    <ClCompile Include="..\..\dlls\monsters\zombie.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons.cpp" />

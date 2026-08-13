@@ -18,15 +18,15 @@
 // hassassin - Human assassin, fast and stealthy
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
-#include	"squadmonster.h"
-#include	"weapons.h"
-#include	"soundent.h"
-#include	"game.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../schedule.h"
+#include "../squadmonster.h"
+#include "../weapons.h"
+#include "../soundent.h"
+#include "../game.h"
 
 extern DLL_GLOBAL int  g_iSkillLevel;
 

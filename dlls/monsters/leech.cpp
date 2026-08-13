@@ -36,10 +36,10 @@
 
 
 #include	"float.h"
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
 
 
 
@@ -65,7 +65,7 @@
 #define DEBUG_BEAMS		0
 
 #if DEBUG_BEAMS
-#include "effects.h"
+#include "../effects.h"
 #endif
 
 

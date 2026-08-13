@@ -14,13 +14,13 @@
 ****/
 #if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include "monsters.h"
-#include "weapons.h"
-#include "nodes.h"
-#include "effects.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../weapons.h"
+#include "../nodes.h"
+#include "../effects.h"
 
 #define N_SCALE		15
 #define N_SPHERES	20

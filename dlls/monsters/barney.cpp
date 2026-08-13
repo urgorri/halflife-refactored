@@ -17,16 +17,16 @@
 //=========================================================
 // UNDONE: Holster weapon?
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"talkmonster.h"
-#include	"schedule.h"
-#include	"defaultai.h"
-#include	"scripted.h"
-#include	"weapons.h"
-#include	"soundent.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../talkmonster.h"
+#include "../schedule.h"
+#include "../defaultai.h"
+#include "../scripted.h"
+#include "../weapons.h"
+#include "../soundent.h"
 
 //=========================================================
 // Monster's Anim Events Go Here

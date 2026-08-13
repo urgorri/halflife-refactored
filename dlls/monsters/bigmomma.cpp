@@ -17,14 +17,14 @@
 //=========================================================
 // monster template
 //=========================================================
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
-#include	"decals.h"
-#include	"weapons.h"
-#include	"game.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../schedule.h"
+#include "../decals.h"
+#include "../weapons.h"
+#include "../game.h"
 
 #define SF_INFOBM_RUN		0x0001
 #define SF_INFOBM_WAIT		0x0002

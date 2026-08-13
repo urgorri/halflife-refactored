@@ -28,18 +28,18 @@
 */
 
 
-#include "core/extdll.h"
-#include	"plane.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
-#include	"animation.h"
-#include	"squadmonster.h"
-#include	"weapons.h"
-#include	"talkmonster.h"
-#include	"soundent.h"
-#include	"effects.h"
+#include "../core/extdll.h"
+#include "../plane.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../schedule.h"
+#include "../animation.h"
+#include "../squadmonster.h"
+#include "../weapons.h"
+#include "../talkmonster.h"
+#include "../soundent.h"
+#include "../effects.h"
 #include	"customentity.h"
 
 int g_fGruntQuestion;				// true if an idle grunt asked a question. Cleared when someone answers.

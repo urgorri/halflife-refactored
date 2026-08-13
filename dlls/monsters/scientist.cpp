@@ -16,16 +16,16 @@
 // human scientist (passive lab worker)
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"talkmonster.h"
-#include	"schedule.h"
-#include	"defaultai.h"
-#include	"scripted.h"
-#include	"animation.h"
-#include	"soundent.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../talkmonster.h"
+#include "../schedule.h"
+#include "../defaultai.h"
+#include "../scripted.h"
+#include "../animation.h"
+#include "../soundent.h"
 
 
 #define		NUM_SCIENTIST_HEADS		4 // four heads available for scientist model
