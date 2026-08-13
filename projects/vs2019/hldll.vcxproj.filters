@@ -219,7 +219,7 @@
     <ClCompile Include="..\..\dlls\maprules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\player.cpp">
+    <ClCompile Include="..\..\dlls\core\player.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters.cpp">
