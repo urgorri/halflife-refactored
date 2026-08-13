@@ -3,7 +3,7 @@ name: Build Half-Life DLLs
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build-windows-client:
