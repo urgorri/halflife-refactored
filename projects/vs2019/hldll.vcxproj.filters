@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -75,7 +75,7 @@
     <ClCompile Include="..\..\dlls\buttons.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\cbase.cpp">
+    <ClCompile Include="..\..\dlls\core\cbase.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\client.cpp">
@@ -138,7 +138,7 @@
     <ClCompile Include="..\..\dlls\ggrenade.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\globals.cpp">
+    <ClCompile Include="..\..\dlls\core\globals.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\h_ai.cpp">
@@ -324,7 +324,7 @@
     <ClCompile Include="..\..\dlls\turret.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\util.cpp">
+    <ClCompile Include="..\..\dlls\core\util.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game_shared\voice_gamemgr.cpp">
@@ -359,10 +359,10 @@
     <ClInclude Include="..\..\dlls\basemonster.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\cbase.h">
+    <ClInclude Include="..\..\dlls\core\cbase.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\cdll_dll.h">
+    <ClInclude Include="..\..\dlls\core\cdll_dll.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\client.h">
@@ -383,13 +383,13 @@
     <ClInclude Include="..\..\dlls\hornet.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\enginecallback.h">
+    <ClInclude Include="..\..\dlls\core\enginecallback.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\explode.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\extdll.h">
+    <ClInclude Include="..\..\dlls\core\extdll.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\flyingmonster.h">
@@ -440,7 +440,7 @@
     <ClInclude Include="..\..\dlls\weapons.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\saverestore.h">
+    <ClInclude Include="..\..\dlls\core\saverestore.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\schedule.h">
@@ -473,10 +473,10 @@
     <ClInclude Include="..\..\dlls\trains.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\util.h">
+    <ClInclude Include="..\..\dlls\core\util.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\vector.h">
+    <ClInclude Include="..\..\dlls\core\vector.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
   </ItemGroup>
