@@ -8,5 +8,7 @@
 - [x] **Add Fallback Compiler Detection in linux/Makefile**: Replaced the hardcoded compiler strings `gcc-5` and `g++-5` in [linux/Makefile](file:///E:/Dev/urgorri/halflife-refactored/linux/Makefile) with a detection check that falls back to standard `gcc`/`g++` when `gcc-5` is not installed on the system.
 - [x] **Fix Target Object Directory Creation in Makefiles**: Added the creation of the `items/` subdirectory to the `neat` target in `dlls/Makefile` and `dirs` target in `linux/Makefile.hldll` so that compilation of refactored item files on Linux doesn't fail due to missing output directories.
 - [x] **Revert Incorrect Ricochet Item Compilation in linux/Makefile.ricochetdll**: Restored `items.o` build target in `linux/Makefile.ricochetdll` to match its source codebase since Ricochet was not split into modular item files.
+- [x] **Enable Build on Direct Push to master**: Modified [.github/workflows/build.yml](file:///E:/Dev/urgorri/halflife-refactored/.github/workflows/build.yml) to trigger on `push` events to the `master` branch and added `workflow_dispatch` support to allow manual trigger of builds from the GitHub UI.
+
 
 

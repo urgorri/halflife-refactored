@@ -39,5 +39,7 @@
    - Falling back to standard `gcc`/`g++` when `gcc-5` is not found ensures that the Linux build steps successfully find and run the compilers on Ubuntu-based GitHub Actions runners.
    - The addition of `$(HLDLL_OBJ_DIR)/items` and `$(DLL_OBJDIR)/items` directory creation prevents compilation errors on Linux when compiling split item source files.
    - Reverting the item objects in `linux/Makefile.ricochetdll` to a single `items.o` target aligns the build with the actual Ricochet files, preventing compilation errors when building Ricochet on Linux.
+   - The addition of `push` branch triggers and `workflow_dispatch` allows the build pipeline to run on direct commits to `master` and manually from the GitHub actions interface.
+
 
 
