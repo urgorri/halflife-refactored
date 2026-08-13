@@ -40,6 +40,7 @@ RICOCHET_OBJS = \
 	$(RICOCHET_OBJ_DIR)/hl/hl_events.o \
 	$(RICOCHET_OBJ_DIR)/hl/hl_objects.o \
 	$(RICOCHET_OBJ_DIR)/hl/hl_weapons.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
 	$(RICOCHET_OBJ_DIR)/disc_weapon_disc.o \
 	$(RICOCHET_OBJ_DIR)/Ricochet_JumpPads.o \
 	$(RICOCHET_OBJ_DIR)/ammo.o \

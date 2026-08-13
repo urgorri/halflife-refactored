@@ -17,6 +17,13 @@
 #include "cbase.h"
 #include "monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_base.h"
+#include "weapons/weapon_rpg.h"
+#include "weapons/weapon_shotgun.h"
+#include "weapons/weapon_gauss.h"
+#include "weapons/weapon_egon.h"
+#include "weapons/weapon_satchel.h"
+
 #include "nodes.h"
 #include "player.h"
 

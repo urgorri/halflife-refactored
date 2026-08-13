@@ -19,6 +19,7 @@
 #include "core/cbase.h"
 #include "monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_gauss.h"
 #include "nodes.h"
 #include "player.h"
 #include "soundent.h"
@@ -636,3 +637,18 @@ class CGaussAmmo : public CBasePlayerAmmo
 LINK_ENTITY_TO_CLASS( ammo_gaussclip, CGaussAmmo );
 
 #endif
+
+#ifndef CLIENT_DLL
+
+TYPEDESCRIPTION	CGauss::m_SaveData[] =
+{
+	DEFINE_FIELD( CGauss, m_fInAttack, FIELD_INTEGER ),
+//	DEFINE_FIELD( CGauss, m_flStartCharge, FIELD_TIME ),
+//	DEFINE_FIELD( CGauss, m_flPlayAftershock, FIELD_TIME ),
+//	DEFINE_FIELD( CGauss, m_flNextAmmoBurn, FIELD_TIME ),
+	DEFINE_FIELD( CGauss, m_fPrimaryFire, FIELD_BOOLEAN ),
+};
+IMPLEMENT_SAVERESTORE( CGauss, CBasePlayerWeapon );
+
+
+#endif // CLIENT_DLL

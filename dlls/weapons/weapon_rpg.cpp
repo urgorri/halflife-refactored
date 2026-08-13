@@ -19,6 +19,7 @@
 #include "core/cbase.h"
 #include "monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_rpg.h"
 #include "nodes.h"
 #include "player.h"
 #include "gamerules.h"
@@ -678,3 +679,24 @@ class CRpgAmmo : public CBasePlayerAmmo
 LINK_ENTITY_TO_CLASS( ammo_rpgclip, CRpgAmmo );
 
 #endif
+
+#ifndef CLIENT_DLL
+
+TYPEDESCRIPTION	CRpg::m_SaveData[] =
+{
+	DEFINE_FIELD( CRpg, m_fSpotActive, FIELD_INTEGER ),
+	DEFINE_FIELD( CRpg, m_cActiveRockets, FIELD_INTEGER ),
+};
+IMPLEMENT_SAVERESTORE( CRpg, CBasePlayerWeapon );
+
+TYPEDESCRIPTION	CRpgRocket::m_SaveData[] =
+{
+	DEFINE_FIELD( CRpgRocket, m_flIgniteTime, FIELD_TIME ),
+	DEFINE_FIELD( CRpgRocket, m_hLauncher, FIELD_EHANDLE ),
+};
+
+
+IMPLEMENT_SAVERESTORE( CRpgRocket, CGrenade );
+
+
+#endif // CLIENT_DLL

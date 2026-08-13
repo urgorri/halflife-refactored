@@ -74,6 +74,7 @@ DMCDLL_OBJS = \
 	$(DMCDLL_OBJ_DIR)/triggers.o \
 	$(DMCDLL_OBJ_DIR)/util.o \
 	$(DMCDLL_OBJ_DIR)/weapons.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
 	$(DMCDLL_OBJ_DIR)/world.o
 
 PM_OBJS = \

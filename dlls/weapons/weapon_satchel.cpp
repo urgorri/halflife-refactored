@@ -19,6 +19,7 @@
 #include "core/cbase.h"
 #include "monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_satchel.h"
 #include "nodes.h"
 #include "player.h"
 #include "gamerules.h"
@@ -497,3 +498,14 @@ void DeactivateSatchels( CBasePlayer *pOwner )
 }
 
 #endif
+
+#ifndef CLIENT_DLL
+
+TYPEDESCRIPTION	CSatchel::m_SaveData[] =
+{
+	DEFINE_FIELD( CSatchel, m_chargeReady, FIELD_INTEGER ),
+};
+IMPLEMENT_SAVERESTORE( CSatchel, CBasePlayerWeapon );
+
+
+#endif // CLIENT_DLL

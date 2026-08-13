@@ -78,6 +78,7 @@ RICOCHETDLL_OBJS = \
 	$(RICOCHETDLL_OBJ_DIR)/triggers.o \
 	$(RICOCHETDLL_OBJ_DIR)/util.o \
 	$(RICOCHETDLL_OBJ_DIR)/weapons.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
 	$(RICOCHETDLL_OBJ_DIR)/world.o \
 	$(RICOCHETDLL_OBJ_DIR)/xen.o
 

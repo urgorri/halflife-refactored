@@ -35,6 +35,7 @@
 #include "game.h"
 #include "customentity.h"
 #include "weapons.h"
+#include "weapons/weapon_rpg.h"
 #include "weaponinfo.h"
 #include "usercmd.h"
 #include "netadr.h"
@@ -110,7 +111,7 @@ void ClientDisconnect( edict_t *pEntity )
 
 	char text[256] = "" ;
 	if ( pEntity->v.netname )
-		_snprintf( text, sizeof(text), "- %s has left the game\n", STRING(pEntity->v.netname) );
+		snprintf( text, sizeof(text), "- %s has left the game\n", STRING(pEntity->v.netname) );
 	text[ sizeof(text) - 1 ] = 0;
 	MESSAGE_BEGIN( MSG_ALL, gmsgSayText, NULL );
 		WRITE_BYTE( ENTINDEX(pEntity) );

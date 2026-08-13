@@ -105,7 +105,7 @@
     <ClCompile Include="..\..\dlls\effects.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\egon.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\explode.cpp">
@@ -129,7 +129,7 @@
     <ClCompile Include="..\..\dlls\gargantua.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\gauss.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\genericmonster.cpp">
@@ -276,10 +276,10 @@
     <ClCompile Include="..\..\dlls\roach.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\rpg.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_rpg.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\satchel.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_satchel.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\schedule.cpp">
@@ -291,7 +291,7 @@
     <ClCompile Include="..\..\dlls\scripted.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\shotgun.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_shotgun.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\singleplay_gamerules.cpp">
@@ -348,7 +348,8 @@
     <ClCompile Include="..\..\dlls\zombie.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\weapons.cpp">
+    <ClCompile Include="..\..\dlls\weapons.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_base.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\world.cpp">
@@ -452,7 +453,13 @@
     <ClInclude Include="..\..\pm_shared\pm_movevars.h">
       <Filter>Header Files\pm_shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\weapons.h">
+    <ClInclude Include="..\..\dlls\weapons.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_base.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_rpg.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_shotgun.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_gauss.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_egon.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_satchel.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\saverestore.h">

@@ -127,7 +127,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\defaultai.cpp" />
     <ClCompile Include="..\..\dlls\doors.cpp" />
     <ClCompile Include="..\..\dlls\effects.cpp" />
-    <ClCompile Include="..\..\dlls\egon.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp" />
     <ClCompile Include="..\..\dlls\explode.cpp" />
     <ClCompile Include="..\..\dlls\flyingmonster.cpp" />
     <ClCompile Include="..\..\dlls\func_break.cpp" />
@@ -135,7 +135,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\game.cpp" />
     <ClCompile Include="..\..\dlls\gamerules.cpp" />
     <ClCompile Include="..\..\dlls\gargantua.cpp" />
-    <ClCompile Include="..\..\dlls\gauss.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp" />
     <ClCompile Include="..\..\dlls\genericmonster.cpp" />
     <ClCompile Include="..\..\dlls\ggrenade.cpp" />
     <ClCompile Include="..\..\dlls\core\globals.cpp" />
@@ -181,12 +181,12 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\python.cpp" />
     <ClCompile Include="..\..\dlls\rat.cpp" />
     <ClCompile Include="..\..\dlls\roach.cpp" />
-    <ClCompile Include="..\..\dlls\rpg.cpp" />
-    <ClCompile Include="..\..\dlls\satchel.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_rpg.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_satchel.cpp" />
     <ClCompile Include="..\..\dlls\schedule.cpp" />
     <ClCompile Include="..\..\dlls\scientist.cpp" />
     <ClCompile Include="..\..\dlls\scripted.cpp" />
-    <ClCompile Include="..\..\dlls\shotgun.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_shotgun.cpp" />
     <ClCompile Include="..\..\dlls\singleplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\skill.cpp" />
     <ClCompile Include="..\..\dlls\sound.cpp" />
@@ -204,6 +204,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\turret.cpp" />
     <ClCompile Include="..\..\dlls\core\util.cpp" />
     <ClCompile Include="..\..\dlls\weapons.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_base.cpp" />
     <ClCompile Include="..\..\dlls\world.cpp" />
     <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp" />
     <ClCompile Include="..\..\dlls\xen.cpp" />
@@ -252,6 +253,12 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\core\util.h" />
     <ClInclude Include="..\..\dlls\core\vector.h" />
     <ClInclude Include="..\..\dlls\weapons.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_base.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_rpg.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_shotgun.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_gauss.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_egon.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_satchel.h" />
     <ClInclude Include="..\..\engine\eiface.h" />
     <ClInclude Include="..\..\pm_shared\pm_debug.h" />
     <ClInclude Include="..\..\pm_shared\pm_defs.h" />

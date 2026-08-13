@@ -1,0 +1,12 @@
+obj/
+core/obj/
+wpn_shared/obj/
+../game_shared/obj/
+../pm_shared/obj/
+dlls/obj/
+dlls/core/obj/
+dlls/wpn_shared/obj/
+game_shared/obj/
+pm_shared/obj/
+*.o
+dlls/*.so

@@ -97,15 +97,15 @@ HL1_OBJS = \
 DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/crossbow.o \
 	$(HL1_SERVER_OBJ_DIR)/crowbar.o \
-	$(HL1_SERVER_OBJ_DIR)/egon.o \
-	$(HL1_SERVER_OBJ_DIR)/gauss.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_egon.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_gauss.o \
 	$(HL1_SERVER_OBJ_DIR)/handgrenade.o \
 	$(HL1_SERVER_OBJ_DIR)/hornetgun.o \
 	$(HL1_SERVER_OBJ_DIR)/mp5.o \
 	$(HL1_SERVER_OBJ_DIR)/python.o \
-	$(HL1_SERVER_OBJ_DIR)/rpg.o \
-	$(HL1_SERVER_OBJ_DIR)/satchel.o \
-	$(HL1_SERVER_OBJ_DIR)/shotgun.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_rpg.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_satchel.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HL1_SERVER_OBJ_DIR)/squeakgrenade.o \
 	$(HL1_SERVER_OBJ_DIR)/tripmine.o \
 	$(HL1_SERVER_OBJ_DIR)/wpn_shared/hl_wpn_glock.o \
@@ -154,6 +154,7 @@ $(HL1_OBJ_DIR):
 $(HL1_SERVER_OBJ_DIR):
 	mkdir -p $(HL1_SERVER_OBJ_DIR)
 	mkdir -p $(HL1_SERVER_OBJ_DIR)/wpn_shared
+	mkdir -p $(HL1_SERVER_OBJ_DIR)/weapons
 
 $(PUBLIC_OBJ_DIR):
 	mkdir -p $(PUBLIC_OBJ_DIR)
