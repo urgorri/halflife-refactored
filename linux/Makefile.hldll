@@ -56,7 +56,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/defaultai.o \
 	$(HLDLL_OBJ_DIR)/doors.o \
 	$(HLDLL_OBJ_DIR)/effects.o \
-	$(HLDLL_OBJ_DIR)/egon.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_egon.o \
 	$(HLDLL_OBJ_DIR)/explode.o \
 	$(HLDLL_OBJ_DIR)/flyingmonster.o \
 	$(HLDLL_OBJ_DIR)/func_break.o \
@@ -64,7 +64,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/game.o \
 	$(HLDLL_OBJ_DIR)/gamerules.o \
 	$(HLDLL_OBJ_DIR)/gargantua.o \
-	$(HLDLL_OBJ_DIR)/gauss.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_gauss.o \
 	$(HLDLL_OBJ_DIR)/genericmonster.o \
 	$(HLDLL_OBJ_DIR)/ggrenade.o \
 	$(HLCORE_OBJ_DIR)/globals.o \
@@ -109,12 +109,12 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/python.o \
 	$(HLDLL_OBJ_DIR)/rat.o \
 	$(HLDLL_OBJ_DIR)/roach.o \
-	$(HLDLL_OBJ_DIR)/rpg.o \
-	$(HLDLL_OBJ_DIR)/satchel.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_rpg.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_satchel.o \
 	$(HLDLL_OBJ_DIR)/schedule.o \
 	$(HLDLL_OBJ_DIR)/scientist.o \
 	$(HLDLL_OBJ_DIR)/scripted.o \
-	$(HLDLL_OBJ_DIR)/shotgun.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HLDLL_OBJ_DIR)/skill.o \
 	$(HLDLL_OBJ_DIR)/sound.o \
 	$(HLDLL_OBJ_DIR)/soundent.o \
@@ -134,6 +134,7 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/util.o \
 	$(HLDLL_OBJ_DIR)/vehicle.o \
 	$(HLDLL_OBJ_DIR)/weapons.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
 	$(HLDLL_OBJ_DIR)/world.o \
 	$(HLDLL_OBJ_DIR)/xen.o \
 	$(HLDLL_OBJ_DIR)/zombie.o
@@ -155,6 +156,7 @@ dirs:
 	-mkdir -p $(BUILD_OBJ_DIR)
 	-mkdir -p $(HLDLL_OBJ_DIR)
 	-mkdir -p $(HLDLL_OBJ_DIR)/items
+	-mkdir -p $(HLDLL_OBJ_DIR)/weapons
 	-mkdir -p $(HLCORE_OBJ_DIR)
 	-mkdir -p $(HLWPN_OBJ_DIR)
 	-mkdir -p $(PM_OBJ_DIR)
@@ -191,3 +193,6 @@ clean:
 	-rm -rf $(HLDLL_OBJ_DIR)
 	-rm -rf $(HLCORE_OBJ_DIR)
 	-rm -f hl_$(ARCH).$(SHLIBEXT)
+
+$(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp
+	$(DO_HLDLL_CC)
