@@ -12,8 +12,8 @@
 *   without written permission from Valve LLC.
 *
 ****/
-#ifndef ITEMS_H
-#define ITEMS_H
+#ifndef ITEM_BASE_H
+#define ITEM_BASE_H
 
 
 class CItem : public CBaseEntity
@@ -26,4 +26,4 @@ public:
 	virtual BOOL MyTouch( CBasePlayer *pPlayer ) { return FALSE; };
 };
 
-#endif // ITEMS_H
+#endif // ITEM_BASE_H

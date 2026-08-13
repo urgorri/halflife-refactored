@@ -120,7 +120,12 @@ OBJ = \
 	$(DLL_OBJDIR)/houndeye.o \
 	$(DLL_OBJDIR)/ichthyosaur.o \
 	$(DLL_OBJDIR)/islave.o \
-	$(DLL_OBJDIR)/items.o \
+	$(DLL_OBJDIR)/items/item_base.o \
+	$(DLL_OBJDIR)/items/item_battery.o \
+	$(DLL_OBJDIR)/items/item_suit.o \
+	$(DLL_OBJDIR)/items/item_antidote.o \
+	$(DLL_OBJDIR)/items/item_security.o \
+	$(DLL_OBJDIR)/items/item_longjump.o \
 	$(DLL_OBJDIR)/leech.o \
 	$(DLL_OBJDIR)/lights.o \
 	$(DLL_OBJDIR)/maprules.o \
