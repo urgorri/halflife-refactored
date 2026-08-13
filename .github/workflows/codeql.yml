@@ -1,0 +1,69 @@
+name: "CodeQL Analysis"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze C/C++
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Initialize the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: cpp
+          queries: security-extended
+
+      # Set up build environment dependencies.
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc \
+            g++ \
+            gcc-multilib \
+            g++-multilib \
+            libc6-dev-i386 \
+            make
+
+      # Run the build steps to let CodeQL analyze compilation.
+      - name: Build Linux Client DLL
+        working-directory: linux
+        run: |
+          make hl_cdll \
+            ARCH_CFLAGS_I486="-m32" \
+            ARCH_CFLAGS_I686="-m32" \
+            ARCH_CFLAGS_AMD="-m32" \
+            ARCH_CFLAGS_AMD64="-m32" \
+            HL_OUTPUT_DIR=release \
+            CREATE_OUTPUT_DIRS=1
+
+      - name: Build Linux Server DLL
+        working-directory: linux
+        run: |
+          make hl \
+            ARCH_CFLAGS_I486="-m32" \
+            ARCH_CFLAGS_I686="-m32" \
+            ARCH_CFLAGS_AMD="-m32" \
+            ARCH_CFLAGS_AMD64="-m32" \
+            HL_OUTPUT_DIR=release \
+            CREATE_OUTPUT_DIRS=1
+
+      # Perform CodeQL analysis and upload results.
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:cpp"

@@ -1,0 +1,15 @@
+# .clang-format for Half-Life Refactored
+---
+Language: Cpp
+BasedOnStyle: Microsoft
+UseTab: Always
+TabWidth: 4
+IndentWidth: 4
+BreakBeforeBraces: Allman
+ColumnLimit: 120
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+PointerAlignment: Left
+SpaceAfterCStyleCast: true
+SpacesInParentheses: false
+...

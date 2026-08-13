@@ -1,0 +1,36 @@
+name: Clang-Format Linter
+
+on:
+  workflow_dispatch:
+
+jobs:
+  clang-format:
+    name: Check Style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+
+      - name: Check clang-format
+        run: |
+          echo "Checking formatting for the entire repository..."
+          echo "----------------------------------------"
+          
+          # Find all C/C++ files
+          ALL_FILES=$(find . -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.c" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" \) -not -path '*/.*')
+          
+          if [ -n "$ALL_FILES" ]; then
+            clang-format --dry-run --Werror $ALL_FILES
+            echo "----------------------------------------"
+            echo "All files are correctly formatted!"
+          else
+            echo "No C/C++ files found."
+          fi
