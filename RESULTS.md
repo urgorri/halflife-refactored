@@ -37,4 +37,7 @@
    - Correcting the workflow script syntax error allows GitHub Actions to successfully parse and trigger the Windows build steps.
    - Dynamic directory creation in [filecopy.bat](file:///E:/Dev/urgorri/halflife-refactored/filecopy.bat) ensures that the post-build copying step succeeds without directory existence dependencies, allowing the client/server DLLs to build and verify completely from end-to-end.
    - Falling back to standard `gcc`/`g++` when `gcc-5` is not found ensures that the Linux build steps successfully find and run the compilers on Ubuntu-based GitHub Actions runners.
+   - The addition of `$(HLDLL_OBJ_DIR)/items` and `$(DLL_OBJDIR)/items` directory creation prevents compilation errors on Linux when compiling split item source files.
+   - Reverting the item objects in `linux/Makefile.ricochetdll` to a single `items.o` target aligns the build with the actual Ricochet files, preventing compilation errors when building Ricochet on Linux.
+
 

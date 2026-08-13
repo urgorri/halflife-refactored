@@ -57,12 +57,7 @@ RICOCHETDLL_OBJS = \
 	$(RICOCHETDLL_OBJ_DIR)/h_cycler.o \
 	$(RICOCHETDLL_OBJ_DIR)/h_export.o \
 	$(RICOCHETDLL_OBJ_DIR)/healthkit.o \
-	$(RICOCHETDLL_OBJ_DIR)/items/item_base.o \
-	$(RICOCHETDLL_OBJ_DIR)/items/item_battery.o \
-	$(RICOCHETDLL_OBJ_DIR)/items/item_suit.o \
-	$(RICOCHETDLL_OBJ_DIR)/items/item_antidote.o \
-	$(RICOCHETDLL_OBJ_DIR)/items/item_security.o \
-	$(RICOCHETDLL_OBJ_DIR)/items/item_longjump.o \
+	$(RICOCHETDLL_OBJ_DIR)/items.o \
 	$(RICOCHETDLL_OBJ_DIR)/lights.o \
 	$(RICOCHETDLL_OBJ_DIR)/maprules.o \
 	$(RICOCHETDLL_OBJ_DIR)/mortar.o \

@@ -154,6 +154,7 @@ all: dirs hl.$(SHLIBEXT)
 dirs:
 	-mkdir -p $(BUILD_OBJ_DIR)
 	-mkdir -p $(HLDLL_OBJ_DIR)
+	-mkdir -p $(HLDLL_OBJ_DIR)/items
 	-mkdir -p $(HLCORE_OBJ_DIR)
 	-mkdir -p $(HLWPN_OBJ_DIR)
 	-mkdir -p $(PM_OBJ_DIR)
