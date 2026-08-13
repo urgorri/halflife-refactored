@@ -163,7 +163,30 @@ OBJ = \
 	$(DLL_OBJDIR)/teamplay_gamerules.o \
 	$(DLL_OBJDIR)/tempmonster.o \
 	$(DLL_OBJDIR)/tentacle.o \
-	$(DLL_OBJDIR)/triggers.o \
+	$(DLL_OBJDIR)/systems/trigger_relay.o \
+	$(DLL_OBJDIR)/systems/trigger_camera.o \
+	$(DLL_OBJDIR)/systems/trigger_base.o \
+	$(DLL_OBJDIR)/systems/trigger_cdaudio.o \
+	$(DLL_OBJDIR)/systems/trigger_save.o \
+	$(DLL_OBJDIR)/systems/trigger_teleport.o \
+	$(DLL_OBJDIR)/systems/trigger_endsection.o \
+	$(DLL_OBJDIR)/systems/trigger_counter.o \
+	$(DLL_OBJDIR)/systems/trigger_friction.o \
+	$(DLL_OBJDIR)/systems/trigger_ladder.o \
+	$(DLL_OBJDIR)/systems/trigger_gravity.o \
+	$(DLL_OBJDIR)/systems/trigger_render_fx.o \
+	$(DLL_OBJDIR)/systems/trigger_multi_manager.o \
+	$(DLL_OBJDIR)/systems/trigger_monsterjump.o \
+	$(DLL_OBJDIR)/systems/trigger_multiple.o \
+	$(DLL_OBJDIR)/systems/trigger_changetarget.o \
+	$(DLL_OBJDIR)/systems/trigger_push.o \
+	$(DLL_OBJDIR)/systems/trigger_once.o \
+	$(DLL_OBJDIR)/systems/trigger_target_cdaudio.o \
+	$(DLL_OBJDIR)/systems/trigger_changelevel.o \
+	$(DLL_OBJDIR)/systems/trigger_hurt.o \
+	$(DLL_OBJDIR)/systems/trigger_auto.o \
+	$(DLL_OBJDIR)/systems/trigger_fireanddie.o \
+	$(DLL_OBJDIR)/systems/trigger_volume.o \
 	$(DLL_OBJDIR)/tripmine.o \
 	$(DLL_OBJDIR)/turret.o \
 	$(CORE_OBJDIR)/util.o \
@@ -184,6 +207,7 @@ $(DLLNAME)_$(ARCH).$(SHLIBEXT) : neat $(OBJ)
 neat:
 	-mkdir $(DLL_OBJDIR)
 	-mkdir $(DLL_OBJDIR)/items
+	-mkdir $(DLL_OBJDIR)/systems
 	-mkdir $(CORE_OBJDIR)
 	-mkdir $(WPN_SHARED_OBJDIR)
 	-mkdir $(GAME_SHARED_OBJDIR)
