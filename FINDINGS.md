@@ -9,3 +9,8 @@
    - The MSBuild configurations (`*.vcxproj` under `projects/vs2019/`) invoke a post-build step calling [filecopy.bat](file:///E:/Dev/urgorri/halflife-refactored/filecopy.bat) to copy target `.dll` and `.pdb` files to `..\..\..\game\mod\cl_dlls\` or `..\..\..\game\mod\dlls\`.
    - These target directories do not exist in clean checkouts or inside GitHub Actions runners.
    - The standard `copy` command does not create non-existent destination directories, causing the command to fail with code 1, which in turn causes the entire build job to fail.
+
+3. **Hardcoded GCC-5/G++-5 Compiler Versions in Linux Makefile (`linux/Makefile`)**:
+   - The Linux Makefile hardcoded `gcc-5` and `g++-5` as the compiler executables (`CC` and `CPLUS`).
+   - Modern Linux distributions and CI runners (such as `ubuntu-24.04` used in the GitHub Actions workflow) do not have these legacy compiler packages in their default repositories, causing `make` to fail with command-not-found errors.
+
