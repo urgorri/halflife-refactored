@@ -20,10 +20,10 @@
 
 */
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include "core/saverestore.h"
+#include "extdll.h"
+#include "util.h"
+#include "cbase.h"
+#include "saverestore.h"
 #include "nodes.h"
 #include "doors.h"
 

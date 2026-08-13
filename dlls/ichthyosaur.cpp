@@ -18,9 +18,9 @@
 // icthyosaur - evin, satan fish monster
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
+#include	"extdll.h"
+#include	"util.h"
+#include	"cbase.h"
 #include	"monsters.h"
 #include	"schedule.h"
 #include    "flyingmonster.h"

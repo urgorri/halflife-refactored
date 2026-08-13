@@ -1,8 +1,8 @@
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
+#include "extdll.h"
+#include "util.h"
+#include "cbase.h"
 #include "trains.h"
-#include "core/saverestore.h"
+#include "saverestore.h"
 #include "weapons.h"
 #include "minmax.h"
 

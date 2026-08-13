@@ -16,9 +16,9 @@
 //=========================================================
 #include "archtypes.h"     // DAL
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
+#include	"extdll.h"
+#include	"util.h"
+#include	"cbase.h"
 #include	"monsters.h"
 #include	"squadmonster.h"
 

@@ -15,8 +15,8 @@
 //=========================================================
 // skill.cpp - code for skill level concerns
 //=========================================================
-#include "core/extdll.h"
-#include "core/util.h"
+#include	"extdll.h"
+#include	"util.h"
 #include	"skill.h"
 
 

@@ -12,7 +12,6 @@ ARCH=i386
 CC=gcc
 
 DLL_SRCDIR=.
-CORE_SRCDIR=./core
 ENGINE_SRCDIR=../engine
 COMMON_SRCDIR=../common
 WPN_SHARED_SRCDIR=./wpn_shared
@@ -20,7 +19,6 @@ PM_SHARED_SRCDIR=../pm_shared
 GAME_SHARED_SRCDIR=../game_shared
 
 DLL_OBJDIR=$(DLL_SRCDIR)/obj
-CORE_OBJDIR=$(CORE_SRCDIR)/obj
 WPN_SHARED_OBJDIR=$(WPN_SHARED_SRCDIR)/obj
 PM_SHARED_OBJDIR=$(PM_SHARED_SRCDIR)/obj
 GAME_SHARED_OBJDIR=$(GAME_SHARED_SRCDIR)/obj
@@ -29,17 +27,17 @@ BASE_CFLAGS=	-Dstricmp=strcasecmp -D_strnicmp=strncasecmp -Dstrnicmp=strncasecmp
 		-DCLIENT_WEAPONS
 
 #safe optimization
-CFLAGS=$(BASE_CFLAGS) -w -O1
+CFLAGS=$(BASE_CFLAGS) -w -m486 -O1
 
 #full optimization
-#CFLAGS=$(BASE_CFLAGS) -w -O1 -ffast-math -funroll-loops \
+#CFLAGS=$(BASE_CFLAGS) -w -O1 -m486 -ffast-math -funroll-loops \
 	-fomit-frame-pointer -fexpensive-optimizations \
 	-malign-loops=2 -malign-jumps=2 -malign-functions=2
 
 #use these when debugging 
 #CFLAGS=$(BASE_CFLAGS) -g
 
-INCLUDEDIRS=-I. -I$(ENGINE_SRCDIR) -I../public -I$(COMMON_SRCDIR) -I$(PM_SHARED_SRCDIR) -I$(GAME_SHARED_SRCDIR)
+INCLUDEDIRS=-I. -I$(ENGINE_SRCDIR) -I$(COMMON_SRCDIR) -I$(PM_SHARED_SRCDIR) -I$(GAME_SHARED_SRCDIR)
 
 LDFLAGS=
 
@@ -55,9 +53,6 @@ DO_CC=$(CC) $(CFLAGS) $(SHLIBCFLAGS) $(INCLUDEDIRS) -o $@ -c $<
 #############################################################################
 
 $(DLL_OBJDIR)/%.o: $(DLL_SRCDIR)/%.cpp
-	$(DO_CC)
-
-$(CORE_OBJDIR)/%.o: $(CORE_SRCDIR)/%.cpp
 	$(DO_CC)
 
 $(WPN_SHARED_OBJDIR)/%.o: $(WPN_SHARED_SRCDIR)/%.cpp
@@ -83,7 +78,7 @@ OBJ = \
 	$(DLL_OBJDIR)/bmodels.o \
 	$(DLL_OBJDIR)/bullsquid.o \
 	$(DLL_OBJDIR)/buttons.o \
-	$(CORE_OBJDIR)/cbase.o \
+	$(DLL_OBJDIR)/cbase.o \
 	$(DLL_OBJDIR)/client.o \
 	$(DLL_OBJDIR)/combat.o \
 	$(DLL_OBJDIR)/controller.o \
@@ -103,7 +98,7 @@ OBJ = \
 	$(DLL_OBJDIR)/gauss.o \
 	$(DLL_OBJDIR)/genericmonster.o \
 	$(DLL_OBJDIR)/ggrenade.o \
-	$(CORE_OBJDIR)/globals.o \
+	$(DLL_OBJDIR)/globals.o \
 	$(DLL_OBJDIR)/gman.o \
 	$(DLL_OBJDIR)/h_ai.o \
 	$(DLL_OBJDIR)/h_battery.o \
@@ -161,7 +156,7 @@ OBJ = \
 	$(DLL_OBJDIR)/triggers.o \
 	$(DLL_OBJDIR)/tripmine.o \
 	$(DLL_OBJDIR)/turret.o \
-	$(CORE_OBJDIR)/util.o \
+	$(DLL_OBJDIR)/util.o \
 	$(DLL_OBJDIR)/weapons.o \
 	$(DLL_OBJDIR)/world.o \
 	$(DLL_OBJDIR)/xen.o \
@@ -177,7 +172,6 @@ $(DLLNAME)_$(ARCH).$(SHLIBEXT) : neat $(OBJ)
 
 neat:
 	-mkdir $(DLL_OBJDIR)
-	-mkdir $(CORE_OBJDIR)
 	-mkdir $(WPN_SHARED_OBJDIR)
 	-mkdir $(GAME_SHARED_OBJDIR)
 	-mkdir $(PM_SHARED_OBJDIR)
@@ -186,7 +180,6 @@ clean:
 	-rm -f $(DLLNAME)_$(ARCH).$(SHLIBEXT)
 spotless: clean
 	-rm -r $(DLL_OBJDIR)
-	-rm -r $(CORE_OBJDIR)
 	-rm -r $(WPN_SHARED_OBJDIR)
 	-rm -r $(GAME_SHARED_OBJDIR)
 	-rm -r $(PM_SHARED_OBJDIR)

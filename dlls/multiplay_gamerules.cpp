@@ -15,9 +15,9 @@
 //
 // teamplay_gamerules.cpp
 //
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
+#include	"extdll.h"
+#include	"util.h"
+#include	"cbase.h"
 #include	"player.h"
 #include	"weapons.h"
 #include	"gamerules.h"

@@ -25,8 +25,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include "core/extdll.h"
-#include "core/util.h"
+#include "extdll.h"
+#include "util.h"
 #include "wxdebug.h"
 
 #include <tchar.h>

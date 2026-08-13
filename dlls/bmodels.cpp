@@ -20,9 +20,9 @@
 
 */
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
+#include "extdll.h"
+#include "util.h"
+#include "cbase.h"
 #include "doors.h"
 
 extern DLL_GLOBAL Vector		g_vecAttackDir;

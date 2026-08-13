@@ -17,11 +17,11 @@
 // in the game.
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
+#include "extdll.h"
+#include "util.h"
+#include "cbase.h"
 #include "monsters.h"
-#include "core/saverestore.h"
+#include "saverestore.h"
 
 // Monstermaker spawnflags
 #define	SF_MONSTERMAKER_START_ON	1 // start active ( if has targetname )

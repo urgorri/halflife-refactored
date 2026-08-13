@@ -12,9 +12,9 @@
 *   use or distribution of this code by or to any unlicensed person is illegal.
 *
 ****/
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
+#include	"extdll.h"
+#include	"util.h"
+#include	"cbase.h"
 #include	"monsters.h"
 #include	"schedule.h"
 #include	"talkmonster.h"
