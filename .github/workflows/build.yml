@@ -55,16 +55,11 @@ jobs:
           Copy-Item "projects/vs2019/Release/hl_cdll/client.dll" "package/cl_dlls/"
           Copy-Item "projects/vs2019/Release/hldll/hl.dll" "package/dlls/"
 
-      - name: Compress artifacts
-        shell: pwsh
-        run: |
-          Compress-Archive -Path "package/*" -DestinationPath "halflife-windows.zip"
-
-      - name: Upload Windows DLLs Zip
+      - name: Upload Windows DLLs
         uses: actions/upload-artifact@v4
         with:
           name: halflife-windows
-          path: halflife-windows.zip
+          path: package/
 
   build-linux:
     name: Linux x86 DLLs
@@ -84,8 +79,7 @@ jobs:
             gcc-multilib \
             g++-multilib \
             libc6-dev-i386 \
-            make \
-            zip
+            make
 
       - name: Build Linux Client DLL
         working-directory: linux
@@ -122,12 +116,8 @@ jobs:
           cp linux/release/cl_dlls/client.so package/cl_dlls/
           cp linux/release/dlls/hl.so package/dlls/
 
-      - name: Compress artifacts
-        run: |
-          cd package && zip -r ../halflife-linux.zip cl_dlls dlls
-
-      - name: Upload Linux DLLs Zip
+      - name: Upload Linux DLLs
         uses: actions/upload-artifact@v4
         with:
           name: halflife-linux
-          path: halflife-linux.zip
+          path: package/
