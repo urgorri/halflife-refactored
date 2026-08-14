@@ -18,6 +18,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_crowbar.h"
 #include "ai/nodes.h"
 #include "player.h"
 #include "gameplay/gamerules.h"

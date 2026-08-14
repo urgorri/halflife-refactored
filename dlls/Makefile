@@ -93,7 +93,7 @@ OBJ = \
 	$(DLL_OBJDIR)/combat.o \
 	$(DLL_OBJDIR)/monsters/controller.o \
 	$(DLL_OBJDIR)/crossbow.o \
-	$(DLL_OBJDIR)/crowbar.o \
+	$(DLL_OBJDIR)/weapons/weapon_crowbar.o \
 	$(DLL_OBJDIR)/ai/defaultai.o \
 	$(DLL_OBJDIR)/doors.o \
 	$(DLL_OBJDIR)/effects.o \
@@ -280,7 +280,7 @@ $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
-    $(DO_CC)
+	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
 	$(DO_CC)
@@ -292,4 +292,7 @@ $(DLL_OBJDIR)/systems/revertsaved.o: systems/revertsaved.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/systems/info_intermission.o: systems/info_intermission.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/weapons/weapon_crowbar.o: weapons/weapon_crowbar.cpp
 	$(DO_CC)
