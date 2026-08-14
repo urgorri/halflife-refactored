@@ -198,10 +198,10 @@
     <ClCompile Include="..\..\dlls\monstermaker.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\hornet.cpp">
+    <ClCompile Include="..\..\dlls\weapons\projectile_hornet.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\hornetgun.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_hornetgun.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\houndeye.cpp">
@@ -528,7 +528,10 @@
     <ClInclude Include="..\..\engine\eiface.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\hornet.h">
+    <ClInclude Include="..\..\dlls\weapons\projectile_hornet.h">
+      <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_hornetgun.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\enginecallback.h">

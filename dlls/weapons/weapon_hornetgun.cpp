@@ -19,9 +19,10 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_hornetgun.h"
 #include "ai/nodes.h"
 #include "player.h"
-#include "hornet.h"
+#include "weapons/projectile_hornet.h"
 #include "gameplay/gamerules.h"
 
 static float GetRechargeTime()
