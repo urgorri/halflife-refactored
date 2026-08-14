@@ -87,8 +87,8 @@
     <ClCompile Include="..\..\cl_dll\hl\hl_objects.cpp">
       <Filter>Source Files\_hl\cl_dll\hl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp">
-      <Filter>Source Files\_hl\dlls\wpn_shared</Filter>
+    <ClCompile Include="..\..\dlls\weapons\weapon_glock.cpp">
+      <Filter>Source Files\_hl\dlls\weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_snark.cpp">
       <Filter>Source Files\_hl\dlls</Filter>

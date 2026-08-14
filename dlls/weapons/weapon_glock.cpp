@@ -18,6 +18,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_glock.h"
 #include "ai/nodes.h"
 #include "player.h"
 
@@ -215,28 +216,27 @@ void CGlock::WeaponIdle( void )
 	}
 }
 
-class CGlockAmmo : public CBasePlayerAmmo
+void CGlockAmmo::Spawn( void )
 {
-	void Spawn( void )
+	Precache();
+	SET_MODEL( ENT( pev ), "models/w_9mmclip.mdl" );
+	CBasePlayerAmmo::Spawn();
+}
+
+void CGlockAmmo::Precache( void )
+{
+	PRECACHE_MODEL( "models/w_9mmclip.mdl" );
+	PRECACHE_SOUND( "items/9mmclip1.wav" );
+}
+
+BOOL CGlockAmmo::AddAmmo( CBaseEntity *pOther )
+{
+	if ( pOther->GiveAmmo( AMMO_GLOCKCLIP_GIVE, "9mm", _9MM_MAX_CARRY ) != -1 )
 	{
-		Precache();
-		SET_MODEL( ENT( pev ), "models/w_9mmclip.mdl" );
-		CBasePlayerAmmo::Spawn();
+		EMIT_SOUND( ENT( pev ), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM );
+		return TRUE;
 	}
-	void Precache( void )
-	{
-		PRECACHE_MODEL( "models/w_9mmclip.mdl" );
-		PRECACHE_SOUND( "items/9mmclip1.wav" );
-	}
-	BOOL AddAmmo( CBaseEntity *pOther )
-	{
-		if ( pOther->GiveAmmo( AMMO_GLOCKCLIP_GIVE, "9mm", _9MM_MAX_CARRY ) != -1 )
-		{
-			EMIT_SOUND( ENT( pev ), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM );
-			return TRUE;
-		}
-		return FALSE;
-	}
-};
+	return FALSE;
+}
 LINK_ENTITY_TO_CLASS( ammo_glockclip, CGlockAmmo );
 LINK_ENTITY_TO_CLASS( ammo_9mmclip, CGlockAmmo );
