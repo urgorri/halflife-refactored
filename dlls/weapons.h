@@ -323,5 +323,14 @@ class CHgun : public CBasePlayerWeapon
 };
 
 
+class CHandGrenade : public CBasePlayerWeapon
+{
+public:
+	void Spawn( void );
+	void Precache( void );
+
+	int iItemSlot( void ) { return 5; }
+	int GetItemInfo( ItemInfo *p );
+};
 
 #endif // WEAPONS_H
