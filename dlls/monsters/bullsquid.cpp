@@ -24,7 +24,7 @@
 #include "ai/nodes.h"
 #include "effects.h"
 #include "decals.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "game.h"
 
 #define SQUID_SPRINT_DIST 256 // how close the squid has to get before starting to sprint and refusing to swerve

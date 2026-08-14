@@ -17,7 +17,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "ai/nodes.h"
 #include "talkmonster.h"
 

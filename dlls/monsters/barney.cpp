@@ -26,7 +26,7 @@
 #include "ai/schedule.h"
 #include "ai/defaultai.h"
 #include "weapons.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 
 //=========================================================
 // Monster's Anim Events Go Here

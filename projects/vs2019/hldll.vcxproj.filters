@@ -162,7 +162,7 @@
     <ClCompile Include="..\..\dlls\core\globals.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\h_ai.cpp">
+    <ClCompile Include="..\..\dlls\ai\h_ai.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\h_battery.cpp">
@@ -195,7 +195,7 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_glock.cpp">
       <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\monstermaker.cpp">
+    <ClCompile Include="..\..\dlls\ai\monstermaker.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\hornet.cpp">
@@ -279,7 +279,7 @@
     <ClCompile Include="..\..\dlls\ai\monsters.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\monsterstate.cpp">
+    <ClCompile Include="..\..\dlls\ai\monsterstate.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\mortar.cpp">
@@ -303,7 +303,10 @@
     <ClCompile Include="..\..\dlls\monsters\osprey.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\pathcorner.cpp">
+    <ClCompile Include="..\..\dlls\ai\pathcorner.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\ai\playermonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\plane.cpp">
@@ -357,7 +360,7 @@
     <ClCompile Include="..\..\dlls\sound.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\soundent.cpp">
+    <ClCompile Include="..\..\dlls\ai\soundent.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\spectator.cpp">
@@ -378,7 +381,7 @@
     <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\tempmonster.cpp">
+    <ClCompile Include="..\..\dlls\ai\tempmonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\tentacle.cpp">
@@ -610,7 +613,7 @@
     <ClInclude Include="..\..\dlls\skill.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\soundent.h">
+    <ClInclude Include="..\..\dlls\ai\soundent.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\spectator.h">

@@ -31,7 +31,7 @@
 #include "gameplay/scripted.h"
 #include "ai/squadmonster.h"
 #include "decals.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "gameplay/gamerules.h"
 
 #define MONSTER_CUT_CORNER_DIST 8 // 8 means the monster's bounding box is contained without the box of the node in WC

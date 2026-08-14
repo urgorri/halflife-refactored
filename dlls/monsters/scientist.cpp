@@ -26,7 +26,7 @@
 #include "ai/schedule.h"
 #include "ai/defaultai.h"
 #include "animation.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 
 #define NUM_SCIENTIST_HEADS 4 // four heads available for scientist model
 enum
