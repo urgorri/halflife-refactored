@@ -366,7 +366,7 @@
     <ClCompile Include="..\..\dlls\ai\squadmonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\squeakgrenade.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_snark.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\subs.cpp">

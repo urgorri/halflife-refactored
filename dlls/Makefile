@@ -182,7 +182,7 @@ OBJ = \
 	$(DLL_OBJDIR)/soundent.o \
 	$(DLL_OBJDIR)/spectator.o \
 	$(DLL_OBJDIR)/ai/squadmonster.o \
-	$(DLL_OBJDIR)/squeakgrenade.o \
+	$(DLL_OBJDIR)/weapons/weapon_snark.o \
 	$(DLL_OBJDIR)/subs.o \
 	$(DLL_OBJDIR)/talkmonster.o \
 	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \
@@ -280,7 +280,7 @@ $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
-    $(DO_CC)
+	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
 	$(DO_CC)
