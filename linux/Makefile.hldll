@@ -112,7 +112,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/ai/monsters.o \
 	$(HLDLL_OBJ_DIR)/monsterstate.o \
 	$(HLDLL_OBJ_DIR)/mortar.o \
-	$(HLDLL_OBJ_DIR)/mp5.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_mp5.o \
 	$(HLDLL_OBJ_DIR)/monsters/nihilanth.o \
 	$(HLDLL_OBJ_DIR)/ai/nodes.o \
 	$(HLDLL_OBJ_DIR)/observer.o \
