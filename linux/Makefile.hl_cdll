@@ -107,7 +107,7 @@ DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_satchel.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HL1_SERVER_OBJ_DIR)/squeakgrenade.o \
-	$(HL1_SERVER_OBJ_DIR)/tripmine.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_tripmine.o \
 	$(HL1_SERVER_OBJ_DIR)/wpn_shared/hl_wpn_glock.o \
 
 
@@ -172,6 +172,9 @@ $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR))
 	$(DO_CC)
 
 $(HL1_SERVER_OBJ_DIR)/%.o: $(HL_SERVER_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)),  $(HL1_SERVER_OBJ_DIR))
+	$(DO_CC)
+
+$(HL1_SERVER_OBJ_DIR)/weapons/%.o: $(HL_SERVER_SRC_DIR)/weapons/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)),  $(HL1_SERVER_OBJ_DIR))
 	$(DO_CC)
 
 $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/hl/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
