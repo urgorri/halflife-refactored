@@ -123,7 +123,7 @@
     <ClCompile Include="..\..\dlls\game.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\gamerules.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gargantua.cpp">
@@ -216,7 +216,40 @@
     <ClCompile Include="..\..\dlls\lights.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\maprules.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\maprules.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_score.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_end.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_text.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_team_master.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_team_set.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_player_zone.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_player_hurt.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_counter.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_counter_set.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_player_equip.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\game_player_team.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\player.cpp">
@@ -234,7 +267,7 @@
     <ClCompile Include="..\..\dlls\mp5.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\multiplay_gamerules.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\multiplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\nihilanth.cpp">
@@ -288,13 +321,13 @@
     <ClCompile Include="..\..\dlls\scientist.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\scripted.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\scripted.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_shotgun.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\singleplay_gamerules.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\singleplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\skill.cpp">
@@ -321,7 +354,7 @@
     <ClCompile Include="..\..\dlls\talkmonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\teamplay_gamerules.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\tempmonster.cpp">
@@ -414,7 +447,7 @@
     <ClInclude Include="..\..\dlls\func_break.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\gamerules.h">
+    <ClInclude Include="..\..\dlls\gameplay\gamerules.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\player.h">
@@ -468,7 +501,7 @@
     <ClInclude Include="..\..\dlls\schedule.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\scripted.h">
+    <ClInclude Include="..\..\dlls\gameplay\scripted.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\scriptevent.h">
@@ -489,7 +522,7 @@
     <ClInclude Include="..\..\dlls\talkmonster.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\teamplay_gamerules.h">
+    <ClInclude Include="..\..\dlls\gameplay\teamplay_gamerules.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\trains.h">

@@ -22,7 +22,7 @@
 #include "weapons.h"
 #include "player.h"
 #include "talkmonster.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 #if !defined ( _WIN32 )
 #include <ctype.h>

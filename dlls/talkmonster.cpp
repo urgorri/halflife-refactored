@@ -19,7 +19,7 @@
 #include	"schedule.h"
 #include	"talkmonster.h"
 #include	"defaultai.h"
-#include	"scripted.h"
+#include	"gameplay/scripted.h"
 #include	"soundent.h"
 #include	"animation.h"
 

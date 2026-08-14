@@ -31,8 +31,8 @@
 #include "effects.h"
 #include "player.h"
 #include "weapons.h"
-#include "gamerules.h"
-#include "teamplay_gamerules.h"
+#include "gameplay/gamerules.h"
+#include "gameplay/teamplay_gamerules.h"
 
 extern CGraph WorldGraph;
 extern CSoundEnt *pSoundEnt;

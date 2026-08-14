@@ -17,7 +17,7 @@
 #include "monsters.h"
 #include "..\engine\shake.h"
 #include "decals.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 
 float AmmoDamage( const char *pName )

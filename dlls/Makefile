@@ -98,7 +98,7 @@ OBJ = \
 	$(DLL_OBJDIR)/func_break.o \
 	$(DLL_OBJDIR)/func_tank.o \
 	$(DLL_OBJDIR)/game.o \
-	$(DLL_OBJDIR)/gamerules.o \
+	$(DLL_OBJDIR)/gameplay/gamerules.o \
 	$(DLL_OBJDIR)/gargantua.o \
 	$(DLL_OBJDIR)/weapons/weapon_gauss.o \
 	$(DLL_OBJDIR)/genericmonster.o \
@@ -128,13 +128,24 @@ OBJ = \
 	$(DLL_OBJDIR)/items/item_longjump.o \
 	$(DLL_OBJDIR)/leech.o \
 	$(DLL_OBJDIR)/lights.o \
-	$(DLL_OBJDIR)/maprules.o \
+	$(DLL_OBJDIR)/gameplay/maprules.o \
+	$(DLL_OBJDIR)/gameplay/game_score.o \
+	$(DLL_OBJDIR)/gameplay/game_end.o \
+	$(DLL_OBJDIR)/gameplay/game_text.o \
+	$(DLL_OBJDIR)/gameplay/game_team_master.o \
+	$(DLL_OBJDIR)/gameplay/game_team_set.o \
+	$(DLL_OBJDIR)/gameplay/game_player_zone.o \
+	$(DLL_OBJDIR)/gameplay/game_player_hurt.o \
+	$(DLL_OBJDIR)/gameplay/game_counter.o \
+	$(DLL_OBJDIR)/gameplay/game_counter_set.o \
+	$(DLL_OBJDIR)/gameplay/game_player_equip.o \
+	$(DLL_OBJDIR)/gameplay/game_player_team.o \
 	$(DLL_OBJDIR)/monstermaker.o \
 	$(DLL_OBJDIR)/monsters.o \
 	$(DLL_OBJDIR)/monsterstate.o \
 	$(DLL_OBJDIR)/mortar.o \
 	$(DLL_OBJDIR)/mp5.o \
-	$(DLL_OBJDIR)/multiplay_gamerules.o \
+	$(DLL_OBJDIR)/gameplay/multiplay_gamerules.o \
 	$(DLL_OBJDIR)/nihilanth.o \
 	$(DLL_OBJDIR)/nodes.o \
 	$(DLL_OBJDIR)/osprey.o \
@@ -149,9 +160,9 @@ OBJ = \
 	$(DLL_OBJDIR)/weapons/weapon_satchel.o \
 	$(DLL_OBJDIR)/schedule.o \
 	$(DLL_OBJDIR)/scientist.o \
-	$(DLL_OBJDIR)/scripted.o \
+	$(DLL_OBJDIR)/gameplay/scripted.o \
 	$(DLL_OBJDIR)/weapons/weapon_shotgun.o \
-	$(DLL_OBJDIR)/singleplay_gamerules.o \
+	$(DLL_OBJDIR)/gameplay/singleplay_gamerules.o \
 	$(DLL_OBJDIR)/skill.o \
 	$(DLL_OBJDIR)/sound.o \
 	$(DLL_OBJDIR)/soundent.o \
@@ -160,7 +171,7 @@ OBJ = \
 	$(DLL_OBJDIR)/squeakgrenade.o \
 	$(DLL_OBJDIR)/subs.o \
 	$(DLL_OBJDIR)/talkmonster.o \
-	$(DLL_OBJDIR)/teamplay_gamerules.o \
+	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \
 	$(DLL_OBJDIR)/tempmonster.o \
 	$(DLL_OBJDIR)/tentacle.o \
 	$(DLL_OBJDIR)/triggers.o \
@@ -183,6 +194,8 @@ $(DLLNAME)_$(ARCH).$(SHLIBEXT) : neat $(OBJ)
 
 neat:
 	-mkdir $(DLL_OBJDIR)
+	-mkdir $(DLL_OBJDIR)/gameplay
+	-mkdir $(DLL_OBJDIR)/weapons
 	-mkdir $(DLL_OBJDIR)/items
 	-mkdir $(CORE_OBJDIR)
 	-mkdir $(WPN_SHARED_OBJDIR)

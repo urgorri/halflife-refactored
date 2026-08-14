@@ -22,7 +22,7 @@
 #include "weapons/weapon_satchel.h"
 #include "nodes.h"
 #include "player.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 enum satchel_e {
 	SATCHEL_IDLE1 = 0,

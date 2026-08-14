@@ -1,3 +1,5 @@
+#ifndef CBASE_H
+#define CBASE_H
 /***
 *
 *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
@@ -817,3 +819,5 @@ public:
 	void Precache( void );
 	void KeyValue( KeyValueData *pkvd );
 };
+
+#endif // CBASE_H

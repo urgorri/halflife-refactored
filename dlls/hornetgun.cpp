@@ -22,7 +22,7 @@
 #include "nodes.h"
 #include "player.h"
 #include "hornet.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 static float GetRechargeTime()
 {

@@ -22,7 +22,7 @@
 #include "weapons/weapon_rpg.h"
 #include "nodes.h"
 #include "player.h"
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 
 

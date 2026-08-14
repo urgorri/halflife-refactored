@@ -33,7 +33,7 @@
 #endif
 
 #include "schedule.h"
-#include "scripted.h"
+#include "gameplay/scripted.h"
 #include "defaultai.h"
 
 
