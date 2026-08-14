@@ -23,7 +23,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "ai/schedule.h"
-#include "flyingmonster.h"
+#include "ai/flyingmonster.h"
 #include "ai/nodes.h"
 #include "soundent.h"
 #include "animation.h"

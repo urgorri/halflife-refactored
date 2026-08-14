@@ -120,8 +120,8 @@
     <ClCompile Include="..\..\dlls\explode.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\flyingmonster.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\ai\flyingmonster.cpp">
+      <Filter>Source Files\dlls\ai</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\func_break.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -372,8 +372,8 @@
     <ClCompile Include="..\..\dlls\subs.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\talkmonster.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\ai\talkmonster.cpp">
+      <Filter>Source Files\dlls\ai</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -540,8 +540,8 @@
     <ClInclude Include="..\..\dlls\core\extdll.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\flyingmonster.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\ai\flyingmonster.h">
+      <Filter>Header Files\dlls\ai</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\func_break.h">
       <Filter>Header Files\dlls</Filter>
@@ -619,8 +619,8 @@
     <ClInclude Include="..\..\dlls\squadmonster.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\talkmonster.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\ai\talkmonster.h">
+      <Filter>Header Files\dlls\ai</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\gameplay\teamplay_gamerules.h">
       <Filter>Header Files\dlls</Filter>
