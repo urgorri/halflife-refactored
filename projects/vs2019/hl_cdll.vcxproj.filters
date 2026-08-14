@@ -60,7 +60,7 @@
     <ClCompile Include="..\..\dlls\crossbow.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\crowbar.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp">

@@ -52,7 +52,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/combat.o \
 	$(HLDLL_OBJ_DIR)/monsters/controller.o \
 	$(HLDLL_OBJ_DIR)/crossbow.o \
-	$(HLDLL_OBJ_DIR)/crowbar.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
 	$(HLDLL_OBJ_DIR)/doors.o \
 	$(HLDLL_OBJ_DIR)/effects.o \

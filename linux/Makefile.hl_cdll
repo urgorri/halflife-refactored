@@ -96,7 +96,7 @@ HL1_OBJS = \
 
 DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/crossbow.o \
-	$(HL1_SERVER_OBJ_DIR)/crowbar.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_egon.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_gauss.o \
 	$(HL1_SERVER_OBJ_DIR)/handgrenade.o \
