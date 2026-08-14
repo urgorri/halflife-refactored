@@ -21,7 +21,7 @@
 #include "core/cbase.h"
 #include "weapons.h"
 #include "player.h"
-#include "talkmonster.h"
+#include "ai/talkmonster.h"
 #include "gameplay/gamerules.h"
 
 #if !defined( _WIN32 )

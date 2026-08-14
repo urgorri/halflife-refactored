@@ -21,7 +21,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
-#include "talkmonster.h"
+#include "ai/talkmonster.h"
 #include "gameplay/scripted.h"
 #include "ai/schedule.h"
 #include "ai/defaultai.h"

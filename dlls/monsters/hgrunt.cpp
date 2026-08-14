@@ -36,8 +36,8 @@
 #include "animation.h"
 #include "ai/squadmonster.h"
 #include "weapons.h"
-#include "talkmonster.h"
 #include "ai/soundent.h"
+#include "ai/talkmonster.h"
 #include "effects.h"
 #include "customentity.h"
 

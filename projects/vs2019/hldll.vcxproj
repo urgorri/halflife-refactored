@@ -129,7 +129,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\effects.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp" />
     <ClCompile Include="..\..\dlls\explode.cpp" />
-    <ClCompile Include="..\..\dlls\flyingmonster.cpp" />
+    <ClCompile Include="..\..\dlls\ai\flyingmonster.cpp" />
     <ClCompile Include="..\..\dlls\func_break.cpp" />
     <ClCompile Include="..\..\dlls\systems\func_tank.cpp" />
     <ClCompile Include="..\..\dlls\systems\func_tankgun.cpp" />
@@ -216,7 +216,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\ai\squadmonster.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_snark.cpp" />
     <ClCompile Include="..\..\dlls\subs.cpp" />
-    <ClCompile Include="..\..\dlls\talkmonster.cpp" />
+    <ClCompile Include="..\..\dlls\ai\talkmonster.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\ai\tempmonster.cpp" />
     <ClCompile Include="..\..\dlls\systems\trigger_auto.cpp" />
@@ -276,7 +276,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\core\enginecallback.h" />
     <ClInclude Include="..\..\dlls\explode.h" />
     <ClInclude Include="..\..\dlls\core\extdll.h" />
-    <ClInclude Include="..\..\dlls\flyingmonster.h" />
+    <ClInclude Include="..\..\dlls\ai\flyingmonster.h" />
     <ClInclude Include="..\..\dlls\func_break.h" />
     <ClInclude Include="..\..\dlls\gameplay\gamerules.h" />
     <ClInclude Include="..\..\dlls\weapons\projectile_hornet.h" />
@@ -296,7 +296,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\ai\soundent.h" />
     <ClInclude Include="..\..\dlls\spectator.h" />
     <ClInclude Include="..\..\dlls\squadmonster.h" />
-    <ClInclude Include="..\..\dlls\talkmonster.h" />
+    <ClInclude Include="..\..\dlls\ai\talkmonster.h" />
     <ClInclude Include="..\..\dlls\gameplay\teamplay_gamerules.h" />
     <ClInclude Include="..\..\dlls\trains.h" />
     <ClInclude Include="..\..\dlls\systems\turret.h" />

@@ -99,7 +99,7 @@ OBJ = \
 	$(DLL_OBJDIR)/effects.o \
 	$(DLL_OBJDIR)/weapons/weapon_egon.o \
 	$(DLL_OBJDIR)/explode.o \
-	$(DLL_OBJDIR)/flyingmonster.o \
+	$(DLL_OBJDIR)/ai/flyingmonster.o \
 	$(DLL_OBJDIR)/func_break.o \
 	$(DLL_OBJDIR)/systems/func_tank.o \
 	$(DLL_OBJDIR)/systems/func_tankgun.o \
@@ -184,7 +184,7 @@ OBJ = \
 	$(DLL_OBJDIR)/ai/squadmonster.o \
 	$(DLL_OBJDIR)/weapons/weapon_snark.o \
 	$(DLL_OBJDIR)/subs.o \
-	$(DLL_OBJDIR)/talkmonster.o \
+	$(DLL_OBJDIR)/ai/talkmonster.o \
 	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \
 	$(DLL_OBJDIR)/ai/tempmonster.o \
 	$(DLL_OBJDIR)/systems/trigger_relay.o \
