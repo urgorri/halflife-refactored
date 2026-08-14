@@ -124,8 +124,8 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/headcrab.o \
 	$(DLL_OBJDIR)/healthkit.o \
 	$(DLL_OBJDIR)/monsters/hgrunt.o \
-	$(DLL_OBJDIR)/hornet.o \
-	$(DLL_OBJDIR)/hornetgun.o \
+	$(DLL_OBJDIR)/weapons/projectile_hornet.o \
+	$(DLL_OBJDIR)/weapons/weapon_hornetgun.o \
 	$(DLL_OBJDIR)/monsters/houndeye.o \
 	$(DLL_OBJDIR)/monsters/ichthyosaur.o \
 	$(DLL_OBJDIR)/monsters/islave.o \
@@ -280,7 +280,7 @@ $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
-    $(DO_CC)
+	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
 	$(DO_CC)

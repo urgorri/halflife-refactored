@@ -149,8 +149,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\monsters\headcrab.cpp" />
     <ClCompile Include="..\..\dlls\healthkit.cpp" />
     <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp" />
-    <ClCompile Include="..\..\dlls\hornet.cpp" />
-    <ClCompile Include="..\..\dlls\hornetgun.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\projectile_hornet.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_hornetgun.cpp" />
     <ClCompile Include="..\..\dlls\monsters\houndeye.cpp" />
     <ClCompile Include="..\..\dlls\h_ai.cpp" />
     <ClCompile Include="..\..\dlls\h_battery.cpp" />
@@ -278,7 +278,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\flyingmonster.h" />
     <ClInclude Include="..\..\dlls\func_break.h" />
     <ClInclude Include="..\..\dlls\gameplay\gamerules.h" />
-    <ClInclude Include="..\..\dlls\hornet.h" />
+    <ClInclude Include="..\..\dlls\weapons\projectile_hornet.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_hornetgun.h" />
     <ClInclude Include="..\..\dlls\items\item_base.h" />
     <ClInclude Include="..\..\dlls\monsterevent.h" />
     <ClInclude Include="..\..\dlls\monsters.h" />

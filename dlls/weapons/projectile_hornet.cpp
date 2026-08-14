@@ -22,7 +22,7 @@
 #include "ai/monsters.h"
 #include "weapons.h"
 #include "soundent.h"
-#include "hornet.h"
+#include "weapons/projectile_hornet.h"
 #include "gameplay/gamerules.h"
 
 int iHornetTrail;
