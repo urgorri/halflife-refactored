@@ -119,7 +119,7 @@ OBJ = \
 	$(DLL_OBJDIR)/h_cine.o \
 	$(DLL_OBJDIR)/h_cycler.o \
 	$(DLL_OBJDIR)/h_export.o \
-	$(DLL_OBJDIR)/handgrenade.o \
+	$(DLL_OBJDIR)/weapons/weapon_handgrenade.o \
 	$(DLL_OBJDIR)/monsters/hassassin.o \
 	$(DLL_OBJDIR)/monsters/headcrab.o \
 	$(DLL_OBJDIR)/healthkit.o \
@@ -261,6 +261,9 @@ spotless: clean
 $(DLL_OBJDIR)/weapons/weapon_egon.o: weapons/weapon_egon.cpp
 	$(DO_CC)
 
+$(DLL_OBJDIR)/weapons/weapon_handgrenade.o: weapons/weapon_handgrenade.cpp
+	$(DO_CC)
+
 $(DLL_OBJDIR)/weapons/weapon_gauss.o: weapons/weapon_gauss.cpp
 	$(DO_CC)
 
@@ -280,7 +283,7 @@ $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
-    $(DO_CC)
+	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
 	$(DO_CC)

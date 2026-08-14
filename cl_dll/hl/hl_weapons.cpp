@@ -23,6 +23,7 @@
 #include "weapons/weapon_gauss.h"
 #include "weapons/weapon_egon.h"
 #include "weapons/weapon_satchel.h"
+#include "weapons/weapon_handgrenade.h"
 
 #include "ai/nodes.h"
 #include "player.h"
