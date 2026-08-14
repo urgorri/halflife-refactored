@@ -46,7 +46,7 @@ CBaseEntity
 
 #include "archtypes.h"     // DAL
 #include "core/saverestore.h"
-#include "schedule.h"
+#include "ai/schedule.h"
 
 #ifndef MONSTEREVENT_H
 #include "monsterevent.h"

@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   This source code contains proprietary and confidential information of
@@ -18,11 +18,11 @@
 
 // UNDONE: Don't flinch every time you get hit
 
-#include "../core/extdll.h"
-#include "../core/util.h"
-#include "../core/cbase.h"
-#include "../monsters.h"
-#include "../schedule.h"
+#include "core/extdll.h"
+#include "core/util.h"
+#include "core/cbase.h"
+#include "ai/monsters.h"
+#include "ai/schedule.h"
 
 
 //=========================================================
@@ -37,7 +37,7 @@
 class CZombie : public CBaseMonster
 {
 public:
-	void Spawn( void ); 
+	void Spawn( void );
 	void Precache( void );
 	void SetYawSpeed( void );
 	int  Classify ( void );
@@ -66,26 +66,26 @@ public:
 
 LINK_ENTITY_TO_CLASS( monster_zombie, CZombie );
 
-const char *CZombie::pAttackHitSounds[] = 
+const char *CZombie::pAttackHitSounds[] =
 {
 	"zombie/claw_strike1.wav",
 	"zombie/claw_strike2.wav",
 	"zombie/claw_strike3.wav",
 };
 
-const char *CZombie::pAttackMissSounds[] = 
+const char *CZombie::pAttackMissSounds[] =
 {
 	"zombie/claw_miss1.wav",
 	"zombie/claw_miss2.wav",
 };
 
-const char *CZombie::pAttackSounds[] = 
+const char *CZombie::pAttackSounds[] =
 {
 	"zombie/zo_attack1.wav",
 	"zombie/zo_attack2.wav",
 };
 
-const char *CZombie::pIdleSounds[] = 
+const char *CZombie::pIdleSounds[] =
 {
 	"zombie/zo_idle1.wav",
 	"zombie/zo_idle2.wav",
@@ -93,21 +93,21 @@ const char *CZombie::pIdleSounds[] =
 	"zombie/zo_idle4.wav",
 };
 
-const char *CZombie::pAlertSounds[] = 
+const char *CZombie::pAlertSounds[] =
 {
 	"zombie/zo_alert10.wav",
 	"zombie/zo_alert20.wav",
 	"zombie/zo_alert30.wav",
 };
 
-const char *CZombie::pPainSounds[] = 
+const char *CZombie::pPainSounds[] =
 {
 	"zombie/zo_pain1.wav",
 	"zombie/zo_pain2.wav",
 };
 
 //=========================================================
-// Classify - indicates this monster's place in the 
+// Classify - indicates this monster's place in the
 // relationship table.
 //=========================================================
 int	CZombie :: Classify ( void )
@@ -312,7 +312,7 @@ void CZombie :: Precache()
 
 	for ( i = 0; i < ARRAYSIZE( pPainSounds ); i++ )
 		PRECACHE_SOUND((char *)pPainSounds[i]);
-}	
+}
 
 //=========================================================
 // AI Schedules Specific to this monster
@@ -330,7 +330,7 @@ int CZombie::IgnoreConditions ( void )
 		if (pev->health < 20)
 			iIgnore |= (bits_COND_LIGHT_DAMAGE|bits_COND_HEAVY_DAMAGE);
 		else
-#endif			
+#endif
 		if (m_flNextFlinch >= gpGlobals->time)
 			iIgnore |= (bits_COND_LIGHT_DAMAGE|bits_COND_HEAVY_DAMAGE);
 	}
@@ -342,5 +342,5 @@ int CZombie::IgnoreConditions ( void )
 	}
 
 	return iIgnore;
-	
+
 }

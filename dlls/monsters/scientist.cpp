@@ -19,11 +19,12 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include	"monsters.h"
+#include "ai/monsters.h"
 #include	"talkmonster.h"
-#include	"schedule.h"
-#include	"defaultai.h"
+
 #include	"gameplay/scripted.h"
+#include "ai/schedule.h"
+#include "ai/defaultai.h"
 #include	"animation.h"
 #include	"soundent.h"
 

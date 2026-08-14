@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   This source code contains proprietary and confidential information of
@@ -14,15 +14,26 @@
 ****/
 
 #include "turret.h"
-#include "monsters.h"
 #include "effects.h"
+
+//===== turret.cpp ========================================================
+//
+// TODO:
+//		Take advantage of new monster fields like m_hEnemy and get rid of that OFFSET() stuff
+//		Revisit enemy validation stuff, maybe it's not necessary with the newest monster code
+//
+
+#include "core/extdll.h"
+#include "core/util.h"
+#include "core/cbase.h"
+#include "ai/monsters.h"
 #include "weapons.h"
 #include "explode.h"
 #include "effects.h"
 
 extern Vector VecBModelOrigin( entvars_t* pevBModel );
 
-TYPEDESCRIPTION	CBaseTurret::m_SaveData[] = 
+TYPEDESCRIPTION	CBaseTurret::m_SaveData[] =
 {
 	DEFINE_FIELD( CBaseTurret, m_flMaxSpin, FIELD_FLOAT ),
 	DEFINE_FIELD( CBaseTurret, m_iSpin, FIELD_INTEGER ),
@@ -92,7 +103,7 @@ void CBaseTurret::KeyValue( KeyValueData *pkvd )
 
 
 void CBaseTurret::Spawn()
-{ 
+{
 	Precache( );
 	pev->nextthink		= gpGlobals->time + 1;
 	pev->movetype		= MOVETYPE_FLY;
@@ -104,7 +115,7 @@ void CBaseTurret::Spawn()
 	SetBits (pev->flags, FL_MONSTER);
 	SetUse( &CBaseTurret::TurretUse );
 
-	if (( pev->spawnflags & SF_MONSTER_TURRET_AUTOACTIVATE ) 
+	if (( pev->spawnflags & SF_MONSTER_TURRET_AUTOACTIVATE )
 		 && !( pev->spawnflags & SF_MONSTER_TURRET_STARTINACTIVE ))
 	{
 		m_iAutoStart = TRUE;
@@ -162,7 +173,7 @@ void CBaseTurret::Initialize(void)
 	if (m_iAutoStart)
 	{
 		m_flLastSight = gpGlobals->time + m_flMaxWait;
-		SetThink(&CBaseTurret::AutoSearchThink);		
+		SetThink(&CBaseTurret::AutoSearchThink);
 		pev->nextthink = gpGlobals->time + .1;
 	}
 	else
@@ -182,7 +193,7 @@ void CBaseTurret::TurretUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_
 		//!!!! this should spin down first!!BUGBUG
 		SetThink(&CBaseTurret::Retire);
 	}
-	else 
+	else
 	{
 		pev->nextthink = gpGlobals->time + 0.1; // turn on delay
 
@@ -191,7 +202,7 @@ void CBaseTurret::TurretUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_
 		{
 			m_iAutoStart = TRUE;
 		}
-		
+
 		SetThink(&CBaseTurret::Deploy);
 	}
 }
@@ -256,7 +267,7 @@ void CBaseTurret::ActiveThink(void)
 		SetThink(&CBaseTurret::SearchThink);
 		return;
 	}
-	
+
 	// if it's dead, look for something new
 	if ( !m_hEnemy->IsAlive() )
 	{
@@ -267,7 +278,7 @@ void CBaseTurret::ActiveThink(void)
 		else
 		{
 			if (gpGlobals->time > m_flLastSight)
-			{	
+			{
 				m_hEnemy = NULL;
 				m_flLastSight = gpGlobals->time + m_flMaxWait;
 				SetThink(&CBaseTurret::SearchThink);
@@ -280,12 +291,12 @@ void CBaseTurret::ActiveThink(void)
 	Vector vecMidEnemy = m_hEnemy->BodyTarget( vecMid );
 
 	// Look for our current enemy
-	int fEnemyVisible = FBoxVisible(pev, m_hEnemy->pev, vecMidEnemy );	
+	int fEnemyVisible = FBoxVisible(pev, m_hEnemy->pev, vecMidEnemy );
 
 	vecDirToEnemy = vecMidEnemy - vecMid;	// calculate dir and dist to enemy
 	float flDistToEnemy = vecDirToEnemy.Length();
 
-	Vector vec = UTIL_VecToAngles(vecMidEnemy - vecMid);	
+	Vector vec = UTIL_VecToAngles(vecMidEnemy - vecMid);
 
 	// Current enmey is not visible.
 	if (!fEnemyVisible || (flDistToEnemy > TURRET_RANGE))
@@ -310,14 +321,14 @@ void CBaseTurret::ActiveThink(void)
 		m_vecLastSight = vecMidEnemy;
 	}
 
-	UTIL_MakeAimVectors(m_vecCurAngles);	
+	UTIL_MakeAimVectors(m_vecCurAngles);
 
 	/*
-	ALERT( at_console, "%.0f %.0f : %.2f %.2f %.2f\n", 
+	ALERT( at_console, "%.0f %.0f : %.2f %.2f %.2f\n",
 		m_vecCurAngles.x, m_vecCurAngles.y,
 		gpGlobals->v_forward.x, gpGlobals->v_forward.y, gpGlobals->v_forward.z );
 	*/
-	
+
 	Vector vecLOS = vecDirToEnemy; //vecMid - m_vecLastSight;
 	vecLOS = vecLOS.Normalize();
 
@@ -334,7 +345,7 @@ void CBaseTurret::ActiveThink(void)
 		GetAttachment( 0, vecSrc, vecAng );
 		SetTurretAnim(TURRET_ANIM_FIRE);
 		Shoot(vecSrc, gpGlobals->v_forward );
-	} 
+	}
 	else
 	{
 		SetTurretAnim(TURRET_ANIM_SPIN);
@@ -350,7 +361,7 @@ void CBaseTurret::ActiveThink(void)
 			TakeDamage(pev,pev,1, DMG_GENERIC); // don't beserk forever
 			return;
 		}
-	} 
+	}
 	else if (fEnemyVisible)
 	{
 		if (vec.y > 360)
@@ -360,7 +371,7 @@ void CBaseTurret::ActiveThink(void)
 			vec.y += 360;
 
 		//ALERT(at_console, "[%.2f]", vec.x);
-		
+
 		if (vec.x < -180)
 			vec.x += 360;
 
@@ -458,8 +469,8 @@ void CBaseTurret::Retire(void)
 			EMIT_SOUND_DYN(ENT(pev), CHAN_BODY, "turret/tu_deploy.wav", TURRET_MACHINE_VOLUME, ATTN_NORM, 0, 120);
 			SUB_UseTargets( this, USE_OFF, 0 );
 		}
-		else if (m_fSequenceFinished) 
-		{	
+		else if (m_fSequenceFinished)
+		{
 			m_iOn = 0;
 			m_flLastSight = 0;
 			SetTurretAnim(TURRET_ANIM_NONE);
@@ -468,7 +479,7 @@ void CBaseTurret::Retire(void)
 			UTIL_SetSize(pev, pev->mins, pev->maxs);
 			if (m_iAutoStart)
 			{
-				SetThink(&CBaseTurret::AutoSearchThink);		
+				SetThink(&CBaseTurret::AutoSearchThink);
 				pev->nextthink = gpGlobals->time + .1;
 			}
 			else
@@ -519,7 +530,7 @@ void CBaseTurret::SetTurretAnim(TURRET_ANIM anim)
 
 
 //
-// This search function will sit with the turret deployed and look for a new target. 
+// This search function will sit with the turret deployed and look for a new target.
 // After a set amount of time, the barrel will spin down. After m_flMaxWait, the turret will
 // retact.
 //
@@ -572,7 +583,7 @@ void CBaseTurret::SearchThink(void)
 		{
 			SpinDownCall();
 		}
-		
+
 		// generic hunt for new victims
 		m_vecGoalAngles.y = (m_vecGoalAngles.y + 0.1 * m_fTurnRate);
 		if (m_vecGoalAngles.y >= 360)
@@ -582,7 +593,7 @@ void CBaseTurret::SearchThink(void)
 }
 
 
-// 
+//
 // This think function will deploy the turret when something comes into range. This is for
 // automatically activated turrets.
 //
@@ -633,7 +644,7 @@ void CBaseTurret ::	TurretDeath( void )
 			EMIT_SOUND(ENT(pev), CHAN_BODY, "turret/tu_die.wav", 1.0, ATTN_NORM);
 		else if ( flRndSound <= 0.66 )
 			EMIT_SOUND(ENT(pev), CHAN_BODY, "turret/tu_die2.wav", 1.0, ATTN_NORM);
-		else 
+		else
 			EMIT_SOUND(ENT(pev), CHAN_BODY, "turret/tu_die3.wav", 1.0, ATTN_NORM);
 
 		EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, "turret/tu_active2.wav", 0, 0, SND_STOP, 100);
@@ -643,9 +654,9 @@ void CBaseTurret ::	TurretDeath( void )
 		else
 			m_vecGoalAngles.x = -90;
 
-		SetTurretAnim(TURRET_ANIM_DIE); 
+		SetTurretAnim(TURRET_ANIM_DIE);
 
-		EyeOn( );	
+		EyeOn( );
 	}
 
 	EyeOff( );
@@ -663,7 +674,7 @@ void CBaseTurret ::	TurretDeath( void )
 			WRITE_BYTE( 10 - m_iOrientation * 5); // framerate
 		MESSAGE_END();
 	}
-	
+
 	if (pev->dmgtime + RANDOM_FLOAT( 0, 5 ) > gpGlobals->time)
 	{
 		Vector vecSrc = Vector( RANDOM_FLOAT( pev->absmin.x, pev->absmax.x ), RANDOM_FLOAT( pev->absmin.y, pev->absmax.y ), 0 );
@@ -747,7 +758,7 @@ int CBaseTurret::MoveTurret(void)
 {
 	int state = 0;
 	// any x movement?
-	
+
 	if (m_vecCurAngles.x != m_vecGoalAngles.x)
 	{
 		float flDir = m_vecGoalAngles.x > m_vecCurAngles.x ? 1 : -1 ;
@@ -759,7 +770,7 @@ int CBaseTurret::MoveTurret(void)
 		{
 			if (m_vecCurAngles.x > m_vecGoalAngles.x)
 				m_vecCurAngles.x = m_vecGoalAngles.x;
-		} 
+		}
 		else
 		{
 			if (m_vecCurAngles.x < m_vecGoalAngles.x)
@@ -777,7 +788,7 @@ int CBaseTurret::MoveTurret(void)
 	{
 		float flDir = m_vecGoalAngles.y > m_vecCurAngles.y ? 1 : -1 ;
 		float flDist = fabs(m_vecGoalAngles.y - m_vecCurAngles.y);
-		
+
 		if (flDist > 180)
 		{
 			flDist = 360 - flDist;
@@ -812,7 +823,7 @@ int CBaseTurret::MoveTurret(void)
 		//ALERT(at_console, "%.2f -> %.2f\n", m_vecCurAngles.y, y);
 		if (m_iOrientation == 0)
 			SetBoneController(0, m_vecCurAngles.y - pev->angles.y );
-		else 
+		else
 			SetBoneController(0, pev->angles.y - 180 - m_vecCurAngles.y );
 		state = 1;
 	}
@@ -820,7 +831,7 @@ int CBaseTurret::MoveTurret(void)
 	if (!state)
 		m_fTurnRate = m_iBaseTurnRate;
 
-	//ALERT(at_console, "(%.2f, %.2f)->(%.2f, %.2f)\n", m_vecCurAngles.x, 
+	//ALERT(at_console, "(%.2f, %.2f)->(%.2f, %.2f)\n", m_vecCurAngles.x,
 	//	m_vecCurAngles.y, m_vecGoalAngles.x, m_vecGoalAngles.y);
 	return state;
 }
@@ -834,4 +845,3 @@ int	CBaseTurret::Classify ( void )
 		return	CLASS_MACHINE;
 	return CLASS_NONE;
 }
-

@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   This source code contains proprietary and confidential information of
@@ -15,14 +15,14 @@
 //=========================================================
 // Generic Monster - purely for scripted sequence work.
 //=========================================================
-#include "../core/extdll.h"
-#include "../core/util.h"
-#include "../core/cbase.h"
-#include "../monsters.h"
-#include "../schedule.h"
- 
+#include "core/extdll.h"
+#include "core/util.h"
+#include "core/cbase.h"
+#include "ai/monsters.h"
+#include "ai/schedule.h"
+
 // For holograms, make them not solid so the player can walk through them
-#define	SF_GENERICMONSTER_NOTSOLID					4 
+#define	SF_GENERICMONSTER_NOTSOLID					4
 
 //=========================================================
 // Monster's Anim Events Go Here
@@ -41,7 +41,7 @@ public:
 LINK_ENTITY_TO_CLASS( monster_generic, CGenericMonster );
 
 //=========================================================
-// Classify - indicates this monster's place in the 
+// Classify - indicates this monster's place in the
 // relationship table.
 //=========================================================
 int	CGenericMonster :: Classify ( void )
@@ -133,7 +133,7 @@ void CGenericMonster :: Spawn()
 void CGenericMonster :: Precache()
 {
 	PRECACHE_MODEL( (char *)STRING(pev->model) );
-}	
+}
 
 //=========================================================
 // AI Schedules Specific to this monster

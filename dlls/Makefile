@@ -94,7 +94,7 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/controller.o \
 	$(DLL_OBJDIR)/crossbow.o \
 	$(DLL_OBJDIR)/crowbar.o \
-	$(DLL_OBJDIR)/defaultai.o \
+	$(DLL_OBJDIR)/ai/defaultai.o \
 	$(DLL_OBJDIR)/doors.o \
 	$(DLL_OBJDIR)/effects.o \
 	$(DLL_OBJDIR)/weapons/weapon_egon.o \
@@ -150,14 +150,14 @@ OBJ = \
 	$(DLL_OBJDIR)/gameplay/game_player_equip.o \
 	$(DLL_OBJDIR)/gameplay/game_player_team.o \
 	$(DLL_OBJDIR)/monstermaker.o \
-	$(DLL_OBJDIR)/monsters.o \
+	$(DLL_OBJDIR)/ai/monsters.o \
 	$(DLL_OBJDIR)/monsterstate.o \
 	$(DLL_OBJDIR)/mortar.o \
 	$(DLL_OBJDIR)/mp5.o \
 	$(DLL_OBJDIR)/gameplay/multiplay_gamerules.o \
 	$(DLL_OBJDIR)/monsters/nihilanth.o \
-	$(DLL_OBJDIR)/nodes.o \
 	$(DLL_OBJDIR)/monsters/osprey.o \
+	$(DLL_OBJDIR)/ai/nodes.o \
 	$(DLL_OBJDIR)/pathcorner.o \
 	$(DLL_OBJDIR)/plane.o \
 	$(DLL_OBJDIR)/plats.o \
@@ -172,16 +172,16 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/roach.o \
 	$(DLL_OBJDIR)/weapons/weapon_rpg.o \
 	$(DLL_OBJDIR)/weapons/weapon_satchel.o \
-	$(DLL_OBJDIR)/schedule.o \
 	$(DLL_OBJDIR)/gameplay/scripted.o \
 	$(DLL_OBJDIR)/monsters/scientist.o \
+	$(DLL_OBJDIR)/ai/schedule.o \
 	$(DLL_OBJDIR)/weapons/weapon_shotgun.o \
 	$(DLL_OBJDIR)/gameplay/singleplay_gamerules.o \
 	$(DLL_OBJDIR)/skill.o \
 	$(DLL_OBJDIR)/sound.o \
 	$(DLL_OBJDIR)/soundent.o \
 	$(DLL_OBJDIR)/spectator.o \
-	$(DLL_OBJDIR)/squadmonster.o \
+	$(DLL_OBJDIR)/ai/squadmonster.o \
 	$(DLL_OBJDIR)/squeakgrenade.o \
 	$(DLL_OBJDIR)/subs.o \
 	$(DLL_OBJDIR)/talkmonster.o \
@@ -237,6 +237,7 @@ neat:
 	-mkdir $(DLL_OBJDIR)/gameplay
 	-mkdir $(DLL_OBJDIR)/weapons
 	-mkdir $(DLL_OBJDIR)/items
+	-mkdir $(DLL_OBJDIR)/ai
 	-mkdir $(CORE_OBJDIR)
 	-mkdir $(WPN_SHARED_OBJDIR)
 	-mkdir $(GAME_SHARED_OBJDIR)

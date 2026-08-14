@@ -15,7 +15,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "monsters.h"
+#include "ai/monsters.h"
 #include "weapons.h"
 #include "weapons/weapon_base.h"
 #include "weapons/weapon_rpg.h"
@@ -24,7 +24,7 @@
 #include "weapons/weapon_egon.h"
 #include "weapons/weapon_satchel.h"
 
-#include "nodes.h"
+#include "ai/nodes.h"
 #include "player.h"
 
 #include "usercmd.h"

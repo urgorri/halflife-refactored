@@ -102,7 +102,7 @@
     <ClCompile Include="..\..\dlls\crowbar.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\defaultai.cpp">
+    <ClCompile Include="..\..\dlls\ai\defaultai.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\gman.cpp">
@@ -276,7 +276,7 @@
     <ClCompile Include="..\..\dlls\core\player.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\monsters.cpp">
+    <ClCompile Include="..\..\dlls\ai\monsters.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsterstate.cpp">
@@ -294,7 +294,7 @@
     <ClCompile Include="..\..\dlls\monsters\nihilanth.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\nodes.cpp">
+    <ClCompile Include="..\..\dlls\ai\nodes.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\observer.cpp">
@@ -336,7 +336,7 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_satchel.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\schedule.cpp">
+    <ClCompile Include="..\..\dlls\ai\schedule.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\scientist.cpp">
@@ -363,7 +363,7 @@
     <ClCompile Include="..\..\dlls\spectator.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\squadmonster.cpp">
+    <ClCompile Include="..\..\dlls\ai\squadmonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\squeakgrenade.cpp">

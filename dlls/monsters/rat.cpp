@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   This source code contains proprietary and confidential information of
@@ -16,17 +16,17 @@
 // rat - environmental monster
 //=========================================================
 
-#include "../core/extdll.h"
-#include "../core/util.h"
-#include "../core/cbase.h"
-#include "../monsters.h"
-#include "../schedule.h"
+#include "core/extdll.h"
+#include "core/util.h"
+#include "core/cbase.h"
+#include "ai/monsters.h"
+#include "ai/schedule.h"
 
 //=========================================================
 // Monster's Anim Events Go Here
 //=========================================================
 
-class CRat : public CBaseMonster 
+class CRat : public CBaseMonster
 {
 public:
 	void Spawn( void );
@@ -37,7 +37,7 @@ public:
 LINK_ENTITY_TO_CLASS( monster_rat, CRat );
 
 //=========================================================
-// Classify - indicates this monster's place in the 
+// Classify - indicates this monster's place in the
 // relationship table.
 //=========================================================
 int	CRat :: Classify ( void )
@@ -91,7 +91,7 @@ void CRat :: Spawn()
 void CRat :: Precache()
 {
 	PRECACHE_MODEL("models/bigrat.mdl");
-}	
+}
 
 //=========================================================
 // AI Schedules Specific to this monster

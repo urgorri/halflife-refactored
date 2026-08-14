@@ -17,9 +17,9 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include	"monsters.h"
+#include "ai/monsters.h"
 #include	"soundent.h"
-#include	"nodes.h"
+#include "ai/nodes.h"
 #include	"talkmonster.h"
 
 
