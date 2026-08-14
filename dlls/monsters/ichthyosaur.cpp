@@ -18,17 +18,17 @@
 // icthyosaur - evin, satan fish monster
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
-#include    "flyingmonster.h"
-#include	"nodes.h"
-#include	"soundent.h"
-#include	"animation.h"
-#include	"effects.h"
-#include	"weapons.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../schedule.h"
+#include "../flyingmonster.h"
+#include "../nodes.h"
+#include "../soundent.h"
+#include "../animation.h"
+#include "../effects.h"
+#include "../weapons.h"
 
 #define SEARCH_RETRY	16
 

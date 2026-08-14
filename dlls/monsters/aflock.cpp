@@ -16,11 +16,11 @@
 //=========================================================
 #include "archtypes.h"     // DAL
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"squadmonster.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../squadmonster.h"
 
 #define		AFLOCK_MAX_RECRUIT_RADIUS	1024
 #define		AFLOCK_FLY_SPEED			125

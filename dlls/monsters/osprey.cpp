@@ -12,14 +12,14 @@
 *   use or distribution of this code by or to any unlicensed person is illegal.
 *
 ****/
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include "monsters.h"
-#include "weapons.h"
-#include "nodes.h"
-#include "soundent.h"
-#include "effects.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../weapons.h"
+#include "../nodes.h"
+#include "../soundent.h"
+#include "../effects.h"
 #include "customentity.h"
 
 typedef struct 

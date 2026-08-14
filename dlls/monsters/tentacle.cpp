@@ -20,12 +20,12 @@
 
 */
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"weapons.h"
-#include	"soundent.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../weapons.h"
+#include "../soundent.h"
 
 
 #define ACT_T_IDLE		1010

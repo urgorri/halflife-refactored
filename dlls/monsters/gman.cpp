@@ -15,12 +15,12 @@
 //=========================================================
 // GMan - misunderstood servant of the people
 //=========================================================
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
-#include	"weapons.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../schedule.h"
+#include "../weapons.h"
 
 //=========================================================
 // Monster's Anim Events Go Here

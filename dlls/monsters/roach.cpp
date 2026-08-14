@@ -16,13 +16,13 @@
 // cockroach
 //=========================================================
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
-#include	"soundent.h"
-#include	"decals.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../schedule.h"
+#include "../soundent.h"
+#include "../decals.h"
 
 #define		ROACH_IDLE				0
 #define		ROACH_BORED				1

@@ -75,23 +75,23 @@ $(PM_SHARED_OBJDIR)/%.o: $(PM_SHARED_SRCDIR)/%.c
 	$(DO_CC)
 
 OBJ = \
-	$(DLL_OBJDIR)/aflock.o \
-	$(DLL_OBJDIR)/agrunt.o \
+	$(DLL_OBJDIR)/monsters/aflock.o \
+	$(DLL_OBJDIR)/monsters/agrunt.o \
 	$(DLL_OBJDIR)/airtank.o \
 	$(DLL_OBJDIR)/animating.o \
 	$(DLL_OBJDIR)/animation.o \
-	$(DLL_OBJDIR)/apache.o \
-	$(DLL_OBJDIR)/barnacle.o \
-	$(DLL_OBJDIR)/barney.o \
-	$(DLL_OBJDIR)/bigmomma.o \
-	$(DLL_OBJDIR)/bloater.o \
+	$(DLL_OBJDIR)/monsters/apache.o \
+	$(DLL_OBJDIR)/monsters/barnacle.o \
+	$(DLL_OBJDIR)/monsters/barney.o \
+	$(DLL_OBJDIR)/monsters/bigmomma.o \
+	$(DLL_OBJDIR)/monsters/bloater.o \
 	$(DLL_OBJDIR)/bmodels.o \
-	$(DLL_OBJDIR)/bullsquid.o \
+	$(DLL_OBJDIR)/monsters/bullsquid.o \
 	$(DLL_OBJDIR)/buttons.o \
 	$(CORE_OBJDIR)/cbase.o \
 	$(DLL_OBJDIR)/client.o \
 	$(DLL_OBJDIR)/combat.o \
-	$(DLL_OBJDIR)/controller.o \
+	$(DLL_OBJDIR)/monsters/controller.o \
 	$(DLL_OBJDIR)/crossbow.o \
 	$(DLL_OBJDIR)/crowbar.o \
 	$(DLL_OBJDIR)/defaultai.o \
@@ -104,34 +104,34 @@ OBJ = \
 	$(DLL_OBJDIR)/func_tank.o \
 	$(DLL_OBJDIR)/game.o \
 	$(DLL_OBJDIR)/gameplay/gamerules.o \
-	$(DLL_OBJDIR)/gargantua.o \
+	$(DLL_OBJDIR)/monsters/gargantua.o \
 	$(DLL_OBJDIR)/weapons/weapon_gauss.o \
-	$(DLL_OBJDIR)/genericmonster.o \
+	$(DLL_OBJDIR)/monsters/genericmonster.o \
 	$(DLL_OBJDIR)/ggrenade.o \
 	$(CORE_OBJDIR)/globals.o \
-	$(DLL_OBJDIR)/gman.o \
+	$(DLL_OBJDIR)/monsters/gman.o \
 	$(DLL_OBJDIR)/h_ai.o \
 	$(DLL_OBJDIR)/h_battery.o \
 	$(DLL_OBJDIR)/h_cine.o \
 	$(DLL_OBJDIR)/h_cycler.o \
 	$(DLL_OBJDIR)/h_export.o \
 	$(DLL_OBJDIR)/handgrenade.o \
-	$(DLL_OBJDIR)/hassassin.o \
-	$(DLL_OBJDIR)/headcrab.o \
+	$(DLL_OBJDIR)/monsters/hassassin.o \
+	$(DLL_OBJDIR)/monsters/headcrab.o \
 	$(DLL_OBJDIR)/healthkit.o \
-	$(DLL_OBJDIR)/hgrunt.o \
+	$(DLL_OBJDIR)/monsters/hgrunt.o \
 	$(DLL_OBJDIR)/hornet.o \
 	$(DLL_OBJDIR)/hornetgun.o \
-	$(DLL_OBJDIR)/houndeye.o \
-	$(DLL_OBJDIR)/ichthyosaur.o \
-	$(DLL_OBJDIR)/islave.o \
+	$(DLL_OBJDIR)/monsters/houndeye.o \
+	$(DLL_OBJDIR)/monsters/ichthyosaur.o \
+	$(DLL_OBJDIR)/monsters/islave.o \
 	$(DLL_OBJDIR)/items/item_base.o \
 	$(DLL_OBJDIR)/items/item_battery.o \
 	$(DLL_OBJDIR)/items/item_suit.o \
 	$(DLL_OBJDIR)/items/item_antidote.o \
 	$(DLL_OBJDIR)/items/item_security.o \
 	$(DLL_OBJDIR)/items/item_longjump.o \
-	$(DLL_OBJDIR)/leech.o \
+	$(DLL_OBJDIR)/monsters/leech.o \
 	$(DLL_OBJDIR)/lights.o \
 	$(DLL_OBJDIR)/gameplay/maprules.o \
 	$(DLL_OBJDIR)/gameplay/game_score.o \
@@ -151,21 +151,21 @@ OBJ = \
 	$(DLL_OBJDIR)/mortar.o \
 	$(DLL_OBJDIR)/mp5.o \
 	$(DLL_OBJDIR)/gameplay/multiplay_gamerules.o \
-	$(DLL_OBJDIR)/nihilanth.o \
+	$(DLL_OBJDIR)/monsters/nihilanth.o \
 	$(DLL_OBJDIR)/nodes.o \
-	$(DLL_OBJDIR)/osprey.o \
+	$(DLL_OBJDIR)/monsters/osprey.o \
 	$(DLL_OBJDIR)/pathcorner.o \
 	$(DLL_OBJDIR)/plane.o \
 	$(DLL_OBJDIR)/plats.o \
 	$(DLL_OBJDIR)/player.o \
 	$(DLL_OBJDIR)/python.o \
-	$(DLL_OBJDIR)/rat.o \
-	$(DLL_OBJDIR)/roach.o \
+	$(DLL_OBJDIR)/monsters/rat.o \
+	$(DLL_OBJDIR)/monsters/roach.o \
 	$(DLL_OBJDIR)/weapons/weapon_rpg.o \
 	$(DLL_OBJDIR)/weapons/weapon_satchel.o \
 	$(DLL_OBJDIR)/schedule.o \
-	$(DLL_OBJDIR)/scientist.o \
 	$(DLL_OBJDIR)/gameplay/scripted.o \
+	$(DLL_OBJDIR)/monsters/scientist.o \
 	$(DLL_OBJDIR)/weapons/weapon_shotgun.o \
 	$(DLL_OBJDIR)/gameplay/singleplay_gamerules.o \
 	$(DLL_OBJDIR)/skill.o \
@@ -178,7 +178,6 @@ OBJ = \
 	$(DLL_OBJDIR)/talkmonster.o \
 	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \
 	$(DLL_OBJDIR)/tempmonster.o \
-	$(DLL_OBJDIR)/tentacle.o \
 	$(DLL_OBJDIR)/systems/trigger_relay.o \
 	$(DLL_OBJDIR)/systems/trigger_camera.o \
 	$(DLL_OBJDIR)/systems/trigger_base.o \
@@ -203,6 +202,7 @@ OBJ = \
 	$(DLL_OBJDIR)/systems/trigger_auto.o \
 	$(DLL_OBJDIR)/systems/trigger_fireanddie.o \
 	$(DLL_OBJDIR)/systems/trigger_volume.o \
+	$(DLL_OBJDIR)/monsters/tentacle.o \
 	$(DLL_OBJDIR)/tripmine.o \
 	$(SYSTEMS_OBJDIR)/turret.o \
 	$(SYSTEMS_OBJDIR)/turret_base.o \
@@ -213,7 +213,7 @@ OBJ = \
 	$(DLL_OBJDIR)/weapons/weapon_base.o \
 	$(DLL_OBJDIR)/world.o \
 	$(DLL_OBJDIR)/xen.o \
-	$(DLL_OBJDIR)/zombie.o \
+	$(DLL_OBJDIR)/monsters/zombie.o \
 	$(WPN_SHARED_OBJDIR)/hl_wpn_glock.o \
 	$(GAME_SHARED_OBJDIR)/voice_gamemgr.o \
 	$(PM_SHARED_OBJDIR)/pm_debug.o \
@@ -229,6 +229,7 @@ neat:
 	-mkdir $(DLL_OBJDIR)/weapons
 	-mkdir $(DLL_OBJDIR)/items
 	-mkdir $(SYSTEMS_OBJDIR)
+	-mkdir $(DLL_OBJDIR)/monsters
 	-mkdir $(CORE_OBJDIR)
 	-mkdir $(WPN_SHARED_OBJDIR)
 	-mkdir $(GAME_SHARED_OBJDIR)
@@ -261,4 +262,7 @@ $(DLL_OBJDIR)/weapons/weapon_shotgun.o: weapons/weapon_shotgun.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/weapons/weapon_base.o: weapons/weapon_base.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
 	$(DO_CC)

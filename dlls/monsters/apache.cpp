@@ -14,13 +14,13 @@
 ****/
 #ifndef OEM_BUILD
 
-#include "core/extdll.h"
-#include "core/util.h"
-#include "core/cbase.h"
-#include "monsters.h"
-#include "weapons.h"
-#include "nodes.h"
-#include "effects.h"
+#include "../core/extdll.h"
+#include "../core/util.h"
+#include "../core/cbase.h"
+#include "../monsters.h"
+#include "../weapons.h"
+#include "../nodes.h"
+#include "../effects.h"
 
 extern DLL_GLOBAL int		g_iSkillLevel;
 
