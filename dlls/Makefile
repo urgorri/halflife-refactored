@@ -119,7 +119,7 @@ OBJ = \
 	$(DLL_OBJDIR)/h_cine.o \
 	$(DLL_OBJDIR)/h_cycler.o \
 	$(DLL_OBJDIR)/h_export.o \
-	$(DLL_OBJDIR)/handgrenade.o \
+	$(DLL_OBJDIR)/weapons/weapon_handgrenade.o \
 	$(DLL_OBJDIR)/monsters/hassassin.o \
 	$(DLL_OBJDIR)/monsters/headcrab.o \
 	$(DLL_OBJDIR)/healthkit.o \
@@ -260,6 +260,9 @@ $(DLL_OBJDIR)/weapons/weapon_glock.o: weapons/weapon_glock.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/weapons/weapon_egon.o: weapons/weapon_egon.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/weapons/weapon_handgrenade.o: weapons/weapon_handgrenade.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/weapons/weapon_gauss.o: weapons/weapon_gauss.cpp

@@ -177,7 +177,7 @@
     <ClCompile Include="..\..\dlls\h_export.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\handgrenade.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_handgrenade.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\hassassin.cpp">
