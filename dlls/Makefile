@@ -38,7 +38,7 @@ CFLAGS=$(BASE_CFLAGS) -w -O1
 	-fomit-frame-pointer -fexpensive-optimizations \
 	-malign-loops=2 -malign-jumps=2 -malign-functions=2
 
-#use these when debugging 
+#use these when debugging
 #CFLAGS=$(BASE_CFLAGS) -g
 
 INCLUDEDIRS=-I. -I$(CORE_SRCDIR) -I$(ENGINE_SRCDIR) -I../public -I$(COMMON_SRCDIR) -I$(PM_SHARED_SRCDIR) -I$(GAME_SHARED_SRCDIR)
@@ -179,7 +179,30 @@ OBJ = \
 	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \
 	$(DLL_OBJDIR)/tempmonster.o \
 	$(DLL_OBJDIR)/tentacle.o \
-	$(DLL_OBJDIR)/triggers.o \
+	$(DLL_OBJDIR)/systems/trigger_relay.o \
+	$(DLL_OBJDIR)/systems/trigger_camera.o \
+	$(DLL_OBJDIR)/systems/trigger_base.o \
+	$(DLL_OBJDIR)/systems/trigger_cdaudio.o \
+	$(DLL_OBJDIR)/systems/trigger_save.o \
+	$(DLL_OBJDIR)/systems/trigger_teleport.o \
+	$(DLL_OBJDIR)/systems/trigger_endsection.o \
+	$(DLL_OBJDIR)/systems/trigger_counter.o \
+	$(DLL_OBJDIR)/systems/trigger_friction.o \
+	$(DLL_OBJDIR)/systems/trigger_ladder.o \
+	$(DLL_OBJDIR)/systems/trigger_gravity.o \
+	$(DLL_OBJDIR)/systems/trigger_render_fx.o \
+	$(DLL_OBJDIR)/systems/trigger_multi_manager.o \
+	$(DLL_OBJDIR)/systems/trigger_monsterjump.o \
+	$(DLL_OBJDIR)/systems/trigger_multiple.o \
+	$(DLL_OBJDIR)/systems/trigger_changetarget.o \
+	$(DLL_OBJDIR)/systems/trigger_push.o \
+	$(DLL_OBJDIR)/systems/trigger_once.o \
+	$(DLL_OBJDIR)/systems/trigger_target_cdaudio.o \
+	$(DLL_OBJDIR)/systems/trigger_changelevel.o \
+	$(DLL_OBJDIR)/systems/trigger_hurt.o \
+	$(DLL_OBJDIR)/systems/trigger_auto.o \
+	$(DLL_OBJDIR)/systems/trigger_fireanddie.o \
+	$(DLL_OBJDIR)/systems/trigger_volume.o \
 	$(DLL_OBJDIR)/tripmine.o \
 	$(SYSTEMS_OBJDIR)/turret.o \
 	$(SYSTEMS_OBJDIR)/turret_base.o \
