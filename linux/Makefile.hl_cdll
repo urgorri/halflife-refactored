@@ -102,7 +102,7 @@ DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/handgrenade.o \
 	$(HL1_SERVER_OBJ_DIR)/hornetgun.o \
 	$(HL1_SERVER_OBJ_DIR)/mp5.o \
-	$(HL1_SERVER_OBJ_DIR)/python.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_python.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_rpg.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_satchel.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_shotgun.o \
@@ -172,6 +172,9 @@ $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR))
 	$(DO_CC)
 
 $(HL1_SERVER_OBJ_DIR)/%.o: $(HL_SERVER_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)),  $(HL1_SERVER_OBJ_DIR))
+	$(DO_CC)
+
+$(HL1_SERVER_OBJ_DIR)/weapons/%.o: $(HL_SERVER_SRC_DIR)/weapons/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)/weapons),  $(HL1_SERVER_OBJ_DIR)/weapons)
 	$(DO_CC)
 
 $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/hl/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
