@@ -83,8 +83,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/headcrab.o \
 	$(HLDLL_OBJ_DIR)/healthkit.o \
 	$(HLDLL_OBJ_DIR)/monsters/hgrunt.o \
-	$(HLDLL_OBJ_DIR)/hornet.o \
-	$(HLDLL_OBJ_DIR)/hornetgun.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_hornet.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_hornetgun.o \
 	$(HLDLL_OBJ_DIR)/monsters/houndeye.o \
 	$(HLDLL_OBJ_DIR)/monsters/ichthyosaur.o \
 	$(HLDLL_OBJ_DIR)/monsters/islave.o \

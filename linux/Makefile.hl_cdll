@@ -100,7 +100,7 @@ DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_egon.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_gauss.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_handgrenade.o \
-	$(HL1_SERVER_OBJ_DIR)/hornetgun.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_hornetgun.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_mp5.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_python.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_rpg.o \
