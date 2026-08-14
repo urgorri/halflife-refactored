@@ -232,6 +232,7 @@ $(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
 $(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp $(filter-out $(wildcard  $(HLDLL_OBJ_DIR)/weapons),  $(HLDLL_OBJ_DIR)/weapons)
 	$(DO_HLDLL_CC)
 
+
 $(HLDLL_OBJ_DIR)/ai/%.o : $(HLDLL_SRC_DIR)/ai/%.cpp
 	$(DO_HLDLL_CC)
 
