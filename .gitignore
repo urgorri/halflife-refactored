@@ -1,12 +1,41 @@
-obj/
-core/obj/
-wpn_shared/obj/
-../game_shared/obj/
-../pm_shared/obj/
-dlls/obj/
-dlls/core/obj/
-dlls/wpn_shared/obj/
-game_shared/obj/
-pm_shared/obj/
+# Visual Studio / Windows Build Artifacts
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+ipch/
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.dll
+*.suo
+*.user
+*.userosoptions
+*.sln.docstates
+*.opensdf
+*.sdf
+*.tlog
+*.log
+*.recipe
+*.vcxproj.user
+
+# Linux Build Artifacts
+linux/release/
+linux/hl_map.txt
+linux/hl_cdll_map.txt
+*.so
+*.so.dbg
 *.o
-dlls/*.so
+
+# Keep essential precompiled libraries
+!lib/public/*.lib
+!linux/libSDL2.so
+!linux/vgui.so
+!utils/**/*.lib
+!utils/vgui2/lib/win32_vc16/vgui2.lib
+
+# Generic obj directories
+[Oo]bj/
