@@ -53,7 +53,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/controller.o \
 	$(HLDLL_OBJ_DIR)/crossbow.o \
 	$(HLDLL_OBJ_DIR)/crowbar.o \
-	$(HLDLL_OBJ_DIR)/defaultai.o \
+	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
 	$(HLDLL_OBJ_DIR)/doors.o \
 	$(HLDLL_OBJ_DIR)/effects.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_egon.o \
@@ -109,12 +109,12 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/game_player_equip.o \
 	$(HLDLL_OBJ_DIR)/gameplay/game_player_team.o \
 	$(HLDLL_OBJ_DIR)/monstermaker.o \
-	$(HLDLL_OBJ_DIR)/monsters.o \
+	$(HLDLL_OBJ_DIR)/ai/monsters.o \
 	$(HLDLL_OBJ_DIR)/monsterstate.o \
 	$(HLDLL_OBJ_DIR)/mortar.o \
 	$(HLDLL_OBJ_DIR)/mp5.o \
 	$(HLDLL_OBJ_DIR)/monsters/nihilanth.o \
-	$(HLDLL_OBJ_DIR)/nodes.o \
+	$(HLDLL_OBJ_DIR)/ai/nodes.o \
 	$(HLDLL_OBJ_DIR)/observer.o \
 	$(HLDLL_OBJ_DIR)/monsters/osprey.o \
 	$(HLDLL_OBJ_DIR)/pathcorner.o \
@@ -131,7 +131,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/roach.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_rpg.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_satchel.o \
-	$(HLDLL_OBJ_DIR)/schedule.o \
+	$(HLDLL_OBJ_DIR)/ai/schedule.o \
 	$(HLDLL_OBJ_DIR)/gameplay/scripted.o \
 	$(HLDLL_OBJ_DIR)/monsters/scientist.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
@@ -139,7 +139,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/sound.o \
 	$(HLDLL_OBJ_DIR)/soundent.o \
 	$(HLDLL_OBJ_DIR)/spectator.o \
-	$(HLDLL_OBJ_DIR)/squadmonster.o \
+	$(HLDLL_OBJ_DIR)/ai/squadmonster.o \
 	$(HLDLL_OBJ_DIR)/squeakgrenade.o \
 	$(HLDLL_OBJ_DIR)/subs.o \
 	$(HLDLL_OBJ_DIR)/talkmonster.o \
@@ -206,6 +206,7 @@ dirs:
 	-mkdir -p $(HLDLL_OBJ_DIR)/weapons
 	-mkdir -p $(HLDLL_OBJ_DIR)/monsters
 	-mkdir -p $(HLDLL_OBJ_DIR)/gameplay
+	-mkdir -p $(HLDLL_OBJ_DIR)/ai
 	-mkdir -p $(HLDLL_OBJ_DIR)/systems
 	-mkdir -p $(HLDLL_OBJ_DIR)/core
 	-mkdir -p $(HLCORE_OBJ_DIR)
@@ -229,6 +230,9 @@ $(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
 	$(DO_HLDLL_CC)
 
 $(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp
+	$(DO_HLDLL_CC)
+
+$(HLDLL_OBJ_DIR)/ai/%.o : $(HLDLL_SRC_DIR)/ai/%.cpp
 	$(DO_HLDLL_CC)
 
 $(HLDLL_OBJ_DIR)/monsters/%.o : $(HLDLL_SRC_DIR)/monsters/%.cpp
