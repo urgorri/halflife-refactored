@@ -26,7 +26,7 @@
 #include "player.h"
 #include "core/saverestore.h"
 #include "trains.h"			// trigger_camera has train functionality
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 
 #define SF_CAMERA_PLAYER_POSITION	1

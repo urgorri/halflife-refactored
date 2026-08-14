@@ -26,7 +26,7 @@
 #include "player.h"
 #include "core/saverestore.h"
 #include "trains.h"			// trigger_camera has train functionality
-#include "gamerules.h"
+#include "gameplay/gamerules.h"
 
 
 #define SF_MULTIMAN_CLONE		0x80000000
