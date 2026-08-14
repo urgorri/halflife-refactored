@@ -504,7 +504,7 @@
     <ClInclude Include="..\..\dlls\animation.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\basemonster.h">
+    <ClInclude Include="..\..\dlls\ai\basemonster.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\cbase.h">

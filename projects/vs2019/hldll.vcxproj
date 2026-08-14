@@ -264,7 +264,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\activity.h" />
     <ClInclude Include="..\..\dlls\activitymap.h" />
     <ClInclude Include="..\..\dlls\animation.h" />
-    <ClInclude Include="..\..\dlls\basemonster.h" />
+    <ClInclude Include="..\..\dlls\ai\basemonster.h" />
     <ClInclude Include="..\..\dlls\core\cbase.h" />
     <ClInclude Include="..\..\dlls\core\cdll_dll.h" />
     <ClInclude Include="..\..\dlls\client.h" />

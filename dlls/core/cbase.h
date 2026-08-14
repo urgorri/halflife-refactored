@@ -694,7 +694,7 @@ class CBaseMonster;
 class CCineMonster;
 class CSound;
 
-#include "basemonster.h"
+#include "ai/basemonster.h"
 
 char *ButtonSound( int sound ); // get string of button sound number
 
