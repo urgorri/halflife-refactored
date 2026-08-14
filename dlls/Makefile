@@ -153,7 +153,7 @@ OBJ = \
 	$(DLL_OBJDIR)/ai/monsters.o \
 	$(DLL_OBJDIR)/monsterstate.o \
 	$(DLL_OBJDIR)/mortar.o \
-	$(DLL_OBJDIR)/mp5.o \
+	$(DLL_OBJDIR)/weapons/weapon_mp5.o \
 	$(DLL_OBJDIR)/gameplay/multiplay_gamerules.o \
 	$(DLL_OBJDIR)/monsters/nihilanth.o \
 	$(DLL_OBJDIR)/monsters/osprey.o \
@@ -280,7 +280,7 @@ $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
-    $(DO_CC)
+	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
 	$(DO_CC)

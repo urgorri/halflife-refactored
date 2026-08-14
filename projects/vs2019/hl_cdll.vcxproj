@@ -172,7 +172,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp" />
     <ClCompile Include="..\..\dlls\handgrenade.cpp" />
     <ClCompile Include="..\..\dlls\hornetgun.cpp" />
-    <ClCompile Include="..\..\dlls\mp5.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_mp5.cpp" />
     <ClCompile Include="..\..\dlls\python.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_rpg.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_satchel.cpp" />
