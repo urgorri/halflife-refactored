@@ -141,7 +141,10 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/tentacle.o \
 	$(HLDLL_OBJ_DIR)/triggers.o \
 	$(HLDLL_OBJ_DIR)/tripmine.o \
-	$(HLDLL_OBJ_DIR)/turret.o \
+	$(HLDLL_OBJ_DIR)/systems/miniturret.o \
+	$(HLDLL_OBJ_DIR)/systems/sentry.o \
+	$(HLDLL_OBJ_DIR)/systems/turret.o \
+	$(HLDLL_OBJ_DIR)/systems/turret_base.o \
 	$(HLCORE_OBJ_DIR)/util.o \
 	$(HLDLL_OBJ_DIR)/vehicle.o \
 	$(HLDLL_OBJ_DIR)/weapons.o \
@@ -167,6 +170,7 @@ dirs:
 	-mkdir -p $(BUILD_OBJ_DIR)
 	-mkdir -p $(HLDLL_OBJ_DIR)
 	-mkdir -p $(HLDLL_OBJ_DIR)/items
+	-mkdir -p $(HLDLL_OBJ_DIR)/systems
 	-mkdir -p $(HLDLL_OBJ_DIR)/weapons
 	mkdir -p $(HLDLL_OBJ_DIR)/gameplay
 	-mkdir -p $(HLCORE_OBJ_DIR)
@@ -205,6 +209,9 @@ clean:
 	-rm -rf $(HLDLL_OBJ_DIR)
 	-rm -rf $(HLCORE_OBJ_DIR)
 	-rm -f hl_$(ARCH).$(SHLIBEXT)
+
+$(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
+	$(DO_HLDLL_CC)
 
 $(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp
 	$(DO_HLDLL_CC)

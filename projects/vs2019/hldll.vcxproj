@@ -212,7 +212,10 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\tentacle.cpp" />
     <ClCompile Include="..\..\dlls\triggers.cpp" />
     <ClCompile Include="..\..\dlls\tripmine.cpp" />
-    <ClCompile Include="..\..\dlls\turret.cpp" />
+    <ClCompile Include="..\..\dlls\systems\miniturret.cpp" />
+    <ClCompile Include="..\..\dlls\systems\sentry.cpp" />
+    <ClCompile Include="..\..\dlls\systems\turret.cpp" />
+    <ClCompile Include="..\..\dlls\systems\turret_base.cpp" />
     <ClCompile Include="..\..\dlls\core\util.cpp" />
     <ClCompile Include="..\..\dlls\weapons.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_base.cpp" />
@@ -261,6 +264,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\talkmonster.h" />
     <ClInclude Include="..\..\dlls\gameplay\teamplay_gamerules.h" />
     <ClInclude Include="..\..\dlls\trains.h" />
+    <ClInclude Include="..\..\dlls\systems\turret.h" />
     <ClInclude Include="..\..\dlls\core\util.h" />
     <ClInclude Include="..\..\dlls\core\vector.h" />
     <ClInclude Include="..\..\dlls\weapons.h" />
