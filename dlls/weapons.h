@@ -251,58 +251,7 @@ bool bIsMultiplayer( void );
 void LoadVModel( char *szViewModel, CBasePlayer *m_pPlayer );
 #endif
 
-class CPython : public CBasePlayerWeapon
-{
-    public:
-	void Spawn( void );
-	void Precache( void );
 
-   	int iItemSlot( void ) { return 2; }
-	int GetItemInfo( ItemInfo *p );
-	int AddToPlayer( CBasePlayer *pPlayer );
-	void PrimaryAttack( void );
-	void SecondaryAttack( void );
-	BOOL Deploy( void );
-	void Holster( int skiplocal = 0 );
-	void Reload( void );
-	void WeaponIdle( void );
-
-	BOOL m_fInZoom; // don't save this.
-
-	unsigned short m_usFirePython;
-};
-
-class CMP5 : public CBasePlayerWeapon
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	int iItemSlot( void ) { return 3; }
-	int GetItemInfo( ItemInfo *p );
-	int AddToPlayer( CBasePlayer *pPlayer );
-
-	void PrimaryAttack( void );
-	void SecondaryAttack( void );
-	int SecondaryAmmoIndex( void );
-	BOOL Deploy( void );
-	void Reload( void );
-	void WeaponIdle( void );
-	float m_flNextAnimTime;
-	int m_iShell;
-
-	virtual BOOL UseDecrement( void )
-	{
-#if defined( CLIENT_WEAPONS )
-		return TRUE;
-#else
-		return FALSE;
-#endif
-	}
-
-  private:
-	unsigned short m_usMP5;
-	unsigned short m_usMP52;
-};
 
 class CCrossbow : public CBasePlayerWeapon
 {
@@ -373,88 +322,6 @@ class CHgun : public CBasePlayerWeapon
 	unsigned short m_usHornetFire;
 };
 
-class CHandGrenade : public CBasePlayerWeapon
-{
-    public:
-	void Spawn( void );
-	void Precache( void );
-	int iItemSlot( void ) { return 5; }
-	int GetItemInfo( ItemInfo *p );
-    void PrimaryAttack( void );
-	BOOL Deploy( void );
-	BOOL CanHolster( void );
 
-	void Holster( int skiplocal = 0 );
-	void WeaponIdle( void );
-
-	virtual BOOL UseDecrement( void )
-	{
-#if defined( CLIENT_WEAPONS )
-		return TRUE;
-#else
-		return FALSE;
-#endif
-	}
-};
-
-class CTripmine : public CBasePlayerWeapon
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	int iItemSlot( void ) { return 5; }
-	int GetItemInfo( ItemInfo *p );
-	void SetObjectCollisionBox( void )
-	{
-		//!!!BUGBUG - fix the model!
-		pev->absmin = pev->origin + Vector( -16, -16, -5 );
-		pev->absmax = pev->origin + Vector( 16, 16, 28 );
-	}
-
-	void PrimaryAttack( void );
-	BOOL Deploy( void );
-	void Holster( int skiplocal = 0 );
-	void WeaponIdle( void );
-
-	virtual BOOL UseDecrement( void )
-	{
-#if defined( CLIENT_WEAPONS )
-		return TRUE;
-#else
-		return FALSE;
-#endif
-	}
-
-  private:
-	unsigned short m_usTripFire;
-};
-
-class CSqueak : public CBasePlayerWeapon
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	int iItemSlot( void ) { return 5; }
-	int GetItemInfo( ItemInfo *p );
-
-	void PrimaryAttack( void );
-	void SecondaryAttack( void );
-	BOOL Deploy( void );
-	void Holster( int skiplocal = 0 );
-	void WeaponIdle( void );
-	int m_fJustThrown;
-
-	virtual BOOL UseDecrement( void )
-	{
-#if defined( CLIENT_WEAPONS )
-		return TRUE;
-#else
-		return FALSE;
-#endif
-	}
-
-  private:
-	unsigned short m_usSnarkFire;
-};
 
 #endif // WEAPONS_H
