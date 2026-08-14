@@ -24,7 +24,7 @@
 #include "ai/monsters.h"
 #include "animation.h"
 #include "core/saverestore.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 
 //=========================================================
 // SetState

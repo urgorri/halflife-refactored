@@ -25,7 +25,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 
 #define ACT_T_IDLE 1010
 #define ACT_T_TAP 1020

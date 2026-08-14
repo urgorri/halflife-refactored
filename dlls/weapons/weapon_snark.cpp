@@ -22,7 +22,7 @@
 #include "weapons/weapon_snark.h"
 #include "ai/nodes.h"
 #include "player.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "gameplay/gamerules.h"
 
 enum w_squeak_e

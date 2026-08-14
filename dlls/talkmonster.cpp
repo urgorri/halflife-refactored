@@ -22,7 +22,7 @@
 #include "gameplay/scripted.h"
 #include "ai/defaultai.h"
 
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "animation.h"
 
 //=========================================================

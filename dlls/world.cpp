@@ -24,7 +24,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/nodes.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "client.h"
 #include "decals.h"
 #include "skill.h"

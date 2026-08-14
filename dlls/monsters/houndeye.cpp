@@ -24,7 +24,7 @@
 #include "animation.h"
 #include "ai/nodes.h"
 #include "ai/squadmonster.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "game.h"
 
 extern CGraph WorldGraph;

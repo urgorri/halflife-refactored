@@ -21,7 +21,7 @@
 #include "weapons/weapon_mp5.h"
 #include "ai/nodes.h"
 #include "player.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "gameplay/gamerules.h"
 
 enum mp5_e

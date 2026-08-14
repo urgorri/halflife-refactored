@@ -21,8 +21,8 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons.h"
-#include "soundent.h"
 #include "weapons/projectile_hornet.h"
+#include "ai/soundent.h"
 #include "gameplay/gamerules.h"
 
 int iHornetTrail;

@@ -24,7 +24,7 @@
 #include "ai/monsters.h"
 #include "weapons.h"
 #include "ai/nodes.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "decals.h"
 #include "weapons/projectile_grenade.h"
 
