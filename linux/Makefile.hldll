@@ -134,7 +134,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/schedule.o \
 	$(HLDLL_OBJ_DIR)/gameplay/scripted.o \
 	$(HLDLL_OBJ_DIR)/monsters/scientist.o \
-
 	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HLDLL_OBJ_DIR)/skill.o \
 	$(HLDLL_OBJ_DIR)/sound.o \
@@ -229,6 +228,15 @@ $(HLWPN_OBJ_DIR)/%.o : $(HLWPN_SRC_DIR)/%.cpp
 $(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
 	$(DO_HLDLL_CC)
 
+$(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp
+	$(DO_HLDLL_CC)
+
+$(HLDLL_OBJ_DIR)/monsters/%.o : $(HLDLL_SRC_DIR)/monsters/%.cpp
+	$(DO_HLDLL_CC)
+
+$(HLDLL_OBJ_DIR)/gameplay/%.o : $(HLDLL_SRC_DIR)/gameplay/%.cpp
+	$(DO_HLDLL_CC)
+
 $(HLDLL_OBJ_DIR)/%.o : $(HLDLL_SRC_DIR)/%.cpp
 	$(DO_HLDLL_CC)
 
@@ -248,24 +256,3 @@ clean:
 	-rm -rf $(HLDLL_OBJ_DIR)
 	-rm -rf $(HLCORE_OBJ_DIR)
 	-rm -f hl_$(ARCH).$(SHLIBEXT)
-
-$(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
-	$(DO_HLDLL_CC)
-
-$(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp
-	$(DO_HLDLL_CC)
-
-$(HLDLL_OBJ_DIR)/monsters/%.o : $(SOURCE_DIR)/dlls/monsters/%.cpp
-	$(DO_HLDLL_CC)
-
-$(HLDLL_OBJ_DIR)/core/%.o : $(HLDLL_SRC_DIR)/core/%.cpp
-	$(DO_HLDLL_CC)
-
-$(HLDLL_OBJ_DIR)/monsters/%.o : $(HLDLL_SRC_DIR)/monsters/%.cpp
-	$(DO_HLDLL_CC)
-
-$(HLDLL_OBJ_DIR)/gameplay/%.o : $(HLDLL_SRC_DIR)/gameplay/%.cpp
-	$(DO_HLDLL_CC)
-
-$(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
-	$(DO_HLDLL_CC)
