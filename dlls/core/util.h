@@ -19,7 +19,7 @@
 // Misc utility code
 //
 #ifndef ACTIVITY_H
-#include "activity.h"
+#include "ai/activity.h"
 #endif
 
 #ifndef ENGINECALLBACK_H

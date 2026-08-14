@@ -261,8 +261,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\pm_shared\pm_shared.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\dlls\activity.h" />
-    <ClInclude Include="..\..\dlls\activitymap.h" />
+    <ClInclude Include="..\..\dlls\ai\activity.h" />
+    <ClInclude Include="..\..\dlls\ai\activitymap.h" />
     <ClInclude Include="..\..\dlls\animation.h" />
     <ClInclude Include="..\..\dlls\ai\basemonster.h" />
     <ClInclude Include="..\..\dlls\core\cbase.h" />
@@ -281,7 +281,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\weapons\projectile_hornet.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_hornetgun.h" />
     <ClInclude Include="..\..\dlls\items\item_base.h" />
-    <ClInclude Include="..\..\dlls\monsterevent.h" />
+    <ClInclude Include="..\..\dlls\ai\monsterevent.h" />
+    <ClInclude Include="..\..\dlls\ai\squad.h" />
     <ClInclude Include="..\..\dlls\monsters.h" />
     <ClInclude Include="..\..\dlls\nodes.h" />
     <ClInclude Include="..\..\dlls\plane.h" />

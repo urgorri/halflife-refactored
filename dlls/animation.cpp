@@ -34,10 +34,10 @@ typedef unsigned char byte;
 #include "studio.h"
 
 #ifndef ACTIVITY_H
-#include "activity.h"
+#include "ai/activity.h"
 #endif
 
-#include "activitymap.h"
+#include "ai/activitymap.h"
 
 #ifndef ANIMATION_H
 #include "animation.h"
