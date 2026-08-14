@@ -321,7 +321,7 @@
     <ClCompile Include="..\..\pm_shared\pm_math.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\python.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_python.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\rat.cpp">

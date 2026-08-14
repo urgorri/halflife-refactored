@@ -99,7 +99,7 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_mp5.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\python.cpp">
+    <ClCompile Include="..\..\dlls\weapons\weapon_python.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_rpg.cpp">

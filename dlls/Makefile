@@ -167,7 +167,7 @@ OBJ = \
 	$(DLL_OBJDIR)/gameplay/stripweapons.o \
 	$(DLL_OBJDIR)/systems/revertsaved.o \
 	$(DLL_OBJDIR)/systems/info_intermission.o \
-	$(DLL_OBJDIR)/python.o \
+	$(DLL_OBJDIR)/weapons/weapon_python.o \
 	$(DLL_OBJDIR)/monsters/rat.o \
 	$(DLL_OBJDIR)/monsters/roach.o \
 	$(DLL_OBJDIR)/weapons/weapon_rpg.o \
@@ -233,6 +233,7 @@ $(DLLNAME)_$(ARCH).$(SHLIBEXT) : neat $(OBJ)
 	$(CC) $(CFLAGS) $(SHLIBLDFLAGS) $(LDFLAGS) -o $@ $(OBJ)
 
 neat:
+	-mkdir $(SYSTEMS_OBJDIR)
 	-mkdir $(DLL_OBJDIR)
 	-mkdir $(DLL_OBJDIR)/gameplay
 	-mkdir $(DLL_OBJDIR)/weapons
@@ -281,6 +282,9 @@ $(DLL_OBJDIR)/weapons/weapon_base.o: weapons/weapon_base.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/weapons/weapon_python.o: $(DLL_SRCDIR)/weapons/weapon_python.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp

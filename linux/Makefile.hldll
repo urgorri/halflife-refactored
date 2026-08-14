@@ -126,7 +126,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/stripweapons.o \
 	$(HLDLL_OBJ_DIR)/systems/revertsaved.o \
 	$(HLDLL_OBJ_DIR)/systems/info_intermission.o \
-	$(HLDLL_OBJ_DIR)/python.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_python.o \
 	$(HLDLL_OBJ_DIR)/monsters/rat.o \
 	$(HLDLL_OBJ_DIR)/monsters/roach.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_rpg.o \
@@ -229,8 +229,9 @@ $(HLWPN_OBJ_DIR)/%.o : $(HLWPN_SRC_DIR)/%.cpp
 $(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
 	$(DO_HLDLL_CC)
 
-$(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp
+$(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp $(filter-out $(wildcard  $(HLDLL_OBJ_DIR)/weapons),  $(HLDLL_OBJ_DIR)/weapons)
 	$(DO_HLDLL_CC)
+
 
 $(HLDLL_OBJ_DIR)/ai/%.o : $(HLDLL_SRC_DIR)/ai/%.cpp
 	$(DO_HLDLL_CC)

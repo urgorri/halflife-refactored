@@ -251,13 +251,13 @@ bool bIsMultiplayer( void );
 void LoadVModel( char *szViewModel, CBasePlayer *m_pPlayer );
 #endif
 
-
 class CPython : public CBasePlayerWeapon
 {
-  public:
+    public:
 	void Spawn( void );
 	void Precache( void );
-	int iItemSlot( void ) { return 2; }
+
+   	int iItemSlot( void ) { return 2; }
 	int GetItemInfo( ItemInfo *p );
 	int AddToPlayer( CBasePlayer *pPlayer );
 	void PrimaryAttack( void );
@@ -269,6 +269,27 @@ class CPython : public CBasePlayerWeapon
 
 	BOOL m_fInZoom; // don't save this.
 
+	unsigned short m_usFirePython;
+};
+
+class CMP5 : public CBasePlayerWeapon
+{
+  public:
+	void Spawn( void );
+	void Precache( void );
+	int iItemSlot( void ) { return 3; }
+	int GetItemInfo( ItemInfo *p );
+	int AddToPlayer( CBasePlayer *pPlayer );
+
+	void PrimaryAttack( void );
+	void SecondaryAttack( void );
+	int SecondaryAmmoIndex( void );
+	BOOL Deploy( void );
+	void Reload( void );
+	void WeaponIdle( void );
+	float m_flNextAnimTime;
+	int m_iShell;
+
 	virtual BOOL UseDecrement( void )
 	{
 #if defined( CLIENT_WEAPONS )
@@ -279,7 +300,8 @@ class CPython : public CBasePlayerWeapon
 	}
 
   private:
-	unsigned short m_usFirePython;
+	unsigned short m_usMP5;
+	unsigned short m_usMP52;
 };
 
 class CCrossbow : public CBasePlayerWeapon
