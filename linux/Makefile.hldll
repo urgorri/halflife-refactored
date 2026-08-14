@@ -60,7 +60,11 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/explode.o \
 	$(HLDLL_OBJ_DIR)/flyingmonster.o \
 	$(HLDLL_OBJ_DIR)/func_break.o \
-	$(HLDLL_OBJ_DIR)/func_tank.o \
+	$(HLDLL_OBJ_DIR)/systems/func_tank.o \
+	$(HLDLL_OBJ_DIR)/systems/func_tankgun.o \
+	$(HLDLL_OBJ_DIR)/systems/func_tanklaser.o \
+	$(HLDLL_OBJ_DIR)/systems/func_tankmortar.o \
+	$(HLDLL_OBJ_DIR)/systems/func_tankrocket.o \
 	$(HLDLL_OBJ_DIR)/game.o \
 	$(HLDLL_OBJ_DIR)/gameplay/gamerules.o \
 	$(HLDLL_OBJ_DIR)/monsters/gargantua.o \
@@ -200,7 +204,6 @@ dirs:
 	-mkdir -p $(HLDLL_OBJ_DIR)
 	-mkdir -p $(HLDLL_OBJ_DIR)/items
 	-mkdir -p $(HLDLL_OBJ_DIR)/systems
-	-mkdir -p $(HLDLL_OBJ_DIR)/monsters
 	-mkdir -p $(HLDLL_OBJ_DIR)/weapons
 	-mkdir -p $(HLDLL_OBJ_DIR)/monsters
 	-mkdir -p $(HLDLL_OBJ_DIR)/gameplay
@@ -222,6 +225,9 @@ endif
 
 $(HLWPN_OBJ_DIR)/%.o : $(HLWPN_SRC_DIR)/%.cpp
 	$(DO_HLWPN_CC)
+
+$(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
+	$(DO_HLDLL_CC)
 
 $(HLDLL_OBJ_DIR)/%.o : $(HLDLL_SRC_DIR)/%.cpp
 	$(DO_HLDLL_CC)
