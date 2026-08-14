@@ -243,7 +243,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\trigger_teleport.cpp" />
     <ClCompile Include="..\..\dlls\systems\trigger_volume.cpp" />
     <ClCompile Include="..\..\dlls\monsters\tentacle.cpp" />
-    <ClCompile Include="..\..\dlls\tripmine.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_tripmine.cpp" />
     <ClCompile Include="..\..\dlls\systems\miniturret.cpp" />
     <ClCompile Include="..\..\dlls\systems\sentry.cpp" />
     <ClCompile Include="..\..\dlls\systems\turret.cpp" />

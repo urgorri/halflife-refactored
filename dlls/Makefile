@@ -212,7 +212,7 @@ OBJ = \
 	$(DLL_OBJDIR)/systems/trigger_fireanddie.o \
 	$(DLL_OBJDIR)/systems/trigger_volume.o \
 	$(DLL_OBJDIR)/monsters/tentacle.o \
-	$(DLL_OBJDIR)/tripmine.o \
+	$(DLL_OBJDIR)/weapons/weapon_tripmine.o \
 	$(SYSTEMS_OBJDIR)/turret.o \
 	$(SYSTEMS_OBJDIR)/turret_base.o \
 	$(SYSTEMS_OBJDIR)/miniturret.o \
@@ -280,7 +280,7 @@ $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
-    $(DO_CC)
+	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
 	$(DO_CC)
