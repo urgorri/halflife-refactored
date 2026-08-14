@@ -58,7 +58,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/effects.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_egon.o \
 	$(HLDLL_OBJ_DIR)/explode.o \
-	$(HLDLL_OBJ_DIR)/flyingmonster.o \
+	$(HLDLL_OBJ_DIR)/ai/flyingmonster.o \
 	$(HLDLL_OBJ_DIR)/func_break.o \
 	$(HLDLL_OBJ_DIR)/systems/func_tank.o \
 	$(HLDLL_OBJ_DIR)/systems/func_tankgun.o \
@@ -142,7 +142,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/ai/squadmonster.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_snark.o \
 	$(HLDLL_OBJ_DIR)/subs.o \
-	$(HLDLL_OBJ_DIR)/talkmonster.o \
+	$(HLDLL_OBJ_DIR)/ai/talkmonster.o \
 	$(HLDLL_OBJ_DIR)/gameplay/teamplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/multiplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/singleplay_gamerules.o \
