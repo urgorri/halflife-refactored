@@ -22,7 +22,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include	"monsters.h"
+#include "ai/monsters.h"
 #include	"game.h"
 	
 #define		NUM_LATERAL_CHECKS		13  // how many checks are made on each side of a monster looking for lateral cover

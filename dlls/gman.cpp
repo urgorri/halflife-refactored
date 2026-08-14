@@ -18,8 +18,8 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
+#include "ai/monsters.h"
+#include "ai/schedule.h"
 #include	"weapons.h"
 
 //=========================================================

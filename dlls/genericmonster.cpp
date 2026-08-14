@@ -18,8 +18,8 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include	"monsters.h"
-#include	"schedule.h"
+#include "ai/monsters.h"
+#include "ai/schedule.h"
  
 // For holograms, make them not solid so the player can walk through them
 #define	SF_GENERICMONSTER_NOTSOLID					4 

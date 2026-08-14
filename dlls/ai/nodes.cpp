@@ -19,8 +19,8 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include	"monsters.h"
-#include	"nodes.h"
+#include "ai/monsters.h"
+#include "ai/nodes.h"
 #include	"animation.h"
 #include	"doors.h"
 
