@@ -47,14 +47,13 @@ Refer to the original SDK documentation and project files for environment-specif
 
 This project is derived from the **Half-Life 1 SDK** originally released by Valve Corporation.
 
-The original SDK license and required third-party license information are retained in this repository:
+The original SDK license is retained in this repository:
 
-* [`license.txt`](./license.txt)
-* [`third_party_licenses.txt`](./third_party_licenses.txt)
+* [`LICENSE`](./LICENSE)
 
 Copyright © Valve Corp.
 
-See the included license files for the complete terms governing the SDK and derivative works.
+See the included license file for the complete terms governing the SDK and derivative works.
 
 ## Disclaimer
 
