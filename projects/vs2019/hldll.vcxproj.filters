@@ -495,10 +495,10 @@
     <ClInclude Include="..\..\dlls\doors.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\activity.h">
+    <ClInclude Include="..\..\dlls\ai\activity.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\activitymap.h">
+    <ClInclude Include="..\..\dlls\ai\activitymap.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\animation.h">
@@ -555,7 +555,10 @@
     <ClInclude Include="..\..\dlls\items\item_base.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\monsterevent.h">
+    <ClInclude Include="..\..\dlls\ai\monsterevent.h">
+      <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\ai\squad.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\monsters.h">

@@ -49,7 +49,7 @@ CBaseEntity
 #include "ai/schedule.h"
 
 #ifndef MONSTEREVENT_H
-#include "monsterevent.h"
+#include "ai/monsterevent.h"
 #endif
 
 // C functions for external declarations that call the appropriate C++ methods
