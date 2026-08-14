@@ -212,7 +212,7 @@ OBJ = \
 	$(DLL_OBJDIR)/systems/trigger_fireanddie.o \
 	$(DLL_OBJDIR)/systems/trigger_volume.o \
 	$(DLL_OBJDIR)/monsters/tentacle.o \
-	$(DLL_OBJDIR)/tripmine.o \
+	$(DLL_OBJDIR)/weapons/weapon_tripmine.o \
 	$(SYSTEMS_OBJDIR)/turret.o \
 	$(SYSTEMS_OBJDIR)/turret_base.o \
 	$(SYSTEMS_OBJDIR)/miniturret.o \

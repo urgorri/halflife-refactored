@@ -172,7 +172,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/trigger_teleport.o \
 	$(HLDLL_OBJ_DIR)/systems/trigger_volume.o \
 	$(HLDLL_OBJ_DIR)/monsters/tentacle.o \
-	$(HLDLL_OBJ_DIR)/tripmine.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_tripmine.o \
 	$(HLDLL_OBJ_DIR)/systems/miniturret.o \
 	$(HLDLL_OBJ_DIR)/systems/sentry.o \
 	$(HLDLL_OBJ_DIR)/systems/turret.o \

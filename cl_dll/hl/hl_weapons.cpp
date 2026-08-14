@@ -29,6 +29,7 @@
 #include "weapons/weapon_satchel.h"
 #include "weapons/weapon_snark.h"
 #include "weapons/weapon_handgrenade.h"
+#include "weapons/weapon_tripmine.h"
 
 #include "ai/nodes.h"
 #include "player.h"

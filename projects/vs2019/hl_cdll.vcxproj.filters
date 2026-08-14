@@ -111,8 +111,8 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_shotgun.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\tripmine.cpp">
-      <Filter>Source Files\_hl\dlls</Filter>
+    <ClCompile Include="..\..\dlls\weapons\weapon_tripmine.cpp">
+      <Filter>Source Files\_hl\dlls\weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\death.cpp">
       <Filter>Source Files\cl_dll</Filter>
