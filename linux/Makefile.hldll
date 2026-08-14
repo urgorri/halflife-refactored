@@ -70,7 +70,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/gargantua.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_gauss.o \
 	$(HLDLL_OBJ_DIR)/monsters/genericmonster.o \
-	$(HLDLL_OBJ_DIR)/ggrenade.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_grenade.o \
 	$(HLCORE_OBJ_DIR)/globals.o \
 	$(HLDLL_OBJ_DIR)/monsters/gman.o \
 	$(HLDLL_OBJ_DIR)/h_ai.o \
