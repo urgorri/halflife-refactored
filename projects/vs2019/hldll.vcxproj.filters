@@ -258,7 +258,7 @@
     <ClCompile Include="..\..\dlls\gameplay\game_player_team.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\player.cpp">
+    <ClCompile Include="..\..\dlls\core\player.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters.cpp">

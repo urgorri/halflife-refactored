@@ -157,7 +157,12 @@ OBJ = \
 	$(DLL_OBJDIR)/pathcorner.o \
 	$(DLL_OBJDIR)/plane.o \
 	$(DLL_OBJDIR)/plats.o \
-	$(DLL_OBJDIR)/player.o \
+	$(CORE_OBJDIR)/player.o \
+	$(DLL_OBJDIR)/weapons/weapon_spraycan.o \
+	$(DLL_OBJDIR)/monsters/monster_deadhev.o \
+	$(DLL_OBJDIR)/gameplay/stripweapons.o \
+	$(DLL_OBJDIR)/systems/revertsaved.o \
+	$(DLL_OBJDIR)/systems/info_intermission.o \
 	$(DLL_OBJDIR)/python.o \
 	$(DLL_OBJDIR)/monsters/rat.o \
 	$(DLL_OBJDIR)/monsters/roach.o \
@@ -234,6 +239,10 @@ neat:
 	-mkdir $(WPN_SHARED_OBJDIR)
 	-mkdir $(GAME_SHARED_OBJDIR)
 	-mkdir $(PM_SHARED_OBJDIR)
+	-mkdir $(DLL_OBJDIR)/weapons
+	-mkdir $(DLL_OBJDIR)/monsters
+	-mkdir $(DLL_OBJDIR)/gameplay
+	-mkdir $(DLL_OBJDIR)/systems
 clean:
 	-rm -f $(OBJ)
 	-rm -f $(DLLNAME)_$(ARCH).$(SHLIBEXT)
@@ -264,5 +273,20 @@ $(DLL_OBJDIR)/weapons/weapon_shotgun.o: weapons/weapon_shotgun.cpp
 $(DLL_OBJDIR)/weapons/weapon_base.o: weapons/weapon_base.cpp
 	$(DO_CC)
 
+$(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
+	$(DO_CC)
+
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
+    $(DO_CC)
+
+$(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/gameplay/stripweapons.o: gameplay/stripweapons.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/systems/revertsaved.o: systems/revertsaved.cpp
+	$(DO_CC)
+
+$(DLL_OBJDIR)/systems/info_intermission.o: systems/info_intermission.cpp
 	$(DO_CC)
