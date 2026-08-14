@@ -174,7 +174,7 @@ $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR))
 $(HL1_SERVER_OBJ_DIR)/%.o: $(HL_SERVER_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)),  $(HL1_SERVER_OBJ_DIR))
 	$(DO_CC)
 
-$(HL1_SERVER_OBJ_DIR)/weapons/%.o: $(HL_SERVER_SRC_DIR)/weapons/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)/weapons),  $(HL1_SERVER_OBJ_DIR)/weapons)
+$(HL1_SERVER_OBJ_DIR)/weapons/%.o: $(HL_SERVER_SRC_DIR)/weapons/%.cpp
 	$(DO_CC)
 
 $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/hl/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))

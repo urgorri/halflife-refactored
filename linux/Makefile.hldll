@@ -229,7 +229,7 @@ $(HLWPN_OBJ_DIR)/%.o : $(HLWPN_SRC_DIR)/%.cpp
 $(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
 	$(DO_HLDLL_CC)
 
-$(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp $(filter-out $(wildcard  $(HLDLL_OBJ_DIR)/weapons),  $(HLDLL_OBJ_DIR)/weapons)
+$(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp
 	$(DO_HLDLL_CC)
 
 
