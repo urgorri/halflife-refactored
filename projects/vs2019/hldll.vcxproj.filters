@@ -156,8 +156,8 @@
     <ClCompile Include="..\..\dlls\monsters\genericmonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\ggrenade.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\weapons\projectile_grenade.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\globals.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -586,6 +586,7 @@
       <Filter>Header Files\pm_shared</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\weapons.h" />
+    <ClInclude Include="..\..\dlls\weapons\projectile_grenade.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_base.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_rpg.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_shotgun.h" />

@@ -111,7 +111,7 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/gargantua.o \
 	$(DLL_OBJDIR)/weapons/weapon_gauss.o \
 	$(DLL_OBJDIR)/monsters/genericmonster.o \
-	$(DLL_OBJDIR)/ggrenade.o \
+	$(DLL_OBJDIR)/weapons/projectile_grenade.o \
 	$(CORE_OBJDIR)/globals.o \
 	$(DLL_OBJDIR)/monsters/gman.o \
 	$(DLL_OBJDIR)/h_ai.o \
@@ -280,7 +280,7 @@ $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
-    $(DO_CC)
+	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
 	$(DO_CC)
