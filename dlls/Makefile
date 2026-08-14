@@ -182,7 +182,7 @@ OBJ = \
 	$(DLL_OBJDIR)/soundent.o \
 	$(DLL_OBJDIR)/spectator.o \
 	$(DLL_OBJDIR)/ai/squadmonster.o \
-	$(DLL_OBJDIR)/squeakgrenade.o \
+	$(DLL_OBJDIR)/weapons/weapon_snark.o \
 	$(DLL_OBJDIR)/subs.o \
 	$(DLL_OBJDIR)/talkmonster.o \
 	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \

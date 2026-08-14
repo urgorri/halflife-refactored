@@ -19,6 +19,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons.h"
+#include "weapons/weapon_snark.h"
 #include "ai/nodes.h"
 #include "player.h"
 #include "soundent.h"
