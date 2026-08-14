@@ -153,7 +153,7 @@ OBJ = \
 	$(DLL_OBJDIR)/ai/monsters.o \
 	$(DLL_OBJDIR)/monsterstate.o \
 	$(DLL_OBJDIR)/mortar.o \
-	$(DLL_OBJDIR)/mp5.o \
+	$(DLL_OBJDIR)/weapons/weapon_mp5.o \
 	$(DLL_OBJDIR)/gameplay/multiplay_gamerules.o \
 	$(DLL_OBJDIR)/monsters/nihilanth.o \
 	$(DLL_OBJDIR)/monsters/osprey.o \

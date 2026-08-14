@@ -19,6 +19,7 @@
 #include "weapons.h"
 #include "weapons/weapon_base.h"
 #include "weapons/weapon_crowbar.h"
+#include "weapons/weapon_mp5.h"
 #include "weapons/weapon_rpg.h"
 #include "weapons/weapon_glock.h"
 #include "weapons/weapon_shotgun.h"
@@ -336,8 +337,8 @@ void CBasePlayerWeapon::ItemPostFrame( void )
 	if ( ( m_fInReload ) && ( m_pPlayer->m_flNextAttack <= 0.0 ) )
 	{
 #if 0 // FIXME, need ammo on client to make this work right
-      // complete the reload. 
-		int j = min( iMaxClip() - m_iClip, m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType]);	
+      // complete the reload.
+		int j = min( iMaxClip() - m_iClip, m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType]);
 
 		// Add them to the clip
 		m_iClip += j;
