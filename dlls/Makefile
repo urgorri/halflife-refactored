@@ -223,7 +223,7 @@ OBJ = \
 	$(DLL_OBJDIR)/world.o \
 	$(DLL_OBJDIR)/xen.o \
 	$(DLL_OBJDIR)/monsters/zombie.o \
-	$(WPN_SHARED_OBJDIR)/hl_wpn_glock.o \
+	$(DLL_OBJDIR)/weapons/weapon_glock.o \
 	$(GAME_SHARED_OBJDIR)/voice_gamemgr.o \
 	$(PM_SHARED_OBJDIR)/pm_debug.o \
 	$(PM_SHARED_OBJDIR)/pm_math.o \
@@ -239,8 +239,7 @@ neat:
 	-mkdir $(DLL_OBJDIR)/items
 	-mkdir $(DLL_OBJDIR)/ai
 	-mkdir $(CORE_OBJDIR)
-	-mkdir $(WPN_SHARED_OBJDIR)
-	-mkdir $(GAME_SHARED_OBJDIR)
+		-mkdir $(GAME_SHARED_OBJDIR)
 	-mkdir $(PM_SHARED_OBJDIR)
 	-mkdir $(DLL_OBJDIR)/weapons
 	-mkdir $(DLL_OBJDIR)/monsters
@@ -257,6 +256,9 @@ spotless: clean
 	-rm -r $(GAME_SHARED_OBJDIR)
 	-rm -r $(PM_SHARED_OBJDIR)
 
+
+$(DLL_OBJDIR)/weapons/weapon_glock.o: weapons/weapon_glock.cpp
+	$(DO_CC)
 
 $(DLL_OBJDIR)/weapons/weapon_egon.o: weapons/weapon_egon.cpp
 	$(DO_CC)
@@ -280,7 +282,7 @@ $(DLL_OBJDIR)/weapons/weapon_spraycan.o: weapons/weapon_spraycan.cpp
 	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/%.o: $(DLL_SRCDIR)/monsters/%.cpp
-    $(DO_CC)
+	$(DO_CC)
 
 $(DLL_OBJDIR)/monsters/monster_deadhev.o: monsters/monster_deadhev.cpp
 	$(DO_CC)

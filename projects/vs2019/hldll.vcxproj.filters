@@ -192,8 +192,8 @@
     <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\wpn_shared\hl_wpn_glock.cpp">
-      <Filter>Source Files\dlls\wpn_shared</Filter>
+    <ClCompile Include="..\..\dlls\weapons\weapon_glock.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monstermaker.cpp">
       <Filter>Source Files\dlls</Filter>
