@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== trigger_endsection.cpp ========================================================
@@ -25,22 +25,20 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "core/saverestore.h"
-#include "trains.h"			// trigger_camera has train functionality
+#include "trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
 #include "trigger_base.h"
 
-
-#define SF_ENDSECTION_USEONLY		0x0001
+#define SF_ENDSECTION_USEONLY 0x0001
 class CTriggerEndSection : public CBaseTrigger
 {
-public:
+  public:
 	void Spawn( void );
 	void EXPORT EndSectionTouch( CBaseEntity *pOther );
 	void KeyValue( KeyValueData *pkvd );
 	void EXPORT EndSectionUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 };
 LINK_ENTITY_TO_CLASS( trigger_endsection, CTriggerEndSection );
-
 
 void CTriggerEndSection::EndSectionUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
@@ -52,7 +50,7 @@ void CTriggerEndSection::EndSectionUse( CBaseEntity *pActivator, CBaseEntity *pC
 
 	if ( pev->message )
 	{
-		g_engfuncs.pfnEndSection(STRING(pev->message));
+		g_engfuncs.pfnEndSection( STRING( pev->message ) );
 	}
 	UTIL_Remove( this );
 }
@@ -61,15 +59,15 @@ void CTriggerEndSection::Spawn( void )
 {
 	if ( g_pGameRules->IsDeathmatch() )
 	{
-		REMOVE_ENTITY( ENT(pev) );
+		REMOVE_ENTITY( ENT( pev ) );
 		return;
 	}
 
 	InitTrigger();
 
-	SetUse ( &CTriggerEndSection::EndSectionUse );
+	SetUse( &CTriggerEndSection::EndSectionUse );
 	// If it is a "use only" trigger, then don't set the touch function.
-	if ( ! (pev->spawnflags & SF_ENDSECTION_USEONLY) )
+	if ( !( pev->spawnflags & SF_ENDSECTION_USEONLY ) )
 		SetTouch( &CTriggerEndSection::EndSectionTouch );
 }
 
@@ -81,20 +79,20 @@ void CTriggerEndSection::EndSectionTouch( CBaseEntity *pOther )
 
 	SetTouch( NULL );
 
-	if (pev->message)
+	if ( pev->message )
 	{
-		g_engfuncs.pfnEndSection(STRING(pev->message));
+		g_engfuncs.pfnEndSection( STRING( pev->message ) );
 	}
 	UTIL_Remove( this );
 }
 
-void CTriggerEndSection :: KeyValue( KeyValueData *pkvd )
+void CTriggerEndSection ::KeyValue( KeyValueData *pkvd )
 {
-	if (FStrEq(pkvd->szKeyName, "section"))
+	if ( FStrEq( pkvd->szKeyName, "section" ) )
 	{
-//		m_iszSectionName = ALLOC_STRING( pkvd->szValue );
+		//		m_iszSectionName = ALLOC_STRING( pkvd->szValue );
 		// Store this in message so we don't have to write save/restore for this ent
-		pev->message = ALLOC_STRING( pkvd->szValue );
+		pev->message   = ALLOC_STRING( pkvd->szValue );
 		pkvd->fHandled = TRUE;
 	}
 	else

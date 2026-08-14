@@ -48,10 +48,10 @@ inline char *CloneString( const char *str )
 	if ( !str )
 	{
 		char *cloneStr = new char[1];
-		cloneStr[0] = '\0';
+		cloneStr[0]    = '\0';
 		return cloneStr;
 	}
-	char *cloneStr = new char [ strlen(str)+1 ];
+	char *cloneStr = new char[strlen( str ) + 1];
 	strcpy( cloneStr, str );
 	return cloneStr;
 }
@@ -65,10 +65,10 @@ inline wchar_t *CloneWString( const wchar_t *str )
 	if ( !str )
 	{
 		wchar_t *cloneStr = new wchar_t[1];
-		cloneStr[0] = L'\0';
+		cloneStr[0]       = L'\0';
 		return cloneStr;
 	}
-	wchar_t *cloneStr = new wchar_t [ wcslen(str)+1 ];
+	wchar_t *cloneStr = new wchar_t[wcslen( str ) + 1];
 	wcscpy( cloneStr, str );
 	return cloneStr;
 }
@@ -77,44 +77,44 @@ inline wchar_t *CloneWString( const wchar_t *str )
 /**
  *  snprintf-alike that allows multiple prints into a buffer
  */
-char * BufPrintf(char *buf, int& len, const char *fmt, ...);
+char *BufPrintf( char *buf, int &len, const char *fmt, ... );
 
 //--------------------------------------------------------------------------------------------------------------
 /**
  *  wide char version of BufPrintf
  */
-wchar_t * BufWPrintf(wchar_t *buf, int& len, const wchar_t *fmt, ...);
+wchar_t *BufWPrintf( wchar_t *buf, int &len, const wchar_t *fmt, ... );
 
 //--------------------------------------------------------------------------------------------------------------
 /**
  *  convenience function that prints an int into a static wchar_t*
  */
-const wchar_t * NumAsWString( int val );
+const wchar_t *NumAsWString( int val );
 
 //--------------------------------------------------------------------------------------------------------------
 /**
  *  convenience function that prints an int into a static char*
  */
-const char * NumAsString( int val );
+const char *NumAsString( int val );
 
 //--------------------------------------------------------------------------------------------------------------
 /**
  *  convenience function that composes a string into a static char*
  */
-char * SharedVarArgs(char *format, ...);
+char *SharedVarArgs( char *format, ... );
 
 //--------------------------------------------------------------------------------------------------------------
 /**
  *  convenience function that composes a string into a static wchar_t* (Win32-only)
  */
-wchar_t * SharedWVarArgs(wchar_t *format, ...);
+wchar_t *SharedWVarArgs( wchar_t *format, ... );
 
 //--------------------------------------------------------------------------------------------------------------
 /**
  *  Wrapper for vgui::localize()->Find() that doesn't return NULL (client-only)
  */
 #ifdef CLIENT_DLL
-wchar_t* SharedFindString( char *asciiIdentifier );
+wchar_t *SharedFindString( char *asciiIdentifier );
 #endif
 
 #endif // SHARED_UTIL_H

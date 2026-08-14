@@ -2,9 +2,9 @@
 #define _METER_H_
 
 /*
-	meter.h
+    meter.h
 
-	Dorky status bar stuff
+    Dorky status bar stuff
 */
 
 void MeterStart( int max );

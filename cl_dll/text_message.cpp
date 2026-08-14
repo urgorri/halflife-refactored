@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 //
 // text_message.cpp
 //
@@ -30,7 +30,7 @@
 
 DECLARE_MESSAGE( m_TextMessage, TextMsg );
 
-int CHudTextMessage::Init(void)
+int CHudTextMessage::Init( void )
 {
 	HOOK_MESSAGE( TextMsg );
 
@@ -46,16 +46,16 @@ int CHudTextMessage::Init(void)
 // the new value is pushed into dst_buffer
 char *CHudTextMessage::LocaliseTextString( const char *msg, char *dst_buffer, int buffer_size )
 {
-	int len = buffer_size;
+	int len   = buffer_size;
 	char *dst = dst_buffer;
-	for ( char *src = (char*)msg; *src != 0 && buffer_size > 0; buffer_size-- )
+	for ( char *src = (char *)msg; *src != 0 && buffer_size > 0; buffer_size-- )
 	{
 		if ( *src == '#' )
 		{
 			// cut msg name out of string
 			static char word_buf[255];
 			char *wdst = word_buf, *word_start = src;
-			for ( ++src ; (*src >= 'A' && *src <= 'z') || (*src >= '0' && *src <= '9'); wdst++, src++ )
+			for ( ++src; ( *src >= 'A' && *src <= 'z' ) || ( *src >= '0' && *src <= '9' ); wdst++, src++ )
 			{
 				*wdst = *src;
 			}
@@ -63,16 +63,16 @@ char *CHudTextMessage::LocaliseTextString( const char *msg, char *dst_buffer, in
 
 			// lookup msg name in titles.txt
 			client_textmessage_t *clmsg = TextMessageGet( word_buf );
-			if ( !clmsg || !(clmsg->pMessage) )
+			if ( !clmsg || !( clmsg->pMessage ) )
 			{
-				src = word_start;
+				src  = word_start;
 				*dst = *src;
 				dst++, src++;
 				continue;
 			}
 
 			// copy string into message over the msg name
-			for ( char *wsrc = (char*)clmsg->pMessage; *wsrc != 0; wsrc++, dst++ )
+			for ( char *wsrc = (char *)clmsg->pMessage; *wsrc != 0; wsrc++, dst++ )
 			{
 				*dst = *wsrc;
 			}
@@ -86,7 +86,7 @@ char *CHudTextMessage::LocaliseTextString( const char *msg, char *dst_buffer, in
 		}
 	}
 
-	dst_buffer[len-1] = 0; // ensure null termination
+	dst_buffer[len - 1] = 0; // ensure null termination
 	return dst_buffer;
 }
 
@@ -105,27 +105,27 @@ char *CHudTextMessage::LookupString( const char *msg, int *msg_dest )
 		return "";
 
 	// '#' character indicates this is a reference to a string in titles.txt, and not the string itself
-	if ( msg[0] == '#' ) 
+	if ( msg[0] == '#' )
 	{
 		// this is a message name, so look up the real message
-		client_textmessage_t *clmsg = TextMessageGet( msg+1 );
+		client_textmessage_t *clmsg = TextMessageGet( msg + 1 );
 
-		if ( !clmsg || !(clmsg->pMessage) )
-			return (char*)msg; // lookup failed, so return the original string
-		
+		if ( !clmsg || !( clmsg->pMessage ) )
+			return (char *)msg; // lookup failed, so return the original string
+
 		if ( msg_dest )
 		{
 			// check to see if titles.txt info overrides msg destination
 			// if clmsg->effect is less than 0, then clmsg->effect holds -1 * message_destination
-			if ( clmsg->effect < 0 )  // 
+			if ( clmsg->effect < 0 ) //
 				*msg_dest = -clmsg->effect;
 		}
 
-		return (char*)clmsg->pMessage;
+		return (char *)clmsg->pMessage;
 	}
 	else
-	{  // nothing special about this message, so just return the same string
-		return (char*)msg;
+	{ // nothing special about this message, so just return the same string
+		return (char *)msg;
 	}
 }
 
@@ -138,7 +138,7 @@ void StripEndNewlineFromString( char *str )
 
 // converts all '\r' characters to '\n', so that the engine can deal with the properly
 // returns a pointer to str
-char* ConvertCRtoNL( char *str )
+char *ConvertCRtoNL( char *str )
 {
 	for ( char *ch = str; *ch != 0; ch++ )
 		if ( *ch == '\r' )
@@ -167,20 +167,20 @@ int CHudTextMessage::MsgFunc_TextMsg( const char *pszName, int iSize, void *pbuf
 #define MSG_BUF_SIZE 128
 	static char szBuf[6][MSG_BUF_SIZE];
 	char *msg_text = LookupString( READ_STRING(), &msg_dest );
-	msg_text = safe_strcpy( szBuf[0], msg_text , MSG_BUF_SIZE);
+	msg_text       = safe_strcpy( szBuf[0], msg_text, MSG_BUF_SIZE );
 
 	// keep reading strings and using C format strings for subsituting the strings into the localised text string
 	char *sstr1 = LookupString( READ_STRING() );
-	sstr1 = safe_strcpy( szBuf[1], sstr1 , MSG_BUF_SIZE);
-	StripEndNewlineFromString( sstr1 );  // these strings are meant for subsitution into the main strings, so cull the automatic end newlines
+	sstr1       = safe_strcpy( szBuf[1], sstr1, MSG_BUF_SIZE );
+	StripEndNewlineFromString( sstr1 ); // these strings are meant for subsitution into the main strings, so cull the automatic end newlines
 	char *sstr2 = LookupString( READ_STRING() );
-	sstr2 = safe_strcpy( szBuf[2], sstr2 , MSG_BUF_SIZE);
+	sstr2       = safe_strcpy( szBuf[2], sstr2, MSG_BUF_SIZE );
 	StripEndNewlineFromString( sstr2 );
 	char *sstr3 = LookupString( READ_STRING() );
-	sstr3 = safe_strcpy( szBuf[3], sstr3 , MSG_BUF_SIZE);
+	sstr3       = safe_strcpy( szBuf[3], sstr3, MSG_BUF_SIZE );
 	StripEndNewlineFromString( sstr3 );
 	char *sstr4 = LookupString( READ_STRING() );
-	sstr4 = safe_strcpy( szBuf[4], sstr4 , MSG_BUF_SIZE);
+	sstr4       = safe_strcpy( szBuf[4], sstr4, MSG_BUF_SIZE );
 	StripEndNewlineFromString( sstr4 );
 	char *psz = szBuf[5];
 
@@ -195,8 +195,8 @@ int CHudTextMessage::MsgFunc_TextMsg( const char *pszName, int iSize, void *pbuf
 		break;
 
 	case HUD_PRINTNOTIFY:
-		psz[0] = 1;  // mark this message to go into the notify buffer
-		safe_sprintf( psz+1, MSG_BUF_SIZE - 1, msg_text, sstr1, sstr2, sstr3, sstr4 );
+		psz[0] = 1; // mark this message to go into the notify buffer
+		safe_sprintf( psz + 1, MSG_BUF_SIZE - 1, msg_text, sstr1, sstr2, sstr3, sstr4 );
 		ConsolePrint( ConvertCRtoNL( psz ) );
 		break;
 

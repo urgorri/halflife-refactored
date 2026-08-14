@@ -27,10 +27,10 @@
 
 /* This is a set of defines to configure the SDL features */
 
-#if !defined(_STDINT_H_) && (!defined(HAVE_STDINT_H) || !_HAVE_STDINT_H)
-#if defined(__GNUC__) || defined(__DMC__) || defined(__WATCOMC__)
-#define HAVE_STDINT_H   1
-#elif defined(_MSC_VER)
+#if !defined( _STDINT_H_ ) && ( !defined( HAVE_STDINT_H ) || !_HAVE_STDINT_H )
+#if defined( __GNUC__ ) || defined( __DMC__ ) || defined( __WATCOMC__ )
+#define HAVE_STDINT_H 1
+#elif defined( _MSC_VER )
 typedef signed __int8 int8_t;
 typedef unsigned __int8 uint8_t;
 typedef signed __int16 int16_t;
@@ -40,7 +40,7 @@ typedef unsigned __int32 uint32_t;
 typedef signed __int64 int64_t;
 typedef unsigned __int64 uint64_t;
 #ifndef _UINTPTR_T_DEFINED
-#ifdef  _WIN64
+#ifdef _WIN64
 typedef unsigned __int64 uintptr_t;
 #else
 typedef unsigned int uintptr_t;
@@ -48,10 +48,10 @@ typedef unsigned int uintptr_t;
 #define _UINTPTR_T_DEFINED
 #endif
 /* Older Visual C++ headers don't have the Win64-compatible typedefs... */
-#if ((_MSC_VER <= 1200) && (!defined(DWORD_PTR)))
+#if ( ( _MSC_VER <= 1200 ) && ( !defined( DWORD_PTR ) ) )
 #define DWORD_PTR DWORD
 #endif
-#if ((_MSC_VER <= 1200) && (!defined(LONG_PTR)))
+#if ( ( _MSC_VER <= 1200 ) && ( !defined( LONG_PTR ) ) )
 #define LONG_PTR LONG
 #endif
 #else /* !__GNUC__ && !_MSC_VER */
@@ -72,9 +72,9 @@ typedef unsigned int uintptr_t;
 #endif /* !_STDINT_H_ && !HAVE_STDINT_H */
 
 #ifdef _WIN64
-# define SIZEOF_VOIDP 8
+#define SIZEOF_VOIDP 8
 #else
-# define SIZEOF_VOIDP 4
+#define SIZEOF_VOIDP 4
 #endif
 
 #define HAVE_DDRAW_H 1
@@ -125,8 +125,8 @@ typedef unsigned int uintptr_t;
 #define HAVE__STRNICMP 1
 #define HAVE_ATAN 1
 #define HAVE_ATAN2 1
-#define HAVE_ACOS  1
-#define HAVE_ASIN  1
+#define HAVE_ACOS 1
+#define HAVE_ASIN 1
 #define HAVE_CEIL 1
 #define HAVE_COS 1
 #define HAVE_COSF 1
@@ -146,66 +146,66 @@ typedef unsigned int uintptr_t;
 #define HAVE_COPYSIGN 1
 #define HAVE_SCALBN 1
 #endif
-#if !defined(_MSC_VER) || defined(_USE_MATH_DEFINES)
+#if !defined( _MSC_VER ) || defined( _USE_MATH_DEFINES )
 #define HAVE_M_PI 1
 #endif
 #else
-#define HAVE_STDARG_H   1
-#define HAVE_STDDEF_H   1
+#define HAVE_STDARG_H 1
+#define HAVE_STDDEF_H 1
 #endif
 
 /* Enable various audio drivers */
 #define SDL_AUDIO_DRIVER_WASAPI 1
 #define SDL_AUDIO_DRIVER_DSOUND 1
-#define SDL_AUDIO_DRIVER_XAUDIO2    0
-#define SDL_AUDIO_DRIVER_WINMM  1
-#define SDL_AUDIO_DRIVER_DISK   1
-#define SDL_AUDIO_DRIVER_DUMMY  1
+#define SDL_AUDIO_DRIVER_XAUDIO2 0
+#define SDL_AUDIO_DRIVER_WINMM 1
+#define SDL_AUDIO_DRIVER_DISK 1
+#define SDL_AUDIO_DRIVER_DUMMY 1
 
 /* Enable various input drivers */
 #define SDL_JOYSTICK_DINPUT 1
 #define SDL_JOYSTICK_XINPUT 1
-#define SDL_HAPTIC_DINPUT   1
-#define SDL_HAPTIC_XINPUT   1
+#define SDL_HAPTIC_DINPUT 1
+#define SDL_HAPTIC_XINPUT 1
 
 /* Enable various shared object loading systems */
-#define SDL_LOADSO_WINDOWS  1
+#define SDL_LOADSO_WINDOWS 1
 
 /* Enable various threading systems */
-#define SDL_THREAD_WINDOWS  1
+#define SDL_THREAD_WINDOWS 1
 
 /* Enable various timer systems */
-#define SDL_TIMER_WINDOWS   1
+#define SDL_TIMER_WINDOWS 1
 
 /* Enable various video drivers */
-#define SDL_VIDEO_DRIVER_DUMMY  1
-#define SDL_VIDEO_DRIVER_WINDOWS    1
+#define SDL_VIDEO_DRIVER_DUMMY 1
+#define SDL_VIDEO_DRIVER_WINDOWS 1
 
 #ifndef SDL_VIDEO_RENDER_D3D
-#define SDL_VIDEO_RENDER_D3D    1
+#define SDL_VIDEO_RENDER_D3D 1
 #endif
 #ifndef SDL_VIDEO_RENDER_D3D11
-#define SDL_VIDEO_RENDER_D3D11	0
+#define SDL_VIDEO_RENDER_D3D11 0
 #endif
 
 /* Enable OpenGL support */
 #ifndef SDL_VIDEO_OPENGL
-#define SDL_VIDEO_OPENGL    1
+#define SDL_VIDEO_OPENGL 1
 #endif
 #ifndef SDL_VIDEO_OPENGL_WGL
-#define SDL_VIDEO_OPENGL_WGL    1
+#define SDL_VIDEO_OPENGL_WGL 1
 #endif
 #ifndef SDL_VIDEO_RENDER_OGL
-#define SDL_VIDEO_RENDER_OGL    1
+#define SDL_VIDEO_RENDER_OGL 1
 #endif
 #ifndef SDL_VIDEO_RENDER_OGL_ES2
-#define SDL_VIDEO_RENDER_OGL_ES2    0
+#define SDL_VIDEO_RENDER_OGL_ES2 0
 #endif
 #ifndef SDL_VIDEO_OPENGL_ES2
-#define SDL_VIDEO_OPENGL_ES2    0
+#define SDL_VIDEO_OPENGL_ES2 0
 #endif
 #ifndef SDL_VIDEO_OPENGL_EGL
-#define SDL_VIDEO_OPENGL_EGL    0
+#define SDL_VIDEO_OPENGL_EGL 0
 #endif
 
 /* Enable Vulkan support */
@@ -215,11 +215,11 @@ typedef unsigned int uintptr_t;
 #define SDL_POWER_WINDOWS 1
 
 /* Enable filesystem support */
-#define SDL_FILESYSTEM_WINDOWS  0
+#define SDL_FILESYSTEM_WINDOWS 0
 
 /* Enable assembly routines (Win64 doesn't have inline asm) */
 #ifndef _WIN64
-#define SDL_ASSEMBLY_ROUTINES   1
+#define SDL_ASSEMBLY_ROUTINES 1
 #endif
 
 #endif /* SDL_config_windows_h_ */

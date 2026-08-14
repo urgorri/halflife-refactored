@@ -1,21 +1,18 @@
 #include <VGUI_Font.h>
 
-
 // handle to an individual scheme
 typedef int SchemeHandle_t;
-
 
 // Register console variables, etc..
 void Scheme_Init();
 
-
 //-----------------------------------------------------------------------------
 // Purpose: Handles the loading of text scheme description from disk
-//			supports different font/color/size schemes at different resolutions 
+//			supports different font/color/size schemes at different resolutions
 //-----------------------------------------------------------------------------
 class CSchemeManager
 {
-public:
+  public:
 	// initialization
 	CSchemeManager( int xRes, int yRes );
 	virtual ~CSchemeManager();
@@ -33,15 +30,13 @@ public:
 	void getBgMousedownColor( SchemeHandle_t schemeHandle, int &r, int &g, int &b, int &a );
 	void getBorderColor( SchemeHandle_t schemeHandle, int &r, int &g, int &b, int &a );
 
-private:
+  private:
 	class CScheme;
 	CScheme *m_pSchemeList;
 	int m_iNumSchemes;
 
 	// Resolution we were initted at.
-	int		m_xRes;
+	int m_xRes;
 
 	CScheme *getSafeScheme( SchemeHandle_t schemeHandle );
 };
-
-

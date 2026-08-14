@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -8,8 +8,7 @@
 #ifndef VGUI_STRING_H
 #define VGUI_STRING_H
 
-#include<VGUI.h>
-
+#include <VGUI.h>
 
 namespace vgui
 {
@@ -17,45 +16,35 @@ namespace vgui
 class VGUIAPI String
 {
 
-friend class String;
+	friend class String;
 
-private:
+  private:
+	char *_text;
 
-	char* _text;
-
-public:
-
+  public:
 	String();
-	String(const char* text);
-	String(const String& src);
+	String( const char *text );
+	String( const String &src );
 
-public:
-	
+  public:
 	~String();
 
-private:
+  private:
+	int getCount( const char *text );
 
-	int getCount(const char* text);
+  public:
+	int getCount();
+	String operator+( String text );
+	String operator+( const char *text );
+	bool operator==( String text );
+	bool operator==( const char *text );
+	char operator[]( int index );
+	const char *getChars();
 
-public:
-
-	int    getCount();
-	String operator+(String text);
-	String operator+(const char* text);
-	bool   operator==(String text);
-	bool   operator==(const char* text);
-	char   operator[](int index);
-	const char* getChars();
-
-public:
-	
+  public:
 	static void test();
-
 };
 
-
-}
-
+} // namespace vgui
 
 #endif
-

@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -28,7 +28,7 @@ extern float g_iStartDist;
 extern float g_iEndDist;
 extern int g_iWaterLevel;
 
-//#define TEST_IT
+// #define TEST_IT
 #if defined( TEST_IT )
 
 /*
@@ -53,18 +53,18 @@ void Draw_Triangles( void )
 	org.x += 50;
 	org.y += 50;
 
-	if (gHUD.m_hsprCursor == 0)
+	if ( gHUD.m_hsprCursor == 0 )
 	{
 		char sz[256];
 		sprintf( sz, "sprites/cursor.spr" );
 		gHUD.m_hsprCursor = SPR_Load( sz );
 	}
 
-	if ( !gEngfuncs.pTriAPI->SpriteTexture( (struct model_s *)gEngfuncs.GetSpritePointer( gHUD.m_hsprCursor ), 0 ))
+	if ( !gEngfuncs.pTriAPI->SpriteTexture( (struct model_s *)gEngfuncs.GetSpritePointer( gHUD.m_hsprCursor ), 0 ) )
 	{
 		return;
 	}
-	
+
 	// Create a triangle, sigh
 	gEngfuncs.pTriAPI->RenderMode( kRenderNormal );
 	gEngfuncs.pTriAPI->CullFace( TRI_NONE );
@@ -94,14 +94,13 @@ void Draw_Triangles( void )
 
 #endif
 
-//Render fog ( duh ).
-void RenderFog ( void )
+// Render fog ( duh ).
+void RenderFog( void )
 {
-	//Not in water and we want fog.
+	// Not in water and we want fog.
 	bool bFog = g_iWaterLevel < 2 && g_iStartDist >= 0 && g_iEndDist >= 0;
-	gEngfuncs.pTriAPI->Fog ( g_iFogColor, g_iStartDist, g_iEndDist, bFog );
+	gEngfuncs.pTriAPI->Fog( g_iFogColor, g_iStartDist, g_iEndDist, bFog );
 }
- 
 
 /*
 =================

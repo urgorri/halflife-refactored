@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -31,7 +31,7 @@ Non-transparent triangles-- add them here
 */
 void CL_DLLEXPORT HUD_DrawNormalTriangles( void )
 {
-//	RecClDrawNormalTriangles();
+	//	RecClDrawNormalTriangles();
 
 	gHUD.m_Spectator.DrawOverview();
 }
@@ -49,12 +49,12 @@ Render any triangles with transparent rendermode needs here
 */
 void CL_DLLEXPORT HUD_DrawTransparentTriangles( void )
 {
-//	RecClDrawTransparentTriangles();
+	//	RecClDrawTransparentTriangles();
 
 #if defined( _TFC )
 	RunEventList();
 #endif
 
 	if ( g_pParticleMan )
-		 g_pParticleMan->Update();
+		g_pParticleMan->Update();
 }

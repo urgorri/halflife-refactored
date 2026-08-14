@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -87,10 +87,10 @@ void R_StudioInit( void )
 
 // The simple drawing interface we'll pass back to the engine
 r_studio_interface_t studio =
-{
-	STUDIO_INTERFACE_VERSION,
-	R_StudioDrawModel,
-	R_StudioDrawPlayer,
+    {
+        STUDIO_INTERFACE_VERSION,
+        R_StudioDrawModel,
+        R_StudioDrawPlayer,
 };
 
 /*
@@ -102,7 +102,7 @@ Export this function for the engine to use the studio renderer class to render o
 */
 int CL_DLLEXPORT HUD_GetStudioModelInterface( int version, struct r_studio_interface_s **ppinterface, struct engine_studio_api_s *pstudio )
 {
-//	RecClStudioInterface(version, ppinterface, pstudio);
+	//	RecClStudioInterface(version, ppinterface, pstudio);
 
 	if ( version != STUDIO_INTERFACE_VERSION )
 		return 0;

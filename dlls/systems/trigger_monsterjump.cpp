@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== trigger_monsterjump.cpp ========================================================
@@ -25,17 +25,15 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "core/saverestore.h"
-#include "trains.h"			// trigger_camera has train functionality
+#include "trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
 #include "trigger_base.h"
 
-
-extern void SetMovedir(entvars_t* pev);
-
+extern void SetMovedir( entvars_t *pev );
 
 class CTriggerMonsterJump : public CBaseTrigger
 {
-public:
+  public:
 	void Spawn( void );
 	void Touch( CBaseEntity *pOther );
 	void Think( void );
@@ -43,46 +41,44 @@ public:
 
 LINK_ENTITY_TO_CLASS( trigger_monsterjump, CTriggerMonsterJump );
 
-
-void CTriggerMonsterJump :: Spawn ( void )
+void CTriggerMonsterJump ::Spawn( void )
 {
-	SetMovedir ( pev );
+	SetMovedir( pev );
 
-	InitTrigger ();
+	InitTrigger();
 
 	pev->nextthink = 0;
-	pev->speed = 200;
-	m_flHeight = 150;
+	pev->speed     = 200;
+	m_flHeight     = 150;
 
-	if ( !FStringNull ( pev->targetname ) )
-	{// if targetted, spawn turned off
+	if ( !FStringNull( pev->targetname ) )
+	{ // if targetted, spawn turned off
 		pev->solid = SOLID_NOT;
 		UTIL_SetOrigin( pev, pev->origin ); // Unlink from trigger list
 		SetUse( &CBaseTrigger::ToggleUse );
 	}
 }
 
-
-void CTriggerMonsterJump :: Think( void )
+void CTriggerMonsterJump ::Think( void )
 {
-	pev->solid = SOLID_NOT;// kill the trigger for now !!!UNDONE
+	pev->solid = SOLID_NOT;             // kill the trigger for now !!!UNDONE
 	UTIL_SetOrigin( pev, pev->origin ); // Unlink from trigger list
 	SetThink( NULL );
 }
 
-void CTriggerMonsterJump :: Touch( CBaseEntity *pOther )
+void CTriggerMonsterJump ::Touch( CBaseEntity *pOther )
 {
 	entvars_t *pevOther = pOther->pev;
 
-	if ( !FBitSet ( pevOther->flags , FL_MONSTER ) )
-	{// touched by a non-monster.
+	if ( !FBitSet( pevOther->flags, FL_MONSTER ) )
+	{ // touched by a non-monster.
 		return;
 	}
 
 	pevOther->origin.z += 1;
 
-	if ( FBitSet ( pevOther->flags, FL_ONGROUND ) )
-	{// clear the onground so physics don't bitch
+	if ( FBitSet( pevOther->flags, FL_ONGROUND ) )
+	{ // clear the onground so physics don't bitch
 		pevOther->flags &= ~FL_ONGROUND;
 	}
 
@@ -91,7 +87,6 @@ void CTriggerMonsterJump :: Touch( CBaseEntity *pOther )
 	pevOther->velocity.z += m_flHeight;
 	pev->nextthink = gpGlobals->time;
 }
-
 
 //=====================================
 //

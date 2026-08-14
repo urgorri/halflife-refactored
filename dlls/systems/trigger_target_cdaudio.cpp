@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== trigger_target_cdaudio.cpp ========================================================
@@ -25,40 +25,38 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "core/saverestore.h"
-#include "trains.h"			// trigger_camera has train functionality
+#include "trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
 #include "trigger_base.h"
 extern void PlayCDTrack( int iTrack );
 
-
-
 class CTargetCDAudio : public CPointEntity
 {
-public:
-	void			Spawn( void );
-	void			KeyValue( KeyValueData *pkvd );
+  public:
+	void Spawn( void );
+	void KeyValue( KeyValueData *pkvd );
 
-	virtual void	Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	void			Think( void );
-	void			Play( void );
+	virtual void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void Think( void );
+	void Play( void );
 };
 
 LINK_ENTITY_TO_CLASS( target_cdaudio, CTargetCDAudio );
 
-void CTargetCDAudio :: KeyValue( KeyValueData *pkvd )
+void CTargetCDAudio ::KeyValue( KeyValueData *pkvd )
 {
-	if (FStrEq(pkvd->szKeyName, "radius"))
+	if ( FStrEq( pkvd->szKeyName, "radius" ) )
 	{
-		pev->scale = atof(pkvd->szValue);
+		pev->scale     = atof( pkvd->szValue );
 		pkvd->fHandled = TRUE;
 	}
 	else
 		CPointEntity::KeyValue( pkvd );
 }
 
-void CTargetCDAudio :: Spawn( void )
+void CTargetCDAudio ::Spawn( void )
 {
-	pev->solid = SOLID_NOT;
+	pev->solid    = SOLID_NOT;
 	pev->movetype = MOVETYPE_NONE;
 
 	if ( pev->scale > 0 )
@@ -84,15 +82,14 @@ void CTargetCDAudio::Think( void )
 
 	pev->nextthink = gpGlobals->time + 0.5;
 
-	if ( (pClient->v.origin - pev->origin).Length() <= pev->scale )
+	if ( ( pClient->v.origin - pev->origin ).Length() <= pev->scale )
 		Play();
-
 }
 
 void CTargetCDAudio::Play( void )
 {
 	PlayCDTrack( (int)pev->health );
-	UTIL_Remove(this);
+	UTIL_Remove( this );
 }
 
 //=====================================
@@ -100,4 +97,4 @@ void CTargetCDAudio::Play( void )
 //
 // trigger_hurt - hurts anything that touches it. if the trigger has a targetname, firing it will toggle state
 //
-//int gfToggleState = 0; // used to determine when all radiation trigger hurts have called 'RadiationThink'
+// int gfToggleState = 0; // used to determine when all radiation trigger hurts have called 'RadiationThink'

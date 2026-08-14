@@ -7,13 +7,13 @@
 class CDisc;
 class CDiscWeapon : public CBasePlayerWeapon
 {
-public:
+  public:
 	void Spawn( void );
 	void Precache( void );
 	int iItemSlot( void ) { return 5; }
-	int GetItemInfo(ItemInfo *p);
+	int GetItemInfo( ItemInfo *p );
 
-	int  AddDuplicate( CBasePlayerItem *pOriginal );
+	int AddDuplicate( CBasePlayerItem *pOriginal );
 	CDisc *FireDisc( bool bDecapitator );
 	void PrimaryAttack( void );
 	void SecondaryAttack( void );
@@ -26,7 +26,8 @@ public:
 
 	int m_iSpriteTexture;
 	int m_iFastShotDiscs;
-private:
+
+  private:
 	unsigned short m_usFireDisc;
 };
 

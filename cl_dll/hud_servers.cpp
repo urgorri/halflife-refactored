@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -20,12 +20,12 @@
 #define __cdecl
 #include <arpa/inet.h>
 #endif
-static int	context_id;
+static int context_id;
 
 // Default master server address in case we can't read any from valvecomm.lst file
 #define VALVE_MASTER_ADDRESS "half-life.east.won.net"
-#define PORT_MASTER	 27010
-#define PORT_SERVER  27015
+#define PORT_MASTER 27010
+#define PORT_SERVER 27015
 
 // File where we really should look for master servers
 #define MASTER_PARSE_FILE "valvecomm.lst"
@@ -129,19 +129,19 @@ void CHudServers::ListResponse( struct net_response_s *response )
 
 	if ( response->response )
 	{
-		list = ( request_t * ) response->response;
+		list = (request_t *)response->response;
 		while ( list )
 		{
 			c++;
 
-			//if ( c < 40 )
+			// if ( c < 40 )
 			{
 				// Copy from parsed stuff
-				p = new request_t;
-				p->context = -1;
+				p                 = new request_t;
+				p->context        = -1;
 				p->remote_address = list->remote_address;
-				p->next = m_pServerList;
-				m_pServerList = p;
+				p->next           = m_pServerList;
+				m_pServerList     = p;
 			}
 
 			// Move on
@@ -151,7 +151,7 @@ void CHudServers::ListResponse( struct net_response_s *response )
 
 	gEngfuncs.Con_Printf( "got list\n" );
 
-	m_nQuerying = 1;
+	m_nQuerying      = 1;
 	m_nActiveQueries = 0;
 }
 
@@ -166,8 +166,8 @@ void CHudServers::ServerResponse( struct net_response_s *response )
 	char *szresponse;
 	request_t *p;
 	server_t *browser;
-	int	len;
-	char sz[ 32 ];
+	int len;
+	char sz[32];
 
 	// Remove from active list
 	p = FindRequest( response->context, m_pActiveList );
@@ -176,28 +176,28 @@ void CHudServers::ServerResponse( struct net_response_s *response )
 		RemoveServerFromList( &m_pActiveList, p );
 		m_nActiveQueries--;
 	}
-	
+
 	if ( response->error != NET_SUCCESS )
 		return;
-	
+
 	switch ( response->type )
 	{
 	case NETAPI_REQUEST_DETAILS:
 		if ( response->response )
 		{
 			szresponse = (char *)response->response;
-			len = strlen( szresponse ) + 100 + 1;
+			len        = strlen( szresponse ) + 100 + 1;
 			sprintf( sz, "%i", (int)( 1000.0 * response->ping ) );
 
-			browser = new server_t;
+			browser                 = new server_t;
 			browser->remote_address = response->remote_address;
-			browser->info = new char[ len ];
-			browser->ping = (int)( 1000.0 * response->ping );
+			browser->info           = new char[len];
+			browser->ping           = (int)( 1000.0 * response->ping );
 			strcpy( browser->info, szresponse );
 
 			NET_API->SetValueForKey( browser->info, "address", gEngfuncs.pNetAPI->AdrToString( &response->remote_address ), len );
 			NET_API->SetValueForKey( browser->info, "ping", sz, len );
-			
+
 			AddServer( &m_pServers, browser );
 		}
 		break;
@@ -214,7 +214,7 @@ PingResponse
 */
 void CHudServers::PingResponse( struct net_response_s *response )
 {
-	char sz[ 32 ];
+	char sz[32];
 
 	if ( response->error != NET_SUCCESS )
 		return;
@@ -240,10 +240,10 @@ RulesResponse
 void CHudServers::RulesResponse( struct net_response_s *response )
 {
 	char *szresponse;
-	
+
 	if ( response->error != NET_SUCCESS )
 		return;
-	
+
 	switch ( response->type )
 	{
 	case NETAPI_REQUEST_RULES:
@@ -271,7 +271,7 @@ void CHudServers::PlayersResponse( struct net_response_s *response )
 
 	if ( response->error != NET_SUCCESS )
 		return;
-	
+
 	switch ( response->type )
 	{
 	case NETAPI_REQUEST_PLAYERS:
@@ -294,7 +294,7 @@ CompareServers
 Return 1 if p1 is "less than" p2, 0 otherwise
 ===================
 */
-int	CHudServers::CompareServers( server_t *p1, server_t *p2 )
+int CHudServers::CompareServers( server_t *p1, server_t *p2 )
 {
 	const char *n1, *n2;
 
@@ -328,9 +328,9 @@ AddServer
 */
 void CHudServers::AddServer( server_t **ppList, server_t *p )
 {
-server_t *list;
+	server_t *list;
 
-	if ( !ppList || ! p )
+	if ( !ppList || !p )
 		return;
 
 	m_nServerCount++;
@@ -359,7 +359,7 @@ server_t *list;
 			// Insert before list next
 			if ( CompareServers( p, list->next ) )
 			{
-				p->next = list->next->next;
+				p->next    = list->next->next;
 				list->next = p;
 				return;
 			}
@@ -368,7 +368,7 @@ server_t *list;
 		}
 
 		// Just add at end
-		p->next = NULL;
+		p->next    = NULL;
 		list->next = p;
 	}
 }
@@ -394,10 +394,10 @@ void CHudServers::Think( double time )
 	if ( ServerListSize() > 0 )
 		return;
 
-	m_dStarted = 0.0;
-	m_nRequesting = 0;
-	m_nDone = 0;
-	m_nQuerying = 0;
+	m_dStarted       = 0.0;
+	m_nRequesting    = 0;
+	m_nDone          = 0;
+	m_nQuerying      = 0;
 	m_nActiveQueries = 0;
 }
 
@@ -445,7 +445,7 @@ void CHudServers::QueryThink( void )
 		m_nActiveQueries++;
 
 		// Add to active list
-		p->next = m_pActiveList;
+		p->next       = m_pActiveList;
 		m_pActiveList = p;
 
 		// Too many active?
@@ -461,7 +461,7 @@ ServerListSize
 # of servers in active query and in pending to be queried lists
 ==================
 */
-int	CHudServers::ServerListSize( void )
+int CHudServers::ServerListSize( void )
 {
 	int c = 0;
 	request_t *p;
@@ -607,8 +607,8 @@ int CompareField( CHudServers::server_t *p1, CHudServers::server_t *p2, const ch
 
 int ServerListCompareFunc( CHudServers::server_t *p1, CHudServers::server_t *p2, const char *fieldname )
 {
-	if (!p1 || !p2)  // No meaningful comparison
-		return 0;  
+	if ( !p1 || !p2 ) // No meaningful comparison
+		return 0;
 
 	int iSortOrder = 1;
 
@@ -619,8 +619,8 @@ int ServerListCompareFunc( CHudServers::server_t *p1, CHudServers::server_t *p2,
 	return retval;
 }
 
-static char g_fieldname[ 256 ];
-int __cdecl FnServerCompare(const void *elem1, const void *elem2 )
+static char g_fieldname[256];
+int __cdecl FnServerCompare( const void *elem1, const void *elem2 )
 {
 	CHudServers::server_t *list1, *list2;
 
@@ -650,37 +650,36 @@ void CHudServers::SortServers( const char *fieldname )
 	}
 
 	server_t **pSortArray;
-	
-	pSortArray = new server_t *[ c ];
-	memset( pSortArray, 0, c  * sizeof( server_t * ) );
+
+	pSortArray = new server_t *[c];
+	memset( pSortArray, 0, c * sizeof( server_t * ) );
 
 	// Now copy the list into the pSortArray:
 	p = m_pServers;
 	i = 0;
 	while ( p )
 	{
-		pSortArray[ i++ ] = p;
-		p = p->next;
+		pSortArray[i++] = p;
+		p               = p->next;
 	}
 
 	// Now do that actual sorting.
 	size_t nCount = c;
-	size_t nSize  = sizeof( server_t * );
+	size_t nSize  = sizeof( server_t  *);
 
 	qsort(
-		pSortArray,
-		(size_t)nCount,
-		(size_t)nSize,
-		FnServerCompare
-	);
+	    pSortArray,
+	    (size_t)nCount,
+	    (size_t)nSize,
+	    FnServerCompare );
 
 	// Now rebuild the list.
 	m_pServers = pSortArray[0];
 	for ( i = 0; i < c - 1; i++ )
 	{
-		pSortArray[ i ]->next = pSortArray[ i + 1 ];
+		pSortArray[i]->next = pSortArray[i + 1];
 	}
-	pSortArray[ c - 1 ]->next = NULL;
+	pSortArray[c - 1]->next = NULL;
 
 	// Clean Up.
 	delete[] pSortArray;
@@ -738,7 +737,7 @@ void CHudServers::CancelRequest( void )
 {
 	m_nRequesting = 0;
 	m_nQuerying   = 0;
-	m_nDone		  = 1;
+	m_nDone       = 1;
 
 	NET_API->CancelAllRequests();
 }
@@ -752,27 +751,27 @@ Loads the master server addresses from file and into the passed in array
 */
 int CHudServers::LoadMasterAddresses( int maxservers, int *count, netadr_t *padr )
 {
-	int			i;
-	char		szMaster[ 256 ];
-	char		szMasterFile[256];
-	char		*pbuffer = NULL;
-	char		*pstart = NULL ;
-	netadr_t	adr;
-	char		szAdr[64];
-	int			nPort;
-	int			nCount = 0;
-	bool		bIgnore;
-	int			nDefaultPort;
+	int i;
+	char szMaster[256];
+	char szMasterFile[256];
+	char *pbuffer = NULL;
+	char *pstart  = NULL;
+	netadr_t adr;
+	char szAdr[64];
+	int nPort;
+	int nCount = 0;
+	bool bIgnore;
+	int nDefaultPort;
 
 	// Assume default master and master file
-	strcpy( szMaster, VALVE_MASTER_ADDRESS );    // IP:PORT string
+	strcpy( szMaster, VALVE_MASTER_ADDRESS ); // IP:PORT string
 	strcpy( szMasterFile, MASTER_PARSE_FILE );
 
 	// See if there is a command line override
 	i = gEngfuncs.CheckParm( "-comm", &pstart );
 	if ( i && pstart )
 	{
-		strcpy (szMasterFile, pstart );
+		strcpy( szMasterFile, pstart );
 	}
 
 	// Read them in from proper file
@@ -788,7 +787,7 @@ int CHudServers::LoadMasterAddresses( int maxservers, int *count, netadr_t *padr
 	{
 		pstart = gEngfuncs.COM_ParseFile( pstart, m_szToken );
 
-		if ( strlen(m_szToken) <= 0)
+		if ( strlen( m_szToken ) <= 0 )
 			break;
 
 		bIgnore = true;
@@ -796,15 +795,15 @@ int CHudServers::LoadMasterAddresses( int maxservers, int *count, netadr_t *padr
 		if ( !stricmp( m_szToken, "Master" ) )
 		{
 			nDefaultPort = PORT_MASTER;
-			bIgnore = FALSE;
+			bIgnore      = FALSE;
 		}
 
 		// Now parse all addresses between { }
 		pstart = gEngfuncs.COM_ParseFile( pstart, m_szToken );
-		if ( strlen(m_szToken) <= 0 )
+		if ( strlen( m_szToken ) <= 0 )
 			break;
 
-		if ( stricmp ( m_szToken, "{" ) )
+		if ( stricmp( m_szToken, "{" ) )
 			break;
 
 		// Parse addresses until we get to "}"
@@ -814,29 +813,29 @@ int CHudServers::LoadMasterAddresses( int maxservers, int *count, netadr_t *padr
 
 			// Now parse all addresses between { }
 			pstart = gEngfuncs.COM_ParseFile( pstart, m_szToken );
-			
-			if (strlen(m_szToken) <= 0)
+
+			if ( strlen( m_szToken ) <= 0 )
 				break;
 
-			if ( !stricmp ( m_szToken, "}" ) )
+			if ( !stricmp( m_szToken, "}" ) )
 				break;
-			
+
 			sprintf( base, "%s", m_szToken );
-				
+
 			pstart = gEngfuncs.COM_ParseFile( pstart, m_szToken );
-			
-			if (strlen(m_szToken) <= 0)
+
+			if ( strlen( m_szToken ) <= 0 )
 				break;
 
 			if ( stricmp( m_szToken, ":" ) )
 				break;
 
 			pstart = gEngfuncs.COM_ParseFile( pstart, m_szToken );
-			
-			if (strlen(m_szToken) <= 0)
+
+			if ( strlen( m_szToken ) <= 0 )
 				break;
 
-			nPort = atoi ( m_szToken );
+			nPort = atoi( m_szToken );
 			if ( !nPort )
 				nPort = nDefaultPort;
 
@@ -848,7 +847,7 @@ int CHudServers::LoadMasterAddresses( int maxservers, int *count, netadr_t *padr
 
 			if ( !bIgnore )
 			{
-				padr[ nCount++ ] = adr;
+				padr[nCount++] = adr;
 			}
 		}
 	}
@@ -856,13 +855,13 @@ int CHudServers::LoadMasterAddresses( int maxservers, int *count, netadr_t *padr
 finish_master:
 	if ( !nCount )
 	{
-		sprintf( szMaster, VALVE_MASTER_ADDRESS );    // IP:PORT string
+		sprintf( szMaster, VALVE_MASTER_ADDRESS ); // IP:PORT string
 
 		// Convert to netadr_t
-		if ( NET_API->StringToAdr ( szMaster, &adr ) )
+		if ( NET_API->StringToAdr( szMaster, &adr ) )
 		{
-		
-			padr[ nCount++ ] = adr;
+
+			padr[nCount++] = adr;
 		}
 	}
 
@@ -885,11 +884,11 @@ Request list of game servers from master
 */
 void CHudServers::RequestList( void )
 {
-	m_nRequesting	= 1;
-	m_nDone			= 0;
-	m_dStarted		= m_fElapsed;
+	m_nRequesting = 1;
+	m_nDone       = 0;
+	m_dStarted    = m_fElapsed;
 
-	int	count = 0;
+	int count = 0;
 	netadr_t adr;
 
 	if ( !LoadMasterAddresses( 1, &count, &adr ) )
@@ -916,11 +915,11 @@ void CHudServers::RequestList( void )
 
 void CHudServers::RequestBroadcastList( int clearpending )
 {
-	m_nRequesting	= 1;
-	m_nDone			= 0;
-	m_dStarted		= m_fElapsed;
+	m_nRequesting = 1;
+	m_nDone       = 0;
+	m_dStarted    = m_fElapsed;
 
-	netadr_t		adr;
+	netadr_t adr;
 	memset( &adr, 0, sizeof( adr ) );
 
 	if ( clearpending )
@@ -958,7 +957,7 @@ void CHudServers::RequestBroadcastList( int clearpending )
 void CHudServers::ServerPing( int server )
 {
 	server_t *p;
-	
+
 	p = GetServer( server );
 	if ( !p )
 		return;
@@ -973,7 +972,7 @@ void CHudServers::ServerPing( int server )
 void CHudServers::ServerRules( int server )
 {
 	server_t *p;
-	
+
 	p = GetServer( server );
 	if ( !p )
 		return;
@@ -988,7 +987,7 @@ void CHudServers::ServerRules( int server )
 void CHudServers::ServerPlayers( int server )
 {
 	server_t *p;
-	
+
 	p = GetServer( server );
 	if ( !p )
 		return;
@@ -1004,7 +1003,6 @@ int CHudServers::isQuerying()
 {
 	return m_nRequesting ? 1 : 0;
 }
-
 
 /*
 ===================
@@ -1026,21 +1024,20 @@ CHudServers
 */
 CHudServers::CHudServers( void )
 {
-	m_nRequesting		= 0;
-	m_dStarted			= 0.0;
-	m_nDone				= 0;
-	m_pServerList		= NULL;
-	m_pServers			= NULL;
-	m_pActiveList		= NULL;
-	m_nQuerying			= 0;
-	m_nActiveQueries	= 0;
-	
-	m_fElapsed			= 0.0;
+	m_nRequesting    = 0;
+	m_dStarted       = 0.0;
+	m_nDone          = 0;
+	m_pServerList    = NULL;
+	m_pServers       = NULL;
+	m_pActiveList    = NULL;
+	m_nQuerying      = 0;
+	m_nActiveQueries = 0;
 
+	m_fElapsed = 0.0;
 
-	m_pPingRequest		= NULL;
-	m_pRulesRequest		= NULL;
-	m_pPlayersRequest	= NULL;
+	m_pPingRequest    = NULL;
+	m_pRulesRequest   = NULL;
+	m_pPlayersRequest = NULL;
 }
 
 /*
@@ -1061,9 +1058,8 @@ CHudServers::~CHudServers( void )
 	{
 		delete m_pPingRequest;
 		m_pPingRequest = NULL;
-
 	}
-	
+
 	if ( m_pRulesRequest )
 	{
 		delete m_pRulesRequest;
@@ -1089,7 +1085,7 @@ ServersGetCount
 
 ===================
 */
-int	ServersGetCount( void )
+int ServersGetCount( void )
 {
 	if ( g_pServers )
 	{
@@ -1098,7 +1094,7 @@ int	ServersGetCount( void )
 	return 0;
 }
 
-int	ServersIsQuerying( void )
+int ServersIsQuerying( void )
 {
 	if ( g_pServers )
 	{
@@ -1119,7 +1115,7 @@ const char *ServersGetInfo( int server )
 	{
 		return g_pServers->GetServerInfo( server );
 	}
-	
+
 	return NULL;
 }
 
@@ -1156,7 +1152,7 @@ void ServersInit( void )
 {
 	// Kill any previous instance
 	ServersShutdown();
-	
+
 	g_pServers = new CHudServers();
 }
 

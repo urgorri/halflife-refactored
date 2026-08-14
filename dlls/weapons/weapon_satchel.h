@@ -3,18 +3,17 @@
 
 class CSatchel : public CBasePlayerWeapon
 {
-public:
-
+  public:
 #ifndef CLIENT_DLL
-	int		Save( CSave &save );
-	int		Restore( CRestore &restore );
-	static	TYPEDESCRIPTION m_SaveData[];
+	int Save( CSave &save );
+	int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
 #endif
 
 	void Spawn( void );
 	void Precache( void );
 	int iItemSlot( void ) { return 5; }
-	int GetItemInfo(ItemInfo *p);
+	int GetItemInfo( ItemInfo *p );
 	int AddToPlayer( CBasePlayer *pPlayer );
 	void PrimaryAttack( void );
 	void SecondaryAttack( void );
@@ -36,6 +35,5 @@ public:
 #endif
 	}
 };
-
 
 #endif // WEAPON_SATCHEL_H

@@ -6,7 +6,7 @@
 
 class CFuncTankRocket : public CFuncTank
 {
-public:
+  public:
 	void Precache( void );
 	void Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker );
 };
@@ -18,15 +18,13 @@ void CFuncTankRocket::Precache( void )
 	CFuncTank::Precache();
 }
 
-
-
 void CFuncTankRocket::Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker )
 {
 	int i;
 
 	if ( m_fireLast != 0 )
 	{
-		int bulletCount = (gpGlobals->time - m_fireLast) * m_fireRate;
+		int bulletCount = ( gpGlobals->time - m_fireLast ) * m_fireRate;
 		if ( bulletCount > 0 )
 		{
 			for ( i = 0; i < bulletCount; i++ )

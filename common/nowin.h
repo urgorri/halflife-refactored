@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2001, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -13,4 +13,4 @@
 #include <sys/types.h>
 
 #endif //!_WIN32
-#endif //INC_NOWIN_H
+#endif // INC_NOWIN_H

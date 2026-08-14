@@ -1,12 +1,12 @@
-#if !defined ( BENCHH )
+#if !defined( BENCHH )
 #define BENCHH
 #pragma once
 
-#define FIRST_STAGE		1
-#define SECOND_STAGE	2
-#define THIRD_STAGE		3
-#define FOURTH_STAGE	4
-#define LAST_STAGE		( FOURTH_STAGE )
+#define FIRST_STAGE 1
+#define SECOND_STAGE 2
+#define THIRD_STAGE 3
+#define FOURTH_STAGE 4
+#define LAST_STAGE ( FOURTH_STAGE )
 
 void Bench_CheckStart( void );
 

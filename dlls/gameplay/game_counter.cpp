@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 
 //	-------------------------------------------
 //
@@ -31,22 +31,21 @@
 #include "player.h"
 class CGameCounter : public CRulePointEntity
 {
-public:
-	void		Spawn( void );
-	void		Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	inline BOOL RemoveOnFire( void ) { return (pev->spawnflags & SF_GAMECOUNT_FIREONCE) ? TRUE : FALSE; }
-	inline BOOL ResetOnFire( void ) { return (pev->spawnflags & SF_GAMECOUNT_RESET) ? TRUE : FALSE; }
+  public:
+	void Spawn( void );
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	inline BOOL RemoveOnFire( void ) { return ( pev->spawnflags & SF_GAMECOUNT_FIREONCE ) ? TRUE : FALSE; }
+	inline BOOL ResetOnFire( void ) { return ( pev->spawnflags & SF_GAMECOUNT_RESET ) ? TRUE : FALSE; }
 
 	inline void CountUp( void ) { pev->frags++; }
 	inline void CountDown( void ) { pev->frags--; }
 	inline void ResetCount( void ) { pev->frags = pev->dmg; }
-	inline int  CountValue( void ) { return pev->frags; }
-	inline int	LimitValue( void ) { return pev->health; }
+	inline int CountValue( void ) { return pev->frags; }
+	inline int LimitValue( void ) { return pev->health; }
 
 	inline BOOL HitLimit( void ) { return CountValue() == LimitValue(); }
 
-private:
-
+  private:
 	inline void SetCountValue( int value ) { pev->frags = value; }
 	inline void SetInitialValue( int value ) { pev->dmg = value; }
 };
@@ -60,13 +59,12 @@ void CGameCounter::Spawn( void )
 	CRulePointEntity::Spawn();
 }
 
-
 void CGameCounter::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
 	if ( !CanFireForActivator( pActivator ) )
 		return;
 
-	switch( useType )
+	switch ( useType )
 	{
 	case USE_ON:
 	case USE_TOGGLE:
@@ -96,8 +94,6 @@ void CGameCounter::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 		}
 	}
 }
-
-
 
 //
 // Flag: Fire once

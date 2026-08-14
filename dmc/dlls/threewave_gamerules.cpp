@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 2001, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== threewave_gamerules.cpp ========================================================
@@ -26,22 +26,22 @@
 #define NUM_TEAMS 2
 
 char *sTeamNames[] =
-{
-	"SPECTATOR",
-	"RED",
-	"BLUE",
+    {
+        "SPECTATOR",
+        "RED",
+        "BLUE",
 };
 
-#include	"extdll.h"
-#include	"util.h"
-#include	"cbase.h"
-#include	"player.h"
-#include	"weapons.h"
-#include	"gamerules.h"
-#include	"skill.h"
-#include	"game.h"
-#include	"items.h"
-#include	"threewave_gamerules.h"
+#include "extdll.h"
+#include "util.h"
+#include "cbase.h"
+#include "player.h"
+#include "weapons.h"
+#include "gamerules.h"
+#include "skill.h"
+#include "game.h"
+#include "items.h"
+#include "threewave_gamerules.h"
 
 extern int gmsgCTFMsgs;
 extern int gmsgShowMenu;
@@ -50,11 +50,10 @@ extern int gmsgRuneStatus;
 extern int gmsgFlagCarrier;
 extern int gmsgScoreInfo;
 
-extern unsigned short g_usHook;	
+extern unsigned short g_usHook;
 extern unsigned short g_usCable;
 extern unsigned short g_usCarried;
 extern unsigned short g_usFlagSpawn;
-
 
 static char team_names[MAX_TEAMS][MAX_TEAMNAME_LENGTH];
 static int team_scores[MAX_TEAMS];
@@ -67,15 +66,15 @@ extern edict_t *EntSelectSpawnPoint( CBaseEntity *pPlayer, bool bCheckDM );
 extern edict_t *RuneSelectSpawnPoint( void );
 
 // Standard Scoring
-#define TEAM_CAPTURE_CAPTURE_BONUS 5 // what you get for capture
-#define TEAM_CAPTURE_TEAM_BONUS  10 // what your team gets for capture
-#define TEAM_CAPTURE_RECOVERY_BONUS  1 // what you get for recovery
-#define TEAM_CAPTURE_FLAG_BONUS  0 // what you get for picking up enemy flag
-#define TEAM_CAPTURE_FRAG_CARRIER_BONUS  2 // what you get for fragging a enemy flag carrier
-#define TEAM_CAPTURE_FLAG_RETURN_TIME 40 // seconds until auto return
+#define TEAM_CAPTURE_CAPTURE_BONUS 5      // what you get for capture
+#define TEAM_CAPTURE_TEAM_BONUS 10        // what your team gets for capture
+#define TEAM_CAPTURE_RECOVERY_BONUS 1     // what you get for recovery
+#define TEAM_CAPTURE_FLAG_BONUS 0         // what you get for picking up enemy flag
+#define TEAM_CAPTURE_FRAG_CARRIER_BONUS 2 // what you get for fragging a enemy flag carrier
+#define TEAM_CAPTURE_FLAG_RETURN_TIME 40  // seconds until auto return
 
 // bonuses
-#define TEAM_CAPTURE_CARRIER_DANGER_PROTECT_BONUS  2 // bonus for fraggin someone
+#define TEAM_CAPTURE_CARRIER_DANGER_PROTECT_BONUS 2 // bonus for fraggin someone
 // who has recently hurt your flag carrier
 #define TEAM_CAPTURE_CARRIER_PROTECT_BONUS 1 // bonus for fraggin someone while
 // either you or your target are near your flag carrier
@@ -98,44 +97,40 @@ extern edict_t *RuneSelectSpawnPoint( void );
 #define TEAM_CAPTURE_FRAG_CARRIER_ASSIST_TIMEOUT 6
 #define TEAM_CAPTURE_RETURN_FLAG_ASSIST_TIMEOUT 4
 
-
-
 class CThreeWaveGameMgrHelper : public IVoiceGameMgrHelper
 {
-public:
-	virtual bool		CanPlayerHearPlayer(CBasePlayer *pPlayer1, CBasePlayer *pPlayer2)
+  public:
+	virtual bool CanPlayerHearPlayer( CBasePlayer *pPlayer1, CBasePlayer *pPlayer2 )
 	{
-		return stricmp(pPlayer1->TeamID(), pPlayer2->TeamID()) == 0;
+		return stricmp( pPlayer1->TeamID(), pPlayer2->TeamID() ) == 0;
 	}
 };
 static CThreeWaveGameMgrHelper g_GameMgrHelper;
 
+extern DLL_GLOBAL BOOL g_fGameOver;
 
-
-extern DLL_GLOBAL BOOL		g_fGameOver;
-
-char* GetTeamName( int team )
+char *GetTeamName( int team )
 {
 	if ( team < 0 || team > NUM_TEAMS )
 		team = 0;
 
-	return sTeamNames[ team ];
+	return sTeamNames[team];
 }
 
-CThreeWave :: CThreeWave()
+CThreeWave ::CThreeWave()
 {
 	// CHalfLifeMultiplay already initialized it - just override its helper callback.
-	m_VoiceGameMgr.SetHelper(&g_GameMgrHelper);
+	m_VoiceGameMgr.SetHelper( &g_GameMgrHelper );
 
 	m_DisableDeathMessages = FALSE;
-	m_DisableDeathPenalty = FALSE;
+	m_DisableDeathPenalty  = FALSE;
 
-	memset( team_names, 0, sizeof(team_names) );
-	memset( team_scores, 0, sizeof(team_scores) );
+	memset( team_names, 0, sizeof( team_names ) );
+	memset( team_scores, 0, sizeof( team_scores ) );
 	num_teams = 0;
 
 	iBlueTeamScore = iRedTeamScore = 0;
-	g_bSpawnedRunes = FALSE;
+	g_bSpawnedRunes                = FALSE;
 
 	// Copy over the team from the server config
 	m_szTeamList[0] = 0;
@@ -143,13 +138,13 @@ CThreeWave :: CThreeWave()
 	// Cache this because the team code doesn't want to deal with changing this in the middle of a game
 	strncpy( m_szTeamList, teamlist.string, TEAMPLAY_TEAMLISTLENGTH );
 
-	edict_t *pWorld = INDEXENT(0);
+	edict_t *pWorld = INDEXENT( 0 );
 	if ( pWorld && pWorld->v.team )
 	{
 		if ( teamoverride.value )
 		{
-			const char *pTeamList = STRING(pWorld->v.team);
-			if ( pTeamList && strlen(pTeamList) )
+			const char *pTeamList = STRING( pWorld->v.team );
+			if ( pTeamList && strlen( pTeamList ) )
 			{
 				strncpy( m_szTeamList, pTeamList, TEAMPLAY_TEAMLISTLENGTH );
 			}
@@ -164,35 +159,33 @@ CThreeWave :: CThreeWave()
 	RecountTeams();
 }
 
-
-BOOL CThreeWave::ClientConnected( edict_t *pEntity, const char *pszName, const char *pszAddress, char szRejectReason[ 128 ] )
+BOOL CThreeWave::ClientConnected( edict_t *pEntity, const char *pszName, const char *pszAddress, char szRejectReason[128] )
 {
-	return CHalfLifeMultiplay::ClientConnected(pEntity, pszName, pszAddress, szRejectReason);
+	return CHalfLifeMultiplay::ClientConnected( pEntity, pszName, pszAddress, szRejectReason );
 }
-
 
 extern cvar_t timeleft, fragsleft;
 
-void CThreeWave :: Think ( void )
+void CThreeWave ::Think( void )
 {
-	m_VoiceGameMgr.Update(gpGlobals->frametime);
+	m_VoiceGameMgr.Update( gpGlobals->frametime );
 
 	///// Check game rules /////
 	static int last_frags;
 	static int last_time;
 
 	int frags_remaining = 0;
-	int time_remaining = 0;
+	int time_remaining  = 0;
 
-	if ( g_fGameOver )   // someone else quit the game already
+	if ( g_fGameOver ) // someone else quit the game already
 	{
 		CHalfLifeMultiplay::Think();
 		return;
 	}
 
-	float flTimeLimit = CVAR_GET_FLOAT("mp_timelimit") * 60;
-	
-	time_remaining = (int)(flTimeLimit ? ( flTimeLimit - gpGlobals->time ) : 0);
+	float flTimeLimit = CVAR_GET_FLOAT( "mp_timelimit" ) * 60;
+
+	time_remaining = (int)( flTimeLimit ? ( flTimeLimit - gpGlobals->time ) : 0 );
 
 	if ( flTimeLimit != 0 && gpGlobals->time >= flTimeLimit )
 	{
@@ -228,8 +221,8 @@ void CThreeWave :: Think ( void )
 		SpawnRunes();
 
 	if ( m_flFlagStatusTime && m_flFlagStatusTime <= gpGlobals->time )
-         GetFlagStatus( NULL );
-	
+		GetFlagStatus( NULL );
+
 	// Updates when frags change
 	if ( frags_remaining != last_frags )
 	{
@@ -246,7 +239,7 @@ void CThreeWave :: Think ( void )
 	last_time  = time_remaining;
 }
 
-void CThreeWave :: JoinTeam ( CBasePlayer *pPlayer, int iTeam )
+void CThreeWave ::JoinTeam( CBasePlayer *pPlayer, int iTeam )
 {
 	if ( pPlayer->pev->team == iTeam )
 		return;
@@ -263,10 +256,10 @@ void CThreeWave :: JoinTeam ( CBasePlayer *pPlayer, int iTeam )
 
 		pPlayer->Spawn();
 	}
-	else 
+	else
 	{
 		ChangePlayerTeam( pPlayer, iTeam );
-        RecountTeams();
+		RecountTeams();
 	}
 }
 
@@ -274,48 +267,54 @@ int CThreeWave::TeamWithFewestPlayers( void )
 {
 
 	CBaseEntity *pPlayer = NULL;
-	CBasePlayer *player = NULL;
+	CBasePlayer *player  = NULL;
 
 	int iNumRed, iNumBlue;
-	
+
 	int iTeam;
 
 	// Initialize the player counts..
 	iNumRed = iNumBlue = 0;
-	
-	pPlayer = UTIL_FindEntityByClassname ( pPlayer, "player" );
 
-	while (	(pPlayer != NULL) && (!FNullEnt(pPlayer->edict()))	)
+	pPlayer = UTIL_FindEntityByClassname( pPlayer, "player" );
+
+	while ( ( pPlayer != NULL ) && ( !FNullEnt( pPlayer->edict() ) ) )
 	{
-		if (pPlayer->pev->flags != FL_DORMANT)
+		if ( pPlayer->pev->flags != FL_DORMANT )
 		{
-			player = GetClassPtr((CBasePlayer *)pPlayer->pev);
+			player = GetClassPtr( (CBasePlayer *)pPlayer->pev );
 
-			
-				if ( player->pev->team == RED )
-					iNumRed += 1;
-	
-				else if ( player->pev->team == BLUE )
-					iNumBlue += 1;
-		
+			if ( player->pev->team == RED )
+				iNumRed += 1;
+
+			else if ( player->pev->team == BLUE )
+				iNumBlue += 1;
 		}
-		pPlayer = UTIL_FindEntityByClassname ( pPlayer, "player" );
+		pPlayer = UTIL_FindEntityByClassname( pPlayer, "player" );
 	}
 
 	if ( iNumRed == iNumBlue )
 	{
 		switch ( RANDOM_LONG( 0, 1 ) )
 		{
-			case 0: iTeam = RED; break;
-			case 1: iTeam = BLUE; break;
+		case 0:
+			iTeam = RED;
+			break;
+		case 1:
+			iTeam = BLUE;
+			break;
 		}
 	}
-	else if ( iNumRed == 0 && iNumBlue == 0)
+	else if ( iNumRed == 0 && iNumBlue == 0 )
 	{
 		switch ( RANDOM_LONG( 0, 1 ) )
 		{
-			case 0: iTeam = RED; break;
-			case 1: iTeam = BLUE; break;
+		case 0:
+			iTeam = RED;
+			break;
+		case 1:
+			iTeam = BLUE;
+			break;
 		}
 	}
 
@@ -326,18 +325,17 @@ int CThreeWave::TeamWithFewestPlayers( void )
 		iTeam = RED;
 
 	return iTeam;
-
 }
 
-void DropRune ( CBasePlayer *pPlayer );
+void DropRune( CBasePlayer *pPlayer );
 //=========================================================
 // ClientCommand
 // the user has typed a command which is unrecognized by everything else;
 // this check to see if the gamerules knows anything about the command
 //=========================================================
-BOOL CThreeWave :: ClientCommand( CBasePlayer *pPlayer, const char *pcmd )
+BOOL CThreeWave ::ClientCommand( CBasePlayer *pPlayer, const char *pcmd )
 {
-	if( m_VoiceGameMgr.ClientCommand( pPlayer, pcmd ) )
+	if ( m_VoiceGameMgr.ClientCommand( pPlayer, pcmd ) )
 		return TRUE;
 
 	if ( FStrEq( pcmd, "menuselect" ) )
@@ -345,48 +343,48 @@ BOOL CThreeWave :: ClientCommand( CBasePlayer *pPlayer, const char *pcmd )
 		if ( CMD_ARGC() < 2 )
 			return TRUE;
 
-		int slot = atoi( CMD_ARGV(1) );
+		int slot = atoi( CMD_ARGV( 1 ) );
 
 		// select the item from the current menu
-		switch( pPlayer->m_iMenu )
+		switch ( pPlayer->m_iMenu )
 		{
-			case Team_Menu:
-				
-				switch ( slot )
-				{
-				case 1: 
-					JoinTeam( pPlayer, RED );
-					break;
-				case 2:
-					JoinTeam( pPlayer, BLUE );
-					break;
-				case 5:
-					JoinTeam( pPlayer, TeamWithFewestPlayers() );
-					break;
-				}
+		case Team_Menu:
 
+			switch ( slot )
+			{
+			case 1:
+				JoinTeam( pPlayer, RED );
 				break;
-
-			case Team_Menu_IG:
-
-				switch ( slot )
-				{
-				case 1: 
-					JoinTeam( pPlayer, RED );
-					break;
-				case 2:
-					JoinTeam( pPlayer, BLUE );
-					break;
-				case 5:
-					JoinTeam( pPlayer, TeamWithFewestPlayers() );
-					break;
-				default:
-					return TRUE;
-				}
-
+			case 2:
+				JoinTeam( pPlayer, BLUE );
 				break;
+			case 5:
+				JoinTeam( pPlayer, TeamWithFewestPlayers() );
+				break;
+			}
+
+			break;
+
+		case Team_Menu_IG:
+
+			switch ( slot )
+			{
+			case 1:
+				JoinTeam( pPlayer, RED );
+				break;
+			case 2:
+				JoinTeam( pPlayer, BLUE );
+				break;
+			case 5:
+				JoinTeam( pPlayer, TeamWithFewestPlayers() );
+				break;
+			default:
+				return TRUE;
+			}
+
+			break;
 		}
- 
+
 		return TRUE;
 	}
 	else if ( FStrEq( pcmd, "droprune" ) )
@@ -399,8 +397,8 @@ BOOL CThreeWave :: ClientCommand( CBasePlayer *pPlayer, const char *pcmd )
 	{
 		if ( pPlayer->pev->team != 0 )
 		{
-			 pPlayer->ShowMenu( 1 + 2 + 16 + 512, -1, FALSE, "#Team_Menu_Join_IG" );
-			 pPlayer->m_iMenu = Team_Menu_IG;
+			pPlayer->ShowMenu( 1 + 2 + 16 + 512, -1, FALSE, "#Team_Menu_Join_IG" );
+			pPlayer->m_iMenu = Team_Menu_IG;
 		}
 
 		return TRUE;
@@ -413,10 +411,10 @@ extern int gmsgGameMode;
 extern int gmsgSayText;
 extern int gmsgTeamInfo;
 
-void CThreeWave :: UpdateGameMode( CBasePlayer *pPlayer )
+void CThreeWave ::UpdateGameMode( CBasePlayer *pPlayer )
 {
 	MESSAGE_BEGIN( MSG_ONE, gmsgGameMode, NULL, pPlayer->edict() );
-		WRITE_BYTE( 1 );  // game mode teamplay
+	WRITE_BYTE( 1 ); // game mode teamplay
 	MESSAGE_END();
 }
 
@@ -425,31 +423,31 @@ edict_t *CThreeWave::GetPlayerSpawnSpot( CBasePlayer *pPlayer )
 	edict_t *pentSpawnSpot;
 
 	if ( FBitSet( pPlayer->m_afPhysicsFlags, PFLAG_OBSERVER ) || pPlayer->pev->team == 0 )
-	     pentSpawnSpot = EntSelectSpawnPoint( pPlayer, FALSE );
+		pentSpawnSpot = EntSelectSpawnPoint( pPlayer, FALSE );
 	else
 	{
-		if ( RANDOM_LONG ( 1, 7 ) < 3 )
-			pentSpawnSpot= EntSelectSpawnPoint( pPlayer, TRUE );	
+		if ( RANDOM_LONG( 1, 7 ) < 3 )
+			pentSpawnSpot = EntSelectSpawnPoint( pPlayer, TRUE );
 		else
-			pentSpawnSpot= EntSelectSpawnPoint( pPlayer, FALSE );	
+			pentSpawnSpot = EntSelectSpawnPoint( pPlayer, FALSE );
 	}
 
 	if ( IsMultiplayer() && pentSpawnSpot->v.target )
 	{
-		FireTargets( STRING(pentSpawnSpot->v.target), pPlayer, pPlayer, USE_TOGGLE, 0 );
+		FireTargets( STRING( pentSpawnSpot->v.target ), pPlayer, pPlayer, USE_TOGGLE, 0 );
 	}
 
-	pPlayer->pev->origin = VARS(pentSpawnSpot)->origin + Vector(0,0,1);
-	pPlayer->pev->v_angle  = g_vecZero;
-	pPlayer->pev->velocity = g_vecZero;
-	pPlayer->pev->angles = VARS(pentSpawnSpot)->angles;
+	pPlayer->pev->origin     = VARS( pentSpawnSpot )->origin + Vector( 0, 0, 1 );
+	pPlayer->pev->v_angle    = g_vecZero;
+	pPlayer->pev->velocity   = g_vecZero;
+	pPlayer->pev->angles     = VARS( pentSpawnSpot )->angles;
 	pPlayer->pev->punchangle = g_vecZero;
-	pPlayer->pev->fixangle = TRUE;
+	pPlayer->pev->fixangle   = TRUE;
 
 	return pentSpawnSpot;
 }
 
-void CThreeWave :: PlayerTakeDamage( CBasePlayer *pPlayer, CBaseEntity *pAttacker )
+void CThreeWave ::PlayerTakeDamage( CBasePlayer *pPlayer, CBaseEntity *pAttacker )
 {
 	if ( !pAttacker->IsPlayer() )
 		return;
@@ -459,36 +457,35 @@ void CThreeWave :: PlayerTakeDamage( CBasePlayer *pPlayer, CBaseEntity *pAttacke
 
 	if ( pPlayer->m_bHasFlag )
 	{
-		pPlayer->pCarrierHurter = (CBasePlayer *)pAttacker;
+		pPlayer->pCarrierHurter      = (CBasePlayer *)pAttacker;
 		pPlayer->m_flCarrierHurtTime = gpGlobals->time + TEAM_CAPTURE_CARRIER_DANGER_PROTECT_TIMEOUT;
 	}
-
 }
 
-void CThreeWave :: PlayerSpawn( CBasePlayer *pPlayer )
+void CThreeWave ::PlayerSpawn( CBasePlayer *pPlayer )
 {
-	BOOL		addDefault;
-	CBaseEntity	*pWeaponEntity = NULL;
+	BOOL addDefault;
+	CBaseEntity *pWeaponEntity = NULL;
 
 	if ( pPlayer->pev->team == 0 )
 	{
-		pPlayer->pev->takedamage		= DAMAGE_NO;
-		pPlayer->pev->solid			= SOLID_NOT;
-		pPlayer->pev->movetype		= MOVETYPE_NOCLIP;
-		pPlayer->pev->effects		|= EF_NODRAW;
+		pPlayer->pev->takedamage = DAMAGE_NO;
+		pPlayer->pev->solid      = SOLID_NOT;
+		pPlayer->pev->movetype   = MOVETYPE_NOCLIP;
+		pPlayer->pev->effects |= EF_NODRAW;
 		pPlayer->pev->flags |= FL_NOTARGET;
-        pPlayer->m_afPhysicsFlags |= PFLAG_OBSERVER;
-        pPlayer->m_iHideHUD |= HIDEHUD_WEAPONS | HIDEHUD_FLASHLIGHT | HIDEHUD_HEALTH; 
+		pPlayer->m_afPhysicsFlags |= PFLAG_OBSERVER;
+		pPlayer->m_iHideHUD |= HIDEHUD_WEAPONS | HIDEHUD_FLASHLIGHT | HIDEHUD_HEALTH;
 
 		pPlayer->m_flFlagStatusTime = gpGlobals->time + 0.1;
 	}
 	else
 	{
-		pPlayer->pev->weapons |= (1<<WEAPON_SUIT);
-		
+		pPlayer->pev->weapons |= ( 1 << WEAPON_SUIT );
+
 		addDefault = TRUE;
 
-		while ( pWeaponEntity = UTIL_FindEntityByClassname( pWeaponEntity, "game_player_equip" ))
+		while ( pWeaponEntity = UTIL_FindEntityByClassname( pWeaponEntity, "game_player_equip" ) )
 		{
 			pWeaponEntity->Touch( pPlayer );
 			addDefault = FALSE;
@@ -516,19 +513,19 @@ void CThreeWave :: PlayerSpawn( CBasePlayer *pPlayer )
 		}
 	}
 
-/*	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pPlayer->pev);
-		WRITE_BYTE( pPlayer->m_iRuneStatus );
-	MESSAGE_END();*/
+	/*	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pPlayer->pev);
+	        WRITE_BYTE( pPlayer->m_iRuneStatus );
+	    MESSAGE_END();*/
 }
 
-void CBasePlayer::ShowMenu ( int bitsValidSlots, int nDisplayTime, BOOL fNeedMore, char *pszText )
+void CBasePlayer::ShowMenu( int bitsValidSlots, int nDisplayTime, BOOL fNeedMore, char *pszText )
 {
-	MESSAGE_BEGIN( MSG_ONE, gmsgShowMenu, NULL, pev);
-        WRITE_SHORT( bitsValidSlots);
-        WRITE_CHAR( nDisplayTime );
-        WRITE_BYTE( fNeedMore );
-        WRITE_STRING (pszText);
-    MESSAGE_END();
+	MESSAGE_BEGIN( MSG_ONE, gmsgShowMenu, NULL, pev );
+	WRITE_SHORT( bitsValidSlots );
+	WRITE_CHAR( nDisplayTime );
+	WRITE_BYTE( fNeedMore );
+	WRITE_STRING( pszText );
+	MESSAGE_END();
 }
 
 //=========================================================
@@ -547,32 +544,31 @@ void CThreeWave::InitHUD( CBasePlayer *pPlayer )
 		if ( plr )
 		{
 			MESSAGE_BEGIN( MSG_ONE, gmsgTeamInfo, NULL, pPlayer->edict() );
-				WRITE_BYTE( plr->entindex() );
-				WRITE_STRING( plr->TeamID() );
+			WRITE_BYTE( plr->entindex() );
+			WRITE_STRING( plr->TeamID() );
 			MESSAGE_END();
 
-			if ( ((CBasePlayer *)plr)->m_bHasFlag )
+			if ( ( (CBasePlayer *)plr )->m_bHasFlag )
 			{
 				MESSAGE_BEGIN( MSG_ONE, gmsgFlagCarrier, NULL, pPlayer->edict() );
-					WRITE_BYTE( plr->entindex() );
-					WRITE_BYTE( 1 );
+				WRITE_BYTE( plr->entindex() );
+				WRITE_BYTE( 1 );
 				MESSAGE_END();
 			}
 		}
 	}
 
-	//Remove Rune icon if we have one.
-	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pPlayer->pev);
-		WRITE_BYTE( 0 );
+	// Remove Rune icon if we have one.
+	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pPlayer->pev );
+	WRITE_BYTE( 0 );
 	MESSAGE_END();
 
-	if ( pPlayer->pev->team == 0)
+	if ( pPlayer->pev->team == 0 )
 	{
-		 pPlayer->ShowMenu( 1 + 2 + 16, -1, FALSE, "#Team_Menu_Join" );
-		 pPlayer->m_iMenu = Team_Menu;
+		pPlayer->ShowMenu( 1 + 2 + 16, -1, FALSE, "#Team_Menu_Join" );
+		pPlayer->m_iMenu = Team_Menu;
 	}
 }
-
 
 void CThreeWave::ChangePlayerTeam( CBasePlayer *pPlayer, int iTeam )
 {
@@ -585,16 +581,16 @@ void CThreeWave::ChangePlayerTeam( CBasePlayer *pPlayer, int iTeam )
 
 		// kill the player,  remove a death,  and let them start on the new team
 		m_DisableDeathMessages = TRUE;
-		m_DisableDeathPenalty = TRUE;
+		m_DisableDeathPenalty  = TRUE;
 
-		entvars_t *pevWorld = VARS( INDEXENT(0) );
+		entvars_t *pevWorld = VARS( INDEXENT( 0 ) );
 		pPlayer->TakeDamage( pevWorld, pevWorld, 900, damageFlags );
 
 		m_DisableDeathMessages = FALSE;
-		m_DisableDeathPenalty = FALSE;
+		m_DisableDeathPenalty  = FALSE;
 	}
 
-	int oldTeam = pPlayer->pev->team;
+	int oldTeam        = pPlayer->pev->team;
 	pPlayer->pev->team = iTeam;
 
 	if ( pPlayer->pev->team == RED )
@@ -612,26 +608,25 @@ void CThreeWave::ChangePlayerTeam( CBasePlayer *pPlayer, int iTeam )
 
 	// notify everyone's HUD of the team change
 	MESSAGE_BEGIN( MSG_ALL, gmsgTeamInfo );
-		WRITE_BYTE( clientIndex );
-		WRITE_STRING( pPlayer->m_szTeamName );
+	WRITE_BYTE( clientIndex );
+	WRITE_STRING( pPlayer->m_szTeamName );
 	MESSAGE_END();
 
 	MESSAGE_BEGIN( MSG_ALL, gmsgScoreInfo );
-		WRITE_BYTE( ENTINDEX(pPlayer->edict()) );
-		WRITE_SHORT( pPlayer->pev->frags );
-		WRITE_SHORT( pPlayer->m_iDeaths );
-		WRITE_SHORT( pPlayer->pev->team );
+	WRITE_BYTE( ENTINDEX( pPlayer->edict() ) );
+	WRITE_SHORT( pPlayer->pev->frags );
+	WRITE_SHORT( pPlayer->m_iDeaths );
+	WRITE_SHORT( pPlayer->pev->team );
 	MESSAGE_END();
 
 	// log the change
-	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" joined team \"%s\"\n", 
-		STRING(pPlayer->pev->netname),
-		GETPLAYERUSERID( pPlayer->edict() ),
-		GETPLAYERAUTHID( pPlayer->edict() ),
-		GetTeamName( oldTeam ),
-		pPlayer->m_szTeamName );
+	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" joined team \"%s\"\n",
+	                STRING( pPlayer->pev->netname ),
+	                GETPLAYERUSERID( pPlayer->edict() ),
+	                GETPLAYERAUTHID( pPlayer->edict() ),
+	                GetTeamName( oldTeam ),
+	                pPlayer->m_szTeamName );
 }
-
 
 //=========================================================
 // ClientUserInfoChanged
@@ -651,31 +646,30 @@ void CThreeWave::ClientUserInfoChanged( CBasePlayer *pPlayer, char *infobuffer )
 		g_engfuncs.pfnSetClientKeyValue( clientIndex, g_engfuncs.pfnGetInfoKeyBuffer( pPlayer->edict() ), "topcolor", UTIL_VarArgs( "%d", 153 ) );
 		g_engfuncs.pfnSetClientKeyValue( clientIndex, g_engfuncs.pfnGetInfoKeyBuffer( pPlayer->edict() ), "model", "blue" );
 	}
-
 }
 
 extern int gmsgDeathMsg;
 
 //=========================================================
-// Deathnotice. 
+// Deathnotice.
 //=========================================================
 void CThreeWave::DeathNotice( CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pevInflictor )
 {
 	if ( m_DisableDeathMessages )
 		return;
-	
+
 	if ( pVictim && pKiller && pKiller->flags & FL_CLIENT )
 	{
-		CBasePlayer *pk = (CBasePlayer*) CBaseEntity::Instance( pKiller );
+		CBasePlayer *pk = (CBasePlayer *)CBaseEntity::Instance( pKiller );
 
 		if ( pk )
 		{
-			if ( (pk != pVictim) && (PlayerRelationship( pVictim, pk ) == GR_TEAMMATE) )
+			if ( ( pk != pVictim ) && ( PlayerRelationship( pVictim, pk ) == GR_TEAMMATE ) )
 			{
 				MESSAGE_BEGIN( MSG_ALL, gmsgDeathMsg );
-					WRITE_BYTE( ENTINDEX(ENT(pKiller)) );		// the killer
-					WRITE_BYTE( ENTINDEX(pVictim->edict()) );	// the victim
-					WRITE_STRING( "teammate" );		// flag this as a teammate kill
+				WRITE_BYTE( ENTINDEX( ENT( pKiller ) ) );   // the killer
+				WRITE_BYTE( ENTINDEX( pVictim->edict() ) ); // the victim
+				WRITE_STRING( "teammate" );                 // flag this as a teammate kill
 				MESSAGE_END();
 				return;
 			}
@@ -687,7 +681,7 @@ void CThreeWave::DeathNotice( CBasePlayer *pVictim, entvars_t *pKiller, entvars_
 
 //=========================================================
 //=========================================================
-void CThreeWave :: ClientDisconnected( edict_t *pClient )
+void CThreeWave ::ClientDisconnected( edict_t *pClient )
 {
 	if ( pClient )
 	{
@@ -695,52 +689,61 @@ void CThreeWave :: ClientDisconnected( edict_t *pClient )
 
 		if ( pPlayer )
 		{
-			//We have the flag, spawn it
+			// We have the flag, spawn it
 			if ( pPlayer->m_bHasFlag )
 			{
-				CBaseEntity *pEnt; 
+				CBaseEntity *pEnt;
 
-				//We have the BLUE flag, Spawn it
+				// We have the BLUE flag, Spawn it
 				if ( pPlayer->pev->team == RED )
 				{
 					pEnt = CBaseEntity::Create( "item_flag_team2", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
 
-					UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_Blue_Flag\"\n",  
-						STRING( pPlayer->pev->netname ), 
-						GETPLAYERUSERID( pPlayer->edict() ),
-						GETPLAYERAUTHID( pPlayer->edict() ),
-						GetTeamName( pPlayer->pev->team ) );
+					UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_Blue_Flag\"\n",
+					                STRING( pPlayer->pev->netname ),
+					                GETPLAYERUSERID( pPlayer->edict() ),
+					                GETPLAYERAUTHID( pPlayer->edict() ),
+					                GetTeamName( pPlayer->pev->team ) );
 				}
-				//We have the RED flag, Spawn it
+				// We have the RED flag, Spawn it
 				else if ( pPlayer->pev->team == BLUE )
 				{
 					pEnt = CBaseEntity::Create( "item_flag_team1", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
 
-					UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_Red_Flag\"\n",  
-							STRING( pPlayer->pev->netname ), 
-							GETPLAYERUSERID( pPlayer->edict() ),
-							GETPLAYERAUTHID( pPlayer->edict() ),
-							GetTeamName( pPlayer->pev->team ) );
+					UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_Red_Flag\"\n",
+					                STRING( pPlayer->pev->netname ),
+					                GETPLAYERUSERID( pPlayer->edict() ),
+					                GETPLAYERAUTHID( pPlayer->edict() ),
+					                GetTeamName( pPlayer->pev->team ) );
 				}
-   
-				pEnt->pev->velocity = pPlayer->pev->velocity * 1.2; 
+
+				pEnt->pev->velocity = pPlayer->pev->velocity * 1.2;
 				pEnt->pev->angles.x = 0;
 
-				CItemFlag *pFlag = (CItemFlag *)pEnt; 
-				pFlag->Dropped = TRUE; 
+				CItemFlag *pFlag       = (CItemFlag *)pEnt;
+				pFlag->Dropped         = TRUE;
 				pFlag->m_flDroppedTime = gpGlobals->time + TEAM_CAPTURE_FLAG_RETURN_TIME;
 
-				PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-				pPlayer->edict(), g_usCarried, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-				0.0, 0.0, pPlayer->entindex(), pPlayer->pev->team, 1, 0 );
+				PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+				                     pPlayer->edict(),
+				                     g_usCarried,
+				                     0,
+				                     (float *)&g_vecZero,
+				                     (float *)&g_vecZero,
+				                     0.0,
+				                     0.0,
+				                     pPlayer->entindex(),
+				                     pPlayer->pev->team,
+				                     1,
+				                     0 );
 
-				MESSAGE_BEGIN ( MSG_ALL, gmsgCTFMsgs, NULL );
-					if ( pPlayer->pev->team == RED )
-						WRITE_BYTE( BLUE_FLAG_LOST );
-					else if ( pPlayer->pev->team == BLUE )
-						WRITE_BYTE( RED_FLAG_LOST );
-			
-					WRITE_STRING( STRING(pPlayer->pev->netname) );
+				MESSAGE_BEGIN( MSG_ALL, gmsgCTFMsgs, NULL );
+				if ( pPlayer->pev->team == RED )
+					WRITE_BYTE( BLUE_FLAG_LOST );
+				else if ( pPlayer->pev->team == BLUE )
+					WRITE_BYTE( RED_FLAG_LOST );
+
+				WRITE_STRING( STRING( pPlayer->pev->netname ) );
 				MESSAGE_END();
 
 				m_flFlagStatusTime = gpGlobals->time + 0.1;
@@ -750,91 +753,91 @@ void CThreeWave :: ClientDisconnected( edict_t *pClient )
 
 			// drop any runes the player has
 			CBaseEntity *pRune;
-			char * runeName;
+			char *runeName;
 
 			switch ( pPlayer->m_iRuneStatus )
 			{
-				case ITEM_RUNE1_FLAG:
+			case ITEM_RUNE1_FLAG:
 
-					pRune = CBaseEntity::Create( "item_rune1", pPlayer->pev->origin, pPlayer->pev->angles, NULL );
-					
-					pRune->pev->velocity = pPlayer->pev->velocity * 1.5; 
-					pRune->pev->angles.x = 0;
-					((CResistRune*)pRune)->dropped = true;
+				pRune = CBaseEntity::Create( "item_rune1", pPlayer->pev->origin, pPlayer->pev->angles, NULL );
 
-					runeName = "ResistRune";
-						
-					break;
+				pRune->pev->velocity              = pPlayer->pev->velocity * 1.5;
+				pRune->pev->angles.x              = 0;
+				( (CResistRune *)pRune )->dropped = true;
 
-				case ITEM_RUNE2_FLAG:
+				runeName = "ResistRune";
 
-					pRune = CBaseEntity::Create( "item_rune2", pPlayer->pev->origin, pPlayer->pev->angles, NULL );
+				break;
 
-					pRune->pev->velocity = pPlayer->pev->velocity * 1.5; 
-					pRune->pev->angles.x = 0;
-					((CStrengthRune*)pRune)->dropped = true;
+			case ITEM_RUNE2_FLAG:
 
-					runeName = "StrengthRune";
-			
-					break;
+				pRune = CBaseEntity::Create( "item_rune2", pPlayer->pev->origin, pPlayer->pev->angles, NULL );
 
-				case ITEM_RUNE3_FLAG:
-			
-					pRune = CBaseEntity::Create( "item_rune3", pPlayer->pev->origin, pPlayer->pev->angles, NULL );
+				pRune->pev->velocity                = pPlayer->pev->velocity * 1.5;
+				pRune->pev->angles.x                = 0;
+				( (CStrengthRune *)pRune )->dropped = true;
 
-					pRune->pev->velocity = pPlayer->pev->velocity * 1.5; 
-					pRune->pev->angles.x = 0;
-					((CHasteRune*)pRune)->dropped = true;
+				runeName = "StrengthRune";
 
-					runeName = "HasteRune";
-			
-					break;
+				break;
 
-				case ITEM_RUNE4_FLAG:
-			
-					pRune = CBaseEntity::Create( "item_rune4", pPlayer->pev->origin, pPlayer->pev->angles, NULL );
+			case ITEM_RUNE3_FLAG:
 
-					pRune->pev->velocity = pPlayer->pev->velocity * 1.5; 
-					pRune->pev->angles.x = 0;
-					((CRegenRune*)pRune)->dropped = true;
+				pRune = CBaseEntity::Create( "item_rune3", pPlayer->pev->origin, pPlayer->pev->angles, NULL );
 
-					runeName = "RegenRune";
-				
-					break;
+				pRune->pev->velocity             = pPlayer->pev->velocity * 1.5;
+				pRune->pev->angles.x             = 0;
+				( (CHasteRune *)pRune )->dropped = true;
 
-				default:
+				runeName = "HasteRune";
 
-					runeName = "Unknown";
+				break;
 
-					break;
+			case ITEM_RUNE4_FLAG:
+
+				pRune = CBaseEntity::Create( "item_rune4", pPlayer->pev->origin, pPlayer->pev->angles, NULL );
+
+				pRune->pev->velocity             = pPlayer->pev->velocity * 1.5;
+				pRune->pev->angles.x             = 0;
+				( (CRegenRune *)pRune )->dropped = true;
+
+				runeName = "RegenRune";
+
+				break;
+
+			default:
+
+				runeName = "Unknown";
+
+				break;
 			}
 
 			if ( pPlayer->m_iRuneStatus )
 			{
 				pPlayer->m_iRuneStatus = 0;
 
-				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_%s\"\n", 
-					STRING(pPlayer->pev->netname),
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					pPlayer->m_szTeamName,
-					runeName );
+				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_%s\"\n",
+				                STRING( pPlayer->pev->netname ),
+				                GETPLAYERUSERID( pPlayer->edict() ),
+				                GETPLAYERAUTHID( pPlayer->edict() ),
+				                pPlayer->m_szTeamName,
+				                runeName );
 			}
 
 			FireTargets( "game_playerleave", pPlayer, pPlayer, USE_TOGGLE, 0 );
 
-			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" disconnected\n",  
-				STRING( pPlayer->pev->netname ), 
-				GETPLAYERUSERID( pPlayer->edict() ),
-				GETPLAYERAUTHID( pPlayer->edict() ),
-				GetTeamName( pPlayer->pev->team ) );
+			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" disconnected\n",
+			                STRING( pPlayer->pev->netname ),
+			                GETPLAYERUSERID( pPlayer->edict() ),
+			                GETPLAYERAUTHID( pPlayer->edict() ),
+			                GetTeamName( pPlayer->pev->team ) );
 
-			pPlayer->RemoveAllItems( TRUE );// destroy all of the players weapons and items
+			pPlayer->RemoveAllItems( TRUE ); // destroy all of the players weapons and items
 		}
 	}
 }
 
-void CThreeWave :: PlayerThink( CBasePlayer *pPlayer )
+void CThreeWave ::PlayerThink( CBasePlayer *pPlayer )
 {
 	if ( g_fGameOver )
 	{
@@ -843,8 +846,8 @@ void CThreeWave :: PlayerThink( CBasePlayer *pPlayer )
 			m_iEndIntermissionButtonHit = TRUE;
 
 		// clear attack/use commands from player
-		pPlayer->m_afButtonPressed = 0;
-		pPlayer->pev->button = 0;
+		pPlayer->m_afButtonPressed  = 0;
+		pPlayer->pev->button        = 0;
 		pPlayer->m_afButtonReleased = 0;
 	}
 
@@ -863,41 +866,40 @@ void CThreeWave :: PlayerThink( CBasePlayer *pPlayer )
 	if ( pPlayer->pCarrierHurter )
 	{
 		if ( pPlayer->m_flCarrierHurtTime <= gpGlobals->time )
-			 pPlayer->pCarrierHurter = NULL;
+			pPlayer->pCarrierHurter = NULL;
 	}
 
-	if ( pPlayer->m_iRuneStatus == ITEM_RUNE4_FLAG) 
+	if ( pPlayer->m_iRuneStatus == ITEM_RUNE4_FLAG )
 	{
-		if ( pPlayer->m_flRegenTime <= gpGlobals->time) 
+		if ( pPlayer->m_flRegenTime <= gpGlobals->time )
 		{
-			
 
-			if ( pPlayer->pev->health < 150 ) 
+			if ( pPlayer->pev->health < 150 )
 			{
 				pPlayer->pev->health += 5;
 
-				if ( pPlayer->pev->health > 150)
+				if ( pPlayer->pev->health > 150 )
 					pPlayer->pev->health = 150;
 
 				pPlayer->m_flRegenTime = gpGlobals->time + 1;
-				
-				EMIT_SOUND(ENT(pPlayer->pev), CHAN_ITEM, "rune/rune4.wav", 1, ATTN_NORM);
+
+				EMIT_SOUND( ENT( pPlayer->pev ), CHAN_ITEM, "rune/rune4.wav", 1, ATTN_NORM );
 			}
 			if ( pPlayer->pev->armorvalue < 150 && pPlayer->pev->armorvalue )
 			{
 				pPlayer->pev->armorvalue += 5;
 
-				if ( pPlayer->pev->armorvalue > 150)
+				if ( pPlayer->pev->armorvalue > 150 )
 					pPlayer->pev->armorvalue = 150;
 
 				pPlayer->m_flRegenTime = gpGlobals->time + 1;
 
-				EMIT_SOUND(ENT(pPlayer->pev), CHAN_ITEM, "rune/rune4.wav", 1, ATTN_NORM);
+				EMIT_SOUND( ENT( pPlayer->pev ), CHAN_ITEM, "rune/rune4.wav", 1, ATTN_NORM );
 			}
 		}
 	}
 
-	if ( pPlayer->m_bOn_Hook ) 
+	if ( pPlayer->m_bOn_Hook )
 		pPlayer->Service_Grapple();
 
 	if ( pPlayer->m_flFlagStatusTime && pPlayer->m_flFlagStatusTime <= gpGlobals->time )
@@ -906,23 +908,23 @@ void CThreeWave :: PlayerThink( CBasePlayer *pPlayer )
 
 //=========================================================
 //=========================================================
-void CThreeWave :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor )
+void CThreeWave ::PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor )
 {
-	CBasePlayer *pk = NULL; 
-	
+	CBasePlayer *pk = NULL;
+
 	if ( pKiller )
 	{
-		CBaseEntity *pTemp =  CBaseEntity::Instance( pKiller );
+		CBaseEntity *pTemp = CBaseEntity::Instance( pKiller );
 
 		if ( pTemp->IsPlayer() )
-			pk = (CBasePlayer*)pTemp;
+			pk = (CBasePlayer *)pTemp;
 	}
-	
-	//Only award a bonus if the Flag carrier had the flag for more than 2 secs
-	//Prevents from people waiting for the flag carrier to grab the flag and then killing him
-	//Instead of actually defending the flag.
-	if ( pVictim->m_bHasFlag  )
-    {
+
+	// Only award a bonus if the Flag carrier had the flag for more than 2 secs
+	// Prevents from people waiting for the flag carrier to grab the flag and then killing him
+	// Instead of actually defending the flag.
+	if ( pVictim->m_bHasFlag )
+	{
 		if ( pk )
 		{
 			if ( pVictim->pev->team != pk->pev->team )
@@ -937,26 +939,26 @@ void CThreeWave :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entva
 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "BLUE" );
 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier!\n" );
 
-					UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Killed_Enemy_Flag_Carrier\"\n",  
-						STRING( pk->pev->netname ), 
-						GETPLAYERUSERID( pk->edict() ),
-						GETPLAYERAUTHID( pk->edict() ),
-						GetTeamName( pk->pev->team ) );
+					UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Killed_Enemy_Flag_Carrier\"\n",
+					                STRING( pk->pev->netname ),
+					                GETPLAYERUSERID( pk->edict() ),
+					                GETPLAYERAUTHID( pk->edict() ),
+					                GetTeamName( pk->pev->team ) );
 
 					if ( iBlueFlagStatus == BLUE_FLAG_STOLEN )
 					{
 						for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 						{
 							CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
-														
+
 							if ( pTeamMate )
+							{
+								if ( pTeamMate->m_bHasFlag )
 								{
-									if ( pTeamMate->m_bHasFlag )
-									{
-										pTeamMate->pFlagCarrierKiller = pk;
-										pTeamMate->m_flFlagCarrierKillTime = gpGlobals->time + TEAM_CAPTURE_FRAG_CARRIER_ASSIST_TIMEOUT;
-									}
+									pTeamMate->pFlagCarrierKiller      = pk;
+									pTeamMate->m_flFlagCarrierKillTime = gpGlobals->time + TEAM_CAPTURE_FRAG_CARRIER_ASSIST_TIMEOUT;
 								}
+							}
 						}
 					}
 				}
@@ -968,76 +970,84 @@ void CThreeWave :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entva
 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED" );
 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier!\n" );
 
-					UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Killed_Enemy_Flag_Carrier\"\n",  
-						STRING( pk->pev->netname ), 
-						GETPLAYERUSERID( pk->edict() ),
-						GETPLAYERAUTHID( pk->edict() ),
-						GetTeamName( pk->pev->team ) );
+					UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Killed_Enemy_Flag_Carrier\"\n",
+					                STRING( pk->pev->netname ),
+					                GETPLAYERUSERID( pk->edict() ),
+					                GETPLAYERAUTHID( pk->edict() ),
+					                GetTeamName( pk->pev->team ) );
 
 					if ( iRedFlagStatus == RED_FLAG_STOLEN )
 					{
 						for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 						{
 							CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
-														
+
 							if ( pTeamMate )
+							{
+								if ( pTeamMate->m_bHasFlag )
 								{
-									if ( pTeamMate->m_bHasFlag )
-									{
-										pTeamMate->pFlagCarrierKiller = pk;
-										pTeamMate->m_flFlagCarrierKillTime = gpGlobals->time + TEAM_CAPTURE_FRAG_CARRIER_ASSIST_TIMEOUT;
-									}
+									pTeamMate->pFlagCarrierKiller      = pk;
+									pTeamMate->m_flFlagCarrierKillTime = gpGlobals->time + TEAM_CAPTURE_FRAG_CARRIER_ASSIST_TIMEOUT;
 								}
+							}
 						}
 					}
 				}
 			}
 		}
 
+		CBaseEntity *pEnt;
 
-        CBaseEntity *pEnt; 
-
-		//We have the BLUE flag, Spawn it
-        if ( pVictim->pev->team == RED )
+		// We have the BLUE flag, Spawn it
+		if ( pVictim->pev->team == RED )
 		{
-            pEnt = CBaseEntity::Create( "item_flag_team2", pVictim->pev->origin, pVictim->pev->angles, pVictim->edict() );
+			pEnt = CBaseEntity::Create( "item_flag_team2", pVictim->pev->origin, pVictim->pev->angles, pVictim->edict() );
 
-			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_Blue_Flag\"\n",  
-				STRING( pVictim->pev->netname ), 
-				GETPLAYERUSERID( pVictim->edict() ),
-				GETPLAYERAUTHID( pVictim->edict() ),
-				GetTeamName( pVictim->pev->team ) );
+			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_Blue_Flag\"\n",
+			                STRING( pVictim->pev->netname ),
+			                GETPLAYERUSERID( pVictim->edict() ),
+			                GETPLAYERAUTHID( pVictim->edict() ),
+			                GetTeamName( pVictim->pev->team ) );
 		}
 		else if ( pVictim->pev->team == BLUE )
 		{
-            pEnt = CBaseEntity::Create( "item_flag_team1", pVictim->pev->origin, pVictim->pev->angles, pVictim->edict() );
+			pEnt = CBaseEntity::Create( "item_flag_team1", pVictim->pev->origin, pVictim->pev->angles, pVictim->edict() );
 
-			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_Red_Flag\"\n",  
-				STRING( pVictim->pev->netname ), 
-				GETPLAYERUSERID( pVictim->edict() ),
-				GETPLAYERAUTHID( pVictim->edict() ),
-				GetTeamName( pVictim->pev->team ) );
+			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_Red_Flag\"\n",
+			                STRING( pVictim->pev->netname ),
+			                GETPLAYERUSERID( pVictim->edict() ),
+			                GETPLAYERAUTHID( pVictim->edict() ),
+			                GetTeamName( pVictim->pev->team ) );
 		}
-       
-        pEnt->pev->velocity = pVictim->pev->velocity * 1.2; 
+
+		pEnt->pev->velocity = pVictim->pev->velocity * 1.2;
 		pEnt->pev->angles.x = 0;
 
-        CItemFlag *pFlag = (CItemFlag *)pEnt; 
-        pFlag->Dropped = TRUE; 
+		CItemFlag *pFlag = (CItemFlag *)pEnt;
+		pFlag->Dropped   = TRUE;
 
-		PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-		pVictim->edict(), g_usCarried, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-		0.0, 0.0, pVictim->entindex(), pVictim->pev->team, 1, 0 );
+		PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+		                     pVictim->edict(),
+		                     g_usCarried,
+		                     0,
+		                     (float *)&g_vecZero,
+		                     (float *)&g_vecZero,
+		                     0.0,
+		                     0.0,
+		                     pVictim->entindex(),
+		                     pVictim->pev->team,
+		                     1,
+		                     0 );
 
 		pFlag->m_flDroppedTime = gpGlobals->time + TEAM_CAPTURE_FLAG_RETURN_TIME;
 
-        MESSAGE_BEGIN ( MSG_ALL, gmsgCTFMsgs, NULL );
-			if ( pVictim->pev->team == RED )
-				WRITE_BYTE( BLUE_FLAG_LOST );
-			else if ( pVictim->pev->team == BLUE )
-				WRITE_BYTE( RED_FLAG_LOST );
-	
-			WRITE_STRING( STRING(pVictim->pev->netname) );
+		MESSAGE_BEGIN( MSG_ALL, gmsgCTFMsgs, NULL );
+		if ( pVictim->pev->team == RED )
+			WRITE_BYTE( BLUE_FLAG_LOST );
+		else if ( pVictim->pev->team == BLUE )
+			WRITE_BYTE( RED_FLAG_LOST );
+
+		WRITE_STRING( STRING( pVictim->pev->netname ) );
 		MESSAGE_END();
 
 		pVictim->m_bHasFlag = FALSE;
@@ -1048,79 +1058,78 @@ void CThreeWave :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entva
 	{
 		if ( pk )
 		{
-				if ( pk->pev->team == RED )
+			if ( pk->pev->team == RED )
+			{
+				if ( iBlueFlagStatus == BLUE_FLAG_STOLEN )
 				{
-					if ( iBlueFlagStatus == BLUE_FLAG_STOLEN )
+					for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 					{
-						for ( int i = 1; i <= gpGlobals->maxClients; i++ )
-						{
-							CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
-														
-							if ( pTeamMate && pTeamMate != pk )
-								{
-									if ( pTeamMate->pev->team == pk->pev->team )
-									{
-										if ( pTeamMate->m_bHasFlag )
-										{
-											if ( pTeamMate->pCarrierHurter )
-											{
-												if ( pTeamMate->pCarrierHurter == pVictim )
-												{
-													if ( pTeamMate->m_flCarrierHurtTime > gpGlobals->time )
-													{
-														UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pk->pev->netname ) );
- 														UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends ");
- 														UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED" );
- 														UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier against an agressive enemy\n");
-												
-													    pk->AddPoints( TEAM_CAPTURE_CARRIER_DANGER_PROTECT_BONUS, TRUE );
-													}
-												}
-											}
-										}
-									}
-								}
-						}
-					}
-				}
-		
-				if ( pk->pev->team == BLUE )
-				{
-					if ( iRedFlagStatus == RED_FLAG_STOLEN )
-					{
-						for ( int i = 1; i <= gpGlobals->maxClients; i++ )
-						{
-							CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
-														
-							if ( pTeamMate && pTeamMate != pk )
-								{
-									if ( pTeamMate->pev->team == pk->pev->team )
-									{
-										if ( pTeamMate->m_bHasFlag )
-										{
-											if ( pTeamMate->pCarrierHurter )
-											{
-												if ( pTeamMate->pCarrierHurter == pVictim )
-												{
-													if ( pTeamMate->m_flCarrierHurtTime > gpGlobals->time )
-													{
-														UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pk->pev->netname ) );
- 														UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends ");
- 														UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "BLUE" );
- 														UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier against an agressive enemy\n");
+						CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
 
-													    pk->AddPoints( TEAM_CAPTURE_CARRIER_DANGER_PROTECT_BONUS, TRUE );
-													}
-												}
+						if ( pTeamMate && pTeamMate != pk )
+						{
+							if ( pTeamMate->pev->team == pk->pev->team )
+							{
+								if ( pTeamMate->m_bHasFlag )
+								{
+									if ( pTeamMate->pCarrierHurter )
+									{
+										if ( pTeamMate->pCarrierHurter == pVictim )
+										{
+											if ( pTeamMate->m_flCarrierHurtTime > gpGlobals->time )
+											{
+												UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pk->pev->netname ) );
+												UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends " );
+												UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED" );
+												UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier against an agressive enemy\n" );
+
+												pk->AddPoints( TEAM_CAPTURE_CARRIER_DANGER_PROTECT_BONUS, TRUE );
 											}
 										}
 									}
 								}
+							}
 						}
 					}
 				}
+			}
+
+			if ( pk->pev->team == BLUE )
+			{
+				if ( iRedFlagStatus == RED_FLAG_STOLEN )
+				{
+					for ( int i = 1; i <= gpGlobals->maxClients; i++ )
+					{
+						CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
+
+						if ( pTeamMate && pTeamMate != pk )
+						{
+							if ( pTeamMate->pev->team == pk->pev->team )
+							{
+								if ( pTeamMate->m_bHasFlag )
+								{
+									if ( pTeamMate->pCarrierHurter )
+									{
+										if ( pTeamMate->pCarrierHurter == pVictim )
+										{
+											if ( pTeamMate->m_flCarrierHurtTime > gpGlobals->time )
+											{
+												UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pk->pev->netname ) );
+												UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends " );
+												UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "BLUE" );
+												UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier against an agressive enemy\n" );
+
+												pk->AddPoints( TEAM_CAPTURE_CARRIER_DANGER_PROTECT_BONUS, TRUE );
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
-		
 	}
 
 	// Find if this guy is near our flag or our flag carrier
@@ -1131,20 +1140,20 @@ void CThreeWave :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entva
 	{
 		if ( pk->pev->team == RED )
 		{
-			while((ent = UTIL_FindEntityByClassname( ent, "item_flag_team1")) != NULL)
+			while ( ( ent = UTIL_FindEntityByClassname( ent, "item_flag_team1" ) ) != NULL )
 			{
-				//Do not defend a invisible flag
+				// Do not defend a invisible flag
 				if ( ent->pev->effects & EF_NODRAW )
 					break;
 
-				Dist = (pk->pev->origin - ent->pev->origin).Length();
+				Dist = ( pk->pev->origin - ent->pev->origin ).Length();
 
 				if ( Dist <= TEAM_CAPTURE_TARGET_PROTECT_RADIUS )
 				{
-					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING ( pk->pev->netname ));
- 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends the ");
- 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED");
- 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " flag\n");
+					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pk->pev->netname ) );
+					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends the " );
+					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED" );
+					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " flag\n" );
 
 					pk->AddPoints( TEAM_CAPTURE_FLAG_DEFENSE_BONUS, TRUE );
 					break;
@@ -1152,51 +1161,50 @@ void CThreeWave :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entva
 			}
 
 			if ( iBlueFlagStatus == BLUE_FLAG_STOLEN )
+			{
+				for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 				{
-					for ( int i = 1; i <= gpGlobals->maxClients; i++ )
+					CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
+
+					if ( pTeamMate && pTeamMate != pk )
 					{
-						CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
-														
-						if ( pTeamMate && pTeamMate != pk )
+						if ( pTeamMate->pev->team == pk->pev->team )
+						{
+							if ( pTeamMate->m_bHasFlag )
 							{
-								if ( pTeamMate->pev->team == pk->pev->team )
+								Dist = ( pk->pev->origin - pTeamMate->pev->origin ).Length();
+
+								if ( Dist <= TEAM_CAPTURE_TARGET_PROTECT_RADIUS )
 								{
-									if ( pTeamMate->m_bHasFlag )
-									{
-										Dist = (pk->pev->origin - pTeamMate->pev->origin).Length();
+									UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pk->pev->netname ) );
+									UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends " );
+									UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED" );
+									UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier\n" );
 
-										if ( Dist <= TEAM_CAPTURE_TARGET_PROTECT_RADIUS )
-										{
-											UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING ( pk->pev->netname ));
- 											UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends ");
- 											UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED");
- 											UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier\n");
-
-											pk->AddPoints( TEAM_CAPTURE_CARRIER_PROTECT_BONUS, TRUE );
-										}
-									}
+									pk->AddPoints( TEAM_CAPTURE_CARRIER_PROTECT_BONUS, TRUE );
 								}
 							}
+						}
 					}
 				}
-
+			}
 		}
 		else if ( pk->pev->team == BLUE )
 		{
-			while((ent = UTIL_FindEntityByClassname( ent, "item_flag_team2")) != NULL)
+			while ( ( ent = UTIL_FindEntityByClassname( ent, "item_flag_team2" ) ) != NULL )
 			{
-				//Do not defend a invisible flag
+				// Do not defend a invisible flag
 				if ( ent->pev->effects & EF_NODRAW )
 					break;
 
-				Dist = (pk->pev->origin - ent->pev->origin).Length();
+				Dist = ( pk->pev->origin - ent->pev->origin ).Length();
 
 				if ( Dist <= TEAM_CAPTURE_TARGET_PROTECT_RADIUS )
 				{
-					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING ( pk->pev->netname ));
- 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends the ");
- 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED");
- 					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " flag\n");
+					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pk->pev->netname ) );
+					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends the " );
+					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED" );
+					UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " flag\n" );
 
 					pk->AddPoints( TEAM_CAPTURE_FLAG_DEFENSE_BONUS, TRUE );
 					break;
@@ -1204,114 +1212,113 @@ void CThreeWave :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entva
 			}
 
 			if ( iRedFlagStatus == RED_FLAG_STOLEN )
+			{
+				for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 				{
-					for ( int i = 1; i <= gpGlobals->maxClients; i++ )
+					CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
+
+					if ( pTeamMate && pTeamMate != pk )
 					{
-						CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
-													
-						if ( pTeamMate && pTeamMate != pk )
+						if ( pTeamMate->pev->team == pk->pev->team )
+						{
+							if ( pTeamMate->m_bHasFlag )
 							{
-								if ( pTeamMate->pev->team == pk->pev->team )
+								Dist = ( pk->pev->origin - pTeamMate->pev->origin ).Length();
+
+								if ( Dist <= TEAM_CAPTURE_TARGET_PROTECT_RADIUS )
 								{
-									if ( pTeamMate->m_bHasFlag )
-									{
-										Dist = (pk->pev->origin - pTeamMate->pev->origin).Length();
+									UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pk->pev->netname ) );
+									UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends " );
+									UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED" );
+									UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier\n" );
 
-										if ( Dist <= TEAM_CAPTURE_TARGET_PROTECT_RADIUS )
-										{
-											UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING ( pk->pev->netname ));
- 											UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " defends ");
- 											UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "RED");
- 											UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "'s flag carrier\n");
-
-											pk->AddPoints( TEAM_CAPTURE_CARRIER_PROTECT_BONUS, TRUE );
-										}
-									}
+									pk->AddPoints( TEAM_CAPTURE_CARRIER_PROTECT_BONUS, TRUE );
 								}
 							}
+						}
 					}
 				}
-
+			}
 		}
 	}
 
 	CBaseEntity *pRune;
-	char * runeName;
+	char *runeName;
 
 	switch ( pVictim->m_iRuneStatus )
 	{
-		case ITEM_RUNE1_FLAG:
+	case ITEM_RUNE1_FLAG:
 
-			pRune = CBaseEntity::Create( "item_rune1", pVictim->pev->origin, pVictim->pev->angles, NULL );
-			
-			pRune->pev->velocity = pVictim->pev->velocity * 1.5; 
-			pRune->pev->angles.x = 0;
-			((CResistRune*)pRune)->dropped = true;
+		pRune = CBaseEntity::Create( "item_rune1", pVictim->pev->origin, pVictim->pev->angles, NULL );
 
-			runeName = "ResistRune";
-				
-			break;
+		pRune->pev->velocity              = pVictim->pev->velocity * 1.5;
+		pRune->pev->angles.x              = 0;
+		( (CResistRune *)pRune )->dropped = true;
 
-		case ITEM_RUNE2_FLAG:
+		runeName = "ResistRune";
 
-			pRune = CBaseEntity::Create( "item_rune2", pVictim->pev->origin, pVictim->pev->angles, NULL );
+		break;
 
-			pRune->pev->velocity = pVictim->pev->velocity * 1.5; 
-			pRune->pev->angles.x = 0;
-			((CStrengthRune*)pRune)->dropped = true;
+	case ITEM_RUNE2_FLAG:
 
-			runeName = "StrengthRune";
-	
-			break;
+		pRune = CBaseEntity::Create( "item_rune2", pVictim->pev->origin, pVictim->pev->angles, NULL );
 
-		case ITEM_RUNE3_FLAG:
-	
-			pRune = CBaseEntity::Create( "item_rune3", pVictim->pev->origin, pVictim->pev->angles, NULL );
+		pRune->pev->velocity                = pVictim->pev->velocity * 1.5;
+		pRune->pev->angles.x                = 0;
+		( (CStrengthRune *)pRune )->dropped = true;
 
-			pRune->pev->velocity = pVictim->pev->velocity * 1.5; 
-			pRune->pev->angles.x = 0;
-			((CHasteRune*)pRune)->dropped = true;
+		runeName = "StrengthRune";
 
-			runeName = "HasteRune";
-	
-			break;
+		break;
 
-		case ITEM_RUNE4_FLAG:
-	
-			pRune = CBaseEntity::Create( "item_rune4", pVictim->pev->origin, pVictim->pev->angles, NULL );
+	case ITEM_RUNE3_FLAG:
 
-			pRune->pev->velocity = pVictim->pev->velocity * 1.5; 
-			pRune->pev->angles.x = 0;
-			((CRegenRune*)pRune)->dropped = true;
+		pRune = CBaseEntity::Create( "item_rune3", pVictim->pev->origin, pVictim->pev->angles, NULL );
 
-			runeName = "RegenRune";
-		
-			break;
+		pRune->pev->velocity             = pVictim->pev->velocity * 1.5;
+		pRune->pev->angles.x             = 0;
+		( (CHasteRune *)pRune )->dropped = true;
 
-		default:
+		runeName = "HasteRune";
 
-			runeName = "Unknown";
+		break;
 
-			break;
+	case ITEM_RUNE4_FLAG:
+
+		pRune = CBaseEntity::Create( "item_rune4", pVictim->pev->origin, pVictim->pev->angles, NULL );
+
+		pRune->pev->velocity             = pVictim->pev->velocity * 1.5;
+		pRune->pev->angles.x             = 0;
+		( (CRegenRune *)pRune )->dropped = true;
+
+		runeName = "RegenRune";
+
+		break;
+
+	default:
+
+		runeName = "Unknown";
+
+		break;
 	}
 
 	if ( pVictim->m_iRuneStatus )
 	{
-		UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_%s\"\n", 
-			STRING(pVictim->pev->netname),
-			GETPLAYERUSERID( pVictim->edict() ),
-			GETPLAYERAUTHID( pVictim->edict() ),
-			pVictim->m_szTeamName,
-			runeName );
+		UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_%s\"\n",
+		                STRING( pVictim->pev->netname ),
+		                GETPLAYERUSERID( pVictim->edict() ),
+		                GETPLAYERAUTHID( pVictim->edict() ),
+		                pVictim->m_szTeamName,
+		                runeName );
 	}
 
 	if ( pVictim->m_ppHook )
-	   (( CGrapple *)pVictim->m_ppHook)->Reset_Grapple();
+		( (CGrapple *)pVictim->m_ppHook )->Reset_Grapple();
 
 	pVictim->m_iRuneStatus = 0;
 
-	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pVictim->pev);
-		WRITE_BYTE( pVictim->m_iRuneStatus );
+	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pVictim->pev );
+	WRITE_BYTE( pVictim->m_iRuneStatus );
 	MESSAGE_END();
 
 	if ( !m_DisableDeathPenalty )
@@ -1320,7 +1327,6 @@ void CThreeWave :: PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entva
 		RecountTeams();
 	}
 }
-
 
 //=========================================================
 // IsTeamplay
@@ -1335,7 +1341,7 @@ BOOL CThreeWave::FPlayerCanTakeDamage( CBasePlayer *pPlayer, CBaseEntity *pAttac
 	if ( pAttacker && PlayerRelationship( pPlayer, pAttacker ) == GR_TEAMMATE )
 	{
 		// my teammate hit me.
-		if ( (CVAR_GET_FLOAT("mp_friendlyfire") == 0) && (pAttacker != pPlayer) )
+		if ( ( CVAR_GET_FLOAT( "mp_friendlyfire" ) == 0 ) && ( pAttacker != pPlayer ) )
 		{
 			// friendly fire is off, and this hit came from someone other than myself,  then don't get hurt
 			return FALSE;
@@ -1354,7 +1360,7 @@ int CThreeWave::PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget )
 	if ( !pPlayer || !pTarget || !pTarget->IsPlayer() )
 		return GR_NOTTEAMMATE;
 
-	//As simple as this
+	// As simple as this
 	if ( pPlayer->pev->team == pTarget->pev->team )
 	{
 		return GR_TEAMMATE;
@@ -1405,7 +1411,6 @@ const char *CThreeWave::GetTeamID( CBaseEntity *pEntity )
 	return pEntity->TeamID();
 }
 
-
 int CThreeWave::GetTeamIndex( const char *pTeamName )
 {
 	if ( pTeamName && *pTeamName != 0 )
@@ -1417,39 +1422,36 @@ int CThreeWave::GetTeamIndex( const char *pTeamName )
 				return tm;
 		}
 	}
-	
-	return -1;	// No match
-}
 
+	return -1; // No match
+}
 
 const char *CThreeWave::GetIndexedTeamName( int teamIndex )
 {
 	if ( teamIndex < 0 || teamIndex >= num_teams )
 		return "";
 
-	return team_names[ teamIndex ];
+	return team_names[teamIndex];
 }
 
-
-BOOL CThreeWave::IsValidTeam( const char *pTeamName ) 
+BOOL CThreeWave::IsValidTeam( const char *pTeamName )
 {
-	if ( !m_teamLimit )	// Any team is valid if the teamlist isn't set
+	if ( !m_teamLimit ) // Any team is valid if the teamlist isn't set
 		return TRUE;
 
 	return ( GetTeamIndex( pTeamName ) != -1 ) ? TRUE : FALSE;
 }
 
-
 void CThreeWave::GetFlagStatus( CBasePlayer *pPlayer )
 {
-	
-	CBaseEntity *pFlag = NULL;
-    int iFoundCount = 0;
-	int iDropped = 0;
 
-	while((pFlag = UTIL_FindEntityByClassname( pFlag, "carried_flag_team1")) != NULL)
+	CBaseEntity *pFlag = NULL;
+	int iFoundCount    = 0;
+	int iDropped       = 0;
+
+	while ( ( pFlag = UTIL_FindEntityByClassname( pFlag, "carried_flag_team1" ) ) != NULL )
 	{
-		if ( pFlag && !FBitSet( pFlag->pev->flags, FL_KILLME) )
+		if ( pFlag && !FBitSet( pFlag->pev->flags, FL_KILLME ) )
 			iFoundCount++;
 	}
 
@@ -1458,17 +1460,17 @@ void CThreeWave::GetFlagStatus( CBasePlayer *pPlayer )
 
 	if ( !iFoundCount )
 	{
-		while((pFlag = UTIL_FindEntityByClassname( pFlag, "item_flag_team1")) != NULL)
+		while ( ( pFlag = UTIL_FindEntityByClassname( pFlag, "item_flag_team1" ) ) != NULL )
 		{
 			if ( pFlag )
 			{
-				if ( ((CItemFlag *)pFlag)->Dropped )
+				if ( ( (CItemFlag *)pFlag )->Dropped )
 					iDropped++;
 
 				iFoundCount++;
 			}
 		}
-			
+
 		if ( iFoundCount > 1 && iDropped == 1 )
 			iRedFlagStatus = RED_FLAG_DROPPED;
 		else if ( iFoundCount >= 1 && iDropped == 0 )
@@ -1477,9 +1479,9 @@ void CThreeWave::GetFlagStatus( CBasePlayer *pPlayer )
 
 	iDropped = iFoundCount = 0;
 
-	while((pFlag = UTIL_FindEntityByClassname( pFlag, "carried_flag_team2")) != NULL)
+	while ( ( pFlag = UTIL_FindEntityByClassname( pFlag, "carried_flag_team2" ) ) != NULL )
 	{
-		if ( pFlag && !FBitSet( pFlag->pev->flags, FL_KILLME) )
+		if ( pFlag && !FBitSet( pFlag->pev->flags, FL_KILLME ) )
 			iFoundCount++;
 	}
 
@@ -1489,17 +1491,17 @@ void CThreeWave::GetFlagStatus( CBasePlayer *pPlayer )
 	if ( !iFoundCount )
 	{
 
-		while((pFlag = UTIL_FindEntityByClassname( pFlag, "item_flag_team2")) != NULL)
+		while ( ( pFlag = UTIL_FindEntityByClassname( pFlag, "item_flag_team2" ) ) != NULL )
 		{
 			if ( pFlag )
 			{
-				if ( ((CItemFlag *)pFlag)->Dropped )
+				if ( ( (CItemFlag *)pFlag )->Dropped )
 					iDropped++;
 
 				iFoundCount++;
 			}
 		}
-			
+
 		if ( iFoundCount > 1 && iDropped == 1 )
 			iBlueFlagStatus = BLUE_FLAG_DROPPED;
 		else if ( iFoundCount >= 1 && iDropped == 0 )
@@ -1511,21 +1513,21 @@ void CThreeWave::GetFlagStatus( CBasePlayer *pPlayer )
 		if ( pPlayer->pev->team == 0 )
 		{
 			MESSAGE_BEGIN( MSG_ONE, gmsgFlagStatus, NULL, pPlayer->edict() );
-				WRITE_BYTE( 0 );  
-				WRITE_BYTE( iRedFlagStatus );
-				WRITE_BYTE( iBlueFlagStatus );
-				WRITE_BYTE( iRedTeamScore );
-				WRITE_BYTE( iBlueTeamScore );
+			WRITE_BYTE( 0 );
+			WRITE_BYTE( iRedFlagStatus );
+			WRITE_BYTE( iBlueFlagStatus );
+			WRITE_BYTE( iRedTeamScore );
+			WRITE_BYTE( iBlueTeamScore );
 			MESSAGE_END();
 		}
 		else
 		{
 			MESSAGE_BEGIN( MSG_ONE, gmsgFlagStatus, NULL, pPlayer->edict() );
-				WRITE_BYTE( 1 );  
-				WRITE_BYTE( iRedFlagStatus );
-				WRITE_BYTE( iBlueFlagStatus );
-				WRITE_BYTE( iRedTeamScore );
-				WRITE_BYTE( iBlueTeamScore );
+			WRITE_BYTE( 1 );
+			WRITE_BYTE( iRedFlagStatus );
+			WRITE_BYTE( iBlueFlagStatus );
+			WRITE_BYTE( iRedTeamScore );
+			WRITE_BYTE( iBlueTeamScore );
 			MESSAGE_END();
 		}
 
@@ -1534,11 +1536,11 @@ void CThreeWave::GetFlagStatus( CBasePlayer *pPlayer )
 	else
 	{
 		MESSAGE_BEGIN( MSG_ALL, gmsgFlagStatus, NULL );
-				WRITE_BYTE( 1 );  
-				WRITE_BYTE( iRedFlagStatus );
-				WRITE_BYTE( iBlueFlagStatus );
-				WRITE_BYTE( iRedTeamScore );
-				WRITE_BYTE( iBlueTeamScore );
+		WRITE_BYTE( 1 );
+		WRITE_BYTE( iRedFlagStatus );
+		WRITE_BYTE( iBlueFlagStatus );
+		WRITE_BYTE( iRedTeamScore );
+		WRITE_BYTE( iBlueTeamScore );
 		MESSAGE_END();
 
 		m_flFlagStatusTime = 0.0;
@@ -1549,31 +1551,30 @@ void CThreeWave::GetFlagStatus( CBasePlayer *pPlayer )
 		CBaseEntity *plr = UTIL_PlayerByIndex( i );
 		if ( plr )
 		{
-			if ( ((CBasePlayer *)plr)->m_bHasFlag )
+			if ( ( (CBasePlayer *)plr )->m_bHasFlag )
 			{
 				MESSAGE_BEGIN( MSG_ALL, gmsgFlagCarrier, NULL );
-					WRITE_BYTE( plr->entindex() );
-					WRITE_BYTE( 1 );
+				WRITE_BYTE( plr->entindex() );
+				WRITE_BYTE( 1 );
 				MESSAGE_END();
 			}
 			else
 			{
 				MESSAGE_BEGIN( MSG_ALL, gmsgFlagCarrier, NULL );
-					WRITE_BYTE( plr->entindex() );
-					WRITE_BYTE( 0 );
+				WRITE_BYTE( plr->entindex() );
+				WRITE_BYTE( 0 );
 				MESSAGE_END();
 			}
 		}
 	}
 }
 
-
 //=========================================================
 //=========================================================
 void CThreeWave::RecountTeams( void )
 {
-	char	*pName;
-	char	teamlist[TEAMPLAY_TEAMLISTLENGTH];
+	char *pName;
+	char teamlist[TEAMPLAY_TEAMLISTLENGTH];
 
 	// loop through all teams, recounting everything
 	num_teams = 0;
@@ -1595,12 +1596,12 @@ void CThreeWave::RecountTeams( void )
 
 	if ( num_teams < 2 )
 	{
-		num_teams = 0;
+		num_teams   = 0;
 		m_teamLimit = FALSE;
 	}
 
 	// Sanity check
-	memset( team_scores, 0, sizeof(team_scores) );
+	memset( team_scores, 0, sizeof( team_scores ) );
 
 	// loop through all clients
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
@@ -1612,9 +1613,9 @@ void CThreeWave::RecountTeams( void )
 			const char *pTeamName = plr->TeamID();
 			// try add to existing team
 			int tm = GetTeamIndex( pTeamName );
-			
+
 			if ( tm < 0 ) // no team match found
-			{ 
+			{
 				if ( !m_teamLimit )
 				{
 					// add to new team
@@ -1646,38 +1647,37 @@ enum Flag_Anims
 	CARRIED,
 	WAVE_IDLE,
 	FLAG_POSITION
-}; 
+};
 
-
-void CItemFlag::Spawn ( void )
+void CItemFlag::Spawn( void )
 {
-    Precache( );
-    SET_MODEL(ENT(pev), "models/flag.mdl"); 
+	Precache();
+	SET_MODEL( ENT( pev ), "models/flag.mdl" );
 
-    pev->movetype = MOVETYPE_TOSS;
-    pev->solid = SOLID_TRIGGER;
-    UTIL_SetOrigin( pev, pev->origin );
-    UTIL_SetSize(pev, Vector(-16, -16, 0), Vector(16, 16, 16)); 
+	pev->movetype = MOVETYPE_TOSS;
+	pev->solid    = SOLID_TRIGGER;
+	UTIL_SetOrigin( pev, pev->origin );
+	UTIL_SetSize( pev, Vector( -16, -16, 0 ), Vector( 16, 16, 16 ) );
 
-    SetThink( &CItemFlag::FlagThink );
-    SetTouch( &CItemFlag::FlagTouch ); 
+	SetThink( &CItemFlag::FlagThink );
+	SetTouch( &CItemFlag::FlagTouch );
 
-    pev->nextthink = gpGlobals->time + 0.3; 
+	pev->nextthink = gpGlobals->time + 0.3;
 
-	//Set the Skin based on the team.
-    pev->skin = pev->team;
-   
-    Dropped = FALSE; 
+	// Set the Skin based on the team.
+	pev->skin = pev->team;
+
+	Dropped         = FALSE;
 	m_flDroppedTime = 0.0;
 
-    pev->sequence = NOT_CARRIED;
-    pev->framerate = 1.0; 
-   
-   // if ( !DROP_TO_FLOOR(ENT(pev)) )
-   //       ResetFlag( pev->team );
-} 
+	pev->sequence  = NOT_CARRIED;
+	pev->framerate = 1.0;
 
-void CItemFlag::FlagTouch ( CBaseEntity *pToucher  )
+	// if ( !DROP_TO_FLOOR(ENT(pev)) )
+	//       ResetFlag( pev->team );
+}
+
+void CItemFlag::FlagTouch( CBaseEntity *pToucher )
 {
 	if ( !pToucher )
 		return;
@@ -1687,45 +1687,45 @@ void CItemFlag::FlagTouch ( CBaseEntity *pToucher  )
 
 	if ( FBitSet( pev->effects, EF_NODRAW ) )
 		return;
-	
+
 	if ( pToucher->pev->health <= 0 )
-		 return;
+		return;
 
 	if ( pToucher->pev->team == 0 )
 		return;
 
 	CBasePlayer *pPlayer = (CBasePlayer *)pToucher;
 
-	//Same team as the flag
+	// Same team as the flag
 	if ( pev->team == pToucher->pev->team )
 	{
-		//Flag is dropped, let's return it
+		// Flag is dropped, let's return it
 		if ( Dropped )
 		{
 			Dropped = FALSE;
-	
+
 			pPlayer->AddPoints( TEAM_CAPTURE_RECOVERY_BONUS, TRUE );
 
 			if ( pPlayer->pev->team == RED )
 			{
 
-				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Returned_Red_Flag\"\n",  
-					STRING( pPlayer->pev->netname ), 
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					GetTeamName( pPlayer->pev->team ) );
+				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Returned_Red_Flag\"\n",
+				                STRING( pPlayer->pev->netname ),
+				                GETPLAYERUSERID( pPlayer->edict() ),
+				                GETPLAYERAUTHID( pPlayer->edict() ),
+				                GetTeamName( pPlayer->pev->team ) );
 
-				if ( ((CThreeWave *) g_pGameRules)->iBlueFlagStatus == BLUE_FLAG_STOLEN )
+				if ( ( (CThreeWave *)g_pGameRules )->iBlueFlagStatus == BLUE_FLAG_STOLEN )
 				{
 					for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 					{
 						CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
-													
+
 						if ( pTeamMate )
 						{
 							if ( pTeamMate->m_bHasFlag )
 							{
-								pTeamMate->pFlagReturner = pPlayer;
+								pTeamMate->pFlagReturner      = pPlayer;
 								pTeamMate->m_flFlagReturnTime = gpGlobals->time + TEAM_CAPTURE_RETURN_FLAG_ASSIST_TIMEOUT;
 							}
 						}
@@ -1735,23 +1735,23 @@ void CItemFlag::FlagTouch ( CBaseEntity *pToucher  )
 
 			if ( pPlayer->pev->team == BLUE )
 			{
-				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Returned_Blue_Flag\"\n",  
-					STRING( pPlayer->pev->netname ), 
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					GetTeamName( pPlayer->pev->team ) );
+				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Returned_Blue_Flag\"\n",
+				                STRING( pPlayer->pev->netname ),
+				                GETPLAYERUSERID( pPlayer->edict() ),
+				                GETPLAYERAUTHID( pPlayer->edict() ),
+				                GetTeamName( pPlayer->pev->team ) );
 
-				if ( ((CThreeWave *) g_pGameRules)->iRedFlagStatus == RED_FLAG_STOLEN )
+				if ( ( (CThreeWave *)g_pGameRules )->iRedFlagStatus == RED_FLAG_STOLEN )
 				{
 					for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 					{
 						CBasePlayer *pTeamMate = (CBasePlayer *)UTIL_PlayerByIndex( i );
-													
+
 						if ( pTeamMate )
 						{
 							if ( pTeamMate->m_bHasFlag )
 							{
-								pTeamMate->pFlagReturner = pPlayer;
+								pTeamMate->pFlagReturner      = pPlayer;
 								pTeamMate->m_flFlagReturnTime = gpGlobals->time + TEAM_CAPTURE_RETURN_FLAG_ASSIST_TIMEOUT;
 							}
 						}
@@ -1759,29 +1759,29 @@ void CItemFlag::FlagTouch ( CBaseEntity *pToucher  )
 				}
 			}
 
-			//Back at home!
+			// Back at home!
 			ResetFlag( pev->team );
-            
-			MESSAGE_BEGIN ( MSG_ALL, gmsgCTFMsgs, NULL );
-		
-				if ( pev->team == RED )
-					WRITE_BYTE( RED_FLAG_RETURNED_PLAYER );
-				else if ( pev->team == BLUE )
-					WRITE_BYTE( BLUE_FLAG_RETURNED_PLAYER );
-	
-				WRITE_STRING( STRING(pToucher->pev->netname) );
+
+			MESSAGE_BEGIN( MSG_ALL, gmsgCTFMsgs, NULL );
+
+			if ( pev->team == RED )
+				WRITE_BYTE( RED_FLAG_RETURNED_PLAYER );
+			else if ( pev->team == BLUE )
+				WRITE_BYTE( BLUE_FLAG_RETURNED_PLAYER );
+
+			WRITE_STRING( STRING( pToucher->pev->netname ) );
 			MESSAGE_END();
 
-			//Remove this one
-            UTIL_Remove( this );
-		
+			// Remove this one
+			UTIL_Remove( this );
+
 			return;
 		}
-		//Not Dropped, means it's the one in our base
+		// Not Dropped, means it's the one in our base
 		else if ( !Dropped )
 		{
-			//We have the enemy flag!
-			//Capture it!
+			// We have the enemy flag!
+			// Capture it!
 			if ( pPlayer->m_bHasFlag )
 			{
 				if ( pev->team == RED )
@@ -1789,27 +1789,35 @@ void CItemFlag::FlagTouch ( CBaseEntity *pToucher  )
 				else if ( pev->team == BLUE )
 					Capture( pPlayer, RED );
 
-				PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-				pPlayer->edict(), g_usCarried, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-				0.0, 0.0, pPlayer->entindex(), pPlayer->pev->team, 1, 0 );
-
+				PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+				                     pPlayer->edict(),
+				                     g_usCarried,
+				                     0,
+				                     (float *)&g_vecZero,
+				                     (float *)&g_vecZero,
+				                     0.0,
+				                     0.0,
+				                     pPlayer->entindex(),
+				                     pPlayer->pev->team,
+				                     1,
+				                     0 );
 
 				return;
 			}
 		}
 	}
-	else 
+	else
 	{
 		if ( Dropped )
 		{
-			MESSAGE_BEGIN ( MSG_ALL, gmsgCTFMsgs, NULL );
-			
-				if ( pev->team == RED )
-					WRITE_BYTE( RED_FLAG_STOLEN );
-				else if ( pev->team == BLUE )
-					WRITE_BYTE( BLUE_FLAG_STOLEN );
+			MESSAGE_BEGIN( MSG_ALL, gmsgCTFMsgs, NULL );
 
-				WRITE_STRING( STRING(pToucher->pev->netname) );
+			if ( pev->team == RED )
+				WRITE_BYTE( RED_FLAG_STOLEN );
+			else if ( pev->team == BLUE )
+				WRITE_BYTE( BLUE_FLAG_STOLEN );
+
+			WRITE_STRING( STRING( pToucher->pev->netname ) );
 
 			MESSAGE_END();
 
@@ -1821,50 +1829,57 @@ void CItemFlag::FlagTouch ( CBaseEntity *pToucher  )
 			{
 				pEnt = CBaseEntity::Create( "carried_flag_team1", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
 
-				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Picked_Up_Red_Flag\"\n",  
-					STRING( pPlayer->pev->netname ), 
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					GetTeamName( pPlayer->pev->team ) );
+				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Picked_Up_Red_Flag\"\n",
+				                STRING( pPlayer->pev->netname ),
+				                GETPLAYERUSERID( pPlayer->edict() ),
+				                GETPLAYERAUTHID( pPlayer->edict() ),
+				                GetTeamName( pPlayer->pev->team ) );
 			}
 			else if ( pev->team == BLUE )
 			{
 				pEnt = CBaseEntity::Create( "carried_flag_team2", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
 
-				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Picked_Up_Blue_Flag\"\n",  
-					STRING( pPlayer->pev->netname ), 
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					GetTeamName( pPlayer->pev->team ) );
+				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Picked_Up_Blue_Flag\"\n",
+				                STRING( pPlayer->pev->netname ),
+				                GETPLAYERUSERID( pPlayer->edict() ),
+				                GETPLAYERAUTHID( pPlayer->edict() ),
+				                GetTeamName( pPlayer->pev->team ) );
 			}
 
 			CCarriedFlag *pCarriedFlag = (CCarriedFlag *)pEnt;
-			pCarriedFlag->Owner = pPlayer;
-			
-			PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-			pPlayer->edict(), g_usCarried, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-			0.0, 0.0, pPlayer->entindex(), pPlayer->pev->team, 0, 0 );
+			pCarriedFlag->Owner        = pPlayer;
 
-
+			PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+			                     pPlayer->edict(),
+			                     g_usCarried,
+			                     0,
+			                     (float *)&g_vecZero,
+			                     (float *)&g_vecZero,
+			                     0.0,
+			                     0.0,
+			                     pPlayer->entindex(),
+			                     pPlayer->pev->team,
+			                     0,
+			                     0 );
 
 			UTIL_Remove( this );
 		}
 		else
 		{
 			pev->effects |= EF_NODRAW;
-			
-			MESSAGE_BEGIN ( MSG_ALL, gmsgCTFMsgs, NULL );
-			
-				if ( pev->team == RED )
-					WRITE_BYTE( RED_FLAG_STOLEN );
-				else if ( pev->team == BLUE )
-					WRITE_BYTE( BLUE_FLAG_STOLEN );
 
-				WRITE_STRING( STRING(pToucher->pev->netname) );
+			MESSAGE_BEGIN( MSG_ALL, gmsgCTFMsgs, NULL );
+
+			if ( pev->team == RED )
+				WRITE_BYTE( RED_FLAG_STOLEN );
+			else if ( pev->team == BLUE )
+				WRITE_BYTE( BLUE_FLAG_STOLEN );
+
+			WRITE_STRING( STRING( pToucher->pev->netname ) );
 
 			MESSAGE_END();
 
-			pPlayer->m_bHasFlag = TRUE;
+			pPlayer->m_bHasFlag            = TRUE;
 			pPlayer->m_flCarrierPickupTime = gpGlobals->time + TEAM_CAPTURE_CARRIER_FLAG_SINCE_TIMEOUT;
 
 			CBaseEntity *pEnt = NULL;
@@ -1873,47 +1888,56 @@ void CItemFlag::FlagTouch ( CBaseEntity *pToucher  )
 			{
 				pEnt = CBaseEntity::Create( "carried_flag_team1", pev->origin, pev->angles, pPlayer->edict() );
 
-				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Stole_Red_Flag\"\n",  
-					STRING( pPlayer->pev->netname ), 
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					GetTeamName( pPlayer->pev->team ) );
+				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Stole_Red_Flag\"\n",
+				                STRING( pPlayer->pev->netname ),
+				                GETPLAYERUSERID( pPlayer->edict() ),
+				                GETPLAYERAUTHID( pPlayer->edict() ),
+				                GetTeamName( pPlayer->pev->team ) );
 			}
 			else if ( pev->team == BLUE )
 			{
 				pEnt = CBaseEntity::Create( "carried_flag_team2", pev->origin, pev->angles, pPlayer->edict() );
 
-				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Stole_Blue_Flag\"\n",  
-					STRING( pPlayer->pev->netname ), 
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					GetTeamName( pPlayer->pev->team ) );
+				UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Stole_Blue_Flag\"\n",
+				                STRING( pPlayer->pev->netname ),
+				                GETPLAYERUSERID( pPlayer->edict() ),
+				                GETPLAYERAUTHID( pPlayer->edict() ),
+				                GetTeamName( pPlayer->pev->team ) );
 			}
 
 			CCarriedFlag *pCarriedFlag = (CCarriedFlag *)pEnt;
-			pCarriedFlag->Owner = pPlayer;
+			pCarriedFlag->Owner        = pPlayer;
 
-			PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-			pPlayer->edict(), g_usCarried, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-			0.0, 0.0, pPlayer->entindex(), pPlayer->pev->team, 0, 0 );
+			PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+			                     pPlayer->edict(),
+			                     g_usCarried,
+			                     0,
+			                     (float *)&g_vecZero,
+			                     (float *)&g_vecZero,
+			                     0.0,
+			                     0.0,
+			                     pPlayer->entindex(),
+			                     pPlayer->pev->team,
+			                     0,
+			                     0 );
 		}
-		
-		((CThreeWave *) g_pGameRules)->m_flFlagStatusTime = gpGlobals->time + 0.1;
+
+		( (CThreeWave *)g_pGameRules )->m_flFlagStatusTime = gpGlobals->time + 0.1;
 	}
 }
 
-void CItemFlag::Capture(CBasePlayer *pPlayer, int iTeam )
+void CItemFlag::Capture( CBasePlayer *pPlayer, int iTeam )
 {
-	CBaseEntity *pFlag1 = NULL; 
+	CBaseEntity *pFlag1 = NULL;
 
-	MESSAGE_BEGIN ( MSG_ALL, gmsgCTFMsgs, NULL );
-	
-		if ( iTeam == RED )
-			WRITE_BYTE( RED_FLAG_CAPTURED );
-		else if ( iTeam == BLUE )
-			WRITE_BYTE( BLUE_FLAG_CAPTURED );
+	MESSAGE_BEGIN( MSG_ALL, gmsgCTFMsgs, NULL );
 
-		WRITE_STRING( STRING( pPlayer->pev->netname) );
+	if ( iTeam == RED )
+		WRITE_BYTE( RED_FLAG_CAPTURED );
+	else if ( iTeam == BLUE )
+		WRITE_BYTE( BLUE_FLAG_CAPTURED );
+
+	WRITE_STRING( STRING( pPlayer->pev->netname ) );
 
 	MESSAGE_END();
 
@@ -1922,10 +1946,10 @@ void CItemFlag::Capture(CBasePlayer *pPlayer, int iTeam )
 		if ( pPlayer->m_flFlagCarrierKillTime > gpGlobals->time )
 		{
 			UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pPlayer->pFlagCarrierKiller->pev->netname ) );
-			UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " gets an assist for fragging the flag carrier!\n");
+			UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " gets an assist for fragging the flag carrier!\n" );
 
 			pPlayer->pFlagCarrierKiller->AddPoints( TEAM_CAPTURE_FRAG_CARRIER_ASSIST_BONUS, TRUE );
-			pPlayer->pFlagCarrierKiller = NULL;
+			pPlayer->pFlagCarrierKiller      = NULL;
 			pPlayer->m_flFlagCarrierKillTime = 0.0;
 		}
 	}
@@ -1935,10 +1959,10 @@ void CItemFlag::Capture(CBasePlayer *pPlayer, int iTeam )
 		if ( pPlayer->m_flFlagReturnTime > gpGlobals->time )
 		{
 			UTIL_ClientPrintAll( HUD_PRINTNOTIFY, STRING( pPlayer->pFlagReturner->pev->netname ) );
-			UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " gets an assist for returning his flag!\n");
+			UTIL_ClientPrintAll( HUD_PRINTNOTIFY, " gets an assist for returning his flag!\n" );
 
 			pPlayer->pFlagReturner->AddPoints( TEAM_CAPTURE_RETURN_FLAG_ASSIST_BONUS, TRUE );
-			pPlayer->pFlagReturner = NULL;
+			pPlayer->pFlagReturner      = NULL;
 			pPlayer->m_flFlagReturnTime = 0.0;
 		}
 	}
@@ -1947,27 +1971,27 @@ void CItemFlag::Capture(CBasePlayer *pPlayer, int iTeam )
 	{
 		if ( iTeam == RED )
 		{
-			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Captured_Red_Flag\"\n",  
-					STRING( pPlayer->pev->netname ), 
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					GetTeamName( pPlayer->pev->team ) );
+			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Captured_Red_Flag\"\n",
+			                STRING( pPlayer->pev->netname ),
+			                GETPLAYERUSERID( pPlayer->edict() ),
+			                GETPLAYERAUTHID( pPlayer->edict() ),
+			                GetTeamName( pPlayer->pev->team ) );
 		}
 		else
 		{
-			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Captured_Blue_Flag\"\n",  
-					STRING( pPlayer->pev->netname ), 
-					GETPLAYERUSERID( pPlayer->edict() ),
-					GETPLAYERAUTHID( pPlayer->edict() ),
-					GetTeamName( pPlayer->pev->team ) );
+			UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Captured_Blue_Flag\"\n",
+			                STRING( pPlayer->pev->netname ),
+			                GETPLAYERUSERID( pPlayer->edict() ),
+			                GETPLAYERAUTHID( pPlayer->edict() ),
+			                GetTeamName( pPlayer->pev->team ) );
 		}
 	}
 
 	if ( iTeam == RED )
 	{
-		((CThreeWave *) g_pGameRules)->iBlueTeamScore++;
+		( (CThreeWave *)g_pGameRules )->iBlueTeamScore++;
 
-		while((pFlag1 = UTIL_FindEntityByClassname( pFlag1, "carried_flag_team1")) != NULL)
+		while ( ( pFlag1 = UTIL_FindEntityByClassname( pFlag1, "carried_flag_team1" ) ) != NULL )
 		{
 			if ( pFlag1 )
 				UTIL_Remove( pFlag1 );
@@ -1975,9 +1999,9 @@ void CItemFlag::Capture(CBasePlayer *pPlayer, int iTeam )
 	}
 	else if ( iTeam == BLUE )
 	{
-		((CThreeWave *) g_pGameRules)->iRedTeamScore++;
+		( (CThreeWave *)g_pGameRules )->iRedTeamScore++;
 
-		while((pFlag1 = UTIL_FindEntityByClassname( pFlag1, "carried_flag_team2")) != NULL)
+		while ( ( pFlag1 = UTIL_FindEntityByClassname( pFlag1, "carried_flag_team2" ) ) != NULL )
 		{
 			if ( pFlag1 )
 				UTIL_Remove( pFlag1 );
@@ -1989,91 +2013,97 @@ void CItemFlag::Capture(CBasePlayer *pPlayer, int iTeam )
 	pPlayer->AddPoints( TEAM_CAPTURE_CAPTURE_BONUS, TRUE );
 
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
-		{
-			CBaseEntity *pTeamMate = UTIL_PlayerByIndex( i );
-										
-			if ( pTeamMate )
-				{
-					if ( pTeamMate->pev->team == pPlayer->pev->team )
-					     pTeamMate->AddPoints( TEAM_CAPTURE_TEAM_BONUS, TRUE );
-				}
-		}
+	{
+		CBaseEntity *pTeamMate = UTIL_PlayerByIndex( i );
 
-    ResetFlag( iTeam );
-} 
+		if ( pTeamMate )
+		{
+			if ( pTeamMate->pev->team == pPlayer->pev->team )
+				pTeamMate->AddPoints( TEAM_CAPTURE_TEAM_BONUS, TRUE );
+		}
+	}
+
+	ResetFlag( iTeam );
+}
 
 void CItemFlag::Materialize( void )
 {
-    if ( pev->effects & EF_NODRAW )
-    {        
-        pev->effects &= ~EF_NODRAW;
-        pev->effects |= EF_MUZZLEFLASH;
-    } 
+	if ( pev->effects & EF_NODRAW )
+	{
+		pev->effects &= ~EF_NODRAW;
+		pev->effects |= EF_MUZZLEFLASH;
+	}
 
-	PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-	edict(), g_usFlagSpawn, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-	0.0, 0.0, pev->team, 0, 0, 0 );
+	PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+	                     edict(),
+	                     g_usFlagSpawn,
+	                     0,
+	                     (float *)&g_vecZero,
+	                     (float *)&g_vecZero,
+	                     0.0,
+	                     0.0,
+	                     pev->team,
+	                     0,
+	                     0,
+	                     0 );
 
 	Dropped = FALSE;
 
-    SetTouch( &CItemFlag::FlagTouch );
-    SetThink( &CItemFlag::FlagThink );
-} 
-
+	SetTouch( &CItemFlag::FlagTouch );
+	SetThink( &CItemFlag::FlagThink );
+}
 
 void CItemFlag::ResetFlag( int iTeam )
 {
-	CBaseEntity *pFlag1 = NULL; 
+	CBaseEntity *pFlag1 = NULL;
 
 	if ( iTeam == BLUE )
 	{
-		while((pFlag1 = UTIL_FindEntityByClassname( pFlag1, "item_flag_team2")) != NULL)
+		while ( ( pFlag1 = UTIL_FindEntityByClassname( pFlag1, "item_flag_team2" ) ) != NULL )
 		{
 			CItemFlag *pFlag2 = (CItemFlag *)pFlag1;
 
 			if ( pFlag2->Dropped )
 				continue;
 
-			if ( pFlag2->pev->effects & EF_NODRAW)
-				 pFlag2->Materialize(); 
+			if ( pFlag2->pev->effects & EF_NODRAW )
+				pFlag2->Materialize();
 		}
-
 	}
 	else if ( iTeam == RED )
 	{
-		while((pFlag1 = UTIL_FindEntityByClassname( pFlag1, "item_flag_team1")) != NULL)
+		while ( ( pFlag1 = UTIL_FindEntityByClassname( pFlag1, "item_flag_team1" ) ) != NULL )
 		{
 			CItemFlag *pFlag2 = (CItemFlag *)pFlag1;
-			
+
 			if ( pFlag2->Dropped )
 				continue;
 
-			if ( pFlag2->pev->effects & EF_NODRAW)
-				 pFlag2->Materialize(); 
+			if ( pFlag2->pev->effects & EF_NODRAW )
+				pFlag2->Materialize();
 		}
 	}
 
-	((CThreeWave *) g_pGameRules)->m_flFlagStatusTime = gpGlobals->time + 0.1;
-
-} 
+	( (CThreeWave *)g_pGameRules )->m_flFlagStatusTime = gpGlobals->time + 0.1;
+}
 
 void CItemFlag::FlagThink( void )
 {
-   	if ( Dropped )
+	if ( Dropped )
 	{
 		if ( m_flDroppedTime <= gpGlobals->time )
 		{
-			
+
 			ResetFlag( pev->team );
-			
-			MESSAGE_BEGIN ( MSG_ALL, gmsgCTFMsgs, NULL );
-		
-				if ( pev->team == RED )
-					WRITE_BYTE( RED_FLAG_RETURNED );
-				else if ( pev->team == BLUE )
-					WRITE_BYTE( BLUE_FLAG_RETURNED );
-	
-				WRITE_STRING( "" );
+
+			MESSAGE_BEGIN( MSG_ALL, gmsgCTFMsgs, NULL );
+
+			if ( pev->team == RED )
+				WRITE_BYTE( RED_FLAG_RETURNED );
+			else if ( pev->team == BLUE )
+				WRITE_BYTE( BLUE_FLAG_RETURNED );
+
+			WRITE_STRING( "" );
 			MESSAGE_END();
 
 			UTIL_Remove( this );
@@ -2081,135 +2111,133 @@ void CItemFlag::FlagThink( void )
 		}
 	}
 
-	//Using 0.2 just in case we might lag the server.
+	// Using 0.2 just in case we might lag the server.
 	pev->nextthink = gpGlobals->time + 0.2;
-} 
+}
 
 void CItemFlag::Precache( void )
 {
-    PRECACHE_MODEL ("models/flag.mdl");
-    PRECACHE_SOUND ("ctf/flagcap.wav");
-    PRECACHE_SOUND ("ctf/flagtk.wav");
-	PRECACHE_SOUND ("ctf/flagret.wav");
-} 
+	PRECACHE_MODEL( "models/flag.mdl" );
+	PRECACHE_SOUND( "ctf/flagcap.wav" );
+	PRECACHE_SOUND( "ctf/flagtk.wav" );
+	PRECACHE_SOUND( "ctf/flagret.wav" );
+}
 
 class CItemFlagTeam1 : public CItemFlag
 {
-    void Spawn( void )
-    {
-        pev->team = RED;
-        CItemFlag::Spawn( );
-    }
-}; 
+	void Spawn( void )
+	{
+		pev->team = RED;
+		CItemFlag::Spawn();
+	}
+};
 
 class CItemFlagTeam2 : public CItemFlag
 {
-    void Spawn( void )
-    {
-        pev->team = BLUE;
-        CItemFlag::Spawn( );
-    }
-}; 
+	void Spawn( void )
+	{
+		pev->team = BLUE;
+		CItemFlag::Spawn();
+	}
+};
 
-LINK_ENTITY_TO_CLASS( item_flag_team1, CItemFlagTeam1 ); 
-LINK_ENTITY_TO_CLASS( item_flag_team2, CItemFlagTeam2 ); 
+LINK_ENTITY_TO_CLASS( item_flag_team1, CItemFlagTeam1 );
+LINK_ENTITY_TO_CLASS( item_flag_team2, CItemFlagTeam2 );
 
-
-void CCarriedFlag ::Spawn( )
+void CCarriedFlag ::Spawn()
 {
-    Precache( ); 
+	Precache();
 
-    SET_MODEL(ENT(pev), "models/flag.mdl");
-    UTIL_SetOrigin( pev, pev->origin ); 
+	SET_MODEL( ENT( pev ), "models/flag.mdl" );
+	UTIL_SetOrigin( pev, pev->origin );
 
-    pev->movetype = MOVETYPE_NONE;
-    pev->solid = SOLID_NOT; 
-  
-    pev->effects |= EF_NODRAW; 
+	pev->movetype = MOVETYPE_NONE;
+	pev->solid    = SOLID_NOT;
 
-    pev->sequence = WAVE_IDLE;
-    pev->framerate = 1.0; 
+	pev->effects |= EF_NODRAW;
 
-    if ( pev->team == RED )
-        pev->skin = 1;
-    else if ( pev->team == BLUE )
-        pev->skin = 2; 
+	pev->sequence  = WAVE_IDLE;
+	pev->framerate = 1.0;
+
+	if ( pev->team == RED )
+		pev->skin = 1;
+	else if ( pev->team == BLUE )
+		pev->skin = 2;
 
 	m_iOwnerOldVel = 0;
 
-    SetThink( &CCarriedFlag::FlagThink );
-    pev->nextthink = gpGlobals->time + 0.1;
-} 
+	SetThink( &CCarriedFlag::FlagThink );
+	pev->nextthink = gpGlobals->time + 0.1;
+}
 
-void CCarriedFlag::Precache( )
+void CCarriedFlag::Precache()
 {
-    PRECACHE_MODEL ("models/flag.mdl");
-} 
+	PRECACHE_MODEL( "models/flag.mdl" );
+}
 
-void CCarriedFlag::FlagThink( )
+void CCarriedFlag::FlagThink()
 {
-    //Make it visible
-    pev->effects &= ~EF_NODRAW; 
+	// Make it visible
+	pev->effects &= ~EF_NODRAW;
 
-    //And let if follow
-    pev->aiment = ENT(Owner->pev);
-    pev->movetype = MOVETYPE_FOLLOW; 
+	// And let if follow
+	pev->aiment   = ENT( Owner->pev );
+	pev->movetype = MOVETYPE_FOLLOW;
 
-    //Remove if owner is death
-    if (!Owner->IsAlive())
-        UTIL_Remove( this ); 
+	// Remove if owner is death
+	if ( !Owner->IsAlive() )
+		UTIL_Remove( this );
 
-    //If owner lost flag, remove
-    if ( !Owner->m_bHasFlag )
-         UTIL_Remove( this );
-    else
-    {
-	    //If owners speed is low, go in idle mode
-        if (Owner->pev->velocity.Length() <= 75 && pev->sequence != WAVE_IDLE)
-        {
-            pev->sequence = WAVE_IDLE;
-        }
-        //Else let the flag go wild
-        else if (Owner->pev->velocity.Length() >= 75 && pev->sequence != CARRIED)
-        {
-            pev->sequence = CARRIED;
-        }
-        pev->frame += pev->framerate;
-        if (pev->frame < 0.0 || pev->frame >= 256.0)
-        {
-            pev->frame -= (int)(pev->frame / 256.0) * 256.0;
-        }
-        pev->nextthink = gpGlobals->time + 0.1;
-    }
-} 
+	// If owner lost flag, remove
+	if ( !Owner->m_bHasFlag )
+		UTIL_Remove( this );
+	else
+	{
+		// If owners speed is low, go in idle mode
+		if ( Owner->pev->velocity.Length() <= 75 && pev->sequence != WAVE_IDLE )
+		{
+			pev->sequence = WAVE_IDLE;
+		}
+		// Else let the flag go wild
+		else if ( Owner->pev->velocity.Length() >= 75 && pev->sequence != CARRIED )
+		{
+			pev->sequence = CARRIED;
+		}
+		pev->frame += pev->framerate;
+		if ( pev->frame < 0.0 || pev->frame >= 256.0 )
+		{
+			pev->frame -= (int)( pev->frame / 256.0 ) * 256.0;
+		}
+		pev->nextthink = gpGlobals->time + 0.1;
+	}
+}
 
 class CCarriedFlagTeam1 : public CCarriedFlag
 {
-    void Spawn( void )
-    {
-        pev->team = RED; 
+	void Spawn( void )
+	{
+		pev->team = RED;
 
-        CCarriedFlag::Spawn( );
-    }
-}; 
+		CCarriedFlag::Spawn();
+	}
+};
 
 class CCarriedFlagTeam2 : public CCarriedFlag
 {
-    void Spawn( void )
-    {
-        pev->team = BLUE;
- 
-        CCarriedFlag::Spawn( );
-    }
-}; 
+	void Spawn( void )
+	{
+		pev->team = BLUE;
 
-LINK_ENTITY_TO_CLASS( carried_flag_team1, CCarriedFlagTeam1 ); 
-LINK_ENTITY_TO_CLASS( carried_flag_team2, CCarriedFlagTeam2 ); 
+		CCarriedFlag::Spawn();
+	}
+};
 
+LINK_ENTITY_TO_CLASS( carried_flag_team1, CCarriedFlagTeam1 );
+LINK_ENTITY_TO_CLASS( carried_flag_team2, CCarriedFlagTeam2 );
 
 /***************************************
 ****************************************
-				RUNES
+                RUNES
 ****************************************
 ***************************************/
 
@@ -2217,27 +2245,27 @@ LINK_ENTITY_TO_CLASS( carried_flag_team2, CCarriedFlagTeam2 );
   The Rune Game modes
 
   Rune 1 - Earth Magic
-	  resistance
+      resistance
   Rune 2 - Black Magic
-	  strength
+      strength
   Rune 3 - Hell Magic
-	  haste
+      haste
   Rune 4 - Elder Magic
-	  regeneration
+      regeneration
 
  ----------------------------------------------------------------------*/
 
 BOOL IsRuneSpawnPointValid( CBaseEntity *pSpot )
 {
 	CBaseEntity *ent = NULL;
-	
-	while ( (ent = UTIL_FindEntityInSphere( ent, pSpot->pev->origin, 128 )) != NULL )
+
+	while ( ( ent = UTIL_FindEntityInSphere( ent, pSpot->pev->origin, 128 ) ) != NULL )
 	{
-		//Try not to spawn it near other runes.
-		if ( !strcmp( STRING( ent->pev->classname ), "item_rune1")  || 
-			 !strcmp( STRING( ent->pev->classname ), "item_rune2")  ||
-			 !strcmp( STRING( ent->pev->classname ), "item_rune3")  ||
-			 !strcmp( STRING( ent->pev->classname ), "item_rune4")  )
+		// Try not to spawn it near other runes.
+		if ( !strcmp( STRING( ent->pev->classname ), "item_rune1" ) ||
+		     !strcmp( STRING( ent->pev->classname ), "item_rune2" ) ||
+		     !strcmp( STRING( ent->pev->classname ), "item_rune3" ) ||
+		     !strcmp( STRING( ent->pev->classname ), "item_rune4" ) )
 			return FALSE;
 	}
 
@@ -2247,18 +2275,18 @@ BOOL IsRuneSpawnPointValid( CBaseEntity *pSpot )
 edict_t *RuneSelectSpawnPoint( void )
 {
 	CBaseEntity *pSpot;
-	
+
 	pSpot = NULL;
 
 	// Randomize the start spot
-	for ( int i = RANDOM_LONG(1,5); i > 0; i-- )
+	for ( int i = RANDOM_LONG( 1, 5 ); i > 0; i-- )
 		pSpot = UTIL_FindEntityByClassname( pSpot, "info_player_deathmatch" );
-	if ( !pSpot )  // skip over the null point
+	if ( !pSpot ) // skip over the null point
 		pSpot = UTIL_FindEntityByClassname( pSpot, "info_player_deathmatch" );
 
 	CBaseEntity *pFirstSpot = pSpot;
 
-	do 
+	do
 	{
 		if ( pSpot )
 		{
@@ -2272,7 +2300,6 @@ edict_t *RuneSelectSpawnPoint( void )
 				// if so, go to pSpot
 				goto ReturnSpot;
 			}
-		
 		}
 		// increment pSpot
 		pSpot = UTIL_FindEntityByClassname( pSpot, "info_player_deathmatch" );
@@ -2281,17 +2308,17 @@ edict_t *RuneSelectSpawnPoint( void )
 	// we haven't found a place to spawn yet,  so kill any guy at the first spawn point and spawn there
 	if ( pSpot )
 		goto ReturnSpot;
-	
+
 	// If startspot is set, (re)spawn there.
-	if ( FStringNull( gpGlobals->startspot ) || !strlen(STRING(gpGlobals->startspot)))
+	if ( FStringNull( gpGlobals->startspot ) || !strlen( STRING( gpGlobals->startspot ) ) )
 	{
-		pSpot = UTIL_FindEntityByClassname(NULL, "info_player_start");
+		pSpot = UTIL_FindEntityByClassname( NULL, "info_player_start" );
 		if ( pSpot )
 			goto ReturnSpot;
 	}
 	else
 	{
-		pSpot = UTIL_FindEntityByTargetname( NULL, STRING(gpGlobals->startspot) );
+		pSpot = UTIL_FindEntityByTargetname( NULL, STRING( gpGlobals->startspot ) );
 		if ( pSpot )
 			goto ReturnSpot;
 	}
@@ -2299,29 +2326,29 @@ edict_t *RuneSelectSpawnPoint( void )
 ReturnSpot:
 	if ( !pSpot )
 	{
-		ALERT(at_error, "PutClientInServer: no info_player_start on level");
-		return INDEXENT(0);
+		ALERT( at_error, "PutClientInServer: no info_player_start on level" );
+		return INDEXENT( 0 );
 	}
 	return pSpot->edict();
 }
 
-void VectorScale (const float *in, float scale, float *out)
+void VectorScale( const float *in, float scale, float *out )
 {
-	out[0] = in[0]*scale;
-	out[1] = in[1]*scale;
-	out[2] = in[2]*scale;
+	out[0] = in[0] * scale;
+	out[1] = in[1] * scale;
+	out[2] = in[2] * scale;
 }
 
-void G_ProjectSource (vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result)
+void G_ProjectSource( vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result )
 {
 	result[0] = point[0] + forward[0] * distance[0] + right[0] * distance[1];
 	result[1] = point[1] + forward[1] * distance[0] + right[1] * distance[1];
 	result[2] = point[2] + forward[2] * distance[0] + right[2] * distance[1] + distance[2];
 }
 
-#define VectorSet(v, x, y, z)	(v[0]=(x), v[1]=(y), v[2]=(z))
+#define VectorSet( v, x, y, z ) ( v[0] = ( x ), v[1] = ( y ), v[2] = ( z ) )
 
-void DropRune ( CBasePlayer *pPlayer )
+void DropRune( CBasePlayer *pPlayer )
 {
 	TraceResult tr;
 
@@ -2331,51 +2358,51 @@ void DropRune ( CBasePlayer *pPlayer )
 
 	// Make Sure there's enough room to drop the rune here
 	// This is so hacky ( the reason why we are doing this), and I hate it to death.
-	UTIL_MakeVectors ( pPlayer->pev->v_angle );
-	Vector vecSrc	= pPlayer->GetGunPosition( );
-	Vector vecEnd	= vecSrc + gpGlobals->v_forward * 32;
+	UTIL_MakeVectors( pPlayer->pev->v_angle );
+	Vector vecSrc = pPlayer->GetGunPosition();
+	Vector vecEnd = vecSrc + gpGlobals->v_forward * 32;
 	UTIL_TraceHull( vecSrc, vecEnd, dont_ignore_monsters, human_hull, ENT( pPlayer->pev ), &tr );
 
-	if (tr.flFraction != 1)
+	if ( tr.flFraction != 1 )
 	{
 		ClientPrint( pPlayer->pev, HUD_PRINTCENTER, "Not enough room to drop the rune here." );
 		return;
 	}
 
 	CBaseEntity *pRune = NULL;
-	char * runeName;
+	char *runeName;
 
 	if ( pPlayer->m_iRuneStatus == ITEM_RUNE1_FLAG )
 	{
-		pRune = CBaseEntity::Create( "item_rune1", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
+		pRune    = CBaseEntity::Create( "item_rune1", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
 		runeName = "ResistRune";
 
 		if ( pRune )
-			((CResistRune*)pRune)->dropped = true;
+			( (CResistRune *)pRune )->dropped = true;
 	}
 	else if ( pPlayer->m_iRuneStatus == ITEM_RUNE2_FLAG )
 	{
-		pRune = CBaseEntity::Create( "item_rune2", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
+		pRune    = CBaseEntity::Create( "item_rune2", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
 		runeName = "StrengthRune";
 
 		if ( pRune )
-			((CStrengthRune*)pRune)->dropped = true;
+			( (CStrengthRune *)pRune )->dropped = true;
 	}
 	else if ( pPlayer->m_iRuneStatus == ITEM_RUNE3_FLAG )
 	{
-		pRune = CBaseEntity::Create( "item_rune3", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
+		pRune    = CBaseEntity::Create( "item_rune3", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
 		runeName = "HasteRune";
 
 		if ( pRune )
-			((CHasteRune*)pRune)->dropped = true;
+			( (CHasteRune *)pRune )->dropped = true;
 	}
 	else if ( pPlayer->m_iRuneStatus == ITEM_RUNE4_FLAG )
 	{
-		pRune = CBaseEntity::Create( "item_rune4", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
+		pRune    = CBaseEntity::Create( "item_rune4", pPlayer->pev->origin, pPlayer->pev->angles, pPlayer->edict() );
 		runeName = "RegenRune";
 
 		if ( pRune )
-			((CRegenRune*)pRune)->dropped = true;
+			( (CRegenRune *)pRune )->dropped = true;
 	}
 	else
 	{
@@ -2383,43 +2410,42 @@ void DropRune ( CBasePlayer *pPlayer )
 	}
 
 	if ( pPlayer->m_iRuneStatus == ITEM_RUNE3_FLAG )
-		g_engfuncs.pfnSetClientMaxspeed( ENT( pPlayer->pev ), PLAYER_MAX_SPEED ); //Reset Haste player speed to normal
+		g_engfuncs.pfnSetClientMaxspeed( ENT( pPlayer->pev ), PLAYER_MAX_SPEED ); // Reset Haste player speed to normal
 
 	pPlayer->m_iRuneStatus = 0;
 
-	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_%s\"\n", 
-		STRING(pPlayer->pev->netname),
-		GETPLAYERUSERID( pPlayer->edict() ),
-		GETPLAYERAUTHID( pPlayer->edict() ),
-		pPlayer->m_szTeamName,
-		runeName );
+	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Dropped_%s\"\n",
+	                STRING( pPlayer->pev->netname ),
+	                GETPLAYERUSERID( pPlayer->edict() ),
+	                GETPLAYERAUTHID( pPlayer->edict() ),
+	                pPlayer->m_szTeamName,
+	                runeName );
 
-	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pPlayer->pev);
-		WRITE_BYTE( pPlayer->m_iRuneStatus );
+	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pPlayer->pev );
+	WRITE_BYTE( pPlayer->m_iRuneStatus );
 	MESSAGE_END();
 }
 
-
-void CResistRune::RuneTouch ( CBaseEntity *pOther )
+void CResistRune::RuneTouch( CBaseEntity *pOther )
 {
-	//No toucher?
+	// No toucher?
 	if ( !pOther )
 		return;
 
-	//Not a player?
+	// Not a player?
 	if ( !pOther->IsPlayer() )
 		return;
 
-	//DEAD?!
+	// DEAD?!
 	if ( pOther->pev->health <= 0 )
-		 return;
+		return;
 
-	//Spectating?
+	// Spectating?
 	if ( pOther->pev->movetype == MOVETYPE_NOCLIP )
-		 return;
-	
-	//Only one per customer
-	if ( ((CBasePlayer *)pOther)->m_iRuneStatus )
+		return;
+
+	// Only one per customer
+	if ( ( (CBasePlayer *)pOther )->m_iRuneStatus )
 	{
 		ClientPrint( pOther->pev, HUD_PRINTCENTER, "You already have a rune!\n" );
 		return;
@@ -2428,57 +2454,56 @@ void CResistRune::RuneTouch ( CBaseEntity *pOther )
 	if ( !m_bTouchable )
 		return;
 
-	((CBasePlayer *)pOther)->m_iRuneStatus = m_iRuneFlag; //Add me the rune flag
+	( (CBasePlayer *)pOther )->m_iRuneStatus = m_iRuneFlag; // Add me the rune flag
 
 	ClientPrint( pOther->pev, HUD_PRINTCENTER, "You got the rune of Resistance!\n" );
 
-	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Found_ResistRune\"\n", 
-		STRING(pOther->pev->netname),
-		GETPLAYERUSERID( pOther->edict() ),
-		GETPLAYERAUTHID( pOther->edict() ),
-		((CBasePlayer *)pOther)->m_szTeamName );
+	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Found_ResistRune\"\n",
+	                STRING( pOther->pev->netname ),
+	                GETPLAYERUSERID( pOther->edict() ),
+	                GETPLAYERAUTHID( pOther->edict() ),
+	                ( (CBasePlayer *)pOther )->m_szTeamName );
 
-	EMIT_SOUND( ENT(pev), CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM );
+	EMIT_SOUND( ENT( pev ), CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM );
 
-	//Update my client side rune hud thingy.
-	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pOther->pev);
-		WRITE_BYTE( ((CBasePlayer *)pOther)->m_iRuneStatus );
+	// Update my client side rune hud thingy.
+	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pOther->pev );
+	WRITE_BYTE( ( (CBasePlayer *)pOther )->m_iRuneStatus );
 	MESSAGE_END();
 
-	//And Remove this entity
+	// And Remove this entity
 	UTIL_Remove( this );
 }
 
-
-void CResistRune::RuneRespawn ( void )
+void CResistRune::RuneRespawn( void )
 {
 	edict_t *pentSpawnSpot;
 	vec3_t vOrigin;
 
 	pentSpawnSpot = RuneSelectSpawnPoint();
-	vOrigin = VARS(pentSpawnSpot)->origin;
-	
+	vOrigin       = VARS( pentSpawnSpot )->origin;
+
 	UTIL_SetOrigin( pev, vOrigin );
 
 	if ( dropped )
 		UTIL_LogPrintf( "\"<-1><><>\" triggered triggered \"Respawn_ResistRune\"\n" );
-	    
+
 	Spawn();
 }
 
-void CResistRune::MakeTouchable ( void )
+void CResistRune::MakeTouchable( void )
 {
-	m_bTouchable = TRUE;
+	m_bTouchable   = TRUE;
 	pev->nextthink = gpGlobals->time + 120; // if no one touches it in two minutes,
-											// respawn it somewhere else, so inaccessible 
-											// ones will come 'back'
-	SetThink ( &CResistRune::RuneRespawn );
+	                                        // respawn it somewhere else, so inaccessible
+	                                        // ones will come 'back'
+	SetThink( &CResistRune::RuneRespawn );
 }
 
-void CResistRune::Spawn ( void )
+void CResistRune::Spawn( void )
 {
-	SET_MODEL( ENT(pev), "models/rune_resist.mdl");
-   
+	SET_MODEL( ENT( pev ), "models/rune_resist.mdl" );
+
 	m_bTouchable = FALSE;
 
 	m_iRuneFlag = ITEM_RUNE1_FLAG;
@@ -2486,72 +2511,70 @@ void CResistRune::Spawn ( void )
 	dropped = false;
 
 	pev->movetype = MOVETYPE_TOSS;
-    pev->solid = SOLID_TRIGGER;
+	pev->solid    = SOLID_TRIGGER;
 
 	vec3_t forward, right, up;
 
-	UTIL_SetSize( pev, Vector(-15, -15, -15), Vector(15, 15, 15) ); 
+	UTIL_SetSize( pev, Vector( -15, -15, -15 ), Vector( 15, 15, 15 ) );
 
 	pev->angles.z = pev->angles.x = 0;
-	pev->angles.y = RANDOM_LONG ( 0, 360 );
+	pev->angles.y                 = RANDOM_LONG( 0, 360 );
 
-	//If we got an owner, it means we are either dropping the flag or diying and letting it go.
+	// If we got an owner, it means we are either dropping the flag or diying and letting it go.
 	if ( pev->owner )
-	    g_engfuncs.pfnAngleVectors ( pev->owner->v.angles, forward, right, up );
+		g_engfuncs.pfnAngleVectors( pev->owner->v.angles, forward, right, up );
 	else
-		g_engfuncs.pfnAngleVectors ( pev->angles, forward, right, up);
+		g_engfuncs.pfnAngleVectors( pev->angles, forward, right, up );
 
 	UTIL_SetOrigin( pev, pev->origin );
-	
+
 	pev->velocity = ( forward * 400 ) + ( up * 200 );
-	
+
 	if ( pev->owner == NULL )
 	{
 		pev->origin.z += 16;
 		pev->velocity.z = 300;
 	}
-	
+
 	pev->owner = NULL;
-	
+
 	SetTouch( &CResistRune::RuneTouch );
-	
-	pev->nextthink = gpGlobals->time + 1; 
-	SetThink ( &CResistRune::MakeTouchable );
+
+	pev->nextthink = gpGlobals->time + 1;
+	SetThink( &CResistRune::MakeTouchable );
 }
 
+LINK_ENTITY_TO_CLASS( item_rune1, CResistRune );
 
-LINK_ENTITY_TO_CLASS( item_rune1, CResistRune ); 
-
-
-void CStrengthRune::MakeTouchable ( void )
+void CStrengthRune::MakeTouchable( void )
 {
-	m_bTouchable = TRUE;
+	m_bTouchable   = TRUE;
 	pev->nextthink = gpGlobals->time + 120; // if no one touches it in two minutes,
-											// respawn it somewhere else, so inaccessible 
-											// ones will come 'back'
-	SetThink ( &CStrengthRune::RuneRespawn );
+	                                        // respawn it somewhere else, so inaccessible
+	                                        // ones will come 'back'
+	SetThink( &CStrengthRune::RuneRespawn );
 }
 
-void CStrengthRune::RuneTouch ( CBaseEntity *pOther )
+void CStrengthRune::RuneTouch( CBaseEntity *pOther )
 {
-	//No toucher?
+	// No toucher?
 	if ( !pOther )
 		return;
 
-	//Not a player?
+	// Not a player?
 	if ( !pOther->IsPlayer() )
 		return;
 
-	//DEAD?!
+	// DEAD?!
 	if ( pOther->pev->health <= 0 )
-		 return;
+		return;
 
-	//Spectating?
+	// Spectating?
 	if ( pOther->pev->movetype == MOVETYPE_NOCLIP )
-		 return;
-	
-	//Only one per customer
-	if ( ((CBasePlayer *)pOther)->m_iRuneStatus )
+		return;
+
+	// Only one per customer
+	if ( ( (CBasePlayer *)pOther )->m_iRuneStatus )
 	{
 		ClientPrint( pOther->pev, HUD_PRINTCENTER, "You already have a rune!\n" );
 		return;
@@ -2560,35 +2583,35 @@ void CStrengthRune::RuneTouch ( CBaseEntity *pOther )
 	if ( !m_bTouchable )
 		return;
 
-	((CBasePlayer *)pOther)->m_iRuneStatus = m_iRuneFlag; //Add me the rune flag
+	( (CBasePlayer *)pOther )->m_iRuneStatus = m_iRuneFlag; // Add me the rune flag
 
 	ClientPrint( pOther->pev, HUD_PRINTCENTER, "You got the rune of Strength!\n" );
 
-	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Found_StrengthRune\"\n", 
-		STRING(pOther->pev->netname),
-		GETPLAYERUSERID( pOther->edict() ),
-		GETPLAYERAUTHID( pOther->edict() ),
-		((CBasePlayer *)pOther)->m_szTeamName );
+	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Found_StrengthRune\"\n",
+	                STRING( pOther->pev->netname ),
+	                GETPLAYERUSERID( pOther->edict() ),
+	                GETPLAYERAUTHID( pOther->edict() ),
+	                ( (CBasePlayer *)pOther )->m_szTeamName );
 
-	EMIT_SOUND( ENT(pev), CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM );
+	EMIT_SOUND( ENT( pev ), CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM );
 
-	//Update my client side rune hud thingy.
-	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pOther->pev);
-		WRITE_BYTE( ((CBasePlayer *)pOther)->m_iRuneStatus );
+	// Update my client side rune hud thingy.
+	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pOther->pev );
+	WRITE_BYTE( ( (CBasePlayer *)pOther )->m_iRuneStatus );
 	MESSAGE_END();
 
-	//And Remove this entity
+	// And Remove this entity
 	UTIL_Remove( this );
 }
 
-void CStrengthRune::RuneRespawn ( void )
+void CStrengthRune::RuneRespawn( void )
 {
 	edict_t *pentSpawnSpot;
 	vec3_t vOrigin;
 
 	pentSpawnSpot = RuneSelectSpawnPoint();
-	vOrigin = VARS(pentSpawnSpot)->origin;
-	
+	vOrigin       = VARS( pentSpawnSpot )->origin;
+
 	UTIL_SetOrigin( pev, vOrigin );
 
 	if ( dropped )
@@ -2597,11 +2620,10 @@ void CStrengthRune::RuneRespawn ( void )
 	Spawn();
 }
 
-
-void CStrengthRune::Spawn ( void )
+void CStrengthRune::Spawn( void )
 {
-	SET_MODEL( ENT(pev), "models/rune_strength.mdl");
-    
+	SET_MODEL( ENT( pev ), "models/rune_strength.mdl" );
+
 	m_bTouchable = FALSE;
 
 	m_iRuneFlag = ITEM_RUNE2_FLAG;
@@ -2609,72 +2631,70 @@ void CStrengthRune::Spawn ( void )
 	dropped = false;
 
 	pev->movetype = MOVETYPE_TOSS;
-    pev->solid = SOLID_TRIGGER;
+	pev->solid    = SOLID_TRIGGER;
 
 	vec3_t forward, right, up;
 
-	UTIL_SetSize( pev, Vector(-15, -15, -15), Vector(15, 15, 15) ); 
+	UTIL_SetSize( pev, Vector( -15, -15, -15 ), Vector( 15, 15, 15 ) );
 
 	pev->angles.z = pev->angles.x = 0;
-	pev->angles.y = RANDOM_LONG ( 0, 360 );
+	pev->angles.y                 = RANDOM_LONG( 0, 360 );
 
-	//If we got an owner, it means we are either dropping the flag or diying and letting it go.
+	// If we got an owner, it means we are either dropping the flag or diying and letting it go.
 	if ( pev->owner )
-	    g_engfuncs.pfnAngleVectors ( pev->owner->v.angles, forward, right, up);
+		g_engfuncs.pfnAngleVectors( pev->owner->v.angles, forward, right, up );
 	else
-		g_engfuncs.pfnAngleVectors ( pev->angles, forward, right, up);
+		g_engfuncs.pfnAngleVectors( pev->angles, forward, right, up );
 
 	UTIL_SetOrigin( pev, pev->origin );
-	
+
 	pev->velocity = ( forward * 400 ) + ( up * 200 );
-	
+
 	if ( pev->owner == NULL )
 	{
 		pev->origin.z += 16;
 		pev->velocity.z = 300;
 	}
-	
+
 	pev->owner = NULL;
-	
+
 	SetTouch( &CStrengthRune::RuneTouch );
 
-	pev->nextthink = gpGlobals->time + 1; 
-	SetThink ( &CStrengthRune::MakeTouchable );
+	pev->nextthink = gpGlobals->time + 1;
+	SetThink( &CStrengthRune::MakeTouchable );
 }
 
+LINK_ENTITY_TO_CLASS( item_rune2, CStrengthRune );
 
-LINK_ENTITY_TO_CLASS( item_rune2, CStrengthRune ); 
-
-void CHasteRune::MakeTouchable ( void )
+void CHasteRune::MakeTouchable( void )
 {
-	m_bTouchable = TRUE;
+	m_bTouchable   = TRUE;
 	pev->nextthink = gpGlobals->time + 120; // if no one touches it in two minutes,
-											// respawn it somewhere else, so inaccessible 
-											// ones will come 'back'
-	SetThink ( &CHasteRune::RuneRespawn );
+	                                        // respawn it somewhere else, so inaccessible
+	                                        // ones will come 'back'
+	SetThink( &CHasteRune::RuneRespawn );
 }
 
-
-void CHasteRune::RuneTouch ( CBaseEntity *pOther )
+void CHasteRune::RuneTouch( CBaseEntity *pOther )
 {
-	//No toucher?
+	// No toucher?
 	if ( !pOther )
 		return;
 
-	//Not a player?
+	// Not a player?
 	if ( !pOther->IsPlayer() )
 		return;
 
-	//DEAD?!
+	// DEAD?!
 	if ( pOther->pev->health <= 0 )
-		 return;
+		return;
 
-	//Spectating?
+	// Spectating?
 	if ( pOther->pev->movetype == MOVETYPE_NOCLIP )
-		 return;
-	
-	//Only one per customer
-	if ( ((CBasePlayer *)pOther)->m_iRuneStatus )
+		return;
+
+	// Only one per customer
+	if ( ( (CBasePlayer *)pOther )->m_iRuneStatus )
 	{
 		ClientPrint( pOther->pev, HUD_PRINTCENTER, "You already have a rune!\n" );
 		return;
@@ -2683,50 +2703,49 @@ void CHasteRune::RuneTouch ( CBaseEntity *pOther )
 	if ( !m_bTouchable )
 		return;
 
-	((CBasePlayer *)pOther)->m_iRuneStatus = m_iRuneFlag; //Add me the rune flag
+	( (CBasePlayer *)pOther )->m_iRuneStatus = m_iRuneFlag; // Add me the rune flag
 
 	ClientPrint( pOther->pev, HUD_PRINTCENTER, "You got the rune of Haste!\n" );
 
-	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Found_HasteRune\"\n", 
-		STRING(pOther->pev->netname),
-		GETPLAYERUSERID( pOther->edict() ),
-		GETPLAYERAUTHID( pOther->edict() ),
-		((CBasePlayer *)pOther)->m_szTeamName );
+	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Found_HasteRune\"\n",
+	                STRING( pOther->pev->netname ),
+	                GETPLAYERUSERID( pOther->edict() ),
+	                GETPLAYERAUTHID( pOther->edict() ),
+	                ( (CBasePlayer *)pOther )->m_szTeamName );
 
-	g_engfuncs.pfnSetClientMaxspeed( ENT( pOther->pev ), ( PLAYER_MAX_SPEED * 1.25 ) ); //25% more speed
+	g_engfuncs.pfnSetClientMaxspeed( ENT( pOther->pev ), ( PLAYER_MAX_SPEED * 1.25 ) ); // 25% more speed
 
-	EMIT_SOUND( ENT(pev), CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM );
+	EMIT_SOUND( ENT( pev ), CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM );
 
-	//Update my client side rune hud thingy.
-	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pOther->pev);
-		WRITE_BYTE( ((CBasePlayer *)pOther)->m_iRuneStatus );
+	// Update my client side rune hud thingy.
+	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pOther->pev );
+	WRITE_BYTE( ( (CBasePlayer *)pOther )->m_iRuneStatus );
 	MESSAGE_END();
 
-	//And Remove this entity
+	// And Remove this entity
 	UTIL_Remove( this );
 }
 
-void CHasteRune::RuneRespawn ( void )
+void CHasteRune::RuneRespawn( void )
 {
 	edict_t *pentSpawnSpot;
 	vec3_t vOrigin;
 
 	pentSpawnSpot = RuneSelectSpawnPoint();
-	vOrigin = VARS(pentSpawnSpot)->origin;
-	
+	vOrigin       = VARS( pentSpawnSpot )->origin;
+
 	UTIL_SetOrigin( pev, vOrigin );
 
 	if ( dropped )
 		UTIL_LogPrintf( "\"<-1><><>\" triggered triggered \"Respawn_HasteRune\"\n" );
-    
+
 	Spawn();
 }
 
-
-void CHasteRune::Spawn ( void )
+void CHasteRune::Spawn( void )
 {
-	SET_MODEL( ENT(pev), "models/rune_haste.mdl");
- 
+	SET_MODEL( ENT( pev ), "models/rune_haste.mdl" );
+
 	m_bTouchable = FALSE;
 
 	m_iRuneFlag = ITEM_RUNE3_FLAG;
@@ -2734,74 +2753,72 @@ void CHasteRune::Spawn ( void )
 	dropped = false;
 
 	pev->movetype = MOVETYPE_TOSS;
-    pev->solid = SOLID_TRIGGER;
+	pev->solid    = SOLID_TRIGGER;
 
 	vec3_t forward, right, up;
 
-	UTIL_SetSize( pev, Vector(-15, -15, -15), Vector(15, 15, 15) ); 
+	UTIL_SetSize( pev, Vector( -15, -15, -15 ), Vector( 15, 15, 15 ) );
 
 	pev->angles.z = pev->angles.x = 0;
-	pev->angles.y = RANDOM_LONG ( 0, 360 );
+	pev->angles.y                 = RANDOM_LONG( 0, 360 );
 
-	//If we got an owner, it means we are either dropping the flag or diying and letting it go.
+	// If we got an owner, it means we are either dropping the flag or diying and letting it go.
 	if ( pev->owner )
-	    g_engfuncs.pfnAngleVectors ( pev->owner->v.angles, forward, right, up);
+		g_engfuncs.pfnAngleVectors( pev->owner->v.angles, forward, right, up );
 	else
-		g_engfuncs.pfnAngleVectors ( pev->angles, forward, right, up);
+		g_engfuncs.pfnAngleVectors( pev->angles, forward, right, up );
 
 	UTIL_SetOrigin( pev, pev->origin );
-	
+
 	pev->velocity = ( forward * 400 ) + ( up * 200 );
-	
+
 	if ( pev->owner == NULL )
 	{
 		pev->origin.z += 16;
 		pev->velocity.z = 300;
 	}
-	
+
 	pev->owner = NULL;
-	
+
 	SetTouch( &CHasteRune::RuneTouch );
 
 	pev->nextthink = gpGlobals->time + 1; // if no one touches it in two minutes,
-											// respawn it somewhere else, so inaccessible 
-											// ones will come 'back'
-	SetThink ( &CHasteRune::MakeTouchable );
+	                                      // respawn it somewhere else, so inaccessible
+	                                      // ones will come 'back'
+	SetThink( &CHasteRune::MakeTouchable );
 }
 
+LINK_ENTITY_TO_CLASS( item_rune3, CHasteRune );
 
-LINK_ENTITY_TO_CLASS( item_rune3, CHasteRune ); 
-
-
-void CRegenRune::MakeTouchable ( void )
+void CRegenRune::MakeTouchable( void )
 {
-	m_bTouchable = TRUE;
+	m_bTouchable   = TRUE;
 	pev->nextthink = gpGlobals->time + 120; // if no one touches it in two minutes,
-											// respawn it somewhere else, so inaccessible 
-											// ones will come 'back'
-	SetThink ( &CRegenRune::RuneRespawn );
+	                                        // respawn it somewhere else, so inaccessible
+	                                        // ones will come 'back'
+	SetThink( &CRegenRune::RuneRespawn );
 }
 
-void CRegenRune::RuneTouch ( CBaseEntity *pOther )
+void CRegenRune::RuneTouch( CBaseEntity *pOther )
 {
-	//No toucher?
+	// No toucher?
 	if ( !pOther )
 		return;
 
-	//Not a player?
+	// Not a player?
 	if ( !pOther->IsPlayer() )
 		return;
 
-	//DEAD?!
+	// DEAD?!
 	if ( pOther->pev->health <= 0 )
-		 return;
+		return;
 
-	//Spectating?
+	// Spectating?
 	if ( pOther->pev->movetype == MOVETYPE_NOCLIP )
-		 return;
-	
-	//Only one per customer
-	if ( ((CBasePlayer *)pOther)->m_iRuneStatus )
+		return;
+
+	// Only one per customer
+	if ( ( (CBasePlayer *)pOther )->m_iRuneStatus )
 	{
 		ClientPrint( pOther->pev, HUD_PRINTCENTER, "You already have a rune!\n" );
 		return;
@@ -2810,49 +2827,48 @@ void CRegenRune::RuneTouch ( CBaseEntity *pOther )
 	if ( !m_bTouchable )
 		return;
 
-	((CBasePlayer *)pOther)->m_iRuneStatus = m_iRuneFlag; //Add me the rune flag
+	( (CBasePlayer *)pOther )->m_iRuneStatus = m_iRuneFlag; // Add me the rune flag
 
 	ClientPrint( pOther->pev, HUD_PRINTCENTER, "You got the rune of Regeneration!\n" );
 
-	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Found_RegenRune\"\n", 
-		STRING(pOther->pev->netname),
-		GETPLAYERUSERID( pOther->edict() ),
-		GETPLAYERAUTHID( pOther->edict() ),
-		((CBasePlayer *)pOther)->m_szTeamName );
-	
-	EMIT_SOUND( ENT(pev), CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM );
+	UTIL_LogPrintf( "\"%s<%i><%s><%s>\" triggered \"Found_RegenRune\"\n",
+	                STRING( pOther->pev->netname ),
+	                GETPLAYERUSERID( pOther->edict() ),
+	                GETPLAYERAUTHID( pOther->edict() ),
+	                ( (CBasePlayer *)pOther )->m_szTeamName );
 
-	//Update my client side rune hud thingy.
-	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pOther->pev);
-		WRITE_BYTE( ((CBasePlayer *)pOther)->m_iRuneStatus );
+	EMIT_SOUND( ENT( pev ), CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM );
+
+	// Update my client side rune hud thingy.
+	MESSAGE_BEGIN( MSG_ONE, gmsgRuneStatus, NULL, pOther->pev );
+	WRITE_BYTE( ( (CBasePlayer *)pOther )->m_iRuneStatus );
 	MESSAGE_END();
 
-	//And Remove this entity
+	// And Remove this entity
 	UTIL_Remove( this );
 }
 
-void CRegenRune::RuneRespawn ( void )
+void CRegenRune::RuneRespawn( void )
 {
 	edict_t *pentSpawnSpot;
 	vec3_t vOrigin;
 
 	pentSpawnSpot = RuneSelectSpawnPoint();
-	vOrigin = VARS(pentSpawnSpot)->origin;
-	
+	vOrigin       = VARS( pentSpawnSpot )->origin;
+
 	UTIL_SetOrigin( pev, vOrigin );
 
 	if ( dropped )
 		UTIL_LogPrintf( "\"<-1><><>\" triggered triggered \"Respawn_RegenRune\"\n" );
-    
+
 	Spawn();
 }
 
-
-void CRegenRune::Spawn ( void )
+void CRegenRune::Spawn( void )
 {
 
-	SET_MODEL( ENT(pev), "models/rune_regen.mdl" );
-    
+	SET_MODEL( ENT( pev ), "models/rune_regen.mdl" );
+
 	m_bTouchable = FALSE;
 
 	m_iRuneFlag = ITEM_RUNE4_FLAG;
@@ -2860,43 +2876,42 @@ void CRegenRune::Spawn ( void )
 	dropped = false;
 
 	pev->movetype = MOVETYPE_TOSS;
-    pev->solid = SOLID_TRIGGER;
+	pev->solid    = SOLID_TRIGGER;
 
 	vec3_t forward, right, up;
 
-	UTIL_SetSize( pev, Vector(-15, -15, -15), Vector(15, 15, 15) ); 
+	UTIL_SetSize( pev, Vector( -15, -15, -15 ), Vector( 15, 15, 15 ) );
 
 	pev->angles.z = pev->angles.x = 0;
-	pev->angles.y = RANDOM_LONG ( 0, 360 );
+	pev->angles.y                 = RANDOM_LONG( 0, 360 );
 
-	//If we got an owner, it means we are either dropping the flag or diying and letting it go.
+	// If we got an owner, it means we are either dropping the flag or diying and letting it go.
 	if ( pev->owner )
-	    g_engfuncs.pfnAngleVectors ( pev->owner->v.angles, forward, right, up);
+		g_engfuncs.pfnAngleVectors( pev->owner->v.angles, forward, right, up );
 	else
-		g_engfuncs.pfnAngleVectors ( pev->angles, forward, right, up);
+		g_engfuncs.pfnAngleVectors( pev->angles, forward, right, up );
 
 	UTIL_SetOrigin( pev, pev->origin );
-	
+
 	pev->velocity = ( forward * 400 ) + ( up * 200 );
-	
+
 	if ( pev->owner == NULL )
 	{
 		pev->origin.z += 16;
 		pev->velocity.z = 300;
 	}
-	
+
 	pev->owner = NULL;
 
 	SetTouch( &CRegenRune::RuneTouch );
 
 	pev->nextthink = gpGlobals->time + 1; // if no one touches it in two minutes,
-											// respawn it somewhere else, so inaccessible 
-											// ones will come 'back'
-	SetThink ( &CRegenRune::MakeTouchable );
+	                                      // respawn it somewhere else, so inaccessible
+	                                      // ones will come 'back'
+	SetThink( &CRegenRune::MakeTouchable );
 }
 
-
-LINK_ENTITY_TO_CLASS( item_rune4, CRegenRune ); 
+LINK_ENTITY_TO_CLASS( item_rune4, CRegenRune );
 
 /*
 ================
@@ -2913,299 +2928,310 @@ void SpawnRunes( void )
 	edict_t *pentSpawnSpot;
 
 	pentSpawnSpot = RuneSelectSpawnPoint();
-	CBaseEntity::Create( "item_rune1", VARS(pentSpawnSpot)->origin, VARS(pentSpawnSpot)->angles, NULL );
-	
-	pentSpawnSpot = RuneSelectSpawnPoint();
-	CBaseEntity::Create( "item_rune2", VARS(pentSpawnSpot)->origin, VARS(pentSpawnSpot)->angles, NULL );
+	CBaseEntity::Create( "item_rune1", VARS( pentSpawnSpot )->origin, VARS( pentSpawnSpot )->angles, NULL );
 
 	pentSpawnSpot = RuneSelectSpawnPoint();
-	CBaseEntity::Create( "item_rune3", VARS(pentSpawnSpot)->origin, VARS(pentSpawnSpot)->angles, NULL );
-	
+	CBaseEntity::Create( "item_rune2", VARS( pentSpawnSpot )->origin, VARS( pentSpawnSpot )->angles, NULL );
+
 	pentSpawnSpot = RuneSelectSpawnPoint();
-	CBaseEntity::Create( "item_rune4", VARS(pentSpawnSpot)->origin, VARS(pentSpawnSpot)->angles, NULL );
+	CBaseEntity::Create( "item_rune3", VARS( pentSpawnSpot )->origin, VARS( pentSpawnSpot )->angles, NULL );
+
+	pentSpawnSpot = RuneSelectSpawnPoint();
+	CBaseEntity::Create( "item_rune4", VARS( pentSpawnSpot )->origin, VARS( pentSpawnSpot )->angles, NULL );
 
 	g_bSpawnedRunes = TRUE;
 }
 
-
 /***********************************************
 ************************************************
-				    GRAPPLE
+                    GRAPPLE
 ************************************************
 ***********************************************/
 
-void CGrapple::Reset_Grapple ( void )
+void CGrapple::Reset_Grapple( void )
 {
-		CBaseEntity *pOwner =  CBaseEntity::Instance( pev->owner );
-		
-	    ((CBasePlayer *)pOwner)->m_bOn_Hook = FALSE;
-        ((CBasePlayer *)pOwner)->m_bHook_Out = FALSE;
+	CBaseEntity *pOwner = CBaseEntity::Instance( pev->owner );
 
-		PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-		((CBasePlayer *)pOwner)->edict(), g_usCable, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-		0.0, 0.0, entindex(), pev->team, 1, 0 );
+	( (CBasePlayer *)pOwner )->m_bOn_Hook  = FALSE;
+	( (CBasePlayer *)pOwner )->m_bHook_Out = FALSE;
 
-		STOP_SOUND( edict(), CHAN_WEAPON, "weapons/grhang.wav" );
-		STOP_SOUND( ((CBasePlayer *)pOwner)->edict(), CHAN_WEAPON, "weapons/grfire.wav" );
-		STOP_SOUND( ((CBasePlayer *)pOwner)->edict(), CHAN_WEAPON, "weapons/grpull.wav" );
+	PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+	                     ( (CBasePlayer *)pOwner )->edict(),
+	                     g_usCable,
+	                     0,
+	                     (float *)&g_vecZero,
+	                     (float *)&g_vecZero,
+	                     0.0,
+	                     0.0,
+	                     entindex(),
+	                     pev->team,
+	                     1,
+	                     0 );
 
-		((CBasePlayer *)pOwner)->m_ppHook = NULL;
-		pev->enemy = NULL;
+	STOP_SOUND( edict(), CHAN_WEAPON, "weapons/grhang.wav" );
+	STOP_SOUND( ( (CBasePlayer *)pOwner )->edict(), CHAN_WEAPON, "weapons/grfire.wav" );
+	STOP_SOUND( ( (CBasePlayer *)pOwner )->edict(), CHAN_WEAPON, "weapons/grpull.wav" );
 
-        UTIL_Remove ( this );
+	( (CBasePlayer *)pOwner )->m_ppHook = NULL;
+	pev->enemy                          = NULL;
+
+	UTIL_Remove( this );
 }
 
-void CGrapple::GrappleTouch ( CBaseEntity *pOther )
+void CGrapple::GrappleTouch( CBaseEntity *pOther )
 {
-	CBaseEntity *pOwner =  CBaseEntity::Instance( pev->owner );
+	CBaseEntity *pOwner = CBaseEntity::Instance( pev->owner );
 
 	if ( pOther == pOwner )
-             return;
-		
+		return;
 
-        // DO NOT allow the grapple to hook to any projectiles, no matter WHAT!
-        // if you create new types of projectiles, make sure you use one of the
-        // classnames below or write code to exclude your new classname so
-        // grapples will not stick to them.
-        if ( FClassnameIs( pOther->pev, "grenade" )||   
-			 FClassnameIs( pOther->pev, "spike" ) || 
-			 FClassnameIs( pOther->pev, "hook" ) )
+	// DO NOT allow the grapple to hook to any projectiles, no matter WHAT!
+	// if you create new types of projectiles, make sure you use one of the
+	// classnames below or write code to exclude your new classname so
+	// grapples will not stick to them.
+	if ( FClassnameIs( pOther->pev, "grenade" ) ||
+	     FClassnameIs( pOther->pev, "spike" ) ||
+	     FClassnameIs( pOther->pev, "hook" ) )
+		return;
+
+	if ( FClassnameIs( pOther->pev, "player" ) )
+	{
+		// glance off of teammates
+		if ( pOther->pev->team == pOwner->pev->team )
 			return;
-      
-        if ( FClassnameIs( pOther->pev, "player" ) )
-        {
-                // glance off of teammates
-                if ( pOther->pev->team == pOwner->pev->team )
-                        return;
 
-               // sound (self, CHAN_WEAPON, "player/axhit1.wav", 1, ATTN_NORM);
-                //TakeDamage( pOther->pev, pOwner->pev, 10, DMG_GENERIC );
+		// sound (self, CHAN_WEAPON, "player/axhit1.wav", 1, ATTN_NORM);
+		// TakeDamage( pOther->pev, pOwner->pev, 10, DMG_GENERIC );
 
-                // make hook invisible since we will be pulling directly
-                // towards the player the hook hit. Quakeworld makes it
-                // too quirky to try to match hook's velocity with that of
-                // the client that it hit. 
-               // setmodel (self, "");
+		// make hook invisible since we will be pulling directly
+		// towards the player the hook hit. Quakeworld makes it
+		// too quirky to try to match hook's velocity with that of
+		// the client that it hit.
+		// setmodel (self, "");
 
-				pev->velocity = Vector(0,0,0);
-				UTIL_SetOrigin( pev, pOther->pev->origin);
-        }
-        else if ( !FClassnameIs( pOther->pev, "player" ) )
-        {
-               // sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
+		pev->velocity = Vector( 0, 0, 0 );
+		UTIL_SetOrigin( pev, pOther->pev->origin );
+	}
+	else if ( !FClassnameIs( pOther->pev, "player" ) )
+	{
+		// sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
 
-                // One point of damage inflicted upon impact. Subsequent
-                // damage will only be done to PLAYERS... this way secret
-                // doors and triggers will only be damaged once.
-                if ( pOther->pev->takedamage )
-                        TakeDamage( pOther->pev, pOwner->pev, 1, DMG_GENERIC );
+		// One point of damage inflicted upon impact. Subsequent
+		// damage will only be done to PLAYERS... this way secret
+		// doors and triggers will only be damaged once.
+		if ( pOther->pev->takedamage )
+			TakeDamage( pOther->pev, pOwner->pev, 1, DMG_GENERIC );
 
-                pev->velocity = Vector(0,0,0);
+		pev->velocity = Vector( 0, 0, 0 );
 
-				EMIT_SOUND( ENT( pev ), CHAN_WEAPON, "weapons/grhit.wav", 1, ATTN_NORM);
+		EMIT_SOUND( ENT( pev ), CHAN_WEAPON, "weapons/grhit.wav", 1, ATTN_NORM );
 
-				//No sparks underwater
-				if ( pev->waterlevel == 0 )
-					UTIL_Sparks( pev->origin );
-        }
+		// No sparks underwater
+		if ( pev->waterlevel == 0 )
+			UTIL_Sparks( pev->origin );
+	}
 
-        // conveniently clears the sound channel of the CHAIN1 sound,
-        // which is a looping sample and would continue to play. Tink1 is
-        // the least offensive choice, ass NULL.WAV loops and clogs the
-        // channel with silence
-      //  sound (self.owner, CHAN_NO_PHS_ADD+CHAN_WEAPON, "weapons/tink1.wav", 1, ATTN_NORM);
+	// conveniently clears the sound channel of the CHAIN1 sound,
+	// which is a looping sample and would continue to play. Tink1 is
+	// the least offensive choice, ass NULL.WAV loops and clogs the
+	// channel with silence
+	//  sound (self.owner, CHAN_NO_PHS_ADD+CHAN_WEAPON, "weapons/tink1.wav", 1, ATTN_NORM);
 
-        if ( !(pOwner->pev->button & IN_ATTACK) )
-        {
-			if ( ((CBasePlayer*)pOwner)->m_bOn_Hook ) 
-			{
-                Reset_Grapple();
-				return;
-			}
-        }
+	if ( !( pOwner->pev->button & IN_ATTACK ) )
+	{
+		if ( ( (CBasePlayer *)pOwner )->m_bOn_Hook )
+		{
+			Reset_Grapple();
+			return;
+		}
+	}
 
+	if ( pOwner->pev->flags & FL_ONGROUND )
+	{
+		pOwner->pev->flags &= ~FL_ONGROUND;
+		//                setorigin(self.owner,self.owner.origin + '0 0 1');
+	}
 
-        if ( pOwner->pev->flags & FL_ONGROUND)
-        {
-                pOwner->pev->flags &= ~FL_ONGROUND;
-//                setorigin(self.owner,self.owner.origin + '0 0 1');
-        }
+	( (CBasePlayer *)pOwner )->m_bOn_Hook = TRUE;
 
-        ((CBasePlayer*)pOwner)->m_bOn_Hook = TRUE;
+	// sound (self.owner, CHAN_WEAPON, "weapons/chain2.wav", 1, ATTN_NORM);
 
-       // sound (self.owner, CHAN_WEAPON, "weapons/chain2.wav", 1, ATTN_NORM);
+	// CHAIN2 is a looping sample. Use LEFTY as a flag so that client.qc
+	// will know to only play the tink sound ONCE to clear the weapons
+	// sound channel. (Lefty is a leftover from AI.QC, so I reused it to
+	// avoid adding a field)
+	// self.owner.lefty = TRUE;
 
-        // CHAIN2 is a looping sample. Use LEFTY as a flag so that client.qc
-        // will know to only play the tink sound ONCE to clear the weapons
-        // sound channel. (Lefty is a leftover from AI.QC, so I reused it to
-        // avoid adding a field)
-        //self.owner.lefty = TRUE;
-	
-		STOP_SOUND( ((CBasePlayer *)pOwner)->edict(), CHAN_WEAPON, "weapons/grfire.wav" );
+	STOP_SOUND( ( (CBasePlayer *)pOwner )->edict(), CHAN_WEAPON, "weapons/grfire.wav" );
 
-        pev->enemy = pOther->edict();// remember this guy!
-        SetThink ( &CGrapple::Grapple_Track );
-        pev->nextthink = gpGlobals->time;
-		m_flNextIdleTime = gpGlobals->time + 0.1;
-		pev->solid = SOLID_NOT;
-        SetTouch ( NULL );
+	pev->enemy = pOther->edict(); // remember this guy!
+	SetThink( &CGrapple::Grapple_Track );
+	pev->nextthink   = gpGlobals->time;
+	m_flNextIdleTime = gpGlobals->time + 0.1;
+	pev->solid       = SOLID_NOT;
+	SetTouch( NULL );
 };
 
-bool CanSee ( CBaseEntity *pEnemy, CBaseEntity *pOwner )
+bool CanSee( CBaseEntity *pEnemy, CBaseEntity *pOwner )
 {
 	TraceResult tr;
 
-	UTIL_TraceLine ( pOwner->pev->origin, pEnemy->pev->origin,  ignore_monsters, ENT( pOwner->pev ), &tr);
+	UTIL_TraceLine( pOwner->pev->origin, pEnemy->pev->origin, ignore_monsters, ENT( pOwner->pev ), &tr );
 	if ( tr.flFraction == 1 )
 		return TRUE;
 
-	UTIL_TraceLine ( pOwner->pev->origin, pEnemy->pev->origin + Vector( 15, 15, 0 ),  ignore_monsters, ENT( pOwner->pev ), &tr);
+	UTIL_TraceLine( pOwner->pev->origin, pEnemy->pev->origin + Vector( 15, 15, 0 ), ignore_monsters, ENT( pOwner->pev ), &tr );
 	if ( tr.flFraction == 1 )
 		return TRUE;
 
-	UTIL_TraceLine ( pOwner->pev->origin, pEnemy->pev->origin + Vector( -15, -15, 0 ),  ignore_monsters, ENT( pOwner->pev ), &tr);
+	UTIL_TraceLine( pOwner->pev->origin, pEnemy->pev->origin + Vector( -15, -15, 0 ), ignore_monsters, ENT( pOwner->pev ), &tr );
 	if ( tr.flFraction == 1 )
 		return TRUE;
 
-	UTIL_TraceLine ( pOwner->pev->origin, pEnemy->pev->origin + Vector( -15, 15, 0 ),  ignore_monsters, ENT( pOwner->pev ), &tr);
+	UTIL_TraceLine( pOwner->pev->origin, pEnemy->pev->origin + Vector( -15, 15, 0 ), ignore_monsters, ENT( pOwner->pev ), &tr );
 	if ( tr.flFraction == 1 )
 		return TRUE;
 
-	UTIL_TraceLine ( pOwner->pev->origin, pEnemy->pev->origin + Vector( 15, -15, 0 ),  ignore_monsters, ENT( pOwner->pev ), &tr);
+	UTIL_TraceLine( pOwner->pev->origin, pEnemy->pev->origin + Vector( 15, -15, 0 ), ignore_monsters, ENT( pOwner->pev ), &tr );
 	if ( tr.flFraction == 1 )
 		return TRUE;
 
 	return FALSE;
 }
 
-void CGrapple::Grapple_Track ( void )
+void CGrapple::Grapple_Track( void )
 {
-	CBaseEntity *pOwner =  CBaseEntity::Instance( pev->owner );
-	CBaseEntity *pEnemy =  CBaseEntity::Instance( pev->enemy );
+	CBaseEntity *pOwner = CBaseEntity::Instance( pev->owner );
+	CBaseEntity *pEnemy = CBaseEntity::Instance( pev->enemy );
 
-        // Release dead targets
-        if ( FClassnameIs( pEnemy->pev, "player" ) && pEnemy->pev->health <= 0)
-                Reset_Grapple();
-                
-        
-		// drop the hook if owner is dead or has released the button
-        if ( !((CBasePlayer*)pOwner)->m_bOn_Hook|| ((CBasePlayer*)pOwner)->pev->health <= 0)
-        {
-                Reset_Grapple();
-                return;
-        }
+	// Release dead targets
+	if ( FClassnameIs( pEnemy->pev, "player" ) && pEnemy->pev->health <= 0 )
+		Reset_Grapple();
 
-		if ( !(pOwner->pev->button & IN_ATTACK) )
-        {
-			if ( ((CBasePlayer*)pOwner)->m_iQuakeWeapon == IT_EXTRA_WEAPON ) 
-			{
-                Reset_Grapple();
-				return;
-			}
-        }
+	// drop the hook if owner is dead or has released the button
+	if ( !( (CBasePlayer *)pOwner )->m_bOn_Hook || ( (CBasePlayer *)pOwner )->pev->health <= 0 )
+	{
+		Reset_Grapple();
+		return;
+	}
 
-        // bring the pAiN!
-        if ( FClassnameIs( pEnemy->pev, "player" ) )
-        {
-			if ( !CanSee( pEnemy, pOwner ) ) 
-			{
-				Reset_Grapple();
-				return;
-			}
-
-
-			// move the hook along with the player.  It's invisible, but
-			// we need this to make the sound come from the right spot
-			UTIL_SetOrigin( pev, pEnemy->pev->origin);
-			
-			//sound (self, CHAN_WEAPON, "blob/land1.wav", 1, ATTN_NORM);
-
-			SpawnBlood( pEnemy->pev->origin, BLOOD_COLOR_RED, 1 );
-			((CBasePlayer *)pEnemy)->TakeDamage( pev, pOwner->pev, 1, DMG_GENERIC );
-        }
-
-        // If the hook is not attached to the player, constantly copy
-        // copy the target's velocity. Velocity copying DOES NOT work properly
-        // for a hooked client. 
-        if ( !FClassnameIs( pEnemy->pev, "player" ) )
-              pev->velocity = pEnemy->pev->velocity;
-
-        pev->nextthink = gpGlobals->time + 0.1;
-};
-
-void CBasePlayer::Service_Grapple ( void )
-{
-        Vector  hook_dir;
-		CBaseEntity *pEnemy =  CBaseEntity::Instance( pev->enemy );
-
-        // drop the hook if player lets go of button
-        if ( !(pev->button & IN_ATTACK) )
-        {
-			if ( m_iQuakeWeapon == IT_EXTRA_WEAPON ) 
-			{
-                ((CGrapple *)m_ppHook)->Reset_Grapple();
-				return;
-			}
-        }
-
-		if ( m_ppHook->pev->enemy != NULL )
+	if ( !( pOwner->pev->button & IN_ATTACK ) )
+	{
+		if ( ( (CBasePlayer *)pOwner )->m_iQuakeWeapon == IT_EXTRA_WEAPON )
 		{
-			// If hooked to a player, track them directly!
-			if ( FClassnameIs( pEnemy->pev, "player" ) )
-			{
-				pEnemy =  CBaseEntity::Instance( pev->enemy );
-				hook_dir = ( pEnemy->pev->origin - pev->origin );
-			}
-			// else, track to hook
-			else if ( !FClassnameIs( pEnemy->pev, "player" ) )
-				hook_dir = ( m_ppHook->pev->origin - pev->origin );
-			
-			pev->velocity =  ( (hook_dir).Normalize() * 750 );
-			pev->speed = 750;
-
-			if ( ((CGrapple *)m_ppHook)->m_flNextIdleTime <= gpGlobals->time && (hook_dir).Length() <= 50 )
-			{
-				//No sparks underwater
-				if ( m_ppHook->pev->waterlevel == 0 )
-					UTIL_Sparks( m_ppHook->pev->origin );
-			
-				STOP_SOUND( edict(), CHAN_WEAPON, "weapons/grpull.wav" );
-				EMIT_SOUND( ENT( m_ppHook->pev ), CHAN_WEAPON, "weapons/grhang.wav", 1, ATTN_NORM);
-
-				((CGrapple *)m_ppHook)->m_flNextIdleTime = gpGlobals->time + RANDOM_LONG( 1, 3 );
-
-				PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-				edict(), g_usCable, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-				0.0, 0.0, m_ppHook->entindex(), pev->team, 1, 0 );
-
-			}
-			else if ( ((CGrapple *)m_ppHook)->m_flNextIdleTime <= gpGlobals->time )
-			{
-				//No sparks underwater
-				if ( m_ppHook->pev->waterlevel == 0 )
-					UTIL_Sparks( m_ppHook->pev->origin );
-
-				STOP_SOUND( edict(), CHAN_WEAPON, "weapons/grfire.wav" );
-				EMIT_SOUND( ENT( pev ), CHAN_WEAPON, "weapons/grpull.wav", 1, ATTN_NORM);
-				((CGrapple *)m_ppHook)->m_flNextIdleTime = gpGlobals->time + RANDOM_LONG( 1, 3 );
-			}
-
+			Reset_Grapple();
+			return;
 		}
+	}
+
+	// bring the pAiN!
+	if ( FClassnameIs( pEnemy->pev, "player" ) )
+	{
+		if ( !CanSee( pEnemy, pOwner ) )
+		{
+			Reset_Grapple();
+			return;
+		}
+
+		// move the hook along with the player.  It's invisible, but
+		// we need this to make the sound come from the right spot
+		UTIL_SetOrigin( pev, pEnemy->pev->origin );
+
+		// sound (self, CHAN_WEAPON, "blob/land1.wav", 1, ATTN_NORM);
+
+		SpawnBlood( pEnemy->pev->origin, BLOOD_COLOR_RED, 1 );
+		( (CBasePlayer *)pEnemy )->TakeDamage( pev, pOwner->pev, 1, DMG_GENERIC );
+	}
+
+	// If the hook is not attached to the player, constantly copy
+	// copy the target's velocity. Velocity copying DOES NOT work properly
+	// for a hooked client.
+	if ( !FClassnameIs( pEnemy->pev, "player" ) )
+		pev->velocity = pEnemy->pev->velocity;
+
+	pev->nextthink = gpGlobals->time + 0.1;
 };
 
-void CGrapple::OnAirThink ( void )
+void CBasePlayer::Service_Grapple( void )
+{
+	Vector hook_dir;
+	CBaseEntity *pEnemy = CBaseEntity::Instance( pev->enemy );
+
+	// drop the hook if player lets go of button
+	if ( !( pev->button & IN_ATTACK ) )
+	{
+		if ( m_iQuakeWeapon == IT_EXTRA_WEAPON )
+		{
+			( (CGrapple *)m_ppHook )->Reset_Grapple();
+			return;
+		}
+	}
+
+	if ( m_ppHook->pev->enemy != NULL )
+	{
+		// If hooked to a player, track them directly!
+		if ( FClassnameIs( pEnemy->pev, "player" ) )
+		{
+			pEnemy   = CBaseEntity::Instance( pev->enemy );
+			hook_dir = ( pEnemy->pev->origin - pev->origin );
+		}
+		// else, track to hook
+		else if ( !FClassnameIs( pEnemy->pev, "player" ) )
+			hook_dir = ( m_ppHook->pev->origin - pev->origin );
+
+		pev->velocity = ( ( hook_dir ).Normalize() * 750 );
+		pev->speed    = 750;
+
+		if ( ( (CGrapple *)m_ppHook )->m_flNextIdleTime <= gpGlobals->time && ( hook_dir ).Length() <= 50 )
+		{
+			// No sparks underwater
+			if ( m_ppHook->pev->waterlevel == 0 )
+				UTIL_Sparks( m_ppHook->pev->origin );
+
+			STOP_SOUND( edict(), CHAN_WEAPON, "weapons/grpull.wav" );
+			EMIT_SOUND( ENT( m_ppHook->pev ), CHAN_WEAPON, "weapons/grhang.wav", 1, ATTN_NORM );
+
+			( (CGrapple *)m_ppHook )->m_flNextIdleTime = gpGlobals->time + RANDOM_LONG( 1, 3 );
+
+			PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+			                     edict(),
+			                     g_usCable,
+			                     0,
+			                     (float *)&g_vecZero,
+			                     (float *)&g_vecZero,
+			                     0.0,
+			                     0.0,
+			                     m_ppHook->entindex(),
+			                     pev->team,
+			                     1,
+			                     0 );
+		}
+		else if ( ( (CGrapple *)m_ppHook )->m_flNextIdleTime <= gpGlobals->time )
+		{
+			// No sparks underwater
+			if ( m_ppHook->pev->waterlevel == 0 )
+				UTIL_Sparks( m_ppHook->pev->origin );
+
+			STOP_SOUND( edict(), CHAN_WEAPON, "weapons/grfire.wav" );
+			EMIT_SOUND( ENT( pev ), CHAN_WEAPON, "weapons/grpull.wav", 1, ATTN_NORM );
+			( (CGrapple *)m_ppHook )->m_flNextIdleTime = gpGlobals->time + RANDOM_LONG( 1, 3 );
+		}
+	}
+};
+
+void CGrapple::OnAirThink( void )
 {
 	TraceResult tr;
 
-	CBaseEntity *pOwner =  CBaseEntity::Instance( pev->owner );
+	CBaseEntity *pOwner = CBaseEntity::Instance( pev->owner );
 
-	if ( !(pOwner->pev->button & IN_ATTACK) )
+	if ( !( pOwner->pev->button & IN_ATTACK ) )
 	{
-         Reset_Grapple();
-		 return;
+		Reset_Grapple();
+		return;
 	}
 
-	UTIL_TraceLine ( pev->origin, pOwner->pev->origin,  ignore_monsters, ENT(pev), &tr);
+	UTIL_TraceLine( pev->origin, pOwner->pev->origin, ignore_monsters, ENT( pev ), &tr );
 
 	if ( tr.flFraction < 1.0 )
 	{
@@ -3216,60 +3242,64 @@ void CGrapple::OnAirThink ( void )
 	pev->nextthink = gpGlobals->time + 0.5;
 }
 
-			
-     
-void CGrapple::Spawn ( void )
+void CGrapple::Spawn( void )
 {
 	pev->movetype = MOVETYPE_FLYMISSILE;
-	pev->solid = SOLID_BBOX;
+	pev->solid    = SOLID_BBOX;
 
-	SET_MODEL ( ENT(pev),"models/hook.mdl");
+	SET_MODEL( ENT( pev ), "models/hook.mdl" );
 
-	SetTouch ( &CGrapple::GrappleTouch );
-	SetThink ( &CGrapple::OnAirThink );
+	SetTouch( &CGrapple::GrappleTouch );
+	SetThink( &CGrapple::OnAirThink );
 
 	pev->nextthink = gpGlobals->time + 0.1;
 }
 
-LINK_ENTITY_TO_CLASS( hook, CGrapple ); 
+LINK_ENTITY_TO_CLASS( hook, CGrapple );
 
-void CBasePlayer::Throw_Grapple ( void )
+void CBasePlayer::Throw_Grapple( void )
 {
-        if ( m_bHook_Out )
-             return;
+	if ( m_bHook_Out )
+		return;
 
-		CBaseEntity *pHookCBEnt = NULL;
-	
-		pHookCBEnt = CBaseEntity::Create( "hook", pev->origin, pev->angles, NULL );
+	CBaseEntity *pHookCBEnt = NULL;
 
-		if ( pHookCBEnt )
-		{
-			m_ppHook = pHookCBEnt;
-		
-			m_ppHook->pev->owner = edict();
-		
-			UTIL_MakeVectors ( pev->v_angle);
+	pHookCBEnt = CBaseEntity::Create( "hook", pev->origin, pev->angles, NULL );
 
-			UTIL_SetOrigin ( m_ppHook->pev , pev->origin + gpGlobals->v_forward * 16 + Vector( 0, 0, 16 ) );
-			UTIL_SetSize( m_ppHook->pev, Vector(0,0,0) , Vector(0,0,0) );
+	if ( pHookCBEnt )
+	{
+		m_ppHook = pHookCBEnt;
 
-			EMIT_SOUND( ENT( pev ), CHAN_WEAPON, "weapons/grfire.wav", 1, ATTN_NORM);
+		m_ppHook->pev->owner = edict();
 
-			//Make if fly forward
-			m_ppHook->pev->velocity = gpGlobals->v_forward * 1000;
-			//And make the hook face forward too!
-			m_ppHook->pev->angles = UTIL_VecToAngles ( gpGlobals->v_forward );	
-			m_ppHook->pev->fixangle = TRUE;
+		UTIL_MakeVectors( pev->v_angle );
 
-			PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE, 
-			edict(), g_usCable, 0, (float *)&g_vecZero, (float *)&g_vecZero, 
-			0.0, 0.0, m_ppHook->entindex(), pev->team, 0, 0 );
+		UTIL_SetOrigin( m_ppHook->pev, pev->origin + gpGlobals->v_forward * 16 + Vector( 0, 0, 16 ) );
+		UTIL_SetSize( m_ppHook->pev, Vector( 0, 0, 0 ), Vector( 0, 0, 0 ) );
 
-		
-			m_bHook_Out = TRUE;
-		}
+		EMIT_SOUND( ENT( pev ), CHAN_WEAPON, "weapons/grfire.wav", 1, ATTN_NORM );
+
+		// Make if fly forward
+		m_ppHook->pev->velocity = gpGlobals->v_forward * 1000;
+		// And make the hook face forward too!
+		m_ppHook->pev->angles   = UTIL_VecToAngles( gpGlobals->v_forward );
+		m_ppHook->pev->fixangle = TRUE;
+
+		PLAYBACK_EVENT_FULL( FEV_GLOBAL | FEV_RELIABLE,
+		                     edict(),
+		                     g_usCable,
+		                     0,
+		                     (float *)&g_vecZero,
+		                     (float *)&g_vecZero,
+		                     0.0,
+		                     0.0,
+		                     m_ppHook->entindex(),
+		                     pev->team,
+		                     0,
+		                     0 );
+
+		m_bHook_Out = TRUE;
+	}
 };
-
-
 
 #endif

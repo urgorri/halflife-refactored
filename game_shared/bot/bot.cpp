@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -20,9 +20,8 @@
 #include "bot.h"
 #include "bot_util.h"
 
-DLL_GLOBAL float g_flBotCommandInterval		= 1.0 / 30.0;	// 30 times per second, just like human clients
-DLL_GLOBAL float g_flBotFullThinkInterval	= 1.0 / 10.0;	// full AI only 10 times per second
-
+DLL_GLOBAL float g_flBotCommandInterval   = 1.0 / 30.0; // 30 times per second, just like human clients
+DLL_GLOBAL float g_flBotFullThinkInterval = 1.0 / 10.0; // full AI only 10 times per second
 
 //--------------------------------------------------------------------------------------------------------------
 CBot::CBot( void )
@@ -34,7 +33,7 @@ CBot::CBot( void )
 	static unsigned int nextID = 1;
 
 	// wraparound (highly unlikely)
-	if (nextID == 0)
+	if ( nextID == 0 )
 		++nextID;
 
 	m_id = nextID;
@@ -66,12 +65,12 @@ void CBot::Spawn( void )
 	SetThink( NULL );
 	pev->nextthink = -1;
 
-	m_flNextBotThink		= gpGlobals->time + g_flBotCommandInterval;
-	m_flNextFullBotThink	= gpGlobals->time + g_flBotFullThinkInterval;
-	m_flPreviousCommandTime	= gpGlobals->time;
+	m_flNextBotThink        = gpGlobals->time + g_flBotCommandInterval;
+	m_flNextFullBotThink    = gpGlobals->time + g_flBotFullThinkInterval;
+	m_flPreviousCommandTime = gpGlobals->time;
 
-	m_isRunning = true;
-	m_isCrouching = false;
+	m_isRunning         = true;
+	m_isCrouching       = false;
 	m_postureStackIndex = 0;
 
 	m_jumpTimestamp = 0.0f;
@@ -83,7 +82,6 @@ void CBot::Spawn( void )
 	SpawnBot();
 }
 
-
 //--------------------------------------------------------------------------------------------------------------
 Vector CBot::GetAutoaimVector( float flDelta )
 {
@@ -91,7 +89,6 @@ Vector CBot::GetAutoaimVector( float flDelta )
 
 	return gpGlobals->v_forward;
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 void CBot::BotThink( void )
@@ -114,7 +111,6 @@ void CBot::BotThink( void )
 	}
 }
 
-
 //--------------------------------------------------------------------------------------------------------------
 void CBot::MoveForward( void )
 {
@@ -124,7 +120,6 @@ void CBot::MoveForward( void )
 	// make mutually exclusive
 	ClearBits( m_buttonFlags, IN_BACK );
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 void CBot::MoveBackward( void )
@@ -159,19 +154,19 @@ void CBot::StrafeRight( void )
 //--------------------------------------------------------------------------------------------------------------
 bool CBot::Jump( bool mustJump )
 {
-	if (IsJumping() || IsCrouching())
+	if ( IsJumping() || IsCrouching() )
 		return false;
 
-	if (!mustJump)
+	if ( !mustJump )
 	{
 		const float minJumpInterval = 0.9f; // 1.5f;
-		if (gpGlobals->time - m_jumpTimestamp < minJumpInterval)
+		if ( gpGlobals->time - m_jumpTimestamp < minJumpInterval )
 			return false;
 	}
 
 	// still need sanity check for jumping frequency
 	const float sanityInterval = 0.3f;
-	if (gpGlobals->time - m_jumpTimestamp < sanityInterval)
+	if ( gpGlobals->time - m_jumpTimestamp < sanityInterval )
 		return false;
 
 	// jump
@@ -196,15 +191,15 @@ void CBot::ClearMovement( void )
 bool CBot::IsJumping( void )
 {
 	// if long time after last jump, we can't be jumping
-	if (gpGlobals->time - m_jumpTimestamp > 3.0f)
+	if ( gpGlobals->time - m_jumpTimestamp > 3.0f )
 		return false;
 
 	// if we just jumped, we're still jumping
-	if (gpGlobals->time - m_jumpTimestamp < 1.0f)
+	if ( gpGlobals->time - m_jumpTimestamp < 1.0f )
 		return true;
 
 	// a little after our jump, we're jumping until we hit the ground
-	if (FBitSet( pev->flags, FL_ONGROUND ))
+	if ( FBitSet( pev->flags, FL_ONGROUND ) )
 		return false;
 
 	return true;
@@ -222,13 +217,11 @@ void CBot::StandUp( void )
 	m_isCrouching = false;
 }
 
-
 //--------------------------------------------------------------------------------------------------------------
 void CBot::UseEnvironment( void )
 {
 	SetBits( m_buttonFlags, IN_USE );
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 void CBot::PrimaryAttack( void )
@@ -245,7 +238,7 @@ void CBot::ClearPrimaryAttack( void )
 //--------------------------------------------------------------------------------------------------------------
 void CBot::TogglePrimaryAttack( void )
 {
-	if (FBitSet( m_buttonFlags, IN_ATTACK ))
+	if ( FBitSet( m_buttonFlags, IN_ATTACK ) )
 	{
 		ClearBits( m_buttonFlags, IN_ATTACK );
 	}
@@ -254,7 +247,6 @@ void CBot::TogglePrimaryAttack( void )
 		SetBits( m_buttonFlags, IN_ATTACK );
 	}
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 void CBot::SecondaryAttack( void )
@@ -280,7 +272,7 @@ float CBot::GetActiveWeaponAmmoRatio( void ) const
 		return 0.0f;
 
 	// weapons with no ammo are always full
-	if (gun->m_iClip < 0)
+	if ( gun->m_iClip < 0 )
 		return 1.0f;
 
 	return (float)gun->m_iClip / (float)gun->iMaxClip();
@@ -294,7 +286,7 @@ bool CBot::IsActiveWeaponClipEmpty( void ) const
 {
 	CBasePlayerWeapon *gun = GetActiveWeapon();
 
-	if (gun && gun->m_iClip == 0)
+	if ( gun && gun->m_iClip == 0 )
 		return true;
 
 	return false;
@@ -308,13 +300,13 @@ bool CBot::IsActiveWeaponOutOfAmmo( void ) const
 {
 	CBasePlayerWeapon *gun = GetActiveWeapon();
 
-	if (gun == NULL)
+	if ( gun == NULL )
 		return true;
 
-	if (gun->m_iClip < 0)
+	if ( gun->m_iClip < 0 )
 		return false;
 
-	if (gun->m_iClip == 0 && m_rgAmmo[ gun->m_iPrimaryAmmoType ] <= 0)
+	if ( gun->m_iClip == 0 && m_rgAmmo[gun->m_iPrimaryAmmoType] <= 0 )
 		return true;
 
 	return false;
@@ -327,12 +319,11 @@ bool CBot::IsActiveWeaponOutOfAmmo( void ) const
 bool CBot::IsUsingScope( void ) const
 {
 	// if our field of view is less than 90, we're looking thru a scope (maybe only true for CS...)
-	if (m_iFOV < 90.0f)
+	if ( m_iFOV < 90.0f )
 		return true;
 
 	return false;
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 void CBot::ExecuteCommand( void )
@@ -349,24 +340,21 @@ void CBot::ExecuteCommand( void )
 	// save the command time
 	m_flPreviousCommandTime = gpGlobals->time;
 
-	if (m_isCrouching)
+	if ( m_isCrouching )
 		SetBits( m_buttonFlags, IN_DUCK );
 
 	// Run the command
-	(*g_engfuncs.pfnRunPlayerMove)( edict(), pev->v_angle, m_forwardSpeed, m_strafeSpeed, m_verticalSpeed, 
-																	m_buttonFlags, 0, adjustedMSec );
+	( *g_engfuncs.pfnRunPlayerMove )( edict(), pev->v_angle, m_forwardSpeed, m_strafeSpeed, m_verticalSpeed, m_buttonFlags, 0, adjustedMSec );
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 void CBot::ResetCommand( void )
 {
-	m_forwardSpeed = 0.0;
-	m_strafeSpeed = 0.0;
-	m_verticalSpeed	= 0.0;
-	m_buttonFlags = 0;
+	m_forwardSpeed  = 0.0;
+	m_strafeSpeed   = 0.0;
+	m_verticalSpeed = 0.0;
+	m_buttonFlags   = 0;
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 byte CBot::ThrottledMsec( void ) const
@@ -374,9 +362,9 @@ byte CBot::ThrottledMsec( void ) const
 	int iNewMsec;
 
 	// Estimate Msec to use for this command based on time passed from the previous command
-	iNewMsec = (int)( (gpGlobals->time - m_flPreviousCommandTime) * 1000 );
-	if (iNewMsec > 255)  // Doh, bots are going to be slower than they should if this happens.
-		iNewMsec = 255;		 // Upgrade that CPU or use less bots!
+	iNewMsec = (int)( ( gpGlobals->time - m_flPreviousCommandTime ) * 1000 );
+	if ( iNewMsec > 255 ) // Doh, bots are going to be slower than they should if this happens.
+		iNewMsec = 255;   // Upgrade that CPU or use less bots!
 
 	return (byte)iNewMsec;
 }
@@ -385,7 +373,7 @@ byte CBot::ThrottledMsec( void ) const
 
 // Nasty Hack.  See client.cpp/ClientCommand()
 const char *BotArgs[4] = { NULL };
-bool UseBotArgs = false;
+bool UseBotArgs        = false;
 
 /**
  * Do a "client command" - useful for invoking menu choices, etc.
@@ -402,7 +390,6 @@ void CBot::ClientCommand( const char *cmd, const char *arg1, const char *arg2, c
 	UseBotArgs = false;
 }
 
-
 //--------------------------------------------------------------------------------------------------------------
 /**
  * Returns TRUE if given entity is our enemy
@@ -410,17 +397,17 @@ void CBot::ClientCommand( const char *cmd, const char *arg1, const char *arg2, c
 bool CBot::IsEnemy( CBaseEntity *ent ) const
 {
 	// only Players (real and AI) can be enemies
-	if (!ent->IsPlayer())
+	if ( !ent->IsPlayer() )
 		return false;
 
 	// corpses are no threat
-	if (!ent->IsAlive())
-		return false;	
+	if ( !ent->IsAlive() )
+		return false;
 
-	CBasePlayer *player = static_cast<CBasePlayer *>( ent );
+	CBasePlayer *player = static_cast< CBasePlayer * >( ent );
 
 	// if they are on our team, they are our friends
-	if (player->m_iTeam == m_iTeam)
+	if ( player->m_iTeam == m_iTeam )
 		return false;
 
 	// yep, we hate 'em
@@ -439,19 +426,19 @@ int CBot::GetEnemiesRemaining( void ) const
 	{
 		CBaseEntity *player = UTIL_PlayerByIndex( i );
 
-		if (player == NULL)
+		if ( player == NULL )
 			continue;
 
-		if (FNullEnt( player->pev ))
+		if ( FNullEnt( player->pev ) )
 			continue;
 
-		if (FStrEq( STRING( player->pev->netname ), "" ))
+		if ( FStrEq( STRING( player->pev->netname ), "" ) )
 			continue;
 
-		if (!IsEnemy( player ))
+		if ( !IsEnemy( player ) )
 			continue;
 
-		if (!player->IsAlive())
+		if ( !player->IsAlive() )
 			continue;
 
 		count++;
@@ -472,22 +459,22 @@ int CBot::GetFriendsRemaining( void ) const
 	{
 		CBaseEntity *player = UTIL_PlayerByIndex( i );
 
-		if (player == NULL)
+		if ( player == NULL )
 			continue;
 
-		if (FNullEnt( player->pev ))
+		if ( FNullEnt( player->pev ) )
 			continue;
 
-		if (FStrEq( STRING( player->pev->netname ), "" ))
+		if ( FStrEq( STRING( player->pev->netname ), "" ) )
 			continue;
 
-		if (IsEnemy( player ))
+		if ( IsEnemy( player ) )
 			continue;
 
-		if (!player->IsAlive())
+		if ( !player->IsAlive() )
 			continue;
 
-		if (player == static_cast<CBaseEntity *>( const_cast<CBot *>( this ) ))
+		if ( player == static_cast< CBaseEntity * >( const_cast< CBot * >( this ) ) )
 			continue;
 
 		count++;
@@ -503,25 +490,25 @@ int CBot::GetFriendsRemaining( void ) const
 bool CBot::IsLocalPlayerWatchingMe( void ) const
 {
 	// avoid crash during spawn
-	if (pev == NULL)
+	if ( pev == NULL )
 		return false;
 
-	int myIndex = const_cast<CBot *>(this)->entindex();
+	int myIndex = const_cast< CBot * >( this )->entindex();
 
 	CBasePlayer *player = UTIL_GetLocalPlayer();
-	if (player == NULL)
+	if ( player == NULL )
 		return false;
 
-	if (player->pev->flags & FL_SPECTATOR || player->m_iTeam == SPECTATOR)
+	if ( player->pev->flags & FL_SPECTATOR || player->m_iTeam == SPECTATOR )
 	{
-		if (player->pev->iuser2 == myIndex)
+		if ( player->pev->iuser2 == myIndex )
 		{
-			switch( player->pev->iuser1 )
+			switch ( player->pev->iuser1 )
 			{
-				case OBS_IN_EYE:
-				case OBS_CHASE_LOCKED:
-				case OBS_CHASE_FREE:
-					return true;
+			case OBS_IN_EYE:
+			case OBS_CHASE_LOCKED:
+			case OBS_CHASE_FREE:
+				return true;
 			}
 		}
 	}
@@ -539,16 +526,15 @@ void CBot::Print( char *format, ... ) const
 	char buffer[1024];
 
 	// prefix the message with the bot's name
-	sprintf( buffer, "%s: ", STRING(pev->netname) );
-	(*g_engfuncs.pfnServerPrint)( buffer );
+	sprintf( buffer, "%s: ", STRING( pev->netname ) );
+	( *g_engfuncs.pfnServerPrint )( buffer );
 
 	va_start( varg, format );
 	vsprintf( buffer, format, varg );
 	va_end( varg );
 
-	(*g_engfuncs.pfnServerPrint)( buffer );
+	( *g_engfuncs.pfnServerPrint )( buffer );
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 /**
@@ -556,29 +542,29 @@ void CBot::Print( char *format, ... ) const
  */
 void CBot::PrintIfWatched( char *format, ... ) const
 {
-	if (cv_bot_debug.value == 0)
+	if ( cv_bot_debug.value == 0 )
 		return;
 
-	if ((IsLocalPlayerWatchingMe() && (cv_bot_debug.value == 1 || cv_bot_debug.value == 3)) ||
-			(cv_bot_debug.value == 2 || cv_bot_debug.value == 4))
+	if ( ( IsLocalPlayerWatchingMe() && ( cv_bot_debug.value == 1 || cv_bot_debug.value == 3 ) ) ||
+	     ( cv_bot_debug.value == 2 || cv_bot_debug.value == 4 ) )
 	{
 		va_list varg;
 		char buffer[1024];
 
 		// prefix the message with the bot's name (this can be NULL if bot was just added)
 		const char *name;
-		if (pev == NULL)
+		if ( pev == NULL )
 			name = "(NULL pev)";
 		else
-			name = STRING(pev->netname);
-		sprintf( buffer, "%s: ", (name) ? name : "(NULL netname)" );
-		(*g_engfuncs.pfnServerPrint)( buffer );
+			name = STRING( pev->netname );
+		sprintf( buffer, "%s: ", ( name ) ? name : "(NULL netname)" );
+		( *g_engfuncs.pfnServerPrint )( buffer );
 
 		va_start( varg, format );
 		vsprintf( buffer, format, varg );
 		va_end( varg );
 
-		(*g_engfuncs.pfnServerPrint)( buffer );
+		( *g_engfuncs.pfnServerPrint )( buffer );
 	}
 }
 
@@ -587,32 +573,32 @@ void CBot::PrintIfWatched( char *format, ... ) const
 
 ActiveGrenade::ActiveGrenade( int weaponID, CGrenade *grenadeEntity )
 {
-	m_id = weaponID;
-	m_entity = grenadeEntity;
+	m_id                 = weaponID;
+	m_entity             = grenadeEntity;
 	m_detonationPosition = grenadeEntity->pev->origin;
-	m_dieTimestamp = 0.0f;
+	m_dieTimestamp       = 0.0f;
 }
 
 //--------------------------------------------------------------------------------------------------------------
-void ActiveGrenade::OnEntityGone( void )									///< called when the grenade in the world goes away
+void ActiveGrenade::OnEntityGone( void ) ///< called when the grenade in the world goes away
 {
-	if (m_id == WEAPON_SMOKEGRENADE)
+	if ( m_id == WEAPON_SMOKEGRENADE )
 	{
 		// smoke lingers after grenade is gone
 		const float smokeLingerTime = 4.0f;
-		m_dieTimestamp = gpGlobals->time + smokeLingerTime;
+		m_dieTimestamp              = gpGlobals->time + smokeLingerTime;
 	}
 
 	m_entity = NULL;
 }
 
 //--------------------------------------------------------------------------------------------------------------
-bool ActiveGrenade::IsValid( void ) const							///< return true if this grenade is valid
+bool ActiveGrenade::IsValid( void ) const ///< return true if this grenade is valid
 {
-	if (m_entity)
+	if ( m_entity )
 		return true;
 
-	if (gpGlobals->time > m_dieTimestamp)
+	if ( gpGlobals->time > m_dieTimestamp )
 		return false;
 
 	return true;
@@ -620,7 +606,6 @@ bool ActiveGrenade::IsValid( void ) const							///< return true if this grenade
 
 //--------------------------------------------------------------------------------------------------------------
 const Vector *ActiveGrenade::GetPosition( void ) const
-{ 
-	return &m_entity->pev->origin; 
+{
+	return &m_entity->pev->origin;
 }
-

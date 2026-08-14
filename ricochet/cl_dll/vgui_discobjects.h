@@ -24,18 +24,19 @@
 // Disc ammo icon
 class CDiscPanel : public Label
 {
-private:
-	BitmapTGA	*m_pDiscTGA_Red;
-	BitmapTGA	*m_pDiscTGA_RedGlow;
-	BitmapTGA	*m_pDiscTGA_Blue;
-	BitmapTGA	*m_pDiscTGA_BlueGlow;
-	BitmapTGA	*m_pDiscTGA_Grey;
-	BitmapTGA	*m_pDiscTGA_Fast;
-	BitmapTGA	*m_pDiscTGA_Freeze;
-	BitmapTGA	*m_pDiscTGA_Hard;
-	BitmapTGA	*m_pDiscTGA_Triple;
-public:
-	CDiscPanel(int x,int y,int wide,int tall);
+  private:
+	BitmapTGA *m_pDiscTGA_Red;
+	BitmapTGA *m_pDiscTGA_RedGlow;
+	BitmapTGA *m_pDiscTGA_Blue;
+	BitmapTGA *m_pDiscTGA_BlueGlow;
+	BitmapTGA *m_pDiscTGA_Grey;
+	BitmapTGA *m_pDiscTGA_Fast;
+	BitmapTGA *m_pDiscTGA_Freeze;
+	BitmapTGA *m_pDiscTGA_Hard;
+	BitmapTGA *m_pDiscTGA_Triple;
+
+  public:
+	CDiscPanel( int x, int y, int wide, int tall );
 	void Update( int iDiscNo, bool bGlow, int iPowerup );
 
 	virtual void paintBackground()
@@ -48,62 +49,62 @@ public:
 // Powerup
 class CDiscPowerups : public CTransparentPanel
 {
-public:
+  public:
 	CDiscPowerups();
 
-	void	RecalculateText( int iPowerup );
-	Label	*m_pLabel;
+	void RecalculateText( int iPowerup );
+	Label *m_pLabel;
 };
 
 class CDiscRewards : public CTransparentPanel
 {
-public:
+  public:
 	CDiscRewards();
 
-	void	RecalculateText( int iReward );
-	void	SetMessage( char *pMessage );
-	Label	*m_pReward;
-	Label	*m_pTeleBonus;
+	void RecalculateText( int iReward );
+	void SetMessage( char *pMessage );
+	Label *m_pReward;
+	Label *m_pTeleBonus;
 };
 
 //===========================================================
 // Arena windows
 class CDiscArenaPanel : public CTransparentPanel
 {
-public:
+  public:
 	CDiscArenaPanel( int x, int y, int wide, int tall );
-	int  MsgFunc_GetPlayers(const char *pszName, int iSize, void *pbuf );
+	int MsgFunc_GetPlayers( const char *pszName, int iSize, void *pbuf );
 	virtual void RecalculateText( void ) {};
 	void GetClientList( char *pszString );
 
-	int  m_iNumPlayers;
-	int	 m_iClients[ MAX_PLAYERS ];
-	int	 m_iRoundNumber;
-	int	 m_iSecondsToGo;
+	int m_iNumPlayers;
+	int m_iClients[MAX_PLAYERS];
+	int m_iRoundNumber;
+	int m_iSecondsToGo;
 };
 
 class CDiscArena_RoundStart : public CDiscArenaPanel
 {
-public:
+  public:
 	CDiscArena_RoundStart();
 
 	void RecalculateText( void );
 
-	Label	*m_pRound;
-	Label	*m_pTeamOne;
-	Label	*m_pTeamTwo;
+	Label *m_pRound;
+	Label *m_pTeamOne;
+	Label *m_pTeamTwo;
 };
 
 class CDiscArena_RoundEnd : public CDiscArenaPanel
 {
-public:
+  public:
 	CDiscArena_RoundEnd();
 
 	void RecalculateText( void );
 
-	Label	*m_pRound;
-	Label	*m_pWinners;
-	Label	*m_pWinningTeam;
+	Label *m_pRound;
+	Label *m_pWinners;
+	Label *m_pWinningTeam;
 };
 
 #endif // VGUI_DISCOBJECTS_H

@@ -1,7 +1,7 @@
 /*
-	meter.c
+    meter.c
 
-	Implements a dorky progess meter
+    Implements a dorky progess meter
 */
 
 int showmeter = 0;
@@ -13,20 +13,18 @@ void MeterStart( int max )
 	meter_max = max;
 }
 
-
 void MeterAdvance( int amt )
 {
 	float pct;
 
 	meter_cur += amt;
 
-	if( showmeter )
+	if ( showmeter )
 	{
-		pct = ( (float) meter_cur / (float) meter_max ) * 100.0;
+		pct = ( (float)meter_cur / (float)meter_max ) * 100.0;
 		printf( "\r%d/%d (%0.2f%%)                   ", meter_cur, meter_max, pct );
 	}
 }
-
 
 void MeterEnd( void )
 {

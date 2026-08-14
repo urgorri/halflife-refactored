@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -27,32 +27,32 @@ bool UTIL_IsNameTaken( const char *name, bool ignoreHumans )
 {
 	for ( int i = 1; i <= gpGlobals->maxClients; ++i )
 	{
-		CBaseEntity * player = UTIL_PlayerByIndex( i );
+		CBaseEntity *player = UTIL_PlayerByIndex( i );
 
-		if (player == NULL)
+		if ( player == NULL )
 			continue;
 
-		if (FNullEnt( player->pev ))
+		if ( FNullEnt( player->pev ) )
 			continue;
 
-		if (FStrEq( STRING( player->pev->netname ), "" ))
+		if ( FStrEq( STRING( player->pev->netname ), "" ) )
 			continue;
 
-		if (player->IsPlayer() && (((CBasePlayer *)player)->IsBot() == TRUE))
+		if ( player->IsPlayer() && ( ( (CBasePlayer *)player )->IsBot() == TRUE ) )
 		{
 			// bots can have prefixes so we need to check the name
 			// against the profile name instead.
 			CBot *bot = (CBot *)player;
-			if (FStrEq(name, bot->GetProfile()->GetName()))
+			if ( FStrEq( name, bot->GetProfile()->GetName() ) )
 			{
 				return true;
 			}
 		}
 		else
 		{
-			if (!ignoreHumans)
+			if ( !ignoreHumans )
 			{
-				if (FStrEq( name, STRING( player->pev->netname ) ))
+				if ( FStrEq( name, STRING( player->pev->netname ) ) )
 					return true;
 			}
 		}
@@ -61,7 +61,6 @@ bool UTIL_IsNameTaken( const char *name, bool ignoreHumans )
 	return false;
 }
 
-
 //--------------------------------------------------------------------------------------------------------------
 int UTIL_ClientsInGame( void )
 {
@@ -69,7 +68,7 @@ int UTIL_ClientsInGame( void )
 
 	for ( int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
 	{
-		CBaseEntity * pPlayer = UTIL_PlayerByIndex( iIndex );
+		CBaseEntity *pPlayer = UTIL_PlayerByIndex( iIndex );
 
 		if ( pPlayer == NULL )
 			continue;
@@ -94,7 +93,7 @@ int UTIL_ActivePlayersInGame( void )
 {
 	int iCount = 0;
 
-	for (int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
+	for ( int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
 	{
 		CBaseEntity *entity = UTIL_PlayerByIndex( iIndex );
 
@@ -107,13 +106,13 @@ int UTIL_ActivePlayersInGame( void )
 		if ( FStrEq( STRING( entity->pev->netname ), "" ) )
 			continue;
 
-		CBasePlayer *player = static_cast<CBasePlayer *>( entity );
+		CBasePlayer *player = static_cast< CBasePlayer * >( entity );
 
 		// ignore spectators
-		if (player->m_iTeam != TERRORIST && player->m_iTeam != CT)
+		if ( player->m_iTeam != TERRORIST && player->m_iTeam != CT )
 			continue;
 
-		if (player->m_iJoiningState != JOINED)
+		if ( player->m_iJoiningState != JOINED )
 			continue;
 
 		iCount++;
@@ -122,14 +121,12 @@ int UTIL_ActivePlayersInGame( void )
 	return iCount;
 }
 
-
-
 //--------------------------------------------------------------------------------------------------------------
 int UTIL_HumansInGame( bool ignoreSpectators )
 {
 	int iCount = 0;
 
-	for (int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
+	for ( int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
 	{
 		CBaseEntity *entity = UTIL_PlayerByIndex( iIndex );
 
@@ -142,15 +139,15 @@ int UTIL_HumansInGame( bool ignoreSpectators )
 		if ( FStrEq( STRING( entity->pev->netname ), "" ) )
 			continue;
 
-		CBasePlayer *player = static_cast<CBasePlayer *>( entity );
+		CBasePlayer *player = static_cast< CBasePlayer * >( entity );
 
-		if (player->IsBot())
+		if ( player->IsBot() )
 			continue;
 
-		if (ignoreSpectators && player->m_iTeam != TERRORIST && player->m_iTeam != CT)
+		if ( ignoreSpectators && player->m_iTeam != TERRORIST && player->m_iTeam != CT )
 			continue;
 
-		if (ignoreSpectators && player->m_iJoiningState != JOINED)
+		if ( ignoreSpectators && player->m_iJoiningState != JOINED )
 			continue;
 
 		iCount++;
@@ -159,8 +156,8 @@ int UTIL_HumansInGame( bool ignoreSpectators )
 	/*
 	if ( IS_DEDICATED_SERVER() && !ignoreSpectators )
 	{
-		// If we're counting humans, including spectators, don't count the dedicated server
-		--iCount;
+	    // If we're counting humans, including spectators, don't count the dedicated server
+	    --iCount;
 	}
 	*/
 
@@ -175,7 +172,7 @@ int UTIL_HumansOnTeam( int teamID, bool isAlive )
 {
 	int iCount = 0;
 
-	for (int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
+	for ( int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
 	{
 		CBaseEntity *entity = UTIL_PlayerByIndex( iIndex );
 
@@ -188,15 +185,15 @@ int UTIL_HumansOnTeam( int teamID, bool isAlive )
 		if ( FStrEq( STRING( entity->pev->netname ), "" ) )
 			continue;
 
-		CBasePlayer *player = static_cast<CBasePlayer *>( entity );
+		CBasePlayer *player = static_cast< CBasePlayer * >( entity );
 
-		if (player->IsBot())
+		if ( player->IsBot() )
 			continue;
 
-		if (player->m_iTeam != teamID)
+		if ( player->m_iTeam != teamID )
 			continue;
 
-		if (isAlive && !player->IsAlive())
+		if ( isAlive && !player->IsAlive() )
 			continue;
 
 		iCount++;
@@ -205,15 +202,14 @@ int UTIL_HumansOnTeam( int teamID, bool isAlive )
 	return iCount;
 }
 
-
 //--------------------------------------------------------------------------------------------------------------
 int UTIL_BotsInGame( void )
 {
 	int iCount = 0;
 
-	for (int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
+	for ( int iIndex = 1; iIndex <= gpGlobals->maxClients; iIndex++ )
 	{
-		CBasePlayer *pPlayer = static_cast<CBasePlayer *>(UTIL_PlayerByIndex( iIndex ));
+		CBasePlayer *pPlayer = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( iIndex ) );
 
 		if ( pPlayer == NULL )
 			continue;
@@ -244,22 +240,22 @@ bool UTIL_KickBotFromTeam( TeamName kickTeam )
 	// try to kick a dead bot first
 	for ( i = 1; i <= gpGlobals->maxClients; ++i )
 	{
-		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
+		CBasePlayer *player = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if ( player == NULL )
 			continue;
 
-		if (FNullEnt( player->pev ))
+		if ( FNullEnt( player->pev ) )
 			continue;
 
 		const char *name = STRING( player->pev->netname );
-		if (FStrEq( name, "" ))
+		if ( FStrEq( name, "" ) )
 			continue;
 
-		if (!player->IsBot())
-			continue;	
+		if ( !player->IsBot() )
+			continue;
 
-		if (!player->IsAlive() && player->m_iTeam == kickTeam)
+		if ( !player->IsAlive() && player->m_iTeam == kickTeam )
 		{
 			// its a bot on the right team - kick it
 			SERVER_COMMAND( UTIL_VarArgs( "kick \"%s\"\n", STRING( player->pev->netname ) ) );
@@ -271,22 +267,22 @@ bool UTIL_KickBotFromTeam( TeamName kickTeam )
 	// no dead bots, kick any bot on the given team
 	for ( i = 1; i <= gpGlobals->maxClients; ++i )
 	{
-		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
+		CBasePlayer *player = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if ( player == NULL )
 			continue;
 
-		if (FNullEnt( player->pev ))
+		if ( FNullEnt( player->pev ) )
 			continue;
 
 		const char *name = STRING( player->pev->netname );
-		if (FStrEq( name, "" ))
+		if ( FStrEq( name, "" ) )
 			continue;
 
-		if (!player->IsBot())
-			continue;	
+		if ( !player->IsBot() )
+			continue;
 
-		if (player->m_iTeam == kickTeam)
+		if ( player->m_iTeam == kickTeam )
 		{
 			// its a bot on the right team - kick it
 			SERVER_COMMAND( UTIL_VarArgs( "kick \"%s\"\n", STRING( player->pev->netname ) ) );
@@ -306,25 +302,25 @@ bool UTIL_IsTeamAllBots( int team )
 {
 	int botCount = 0;
 
-	for( int i=1; i <= gpGlobals->maxClients; ++i )
+	for ( int i = 1; i <= gpGlobals->maxClients; ++i )
 	{
-		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
+		CBasePlayer *player = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if ( player == NULL )
 			continue;
 
 		// skip players on other teams
-		if (player->m_iTeam != team)
+		if ( player->m_iTeam != team )
 			continue;
 
-		if (FNullEnt( player->pev ))
+		if ( FNullEnt( player->pev ) )
 			continue;
 
-		if (FStrEq( STRING( player->pev->netname ), "" ))
+		if ( FStrEq( STRING( player->pev->netname ), "" ) )
 			continue;
 
 		// if not a bot, fail the test
-		if (!FBitSet( player->pev->flags, FL_FAKECLIENT ))
+		if ( !FBitSet( player->pev->flags, FL_FAKECLIENT ) )
 			return false;
 
 		// is a bot on given team
@@ -332,7 +328,7 @@ bool UTIL_IsTeamAllBots( int team )
 	}
 
 	// if team is empty, there are no bots
-	return (botCount) ? true : false;
+	return ( botCount ) ? true : false;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -343,27 +339,27 @@ bool UTIL_IsTeamAllBots( int team )
 extern CBasePlayer *UTIL_GetClosestPlayer( const Vector *pos, float *distance )
 {
 	CBasePlayer *closePlayer = NULL;
-	float closeDistSq = 999999999999.9f;
+	float closeDistSq        = 999999999999.9f;
 
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
-		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
+		CBasePlayer *player = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( i ) );
 
-		if (!IsEntityValid( player ))
+		if ( !IsEntityValid( player ) )
 			continue;
 
-		if (!player->IsAlive())
+		if ( !player->IsAlive() )
 			continue;
 
-		float distSq = (player->pev->origin - *pos).LengthSquared();
-		if (distSq < closeDistSq)
+		float distSq = ( player->pev->origin - *pos ).LengthSquared();
+		if ( distSq < closeDistSq )
 		{
 			closeDistSq = distSq;
-			closePlayer = static_cast<CBasePlayer *>( player );
+			closePlayer = static_cast< CBasePlayer * >( player );
 		}
 	}
-	
-	if (distance)
+
+	if ( distance )
 		*distance = sqrt( closeDistSq );
 
 	return closePlayer;
@@ -377,30 +373,30 @@ extern CBasePlayer *UTIL_GetClosestPlayer( const Vector *pos, float *distance )
 extern CBasePlayer *UTIL_GetClosestPlayer( const Vector *pos, int team, float *distance )
 {
 	CBasePlayer *closePlayer = NULL;
-	float closeDistSq = 999999999999.9f;
+	float closeDistSq        = 999999999999.9f;
 
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
-		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
+		CBasePlayer *player = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( i ) );
 
-		if (!IsEntityValid( player ))
+		if ( !IsEntityValid( player ) )
 			continue;
 
-		if (!player->IsAlive())
+		if ( !player->IsAlive() )
 			continue;
 
-		if (player->m_iTeam != team)
+		if ( player->m_iTeam != team )
 			continue;
 
-		float distSq = (player->pev->origin - *pos).LengthSquared();
-		if (distSq < closeDistSq)
+		float distSq = ( player->pev->origin - *pos ).LengthSquared();
+		if ( distSq < closeDistSq )
 		{
 			closeDistSq = distSq;
-			closePlayer = static_cast<CBasePlayer *>( player );
+			closePlayer = static_cast< CBasePlayer * >( player );
 		}
 	}
-	
-	if (distance)
+
+	if ( distance )
 		*distance = sqrt( closeDistSq );
 
 	return closePlayer;
@@ -408,29 +404,29 @@ extern CBasePlayer *UTIL_GetClosestPlayer( const Vector *pos, int team, float *d
 
 //--------------------------------------------------------------------------------------------------------------
 // returns the string to be used for the bot name prefix.
-const char * UTIL_GetBotPrefix()
+const char *UTIL_GetBotPrefix()
 {
 	return cv_bot_prefix.string;
 }
 
 //--------------------------------------------------------------------------------------------------------------
 // Takes the bot pointer and constructs the net name using the current bot name prefix.
-void UTIL_ConstructBotNetName(char *name, int nameLength, const BotProfile *profile)
+void UTIL_ConstructBotNetName( char *name, int nameLength, const BotProfile *profile )
 {
-	if (profile == NULL)
+	if ( profile == NULL )
 	{
 		name[0] = 0;
 		return;
 	}
 
 	// if there is no bot prefix just use the profile name.
-	if ((UTIL_GetBotPrefix() == NULL) || (strlen(UTIL_GetBotPrefix()) == 0))
+	if ( ( UTIL_GetBotPrefix() == NULL ) || ( strlen( UTIL_GetBotPrefix() ) == 0 ) )
 	{
-		strncpy(name, profile->GetName(), nameLength);
+		strncpy( name, profile->GetName(), nameLength );
 		return;
 	}
 
-	_snprintf(name, nameLength, "%s %s", UTIL_GetBotPrefix(), profile->GetName());
+	_snprintf( name, nameLength, "%s %s", UTIL_GetBotPrefix(), profile->GetName() );
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -439,38 +435,37 @@ void UTIL_ConstructBotNetName(char *name, int nameLength, const BotProfile *prof
  */
 bool UTIL_IsVisibleToTeam( const Vector &spot, int team, float maxRange )
 {
-	for( int i = 1; i <= gpGlobals->maxClients; ++i )
+	for ( int i = 1; i <= gpGlobals->maxClients; ++i )
 	{
-		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
+		CBasePlayer *player = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if ( player == NULL )
 			continue;
 
-		if (FNullEnt( player->pev ))
+		if ( FNullEnt( player->pev ) )
 			continue;
 
-		if (FStrEq( STRING( player->pev->netname ), "" ))
+		if ( FStrEq( STRING( player->pev->netname ), "" ) )
 			continue;
 
-		if (!player->IsAlive())
+		if ( !player->IsAlive() )
 			continue;
 
-		if (player->m_iTeam != team)
+		if ( player->m_iTeam != team )
 			continue;
 
-		if (maxRange > 0.0f && (spot - player->Center()).IsLengthGreaterThan( maxRange ))
+		if ( maxRange > 0.0f && ( spot - player->Center() ).IsLengthGreaterThan( maxRange ) )
 			continue;
 
 		TraceResult result;
 		UTIL_TraceLine( player->EyePosition(), spot, ignore_monsters, ignore_glass, ENT( player->pev ), &result );
 
-		if (result.flFraction == 1.0f)
+		if ( result.flFraction == 1.0f )
 			return true;
 	}
 
 	return false;
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 /**
@@ -482,13 +477,12 @@ CBasePlayer *UTIL_GetLocalPlayer( void )
 	{
 		return NULL;
 	}
-	return static_cast<CBasePlayer *>( UTIL_PlayerByIndex( 1 ) );
+	return static_cast< CBasePlayer * >( UTIL_PlayerByIndex( 1 ) );
 }
-
 
 //------------------------------------------------------------------------------------------------------------
 // Some types of entities have no origin set, so we use this instead.
-Vector UTIL_ComputeOrigin( entvars_t * pevVars )
+Vector UTIL_ComputeOrigin( entvars_t *pevVars )
 {
 	if ( ( pevVars->origin.x == 0.0 ) && ( pevVars->origin.y == 0.0 ) && ( pevVars->origin.z == 0.0 ) )
 		return ( pevVars->absmax + pevVars->absmin ) * 0.5;
@@ -496,97 +490,90 @@ Vector UTIL_ComputeOrigin( entvars_t * pevVars )
 		return pevVars->origin;
 }
 
-
-Vector UTIL_ComputeOrigin( CBaseEntity * pEntity )
+Vector UTIL_ComputeOrigin( CBaseEntity *pEntity )
 {
 	return UTIL_ComputeOrigin( pEntity->pev );
 }
 
-
-Vector UTIL_ComputeOrigin( edict_t * pentEdict )
+Vector UTIL_ComputeOrigin( edict_t *pentEdict )
 {
 	return UTIL_ComputeOrigin( VARS( pentEdict ) );
 }
 
-
 //------------------------------------------------------------------------------------------------------------
 void UTIL_DrawBeamFromEnt( int iIndex, Vector vecEnd, int iLifetime, byte bRed, byte bGreen, byte bBlue )
 {
-	MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecEnd );   // vecEnd = origin???
-									WRITE_BYTE( TE_BEAMENTPOINT );
-									WRITE_SHORT( iIndex );
-									WRITE_COORD( vecEnd.x );
-									WRITE_COORD( vecEnd.y );
-									WRITE_COORD( vecEnd.z );
-									WRITE_SHORT( s_iBeamSprite );
-									WRITE_BYTE( 0 );		 // startframe
-									WRITE_BYTE( 0 );		 // framerate
-									WRITE_BYTE( iLifetime ); // life
-									WRITE_BYTE( 10 );		 // width
-									WRITE_BYTE( 0 );		 // noise
-									WRITE_BYTE( bRed );		 // r, g, b
-									WRITE_BYTE( bGreen );		 // r, g, b
-									WRITE_BYTE( bBlue );    // r, g, b
-									WRITE_BYTE( 255 );	 // brightness
-									WRITE_BYTE( 0 );		 // speed
-									MESSAGE_END();
+	MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecEnd ); // vecEnd = origin???
+	WRITE_BYTE( TE_BEAMENTPOINT );
+	WRITE_SHORT( iIndex );
+	WRITE_COORD( vecEnd.x );
+	WRITE_COORD( vecEnd.y );
+	WRITE_COORD( vecEnd.z );
+	WRITE_SHORT( s_iBeamSprite );
+	WRITE_BYTE( 0 );         // startframe
+	WRITE_BYTE( 0 );         // framerate
+	WRITE_BYTE( iLifetime ); // life
+	WRITE_BYTE( 10 );        // width
+	WRITE_BYTE( 0 );         // noise
+	WRITE_BYTE( bRed );      // r, g, b
+	WRITE_BYTE( bGreen );    // r, g, b
+	WRITE_BYTE( bBlue );     // r, g, b
+	WRITE_BYTE( 255 );       // brightness
+	WRITE_BYTE( 0 );         // speed
+	MESSAGE_END();
 }
-
 
 //------------------------------------------------------------------------------------------------------------
 void UTIL_DrawBeamPoints( Vector vecStart, Vector vecEnd, int iLifetime, byte bRed, byte bGreen, byte bBlue )
 {
 	MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecStart );
-									WRITE_BYTE( TE_BEAMPOINTS );
-									WRITE_COORD( vecStart.x );
-									WRITE_COORD( vecStart.y );
-									WRITE_COORD( vecStart.z );
-									WRITE_COORD( vecEnd.x );
-									WRITE_COORD( vecEnd.y );
-									WRITE_COORD( vecEnd.z );
-									WRITE_SHORT( s_iBeamSprite );
-									WRITE_BYTE( 0 );		 // startframe
-									WRITE_BYTE( 0 );		 // framerate
-									WRITE_BYTE( iLifetime ); // life
-									WRITE_BYTE( 10 );		 // width
-									WRITE_BYTE( 0 );		 // noise
-									WRITE_BYTE( bRed );		 // r, g, b
-									WRITE_BYTE( bGreen );		 // r, g, b
-									WRITE_BYTE( bBlue );    // r, g, b
-									WRITE_BYTE( 255 );	 // brightness
-									WRITE_BYTE( 0 );		 // speed
-									MESSAGE_END();
+	WRITE_BYTE( TE_BEAMPOINTS );
+	WRITE_COORD( vecStart.x );
+	WRITE_COORD( vecStart.y );
+	WRITE_COORD( vecStart.z );
+	WRITE_COORD( vecEnd.x );
+	WRITE_COORD( vecEnd.y );
+	WRITE_COORD( vecEnd.z );
+	WRITE_SHORT( s_iBeamSprite );
+	WRITE_BYTE( 0 );         // startframe
+	WRITE_BYTE( 0 );         // framerate
+	WRITE_BYTE( iLifetime ); // life
+	WRITE_BYTE( 10 );        // width
+	WRITE_BYTE( 0 );         // noise
+	WRITE_BYTE( bRed );      // r, g, b
+	WRITE_BYTE( bGreen );    // r, g, b
+	WRITE_BYTE( bBlue );     // r, g, b
+	WRITE_BYTE( 255 );       // brightness
+	WRITE_BYTE( 0 );         // speed
+	MESSAGE_END();
 }
 
-
 //------------------------------------------------------------------------------------------------------------
-void CONSOLE_ECHO( char * pszMsg, ... )
+void CONSOLE_ECHO( char *pszMsg, ... )
 {
-	va_list     argptr;
+	va_list argptr;
 	static char szStr[1024];
 
 	va_start( argptr, pszMsg );
 	vsprintf( szStr, pszMsg, argptr );
 	va_end( argptr );
 
-	(*g_engfuncs.pfnServerPrint)( szStr );
+	( *g_engfuncs.pfnServerPrint )( szStr );
 }
 
-
 //------------------------------------------------------------------------------------------------------------
-void CONSOLE_ECHO_LOGGED( char * pszMsg, ... )
+void CONSOLE_ECHO_LOGGED( char *pszMsg, ... )
 {
-	va_list     argptr;
+	va_list argptr;
 	static char szStr[1024];
 
 	va_start( argptr, pszMsg );
 	vsprintf( szStr, pszMsg, argptr );
 	va_end( argptr );
 
-	(*g_engfuncs.pfnServerPrint)( szStr );
+	( *g_engfuncs.pfnServerPrint )( szStr );
 	UTIL_LogPrintf( szStr );
 }
-
 
 //------------------------------------------------------------------------------------------------------------
 void BotPrecache( void )
@@ -661,31 +648,30 @@ void BotPrecache( void )
 
 //------------------------------------------------------------------------------------------------------------
 #define COS_TABLE_SIZE 256
-static float cosTable[ COS_TABLE_SIZE ];
+static float cosTable[COS_TABLE_SIZE];
 
 void InitBotTrig( void )
 {
-	for( int i=0; i<COS_TABLE_SIZE; ++i )
+	for ( int i = 0; i < COS_TABLE_SIZE; ++i )
 	{
-		float angle = 2.0f * M_PI * (float)i / (float)(COS_TABLE_SIZE-1);
-		cosTable[i] = cos(angle); 
+		float angle = 2.0f * M_PI * (float)i / (float)( COS_TABLE_SIZE - 1 );
+		cosTable[i] = cos( angle );
 	}
 }
 
 float BotCOS( float angle )
 {
 	angle = NormalizeAnglePositive( angle );
-	int i = angle * (COS_TABLE_SIZE-1) / 360.0f;
+	int i = angle * ( COS_TABLE_SIZE - 1 ) / 360.0f;
 	return cosTable[i];
 }
 
 float BotSIN( float angle )
 {
 	angle = NormalizeAnglePositive( angle - 90 );
-	int i = angle * (COS_TABLE_SIZE-1) / 360.0f;
+	int i = angle * ( COS_TABLE_SIZE - 1 ) / 360.0f;
 	return cosTable[i];
 }
-
 
 //------------------------------------------------------------------------------------------------------------
 /**
@@ -693,139 +679,139 @@ float BotSIN( float angle )
  */
 bool IsGameEventAudible( GameEventType event, CBaseEntity *entity, CBaseEntity *other, float *range, PriorityType *priority, bool *isHostile )
 {
-	CBasePlayer *player = static_cast<CBasePlayer *>( entity );
-	if (entity == NULL || !player->IsPlayer())
+	CBasePlayer *player = static_cast< CBasePlayer * >( entity );
+	if ( entity == NULL || !player->IsPlayer() )
 		player = NULL;
 
-	const float ShortRange = 1000.0f;
+	const float ShortRange  = 1000.0f;
 	const float NormalRange = 2000.0f;
-	switch( event )
+	switch ( event )
 	{
-		/// @todo Check weapon type (knives are pretty quiet)
-		/// @todo Use actual volume, account for silencers, etc.
-		case EVENT_WEAPON_FIRED:
+	/// @todo Check weapon type (knives are pretty quiet)
+	/// @todo Use actual volume, account for silencers, etc.
+	case EVENT_WEAPON_FIRED:
+	{
+		if ( player->m_pActiveItem == NULL )
+			return false;
+
+		switch ( player->m_pActiveItem->m_iId )
 		{
-			if (player->m_pActiveItem == NULL)
-				return false;
+		// silent "firing"
+		case WEAPON_HEGRENADE:
+		case WEAPON_SMOKEGRENADE:
+		case WEAPON_FLASHBANG:
+		case WEAPON_SHIELDGUN:
+		case WEAPON_C4:
+			return false;
 
-			switch( player->m_pActiveItem->m_iId )
+		// quiet
+		case WEAPON_KNIFE:
+		case WEAPON_TMP:
+			*range = ShortRange;
+			break;
+
+		// M4A1 - check for silencer
+		case WEAPON_M4A1:
+		{
+			CBasePlayerWeapon *pWeapon = static_cast< CBasePlayerWeapon * >( player->m_pActiveItem );
+			if ( pWeapon->m_iWeaponState & WPNSTATE_M4A1_SILENCER_ON )
 			{
-				// silent "firing"
-				case WEAPON_HEGRENADE:
-				case WEAPON_SMOKEGRENADE:
-				case WEAPON_FLASHBANG:
-				case WEAPON_SHIELDGUN:
-				case WEAPON_C4:
-					return false;
-
-				// quiet
-				case WEAPON_KNIFE:
-				case WEAPON_TMP:
-					*range = ShortRange;
-					break;
-
-				// M4A1 - check for silencer
-				case WEAPON_M4A1:
-					{
-						CBasePlayerWeapon *pWeapon = static_cast<CBasePlayerWeapon *>(player->m_pActiveItem);
-						if ( pWeapon->m_iWeaponState & WPNSTATE_M4A1_SILENCER_ON )
-						{
-							*range = ShortRange;
-						}
-						else
-						{
-							*range = NormalRange;
-						}
-					}
-					break;
-
-				// USP - check for silencer
-				case WEAPON_USP:
-					{
-						CBasePlayerWeapon *pWeapon = static_cast<CBasePlayerWeapon *>(player->m_pActiveItem);
-						if ( pWeapon->m_iWeaponState & WPNSTATE_USP_SILENCER_ON )
-						{
-							*range = ShortRange;
-						}
-						else
-						{
-							*range = NormalRange;
-						}
-					}
-					break;
-
-				// loud
-				case WEAPON_AWP:
-					*range = 99999.0f;
-					break;
-
-				// normal
-				default:
-					*range = NormalRange;
-					break;
+				*range = ShortRange;
 			}
+			else
+			{
+				*range = NormalRange;
+			}
+		}
+		break;
 
-			*priority = PRIORITY_HIGH;
-			*isHostile = true;
-			return true;
+		// USP - check for silencer
+		case WEAPON_USP:
+		{
+			CBasePlayerWeapon *pWeapon = static_cast< CBasePlayerWeapon * >( player->m_pActiveItem );
+			if ( pWeapon->m_iWeaponState & WPNSTATE_USP_SILENCER_ON )
+			{
+				*range = ShortRange;
+			}
+			else
+			{
+				*range = NormalRange;
+			}
+		}
+		break;
+
+		// loud
+		case WEAPON_AWP:
+			*range = 99999.0f;
+			break;
+
+		// normal
+		default:
+			*range = NormalRange;
+			break;
 		}
 
-		case EVENT_HE_GRENADE_EXPLODED:
-			*range = 99999.0f;
-			*priority = PRIORITY_HIGH;
-			*isHostile = true;
-			return true;
+		*priority  = PRIORITY_HIGH;
+		*isHostile = true;
+		return true;
+	}
 
-		case EVENT_FLASHBANG_GRENADE_EXPLODED:
-			*range = 1000.0f;
-			*priority = PRIORITY_LOW;
-			*isHostile = true;
-			return true;
+	case EVENT_HE_GRENADE_EXPLODED:
+		*range     = 99999.0f;
+		*priority  = PRIORITY_HIGH;
+		*isHostile = true;
+		return true;
 
-		case EVENT_SMOKE_GRENADE_EXPLODED:
-			*range = 1000.0f;
-			*priority = PRIORITY_LOW;
-			*isHostile = true;
-			return true;
+	case EVENT_FLASHBANG_GRENADE_EXPLODED:
+		*range     = 1000.0f;
+		*priority  = PRIORITY_LOW;
+		*isHostile = true;
+		return true;
 
-		case EVENT_GRENADE_BOUNCED:
-			*range = 500.0f;
-			*priority = PRIORITY_LOW;
-			*isHostile = true;
-			return true;
+	case EVENT_SMOKE_GRENADE_EXPLODED:
+		*range     = 1000.0f;
+		*priority  = PRIORITY_LOW;
+		*isHostile = true;
+		return true;
 
-		case EVENT_BREAK_GLASS:
-		case EVENT_BREAK_WOOD:
-		case EVENT_BREAK_METAL:
-		case EVENT_BREAK_FLESH:
-		case EVENT_BREAK_CONCRETE:
-			*range = 1100.0f;
-			*priority = PRIORITY_MEDIUM;
-			*isHostile = true;
-			return true;
+	case EVENT_GRENADE_BOUNCED:
+		*range     = 500.0f;
+		*priority  = PRIORITY_LOW;
+		*isHostile = true;
+		return true;
 
-		case EVENT_DOOR:
-			*range = 1100.0f;
-			*priority = PRIORITY_MEDIUM;
-			*isHostile = false;
-			return true;
+	case EVENT_BREAK_GLASS:
+	case EVENT_BREAK_WOOD:
+	case EVENT_BREAK_METAL:
+	case EVENT_BREAK_FLESH:
+	case EVENT_BREAK_CONCRETE:
+		*range     = 1100.0f;
+		*priority  = PRIORITY_MEDIUM;
+		*isHostile = true;
+		return true;
 
-		case EVENT_WEAPON_FIRED_ON_EMPTY:
-		case EVENT_PLAYER_FOOTSTEP:
-		case EVENT_WEAPON_RELOADED:
-		case EVENT_WEAPON_ZOOMED:
-		case EVENT_PLAYER_LANDED_FROM_HEIGHT:
-			*range = 1100.0f;
-			*priority = PRIORITY_LOW;
-			*isHostile = false;
-			return true;
+	case EVENT_DOOR:
+		*range     = 1100.0f;
+		*priority  = PRIORITY_MEDIUM;
+		*isHostile = false;
+		return true;
 
-		case EVENT_HOSTAGE_USED:
-		case EVENT_HOSTAGE_CALLED_FOR_HELP:
-			*range = 1200.0f;
-			*priority = PRIORITY_MEDIUM;
-			*isHostile = false;
-			return true;
+	case EVENT_WEAPON_FIRED_ON_EMPTY:
+	case EVENT_PLAYER_FOOTSTEP:
+	case EVENT_WEAPON_RELOADED:
+	case EVENT_WEAPON_ZOOMED:
+	case EVENT_PLAYER_LANDED_FROM_HEIGHT:
+		*range     = 1100.0f;
+		*priority  = PRIORITY_LOW;
+		*isHostile = false;
+		return true;
+
+	case EVENT_HOSTAGE_USED:
+	case EVENT_HOSTAGE_CALLED_FOR_HELP:
+		*range     = 1200.0f;
+		*priority  = PRIORITY_MEDIUM;
+		*isHostile = false;
+		return true;
 	}
 
 	return false;
@@ -839,21 +825,20 @@ void HintMessageToAllPlayers( const char *message )
 {
 	hudtextparms_t textParms;
 
-	textParms.x = -1.0f;
-	textParms.y = -1.0f;
-	textParms.fadeinTime = 1.0f;
+	textParms.x           = -1.0f;
+	textParms.y           = -1.0f;
+	textParms.fadeinTime  = 1.0f;
 	textParms.fadeoutTime = 5.0f;
-	textParms.holdTime = 5.0f;
-	textParms.fxTime = 0.0f;
-	textParms.r1 = 100;
-	textParms.g1 = 255;
-	textParms.b1 = 100;
-	textParms.r2 = 255;
-	textParms.g2 = 255;
-	textParms.b2 = 255;
-	textParms.effect = 0;
-	textParms.channel = 0;
+	textParms.holdTime    = 5.0f;
+	textParms.fxTime      = 0.0f;
+	textParms.r1          = 100;
+	textParms.g1          = 255;
+	textParms.b1          = 100;
+	textParms.r2          = 255;
+	textParms.g2          = 255;
+	textParms.b2          = 255;
+	textParms.effect      = 0;
+	textParms.channel     = 0;
 
 	UTIL_HudMessageAll( textParms, message );
 }
-

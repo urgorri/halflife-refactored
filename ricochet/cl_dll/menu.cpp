@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1999, 2000 Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1999, 2000 Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 //
 // menu.cpp
 //
@@ -26,7 +26,7 @@
 
 #include "vgui_TeamFortressViewport.h"
 
-#define MAX_MENU_STRING	512
+#define MAX_MENU_STRING 512
 char g_szMenuString[MAX_MENU_STRING];
 char g_szPrelocalisedMenuString[MAX_MENU_STRING];
 
@@ -34,7 +34,7 @@ int KB_ConvertString( char *in, char **ppout );
 
 DECLARE_MESSAGE( m_Menu, ShowMenu );
 
-int CHudMenu :: Init( void )
+int CHudMenu ::Init( void )
 {
 	gHUD.AddHudElem( this );
 
@@ -45,31 +45,31 @@ int CHudMenu :: Init( void )
 	return 1;
 }
 
-void CHudMenu :: InitHUDData( void )
+void CHudMenu ::InitHUDData( void )
 {
 	m_fMenuDisplayed = 0;
 	m_bitsValidSlots = 0;
 	Reset();
 }
 
-void CHudMenu :: Reset( void )
+void CHudMenu ::Reset( void )
 {
 	g_szPrelocalisedMenuString[0] = 0;
-	m_fWaitingForMore = FALSE;
+	m_fWaitingForMore             = FALSE;
 }
 
-int CHudMenu :: VidInit( void )
+int CHudMenu ::VidInit( void )
 {
 	return 1;
 }
 
-int CHudMenu :: Draw( float flTime )
+int CHudMenu ::Draw( float flTime )
 {
 	// check for if menu is set to disappear
 	if ( m_flShutoffTime > 0 )
 	{
 		if ( m_flShutoffTime <= gHUD.m_flTime )
-		{  // times up, shutoff
+		{ // times up, shutoff
 			m_fMenuDisplayed = 0;
 			m_iFlags &= ~HUD_ACTIVE;
 			return 1;
@@ -81,8 +81,8 @@ int CHudMenu :: Draw( float flTime )
 		return 1;
 
 	SCREENINFO screenInfo;
-	screenInfo.iSize = sizeof(SCREENINFO);
-	gEngfuncs.pfnGetScreenInfo(&screenInfo);
+	screenInfo.iSize = sizeof( SCREENINFO );
+	gEngfuncs.pfnGetScreenInfo( &screenInfo );
 
 	// draw the menu, along the left-hand side of the screen
 
@@ -95,10 +95,10 @@ int CHudMenu :: Draw( float flTime )
 			nlc++;
 	}
 
-	int nFontHeight = max(12, screenInfo.iCharHeight);
+	int nFontHeight = max( 12, screenInfo.iCharHeight );
 
 	// center it
-	int y = (ScreenHeight / 2) - ((nlc / 2) * nFontHeight) - (3 * nFontHeight + nFontHeight / 3); // make sure it is above the say text
+	int y = ( ScreenHeight / 2 ) - ( ( nlc / 2 ) * nFontHeight ) - ( 3 * nFontHeight + nFontHeight / 3 ); // make sure it is above the say text
 	int x = 20;
 
 	i = 0;
@@ -112,15 +112,15 @@ int CHudMenu :: Draw( float flTime )
 		if ( g_szMenuString[i] == '\n' )
 			i++;
 	}
-	
+
 	return 1;
 }
 
 // selects an item from the menu
-void CHudMenu :: SelectMenuItem( int menu_item )
+void CHudMenu ::SelectMenuItem( int menu_item )
 {
 	// if menu_item is in a valid slot,  send a menuselect command to the server
-	if ( (menu_item > 0) && (m_bitsValidSlots & (1 << (menu_item-1))) )
+	if ( ( menu_item > 0 ) && ( m_bitsValidSlots & ( 1 << ( menu_item - 1 ) ) ) )
 	{
 		char szbuf[32];
 		sprintf( szbuf, "menuselect %d\n", menu_item );
@@ -132,7 +132,6 @@ void CHudMenu :: SelectMenuItem( int menu_item )
 	}
 }
 
-
 // Message handler for ShowMenu message
 // takes four values:
 //		short: a bitfield of keys that are valid input
@@ -140,15 +139,15 @@ void CHudMenu :: SelectMenuItem( int menu_item )
 //		byte : a boolean, TRUE if there is more string yet to be received before displaying the menu, FALSE if it's the last string
 //		string: menu string to display
 // if this message is never received, then scores will simply be the combined totals of the players.
-int CHudMenu :: MsgFunc_ShowMenu( const char *pszName, int iSize, void *pbuf )
+int CHudMenu ::MsgFunc_ShowMenu( const char *pszName, int iSize, void *pbuf )
 {
 	char *temp = NULL;
 
 	BEGIN_READ( pbuf, iSize );
 
 	m_bitsValidSlots = READ_SHORT();
-	int DisplayTime = READ_CHAR();
-	int NeedMore = READ_BYTE();
+	int DisplayTime  = READ_CHAR();
+	int NeedMore     = READ_BYTE();
 
 	if ( DisplayTime > 0 )
 		m_flShutoffTime = DisplayTime + gHUD.m_flTime;
@@ -162,13 +161,13 @@ int CHudMenu :: MsgFunc_ShowMenu( const char *pszName, int iSize, void *pbuf )
 			strncpy( g_szPrelocalisedMenuString, READ_STRING(), MAX_MENU_STRING );
 		}
 		else
-		{  // append to the current menu string
-			strncat( g_szPrelocalisedMenuString, READ_STRING(), MAX_MENU_STRING - strlen(g_szPrelocalisedMenuString) );
+		{ // append to the current menu string
+			strncat( g_szPrelocalisedMenuString, READ_STRING(), MAX_MENU_STRING - strlen( g_szPrelocalisedMenuString ) );
 		}
-		g_szPrelocalisedMenuString[MAX_MENU_STRING-1] = 0;  // ensure null termination (strncat/strncpy does not)
+		g_szPrelocalisedMenuString[MAX_MENU_STRING - 1] = 0; // ensure null termination (strncat/strncpy does not)
 
 		if ( !NeedMore )
-		{  // we have the whole string, so we can localise it now
+		{ // we have the whole string, so we can localise it now
 			strncpy( g_szMenuString, gHUD.m_TextMessage.BufferedLocaliseTextString( g_szPrelocalisedMenuString ), MAX_MENU_STRING );
 			g_szMenuString[MAX_MENU_STRING - 1] = '\0';
 

@@ -15,11 +15,11 @@
 //
 // $NoKeywords: $
 //=============================================================================
-#include	"extdll.h"
-#include	"util.h"
-#include	"cbase.h"
-#include	"player.h"
-#include	"pm_shared.h"
+#include "extdll.h"
+#include "util.h"
+#include "cbase.h"
+#include "player.h"
+#include "pm_shared.h"
 
 // Find the next client in the game for this player to spectate
 void CBasePlayer::Observer_FindNextPlayer()
@@ -28,7 +28,7 @@ void CBasePlayer::Observer_FindNextPlayer()
 	//				only a subset of the players. e.g. Make it check the target's team.
 
 	CBaseEntity *client = m_hObserverTarget;
-	while ( (client = (CBaseEntity*)UTIL_FindEntityByClassname( client, "player" )) != m_hObserverTarget ) 
+	while ( ( client = (CBaseEntity *)UTIL_FindEntityByClassname( client, "player" ) ) != m_hObserverTarget )
 	{
 		if ( !client )
 			continue;
@@ -47,7 +47,7 @@ void CBasePlayer::Observer_FindNextPlayer()
 	if ( m_hObserverTarget )
 	{
 		// Store the target in pev so the physics DLL can get to it
-		if (pev->iuser1 != OBS_ROAMING)
+		if ( pev->iuser1 != OBS_ROAMING )
 			pev->iuser2 = ENTINDEX( m_hObserverTarget->edict() );
 		// Move to the target
 		UTIL_SetOrigin( pev, m_hObserverTarget->pev->origin );
@@ -86,7 +86,7 @@ void CBasePlayer::Observer_HandleButtons()
 			Observer_SetMode( OBS_MAP_CHASE );
 
 		else
-			Observer_SetMode( OBS_CHASE_FREE );	// don't use OBS_CHASE_LOCKED anymore
+			Observer_SetMode( OBS_CHASE_FREE ); // don't use OBS_CHASE_LOCKED anymore
 
 		m_flNextObserverInput = gpGlobals->time + 0.2;
 	}
@@ -98,7 +98,6 @@ void CBasePlayer::Observer_HandleButtons()
 
 		m_flNextObserverInput = gpGlobals->time + 0.2;
 	}
- 
 }
 
 // Attempt to change the observer mode
@@ -113,14 +112,14 @@ void CBasePlayer::Observer_SetMode( int iMode )
 		iMode = OBS_IN_EYE; // now it is
 
 	// if we are not roaming, we need a valid target to track
-	if ( (iMode != OBS_ROAMING) && (m_hObserverTarget == NULL) )
+	if ( ( iMode != OBS_ROAMING ) && ( m_hObserverTarget == NULL ) )
 	{
 		Observer_FindNextPlayer();
 
 		// if we didn't find a valid target switch to roaming
-		if (m_hObserverTarget == NULL)
+		if ( m_hObserverTarget == NULL )
 		{
-			ClientPrint( pev, HUD_PRINTCENTER, "#Spec_NoTarget"  );
+			ClientPrint( pev, HUD_PRINTCENTER, "#Spec_NoTarget" );
 			iMode = OBS_ROAMING;
 		}
 	}
@@ -129,14 +128,14 @@ void CBasePlayer::Observer_SetMode( int iMode )
 	pev->iuser1 = iMode;
 
 	// set target if not roaming
-	if (iMode == OBS_ROAMING)
+	if ( iMode == OBS_ROAMING )
 		pev->iuser2 = 0;
 	else
 		pev->iuser2 = ENTINDEX( m_hObserverTarget->edict() );
-	
+
 	// print spepctaor mode on client screen
 
 	char modemsg[16];
-	sprintf(modemsg,"#Spec_Mode%i", iMode);
+	sprintf( modemsg, "#Spec_Mode%i", iMode );
 	ClientPrint( pev, HUD_PRINTCENTER, modemsg );
 }

@@ -1,7 +1,7 @@
 // ServerCtrl.h : main header file for the ServerCtrl application
 //
 
-#if !defined(AFX_ServerCtrl_H__E2974CA6_EF9F_11D3_A4D9_00105A1727F3__INCLUDED_)
+#if !defined( AFX_ServerCtrl_H__E2974CA6_EF9F_11D3_A4D9_00105A1727F3__INCLUDED_ )
 #define AFX_ServerCtrl_H__E2974CA6_EF9F_11D3_A4D9_00105A1727F3__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -9,10 +9,10 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"		// main symbols
+#include "resource.h" // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CServerCtrlApp:
@@ -21,23 +21,22 @@
 
 class CServerCtrlApp : public CWinApp
 {
-public:
+  public:
 	CServerCtrlApp();
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CServerCtrlApp)
-	public:
+  public:
 	virtual BOOL InitInstance();
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 
 	//{{AFX_MSG(CServerCtrlApp)
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-
 
 /////////////////////////////////////////////////////////////////////////////
 

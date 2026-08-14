@@ -1,12 +1,12 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
 
-#if !defined ( VIEWH )
-#define VIEWH 
+#if !defined( VIEWH )
+#define VIEWH
 #pragma once
 
 void V_StartPitchDrift( void );

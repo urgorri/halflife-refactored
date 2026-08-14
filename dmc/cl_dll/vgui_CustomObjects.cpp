@@ -34,30 +34,28 @@
 #include "vgui_ServerBrowser.h"
 #include "VGUI_BitmapTGA.h"
 
-
 // Arrow filenames
 char *sArrowFilenames[] =
-{
-	"arrowup",
-	"arrowdn", 
-	"arrowlt",
-	"arrowrt", 
+    {
+        "arrowup",
+        "arrowdn",
+        "arrowlt",
+        "arrowrt",
 };
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Loads a .tga file and returns a pointer to the VGUI tga object
 //-----------------------------------------------------------------------------
-BitmapTGA *LoadTGA( const char* pImageName )
+BitmapTGA *LoadTGA( const char *pImageName )
 {
-	BitmapTGA	*pTGA;
+	BitmapTGA *pTGA;
 
 	char sz[256];
-	sprintf(sz, "%%d_%s", pImageName);
+	sprintf( sz, "%%d_%s", pImageName );
 
 	// Load the Image
-	FileInputStream* fis = new FileInputStream( GetVGUITGAName(sz), false );
-	pTGA = new BitmapTGA(fis,true);
+	FileInputStream *fis = new FileInputStream( GetVGUITGAName( sz ), false );
+	pTGA                 = new BitmapTGA( fis, true );
 	fis->close();
 
 	return pTGA;
@@ -65,7 +63,8 @@ BitmapTGA *LoadTGA( const char* pImageName )
 
 //===========================================================
 // All TFC Hud buttons are derived from this one.
-CommandButton::CommandButton( const char* text,int x,int y,int wide,int tall, bool bNoHighlight) : Button("",x,y,wide,tall)
+CommandButton::CommandButton( const char *text, int x, int y, int wide, int tall, bool bNoHighlight )
+    : Button( "", x, y, wide, tall )
 {
 	m_iPlayerClass = 0;
 	m_bNoHighlight = bNoHighlight;
@@ -73,7 +72,8 @@ CommandButton::CommandButton( const char* text,int x,int y,int wide,int tall, bo
 	setText( text );
 }
 
-CommandButton::CommandButton( int iPlayerClass, const char* text,int x,int y,int wide,int tall) : Button("",x,y,wide,tall)
+CommandButton::CommandButton( int iPlayerClass, const char *text, int x, int y, int wide, int tall )
+    : Button( "", x, y, wide, tall )
 {
 	m_iPlayerClass = iPlayerClass;
 	m_bNoHighlight = false;
@@ -83,19 +83,19 @@ CommandButton::CommandButton( int iPlayerClass, const char* text,int x,int y,int
 
 void CommandButton::Init( void )
 {
-	m_pSubMenu = NULL;
-	m_pSubLabel = NULL;
+	m_pSubMenu    = NULL;
+	m_pSubLabel   = NULL;
 	m_pParentMenu = NULL;
 
 	// Set text color to orange
-	setFgColor(Scheme::sc_primary1);
+	setFgColor( Scheme::sc_primary1 );
 
 	// left align
 	setContentAlignment( vgui::Label::a_west );
 
 	// Add the Highlight signal
-	if (!m_bNoHighlight)
-		addInputSignal( new CHandler_CommandButtonHighlight(this) );
+	if ( !m_bNoHighlight )
+		addInputSignal( new CHandler_CommandButtonHighlight( this ) );
 
 	// not bound to any button yet
 	m_cBoundKey = 0;
@@ -119,13 +119,13 @@ void CommandButton::RecalculateText( void )
 		{
 			sprintf( szBuf, "  %c  %s", m_cBoundKey, m_sMainText );
 		}
-		szBuf[MAX_BUTTON_SIZE-1] = 0;
+		szBuf[MAX_BUTTON_SIZE - 1] = 0;
 	}
 	else
 	{
 		// just draw a space if no key bound
 		sprintf( szBuf, "     %s", m_sMainText );
-		szBuf[MAX_BUTTON_SIZE-1] = 0;
+		szBuf[MAX_BUTTON_SIZE - 1] = 0;
 	}
 
 	Button::setText( szBuf );
@@ -134,7 +134,7 @@ void CommandButton::RecalculateText( void )
 void CommandButton::setText( const char *text )
 {
 	strncpy( m_sMainText, text, MAX_BUTTON_SIZE );
-	m_sMainText[MAX_BUTTON_SIZE-1] = 0;
+	m_sMainText[MAX_BUTTON_SIZE - 1] = 0;
 
 	RecalculateText();
 }
@@ -184,7 +184,7 @@ void CommandButton::paint()
 	{
 		setFgColor( Scheme::sc_primary1 );
 	}
-	
+
 	Button::paint();
 }
 
@@ -194,12 +194,12 @@ void CommandButton::paintBackground()
 	{
 		// Orange highlight background
 		drawSetColor( Scheme::sc_primary2 );
-		drawFilledRect(0,0,_size[0],_size[1]);
+		drawFilledRect( 0, 0, _size[0], _size[1] );
 	}
 
 	// Orange Border
 	drawSetColor( Scheme::sc_secondary1 );
-	drawOutlinedRect(0,0,_size[0],_size[1]);
+	drawOutlinedRect( 0, 0, _size[0], _size[1] );
 }
 
 //-----------------------------------------------------------------------------
@@ -228,7 +228,7 @@ void CommandButton::cursorEntered( void )
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 void CommandButton::cursorExited( void )
 {
@@ -246,19 +246,18 @@ void CommandButton::cursorExited( void )
 // Output : CCommandMenu *
 //-----------------------------------------------------------------------------
 CCommandMenu *CommandButton::getParentMenu( void )
-{ 
-	return m_pParentMenu; 
+{
+	return m_pParentMenu;
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets the menu that contains this button
-// Input  : *pParentMenu - 
+// Input  : *pParentMenu -
 //-----------------------------------------------------------------------------
 void CommandButton::setParentMenu( CCommandMenu *pParentMenu )
 {
 	m_pParentMenu = pParentMenu;
 }
-
 
 //===========================================================
 int ClassButton::IsNotValid()
@@ -268,17 +267,19 @@ int ClassButton::IsNotValid()
 
 //===========================================================
 // Button with Class image beneath it
-CImageLabel::CImageLabel( const char* pImageName,int x,int y ) : Label( "", x,y )
+CImageLabel::CImageLabel( const char *pImageName, int x, int y )
+    : Label( "", x, y )
 {
-	setContentFitted(true);
-	m_pTGA = LoadTGA(pImageName);
+	setContentFitted( true );
+	m_pTGA = LoadTGA( pImageName );
 	setImage( m_pTGA );
 }
 
-CImageLabel::CImageLabel( const char* pImageName,int x,int y,int wide,int tall ) : Label( "", x,y,wide,tall )
+CImageLabel::CImageLabel( const char *pImageName, int x, int y, int wide, int tall )
+    : Label( "", x, y, wide, tall )
 {
-	setContentFitted(true);
-	m_pTGA = LoadTGA(pImageName);
+	setContentFitted( true );
+	m_pTGA = LoadTGA( pImageName );
 	setImage( m_pTGA );
 }
 
@@ -303,25 +304,26 @@ int CImageLabel::getImageTall( void )
 void CCommandMenu::paintBackground()
 {
 	// Transparent black background
-	drawSetColor(Scheme::sc_primary3);
-	drawFilledRect(0,0,_size[0],_size[1]);
+	drawSetColor( Scheme::sc_primary3 );
+	drawFilledRect( 0, 0, _size[0], _size[1] );
 }
 
 //=================================================================================
 // CUSTOM SCROLLPANEL
 //=================================================================================
-CTFScrollButton::CTFScrollButton(int iArrow, const char* text,int x,int y,int wide,int tall) : CommandButton(text,x,y,wide,tall)
+CTFScrollButton::CTFScrollButton( int iArrow, const char *text, int x, int y, int wide, int tall )
+    : CommandButton( text, x, y, wide, tall )
 {
 	// Set text color to orange
-	setFgColor(Scheme::sc_primary1);
+	setFgColor( Scheme::sc_primary1 );
 
 	// Load in the arrow
 	m_pTGA = LoadTGA( sArrowFilenames[iArrow] );
 	setImage( m_pTGA );
 
 	// Highlight signal
-	InputSignal *pISignal = new CHandler_CommandButtonHighlight(this);
-	addInputSignal(pISignal);
+	InputSignal *pISignal = new CHandler_CommandButtonHighlight( this );
+	addInputSignal( pISignal );
 }
 
 void CTFScrollButton::paint( void )
@@ -329,88 +331,88 @@ void CTFScrollButton::paint( void )
 	// draw armed button text in white
 	if ( isArmed() )
 	{
-		m_pTGA->setColor( Color(255,255,255, 0) );
+		m_pTGA->setColor( Color( 255, 255, 255, 0 ) );
 	}
 	else
 	{
-		m_pTGA->setColor( Color(255,255,255, 128) );
+		m_pTGA->setColor( Color( 255, 255, 255, 128 ) );
 	}
 
-	m_pTGA->doPaint(this);
+	m_pTGA->doPaint( this );
 }
 
 void CTFScrollButton::paintBackground( void )
 {
-/*
-	if ( isArmed() )
-	{
-		// Orange highlight background
-		drawSetColor( Scheme::sc_primary2 );
-		drawFilledRect(0,0,_size[0],_size[1]);
-	}
+	/*
+	    if ( isArmed() )
+	    {
+	        // Orange highlight background
+	        drawSetColor( Scheme::sc_primary2 );
+	        drawFilledRect(0,0,_size[0],_size[1]);
+	    }
 
-	// Orange Border
-	drawSetColor( Scheme::sc_secondary1 );
-	drawOutlinedRect(0,0,_size[0]-1,_size[1]);
-*/
+	    // Orange Border
+	    drawSetColor( Scheme::sc_secondary1 );
+	    drawOutlinedRect(0,0,_size[0]-1,_size[1]);
+	*/
 }
 
 void CTFSlider::paintBackground( void )
 {
-	int wide,tall,nobx,noby;
-	getPaintSize(wide,tall);
-	getNobPos(nobx,noby);
+	int wide, tall, nobx, noby;
+	getPaintSize( wide, tall );
+	getNobPos( nobx, noby );
 
 	// Border
 	drawSetColor( Scheme::sc_secondary1 );
-	drawOutlinedRect( 0,0,wide,tall );
+	drawOutlinedRect( 0, 0, wide, tall );
 
-	if( isVertical() )
+	if ( isVertical() )
 	{
 		// Nob Fill
 		drawSetColor( Scheme::sc_primary2 );
-		drawFilledRect( 0,nobx,wide,noby );
+		drawFilledRect( 0, nobx, wide, noby );
 
 		// Nob Outline
 		drawSetColor( Scheme::sc_primary1 );
-		drawOutlinedRect( 0,nobx,wide,noby );
+		drawOutlinedRect( 0, nobx, wide, noby );
 	}
 	else
 	{
 		// Nob Fill
 		drawSetColor( Scheme::sc_primary2 );
-		drawFilledRect( nobx,0,noby,tall );
+		drawFilledRect( nobx, 0, noby, tall );
 
 		// Nob Outline
 		drawSetColor( Scheme::sc_primary1 );
-		drawOutlinedRect( nobx,0,noby,tall );
+		drawOutlinedRect( nobx, 0, noby, tall );
 	}
 }
 
-CTFScrollPanel::CTFScrollPanel(int x,int y,int wide,int tall) : ScrollPanel(x,y,wide,tall)
+CTFScrollPanel::CTFScrollPanel( int x, int y, int wide, int tall )
+    : ScrollPanel( x, y, wide, tall )
 {
 	ScrollBar *pScrollBar = getVerticalScrollBar();
-	pScrollBar->setButton( new CTFScrollButton( ARROW_UP, "", 0,0,16,16 ), 0 );
-	pScrollBar->setButton( new CTFScrollButton( ARROW_DOWN, "", 0,0,16,16 ), 1 );
-	pScrollBar->setSlider( new CTFSlider(0,wide-1,wide,(tall-(wide*2))+2,true) ); 
-	pScrollBar->setPaintBorderEnabled(false);
-	pScrollBar->setPaintBackgroundEnabled(false);
-	pScrollBar->setPaintEnabled(false);
+	pScrollBar->setButton( new CTFScrollButton( ARROW_UP, "", 0, 0, 16, 16 ), 0 );
+	pScrollBar->setButton( new CTFScrollButton( ARROW_DOWN, "", 0, 0, 16, 16 ), 1 );
+	pScrollBar->setSlider( new CTFSlider( 0, wide - 1, wide, ( tall - ( wide * 2 ) ) + 2, true ) );
+	pScrollBar->setPaintBorderEnabled( false );
+	pScrollBar->setPaintBackgroundEnabled( false );
+	pScrollBar->setPaintEnabled( false );
 
 	pScrollBar = getHorizontalScrollBar();
-	pScrollBar->setButton( new CTFScrollButton( ARROW_LEFT, "", 0,0,16,16 ), 0 );
-	pScrollBar->setButton( new CTFScrollButton( ARROW_RIGHT, "", 0,0,16,16 ), 1 );
-	pScrollBar->setSlider( new CTFSlider(tall,0,wide-(tall*2),tall,false) );
-	pScrollBar->setPaintBorderEnabled(false);
-	pScrollBar->setPaintBackgroundEnabled(false);
-	pScrollBar->setPaintEnabled(false);
+	pScrollBar->setButton( new CTFScrollButton( ARROW_LEFT, "", 0, 0, 16, 16 ), 0 );
+	pScrollBar->setButton( new CTFScrollButton( ARROW_RIGHT, "", 0, 0, 16, 16 ), 1 );
+	pScrollBar->setSlider( new CTFSlider( tall, 0, wide - ( tall * 2 ), tall, false ) );
+	pScrollBar->setPaintBorderEnabled( false );
+	pScrollBar->setPaintBackgroundEnabled( false );
+	pScrollBar->setPaintEnabled( false );
 }
-
 
 //=================================================================================
 // CUSTOM HANDLERS
 //=================================================================================
-void CHandler_MenuButtonOver::cursorEntered(Panel *panel)
+void CHandler_MenuButtonOver::cursorEntered( Panel *panel )
 {
 	if ( gViewPort && m_pMenuPanel )
 	{
@@ -418,11 +420,9 @@ void CHandler_MenuButtonOver::cursorEntered(Panel *panel)
 	}
 }
 
-void CMenuHandler_StringCommandClassSelect::actionPerformed(Panel* panel)
+void CMenuHandler_StringCommandClassSelect::actionPerformed( Panel *panel )
 {
 	CMenuHandler_StringCommand::actionPerformed( panel );
 
 	bool bAutoKill = CVAR_GET_FLOAT( "hud_classautokill" ) != 0;
-	
 }
-

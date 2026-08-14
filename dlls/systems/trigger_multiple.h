@@ -5,7 +5,7 @@
 
 class CTriggerMultiple : public CBaseTrigger
 {
-public:
+  public:
 	void Spawn( void );
 };
 

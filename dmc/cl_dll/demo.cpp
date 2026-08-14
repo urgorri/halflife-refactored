@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -11,7 +11,7 @@
 #include "demo_api.h"
 #include <memory.h>
 
-extern "C" 
+extern "C"
 {
 	void EXPORT Demo_ReadBuffer( int size, unsigned char *buffer );
 }
@@ -26,9 +26,9 @@ Write some data to the demo stream
 void Demo_WriteBuffer( int type, int size, unsigned char *buffer )
 {
 	int pos = 0;
-	unsigned char buf[ 32 * 1024 ];
-	*( int * )&buf[pos] = type;
-	pos+=sizeof( int );
+	unsigned char buf[32 * 1024];
+	*(int *)&buf[pos] = type;
+	pos += sizeof( int );
 
 	memcpy( &buf[pos], buffer, size );
 
@@ -48,7 +48,7 @@ void EXPORT Demo_ReadBuffer( int size, unsigned char *buffer )
 	int type;
 	int i = 0;
 
-	type = *( int * )buffer;
+	type = *(int *)buffer;
 	i += sizeof( int );
 	switch ( type )
 	{

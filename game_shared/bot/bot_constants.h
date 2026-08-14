@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -17,8 +17,8 @@
 #define BOT_MAX_CLIENTS 32
 
 /// version number is MAJOR.MINOR
-#define BOT_VERSION_MAJOR			1
-#define BOT_VERSION_MINOR			50
+#define BOT_VERSION_MAJOR 1
+#define BOT_VERSION_MINOR 50
 
 //--------------------------------------------------------------------------------------------------------
 /**
@@ -26,21 +26,20 @@
  */
 enum BotDifficultyType
 {
-	BOT_EASY = 0,
+	BOT_EASY   = 0,
 	BOT_NORMAL = 1,
-	BOT_HARD = 2,
+	BOT_HARD   = 2,
 	BOT_EXPERT = 3,
 
 	NUM_DIFFICULTY_LEVELS
 };
 
 #ifdef DEFINE_DIFFICULTY_NAMES
-	char *BotDifficultyName[] = 
-	{
-		"EASY", "NORMAL", "HARD", "EXPERT", NULL
-	};
+char *BotDifficultyName[] =
+    {
+        "EASY", "NORMAL", "HARD", "EXPERT", NULL };
 #else
-	extern char *BotDifficultyName[];
+extern char *BotDifficultyName[];
 #endif
 
 #endif // BOT_CONSTANTS_H

@@ -1,13 +1,12 @@
 /***
-*
-*	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-****/
-
+ *
+ *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ ****/
 
 #include <windows.h>
 #include <GL/gl.h>
@@ -19,55 +18,54 @@
 // can't use the glvertex3fv functions, because the vec3_t fields
 // could be either floats or doubles, depending on DOUBLEVEC_T
 
-qboolean	drawflag;
-vec3_t	draw_mins, draw_maxs;
+qboolean drawflag;
+vec3_t draw_mins, draw_maxs;
 
+#define WIN_SIZE 512
 
-#define	WIN_SIZE	512
-
-void InitWindow (void)
+void InitWindow( void )
 {
-    auxInitDisplayMode (AUX_SINGLE | AUX_RGB);
-    auxInitPosition (0, 0, WIN_SIZE, WIN_SIZE);
-    auxInitWindow ("qcsg");
+	auxInitDisplayMode( AUX_SINGLE | AUX_RGB );
+	auxInitPosition( 0, 0, WIN_SIZE, WIN_SIZE );
+	auxInitWindow( "qcsg" );
 }
 
-void Draw_ClearWindow (void)
+void Draw_ClearWindow( void )
 {
-	static int	init;
-	int		w, h, g;
-	vec_t	mx, my;
+	static int init;
+	int w, h, g;
+	vec_t mx, my;
 
-	if (!drawflag)
+	if ( !drawflag )
 		return;
 
-	if (!init)
+	if ( !init )
 	{
 		init = true;
-		InitWindow ();
+		InitWindow();
 	}
 
-	glClearColor (1,0.8,0.8,0);
-	glClear (GL_COLOR_BUFFER_BIT);
+	glClearColor( 1, 0.8, 0.8, 0 );
+	glClear( GL_COLOR_BUFFER_BIT );
 
-	w = (draw_maxs[0] - draw_mins[0]);
-	h = (draw_maxs[1] - draw_mins[1]);
+	w = ( draw_maxs[0] - draw_mins[0] );
+	h = ( draw_maxs[1] - draw_mins[1] );
 
-	mx = draw_mins[0] + w/2;
-	my = draw_mins[1] + h/2;
+	mx = draw_mins[0] + w / 2;
+	my = draw_mins[1] + h / 2;
 
 	g = w > h ? w : h;
 
-	glLoadIdentity ();
-    gluPerspective (90,  1,  2,  16384);
-	gluLookAt (mx, my, draw_maxs[2] + g/2, mx , my, draw_maxs[2], 0, 1, 0);
+	glLoadIdentity();
+	gluPerspective( 90, 1, 2, 16384 );
+	gluLookAt( mx, my, draw_maxs[2] + g / 2, mx, my, draw_maxs[2], 0, 1, 0 );
 
-	glColor3f (0,0,0);
-//	glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
-	glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
-	glDisable (GL_DEPTH_TEST);
-	glEnable (GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor3f( 0, 0, 0 );
+	//	glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
+	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	glDisable( GL_DEPTH_TEST );
+	glEnable( GL_BLEND );
+	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
 #if 0
 	glColor4f (1,0,0,0.5);
@@ -81,74 +79,73 @@ void Draw_ClearWindow (void)
 	glEnd ();
 #endif
 
-	glFlush ();
-
+	glFlush();
 }
 
-void Draw_SetRed (void)
+void Draw_SetRed( void )
 {
-	if (!drawflag)
+	if ( !drawflag )
 		return;
 
-	glColor3f (1,0,0);
+	glColor3f( 1, 0, 0 );
 }
 
-void Draw_SetGrey (void)
+void Draw_SetGrey( void )
 {
-	if (!drawflag)
+	if ( !drawflag )
 		return;
 
-	glColor3f (0.5,0.5,0.5);
+	glColor3f( 0.5, 0.5, 0.5 );
 }
 
-void Draw_SetBlack (void)
+void Draw_SetBlack( void )
 {
-	if (!drawflag)
+	if ( !drawflag )
 		return;
 
-	glColor3f (0,0,0);
+	glColor3f( 0, 0, 0 );
 }
 
-void DrawWinding (winding_t *w)
+void DrawWinding( winding_t *w )
 {
-	int		i;
+	int i;
 
-	if (!drawflag)
+	if ( !drawflag )
 		return;
 
-	glColor4f (0,0,0,0.5);
-	glBegin (GL_LINE_LOOP);
-	for (i=0 ; i<w->numpoints ; i++)
-		glVertex3f (w->p[i][0],w->p[i][1],w->p[i][2] );
-	glEnd ();
+	glColor4f( 0, 0, 0, 0.5 );
+	glBegin( GL_LINE_LOOP );
+	for ( i = 0; i < w->numpoints; i++ )
+		glVertex3f( w->p[i][0], w->p[i][1], w->p[i][2] );
+	glEnd();
 
-	glColor4f (0,1,0,0.3);
-	glBegin (GL_POLYGON);
-	for (i=0 ; i<w->numpoints ; i++)
-		glVertex3f (w->p[i][0],w->p[i][1],w->p[i][2] );
-	glEnd ();
+	glColor4f( 0, 1, 0, 0.3 );
+	glBegin( GL_POLYGON );
+	for ( i = 0; i < w->numpoints; i++ )
+		glVertex3f( w->p[i][0], w->p[i][1], w->p[i][2] );
+	glEnd();
 
-	glFlush ();
+	glFlush();
 }
 
-void DrawAuxWinding (winding_t *w)
+void DrawAuxWinding( winding_t *w )
 {
-	int		i;
+	int i;
 
-	if (!drawflag)
+	if ( !drawflag )
 		return;
 
-	glColor4f (0,0,0,0.5);
-	glBegin (GL_LINE_LOOP);
-	for (i=0 ; i<w->numpoints ; i++)
-		glVertex3f (w->p[i][0],w->p[i][1],w->p[i][2] );
-	glEnd ();
+	glColor4f( 0, 0, 0, 0.5 );
+	glBegin( GL_LINE_LOOP );
+	for ( i = 0; i < w->numpoints; i++ )
+		glVertex3f( w->p[i][0], w->p[i][1], w->p[i][2] );
+	glEnd();
 
-	glColor4f (1,0,0,0.3);
-	glBegin (GL_POLYGON);
-	for (i=0 ; i<w->numpoints ; i++)
-		glVertex3f (w->p[i][0],w->p[i][1],w->p[i][2] );
-	glEnd ();
+	glColor4f( 1, 0, 0, 0.3 );
+	glBegin( GL_POLYGON );
+	for ( i = 0; i < w->numpoints; i++ )
+		glVertex3f( w->p[i][0], w->p[i][1], w->p[i][2] );
+	glEnd();
 
-	glFlush ();
+	glFlush();
 }

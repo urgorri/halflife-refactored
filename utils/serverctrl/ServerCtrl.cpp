@@ -14,10 +14,10 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CServerCtrlApp
 
-BEGIN_MESSAGE_MAP(CServerCtrlApp, CWinApp)
-	//{{AFX_MSG_MAP(CServerCtrlApp)
-	//}}AFX_MSG
-	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
+BEGIN_MESSAGE_MAP( CServerCtrlApp, CWinApp )
+//{{AFX_MSG_MAP(CServerCtrlApp)
+//}}AFX_MSG
+ON_COMMAND( ID_HELP, CWinApp::OnHelp )
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -40,18 +40,18 @@ BOOL CServerCtrlApp::InitInstance()
 	// Standard initialization
 
 #ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
+	Enable3dControls(); // Call this when using MFC in a shared DLL
 #else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
+	Enable3dControlsStatic(); // Call this when linking to MFC statically
 #endif
 
 	CServerCtrlDlg dlg;
-	m_pMainWnd = &dlg;
+	m_pMainWnd    = &dlg;
 	int nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
+	if ( nResponse == IDOK )
 	{
 	}
-	else if (nResponse == IDCANCEL)
+	else if ( nResponse == IDCANCEL )
 	{
 	}
 

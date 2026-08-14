@@ -1,24 +1,24 @@
 /***
-*
-*	Copyright (c) 1999, 2000 Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1999, 2000 Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 
-#ifndef	ACTIVITY_H
-#define	ACTIVITY_H
+#ifndef ACTIVITY_H
+#define ACTIVITY_H
 
-
-typedef enum {
-	ACT_RESET = 0,		// Set m_Activity to this invalid value to force a reset to m_IdealActivity
+typedef enum
+{
+	ACT_RESET = 0, // Set m_Activity to this invalid value to force a reset to m_IdealActivity
 	ACT_IDLE,
 	ACT_HOP,
 	ACT_HOP_LEFT_FOOT,
@@ -67,13 +67,12 @@ typedef enum {
 	ACT_DIEBACKWARD,
 } Activity;
 
-
-typedef struct {
-	int	type;
+typedef struct
+{
+	int type;
 	char *name;
 } activity_map_t;
 
 extern activity_map_t activity_map[];
 
-
-#endif	//ACTIVITY_H
+#endif // ACTIVITY_H

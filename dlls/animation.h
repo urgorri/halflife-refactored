@@ -1,21 +1,21 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#define ACTIVITY_NOT_AVAILABLE		-1
+#define ACTIVITY_NOT_AVAILABLE -1
 
 #ifndef MONSTEREVENT_H
 #include "monsterevent.h"
@@ -41,7 +41,6 @@ int GetAnimationEvent( void *pmodel, entvars_t *pev, MonsterEvent_t *pMonsterEve
 int ExtractBbox( void *pmodel, int sequence, float *mins, float *maxs );
 
 // From /engine/studio.h
-#define STUDIO_LOOPING		0x0001
+#define STUDIO_LOOPING 0x0001
 
-
-#endif	//ANIMATION_H
+#endif // ANIMATION_H

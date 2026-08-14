@@ -33,55 +33,55 @@
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/* Function prototypes */
+	/* Function prototypes */
 
-/**
- * Put UTF-8 text into the clipboard.
- *
- * \param text the text to store in the clipboard
- * \returns 0 on success or a negative error code on failure; call
- *          SDL_GetError() for more information.
- *
- * \since This function is available since SDL 2.0.0.
- *
- * \sa SDL_GetClipboardText
- * \sa SDL_HasClipboardText
- */
-extern DECLSPEC int SDLCALL SDL_SetClipboardText(const char *text);
+	/**
+	 * Put UTF-8 text into the clipboard.
+	 *
+	 * \param text the text to store in the clipboard
+	 * \returns 0 on success or a negative error code on failure; call
+	 *          SDL_GetError() for more information.
+	 *
+	 * \since This function is available since SDL 2.0.0.
+	 *
+	 * \sa SDL_GetClipboardText
+	 * \sa SDL_HasClipboardText
+	 */
+	extern DECLSPEC int SDLCALL SDL_SetClipboardText( const char *text );
 
-/**
- * Get UTF-8 text from the clipboard, which must be freed with SDL_free().
- *
- * This functions returns empty string if there was not enough memory left for
- * a copy of the clipboard's content.
- *
- * \returns the clipboard text on success or an empty string on failure; call
- *          SDL_GetError() for more information. Caller must call SDL_free()
- *          on the returned pointer when done with it (even if there was an
- *          error).
- *
- * \since This function is available since SDL 2.0.0.
- *
- * \sa SDL_HasClipboardText
- * \sa SDL_SetClipboardText
- */
-extern DECLSPEC char * SDLCALL SDL_GetClipboardText(void);
+	/**
+	 * Get UTF-8 text from the clipboard, which must be freed with SDL_free().
+	 *
+	 * This functions returns empty string if there was not enough memory left for
+	 * a copy of the clipboard's content.
+	 *
+	 * \returns the clipboard text on success or an empty string on failure; call
+	 *          SDL_GetError() for more information. Caller must call SDL_free()
+	 *          on the returned pointer when done with it (even if there was an
+	 *          error).
+	 *
+	 * \since This function is available since SDL 2.0.0.
+	 *
+	 * \sa SDL_HasClipboardText
+	 * \sa SDL_SetClipboardText
+	 */
+	extern DECLSPEC char *SDLCALL SDL_GetClipboardText( void );
 
-/**
- * Query whether the clipboard exists and contains a non-empty text string.
- *
- * \returns SDL_TRUE if the clipboard has text, or SDL_FALSE if it does not.
- *
- * \since This function is available since SDL 2.0.0.
- *
- * \sa SDL_GetClipboardText
- * \sa SDL_SetClipboardText
- */
-extern DECLSPEC SDL_bool SDLCALL SDL_HasClipboardText(void);
-
+	/**
+	 * Query whether the clipboard exists and contains a non-empty text string.
+	 *
+	 * \returns SDL_TRUE if the clipboard has text, or SDL_FALSE if it does not.
+	 *
+	 * \since This function is available since SDL 2.0.0.
+	 *
+	 * \sa SDL_GetClipboardText
+	 * \sa SDL_SetClipboardText
+	 */
+	extern DECLSPEC SDL_bool SDLCALL SDL_HasClipboardText( void );
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

@@ -3,22 +3,21 @@
 
 class CGauss : public CBasePlayerWeapon
 {
-public:
-
+  public:
 #ifndef CLIENT_DLL
-	int		Save( CSave &save );
-	int		Restore( CRestore &restore );
-	static	TYPEDESCRIPTION m_SaveData[];
+	int Save( CSave &save );
+	int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
 #endif
 
 	void Spawn( void );
 	void Precache( void );
 	int iItemSlot( void ) { return 4; }
-	int GetItemInfo(ItemInfo *p);
+	int GetItemInfo( ItemInfo *p );
 	int AddToPlayer( CBasePlayer *pPlayer );
 
 	BOOL Deploy( void );
-	void Holster( int skiplocal = 0  );
+	void Holster( int skiplocal = 0 );
 
 	void PrimaryAttack( void );
 	void SecondaryAttack( void );
@@ -45,10 +44,9 @@ public:
 #endif
 	}
 
-private:
+  private:
 	unsigned short m_usGaussFire;
 	unsigned short m_usGaussSpin;
 };
-
 
 #endif // WEAPON_GAUSS_H

@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1999, 2000 Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1999, 2000 Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 // Triangle rendering, if any
 
 #include "hud.h"
@@ -30,7 +30,7 @@ extern "C"
 	void EXPORT HUD_DrawTransparentTriangles( void );
 };
 
-//#define TEST_IT
+// #define TEST_IT
 #if defined( TEST_IT )
 
 /*
@@ -55,18 +55,18 @@ void Draw_Triangles( void )
 	org.x += 50;
 	org.y += 50;
 
-	if (gHUD.m_hsprCursor == 0)
+	if ( gHUD.m_hsprCursor == 0 )
 	{
 		char sz[256];
 		sprintf( sz, "sprites/cursor.spr" );
 		gHUD.m_hsprCursor = SPR_Load( sz );
 	}
 
-	if ( !gEngfuncs.pTriAPI->SpriteTexture( (struct model_s *)gEngfuncs.GetSpritePointer( gHUD.m_hsprCursor ), 0 ))
+	if ( !gEngfuncs.pTriAPI->SpriteTexture( (struct model_s *)gEngfuncs.GetSpritePointer( gHUD.m_hsprCursor ), 0 ) )
 	{
 		return;
 	}
-	
+
 	// Create a triangle, sigh
 	gEngfuncs.pTriAPI->RenderMode( kRenderNormal );
 	gEngfuncs.pTriAPI->CullFace( TRI_NONE );

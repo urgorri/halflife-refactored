@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== trigger_hurt.cpp ========================================================
@@ -25,19 +25,18 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "core/saverestore.h"
-#include "trains.h"			// trigger_camera has train functionality
+#include "trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
 #include "trigger_base.h"
 
-
-#define SF_TRIGGER_HURT_TARGETONCE	1// Only fire hurt target once
-#define	SF_TRIGGER_HURT_START_OFF	2//spawnflag that makes trigger_push spawn turned OFF
-#define	SF_TRIGGER_HURT_NO_CLIENTS	8//spawnflag that makes trigger_push spawn turned OFF
-#define SF_TRIGGER_HURT_CLIENTONLYFIRE	16// trigger hurt will only fire its target if it is hurting a client
-#define SF_TRIGGER_HURT_CLIENTONLYTOUCH 32// only clients may touch this trigger.
+#define SF_TRIGGER_HURT_TARGETONCE 1       // Only fire hurt target once
+#define SF_TRIGGER_HURT_START_OFF 2        // spawnflag that makes trigger_push spawn turned OFF
+#define SF_TRIGGER_HURT_NO_CLIENTS 8       // spawnflag that makes trigger_push spawn turned OFF
+#define SF_TRIGGER_HURT_CLIENTONLYFIRE 16  // trigger hurt will only fire its target if it is hurting a client
+#define SF_TRIGGER_HURT_CLIENTONLYTOUCH 32 // only clients may touch this trigger.
 class CTriggerHurt : public CBaseTrigger
 {
-public:
+  public:
 	void Spawn( void );
 	void EXPORT RadiationThink( void );
 };
@@ -48,37 +47,37 @@ LINK_ENTITY_TO_CLASS( trigger_hurt, CTriggerHurt );
 // trigger_monsterjump
 //
 
-void CTriggerHurt :: Spawn( void )
+void CTriggerHurt ::Spawn( void )
 {
 	InitTrigger();
-	SetTouch ( &CTriggerHurt::HurtTouch );
+	SetTouch( &CTriggerHurt::HurtTouch );
 
-	if ( !FStringNull ( pev->targetname ) )
+	if ( !FStringNull( pev->targetname ) )
 	{
-		SetUse ( &CBaseTrigger::ToggleUse );
+		SetUse( &CBaseTrigger::ToggleUse );
 	}
 	else
 	{
-		SetUse ( NULL );
+		SetUse( NULL );
 	}
 
-	if (m_bitsDamageInflict & DMG_RADIATION)
+	if ( m_bitsDamageInflict & DMG_RADIATION )
 	{
-		SetThink ( &CTriggerHurt::RadiationThink );
-		pev->nextthink = gpGlobals->time + RANDOM_FLOAT(0.0, 0.5);
+		SetThink( &CTriggerHurt::RadiationThink );
+		pev->nextthink = gpGlobals->time + RANDOM_FLOAT( 0.0, 0.5 );
 	}
 
-	if ( FBitSet (pev->spawnflags, SF_TRIGGER_HURT_START_OFF) )// if flagged to Start Turned Off, make trigger nonsolid.
+	if ( FBitSet( pev->spawnflags, SF_TRIGGER_HURT_START_OFF ) ) // if flagged to Start Turned Off, make trigger nonsolid.
 		pev->solid = SOLID_NOT;
 
-	UTIL_SetOrigin( pev, pev->origin );		// Link into the list
+	UTIL_SetOrigin( pev, pev->origin ); // Link into the list
 }
 
 // trigger hurt that causes radiation will do a radius
 // check and set the player's geiger counter level
 // according to distance from center of trigger
 
-void CTriggerHurt :: RadiationThink( void )
+void CTriggerHurt ::RadiationThink( void )
 {
 
 	edict_t *pentPlayer;
@@ -95,39 +94,39 @@ void CTriggerHurt :: RadiationThink( void )
 	// if not, continue
 
 	// set origin to center of trigger so that this check works
-	origin = pev->origin;
+	origin   = pev->origin;
 	view_ofs = pev->view_ofs;
 
-	pev->origin = (pev->absmin + pev->absmax) * 0.5;
+	pev->origin   = ( pev->absmin + pev->absmax ) * 0.5;
 	pev->view_ofs = pev->view_ofs * 0.0;
 
-	pentPlayer = FIND_CLIENT_IN_PVS(edict());
+	pentPlayer = FIND_CLIENT_IN_PVS( edict() );
 
-	pev->origin = origin;
+	pev->origin   = origin;
 	pev->view_ofs = view_ofs;
 
 	// reset origin
 
-	if (!FNullEnt(pentPlayer))
+	if ( !FNullEnt( pentPlayer ) )
 	{
 
-		pPlayer = GetClassPtr( (CBasePlayer *)VARS(pentPlayer));
+		pPlayer = GetClassPtr( (CBasePlayer *)VARS( pentPlayer ) );
 
-		pevTarget = VARS(pentPlayer);
+		pevTarget = VARS( pentPlayer );
 
 		// get range to player;
 
-		vecSpot1 = (pev->absmin + pev->absmax) * 0.5;
-		vecSpot2 = (pevTarget->absmin + pevTarget->absmax) * 0.5;
+		vecSpot1 = ( pev->absmin + pev->absmax ) * 0.5;
+		vecSpot2 = ( pevTarget->absmin + pevTarget->absmax ) * 0.5;
 
 		vecRange = vecSpot1 - vecSpot2;
-		flRange = vecRange.Length();
+		flRange  = vecRange.Length();
 
 		// if player's current geiger counter range is larger
 		// than range to this trigger hurt, reset player's
 		// geiger counter range
 
-		if (pPlayer->m_flgeigerRange >= flRange)
+		if ( pPlayer->m_flgeigerRange >= flRange )
 			pPlayer->m_flgeigerRange = flRange;
 	}
 
@@ -139,7 +138,6 @@ void CTriggerHurt :: RadiationThink( void )
 //
 
 // When touched, a hurt trigger does DMG points of damage each half-second
-
 
 /*QUAKED trigger_multiple (.5 .5 .5) ? notouch
 Variable sized repeatable trigger.  Must be targeted at one or more entities.

@@ -1,13 +1,13 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
 
 // cl.input.c  -- builds an intended movement command to send to the server
 
-//xxxxxx Move bob and pitch drifting code here and other stuff from view if needed
+// xxxxxx Move bob and pitch drifting code here and other stuff from view if needed
 
 // Quake is a trademark of Id Software, Inc., (c) 1996 Id Software, Inc. All
 // rights reserved.
@@ -29,10 +29,10 @@ extern "C"
 #include "vgui_viewport.h"
 #include "voice_status.h"
 
-extern "C" 
+extern "C"
 {
 	struct kbutton_s EXPORT *KB_Find( const char *name );
-	void EXPORT CL_CreateMove ( float frametime, struct usercmd_s *cmd, int active );
+	void EXPORT CL_CreateMove( float frametime, struct usercmd_s *cmd, int active );
 	void EXPORT HUD_Shutdown( void );
 	int EXPORT HUD_Key_Event( int eventcode, int keynum, const char *pszCurrentBinding );
 }
@@ -43,8 +43,8 @@ extern cl_enginefunc_t gEngfuncs;
 // Defined in pm_math.c
 extern "C" float anglemod( float a );
 
-void IN_Init (void);
-void IN_Move ( float frametime, usercmd_t *cmd);
+void IN_Init( void );
+void IN_Move( float frametime, usercmd_t *cmd );
 void IN_Shutdown( void );
 void V_Init( void );
 int CL_ButtonBits( int );
@@ -52,27 +52,27 @@ int CL_ButtonBits( int );
 // xxx need client dll function to get and clear impuse
 extern cvar_t *in_joystick;
 
-int	in_impulse	= 0;
-int	in_cancel	= 0;
+int in_impulse = 0;
+int in_cancel  = 0;
 
-cvar_t	*m_pitch;
-cvar_t	*m_yaw;
-cvar_t	*m_forward;
-cvar_t	*m_side;
+cvar_t *m_pitch;
+cvar_t *m_yaw;
+cvar_t *m_forward;
+cvar_t *m_side;
 
-cvar_t	*lookstrafe;
-cvar_t	*lookspring;
-cvar_t	*cl_pitchup;
-cvar_t	*cl_pitchdown;
-cvar_t	*cl_upspeed;
-cvar_t	*cl_forwardspeed;
-cvar_t	*cl_backspeed;
-cvar_t	*cl_sidespeed;
-cvar_t	*cl_movespeedkey;
-cvar_t	*cl_yawspeed;
-cvar_t	*cl_pitchspeed;
-cvar_t	*cl_anglespeedkey;
-cvar_t	*cl_vsmoothing;
+cvar_t *lookstrafe;
+cvar_t *lookspring;
+cvar_t *cl_pitchup;
+cvar_t *cl_pitchdown;
+cvar_t *cl_upspeed;
+cvar_t *cl_forwardspeed;
+cvar_t *cl_backspeed;
+cvar_t *cl_sidespeed;
+cvar_t *cl_movespeedkey;
+cvar_t *cl_yawspeed;
+cvar_t *cl_pitchspeed;
+cvar_t *cl_anglespeedkey;
+cvar_t *cl_vsmoothing;
 /*
 ===============================================================================
 
@@ -94,32 +94,31 @@ state bit 2 is edge triggered on the down to up transition
 ===============================================================================
 */
 
-
-kbutton_t	in_mlook;
-kbutton_t	in_klook;
-kbutton_t	in_jlook;
-kbutton_t	in_left;
-kbutton_t	in_right;
-kbutton_t	in_forward;
-kbutton_t	in_back;
-kbutton_t	in_lookup;
-kbutton_t	in_lookdown;
-kbutton_t	in_moveleft;
-kbutton_t	in_moveright;
-kbutton_t	in_strafe;
-kbutton_t	in_speed;
-kbutton_t	in_use;
-kbutton_t	in_jump;
-kbutton_t	in_attack;
-kbutton_t	in_attack2;
-kbutton_t	in_up;
-kbutton_t	in_down;
-kbutton_t	in_duck;
-kbutton_t	in_reload;
-kbutton_t	in_alt1;
-kbutton_t	in_score;
-kbutton_t	in_break;
-kbutton_t	in_graph;  // Display the netgraph
+kbutton_t in_mlook;
+kbutton_t in_klook;
+kbutton_t in_jlook;
+kbutton_t in_left;
+kbutton_t in_right;
+kbutton_t in_forward;
+kbutton_t in_back;
+kbutton_t in_lookup;
+kbutton_t in_lookdown;
+kbutton_t in_moveleft;
+kbutton_t in_moveright;
+kbutton_t in_strafe;
+kbutton_t in_speed;
+kbutton_t in_use;
+kbutton_t in_jump;
+kbutton_t in_attack;
+kbutton_t in_attack2;
+kbutton_t in_up;
+kbutton_t in_down;
+kbutton_t in_duck;
+kbutton_t in_reload;
+kbutton_t in_alt1;
+kbutton_t in_score;
+kbutton_t in_break;
+kbutton_t in_graph; // Display the netgraph
 
 typedef struct kblist_s
 {
@@ -141,8 +140,8 @@ NOTE:  Only works for text with +word in it.
 */
 int KB_ConvertString( char *in, char **ppout )
 {
-	char sz[ 4096 ];
-	char binding[ 64 ];
+	char sz[4096];
+	char binding[64];
 	char *p;
 	char *pOut;
 	char *pEnd;
@@ -152,8 +151,8 @@ int KB_ConvertString( char *in, char **ppout )
 		return 0;
 
 	*ppout = NULL;
-	p = in;
-	pOut = sz;
+	p      = in;
+	pOut   = sz;
 	while ( *p )
 	{
 		if ( *p == '+' )
@@ -164,7 +163,7 @@ int KB_ConvertString( char *in, char **ppout )
 				*pEnd++ = *p++;
 			}
 
-			*pEnd =  '\0';
+			*pEnd = '\0';
 
 			pBinding = NULL;
 			if ( strlen( binding + 1 ) > 0 )
@@ -176,7 +175,7 @@ int KB_ConvertString( char *in, char **ppout )
 			if ( pBinding )
 			{
 				*pOut++ = '[';
-				pEnd = (char *)pBinding;
+				pEnd    = (char *)pBinding;
 			}
 			else
 			{
@@ -201,7 +200,7 @@ int KB_ConvertString( char *in, char **ppout )
 
 	*pOut = '\0';
 
-	pOut = ( char * )malloc( strlen( sz ) + 1 );
+	pOut = (char *)malloc( strlen( sz ) + 1 );
 	strcpy( pOut, sz );
 	*ppout = pOut;
 
@@ -238,21 +237,21 @@ Add a kbutton_t * to the list of pointers the engine can retrieve via KB_Find
 */
 void KB_Add( const char *name, kbutton_t *pkb )
 {
-	kblist_t *p;	
+	kblist_t *p;
 	kbutton_t *kb;
 
 	kb = KB_Find( name );
-	
+
 	if ( kb )
 		return;
 
-	p = ( kblist_t * )malloc( sizeof( kblist_t ) );
+	p = (kblist_t *)malloc( sizeof( kblist_t ) );
 	memset( p, 0, sizeof( *p ) );
 
 	strcpy( p->name, name );
 	p->pkey = pkb;
 
-	p->next = g_kbkeys;
+	p->next  = g_kbkeys;
 	g_kbkeys = p;
 }
 
@@ -297,33 +296,33 @@ void KB_Shutdown( void )
 KeyDown
 ============
 */
-void KeyDown (kbutton_t *b)
+void KeyDown( kbutton_t *b )
 {
-	int		k;
-	char	*c;
+	int k;
+	char *c;
 
-	c = gEngfuncs.Cmd_Argv(1);
-	if (c[0])
-		k = atoi(c);
+	c = gEngfuncs.Cmd_Argv( 1 );
+	if ( c[0] )
+		k = atoi( c );
 	else
-		k = -1;		// typed manually at the console for continuous down
+		k = -1; // typed manually at the console for continuous down
 
-	if (k == b->down[0] || k == b->down[1])
-		return;		// repeating key
-	
-	if (!b->down[0])
+	if ( k == b->down[0] || k == b->down[1] )
+		return; // repeating key
+
+	if ( !b->down[0] )
 		b->down[0] = k;
-	else if (!b->down[1])
+	else if ( !b->down[1] )
 		b->down[1] = k;
 	else
 	{
-		gEngfuncs.Con_DPrintf ("Three keys down for a button '%c' '%c' '%c'!\n", b->down[0], b->down[1], c);
+		gEngfuncs.Con_DPrintf( "Three keys down for a button '%c' '%c' '%c'!\n", b->down[0], b->down[1], c );
 		return;
 	}
-	
-	if (b->state & 1)
-		return;		// still down
-	b->state |= 1 + 2;	// down + impulse down
+
+	if ( b->state & 1 )
+		return;        // still down
+	b->state |= 1 + 2; // down + impulse down
 }
 
 /*
@@ -331,38 +330,38 @@ void KeyDown (kbutton_t *b)
 KeyUp
 ============
 */
-void KeyUp (kbutton_t *b)
+void KeyUp( kbutton_t *b )
 {
-	int		k;
-	char	*c;
-	
-	c = gEngfuncs.Cmd_Argv(1);
-	if (c[0])
-		k = atoi(c);
+	int k;
+	char *c;
+
+	c = gEngfuncs.Cmd_Argv( 1 );
+	if ( c[0] )
+		k = atoi( c );
 	else
 	{ // typed manually at the console, assume for unsticking, so clear all
 		b->down[0] = b->down[1] = 0;
-		b->state = 4;	// impulse up
+		b->state                = 4; // impulse up
 		return;
 	}
 
-	if (b->down[0] == k)
+	if ( b->down[0] == k )
 		b->down[0] = 0;
-	else if (b->down[1] == k)
+	else if ( b->down[1] == k )
 		b->down[1] = 0;
 	else
-		return;		// key up without coresponding down (menu pass through)
-	if (b->down[0] || b->down[1])
+		return; // key up without coresponding down (menu pass through)
+	if ( b->down[0] || b->down[1] )
 	{
-		//Con_Printf ("Keys down for button: '%c' '%c' '%c' (%d,%d,%d)!\n", b->down[0], b->down[1], c, b->down[0], b->down[1], c);
-		return;		// some other key is still holding it down
+		// Con_Printf ("Keys down for button: '%c' '%c' '%c' (%d,%d,%d)!\n", b->down[0], b->down[1], c, b->down[0], b->down[1], c);
+		return; // some other key is still holding it down
 	}
 
-	if (!(b->state & 1))
-		return;		// still up (this should not happen)
+	if ( !( b->state & 1 ) )
+		return; // still up (this should not happen)
 
-	b->state &= ~1;		// now up
-	b->state |= 4; 		// impulse up
+	b->state &= ~1; // now up
+	b->state |= 4;  // impulse up
 }
 
 /*
@@ -374,145 +373,244 @@ Return 1 to allow engine to process the key, otherwise, act on it as needed
 */
 int EXPORT HUD_Key_Event( int down, int keynum, const char *pszCurrentBinding )
 {
-	if (gViewPort)
+	if ( gViewPort )
 	{
-		return gViewPort->KeyInput(down, keynum, pszCurrentBinding);
+		return gViewPort->KeyInput( down, keynum, pszCurrentBinding );
 	}
 
 	return 1;
 }
 
-void IN_BreakDown( void ) { KeyDown( &in_break );};
-void IN_BreakUp( void ) { KeyUp( &in_break ); };
-void IN_KLookDown (void) {KeyDown(&in_klook);}
-void IN_KLookUp (void) {KeyUp(&in_klook);}
-void IN_JLookDown (void) {KeyDown(&in_jlook);}
-void IN_JLookUp (void) {KeyUp(&in_jlook);}
-void IN_MLookDown (void) {KeyDown(&in_mlook);}
-void IN_UpDown(void) {KeyDown(&in_up);}
-void IN_UpUp(void) {KeyUp(&in_up);}
-void IN_DownDown(void) {KeyDown(&in_down);}
-void IN_DownUp(void) {KeyUp(&in_down);}
-void IN_LeftDown(void) {KeyDown(&in_left);}
-void IN_LeftUp(void) {KeyUp(&in_left);}
-void IN_RightDown(void) {KeyDown(&in_right);}
-void IN_RightUp(void) {KeyUp(&in_right);}
-
-void IN_ForwardDown(void)
+void IN_BreakDown( void )
 {
-	KeyDown(&in_forward);
+	KeyDown( &in_break );
+};
+void IN_BreakUp( void )
+{
+	KeyUp( &in_break );
+};
+void IN_KLookDown( void )
+{
+	KeyDown( &in_klook );
+}
+void IN_KLookUp( void )
+{
+	KeyUp( &in_klook );
+}
+void IN_JLookDown( void )
+{
+	KeyDown( &in_jlook );
+}
+void IN_JLookUp( void )
+{
+	KeyUp( &in_jlook );
+}
+void IN_MLookDown( void )
+{
+	KeyDown( &in_mlook );
+}
+void IN_UpDown( void )
+{
+	KeyDown( &in_up );
+}
+void IN_UpUp( void )
+{
+	KeyUp( &in_up );
+}
+void IN_DownDown( void )
+{
+	KeyDown( &in_down );
+}
+void IN_DownUp( void )
+{
+	KeyUp( &in_down );
+}
+void IN_LeftDown( void )
+{
+	KeyDown( &in_left );
+}
+void IN_LeftUp( void )
+{
+	KeyUp( &in_left );
+}
+void IN_RightDown( void )
+{
+	KeyDown( &in_right );
+}
+void IN_RightUp( void )
+{
+	KeyUp( &in_right );
+}
+
+void IN_ForwardDown( void )
+{
+	KeyDown( &in_forward );
 	gHUD.m_Spectator.HandleButtonsDown( IN_FORWARD );
 }
 
-void IN_ForwardUp(void)
+void IN_ForwardUp( void )
 {
-	KeyUp(&in_forward);
+	KeyUp( &in_forward );
 	gHUD.m_Spectator.HandleButtonsUp( IN_FORWARD );
 }
 
-void IN_BackDown(void)
+void IN_BackDown( void )
 {
-	KeyDown(&in_back);
+	KeyDown( &in_back );
 	gHUD.m_Spectator.HandleButtonsDown( IN_BACK );
 }
 
-void IN_BackUp(void)
+void IN_BackUp( void )
 {
-	KeyUp(&in_back);
+	KeyUp( &in_back );
 	gHUD.m_Spectator.HandleButtonsUp( IN_BACK );
 }
-void IN_LookupDown(void) {KeyDown(&in_lookup);}
-void IN_LookupUp(void) {KeyUp(&in_lookup);}
-void IN_LookdownDown(void) {KeyDown(&in_lookdown);}
-void IN_LookdownUp(void) {KeyUp(&in_lookdown);}
-void IN_MoveleftDown(void)
+void IN_LookupDown( void )
 {
-	KeyDown(&in_moveleft);
+	KeyDown( &in_lookup );
+}
+void IN_LookupUp( void )
+{
+	KeyUp( &in_lookup );
+}
+void IN_LookdownDown( void )
+{
+	KeyDown( &in_lookdown );
+}
+void IN_LookdownUp( void )
+{
+	KeyUp( &in_lookdown );
+}
+void IN_MoveleftDown( void )
+{
+	KeyDown( &in_moveleft );
 	gHUD.m_Spectator.HandleButtonsDown( IN_MOVELEFT );
 }
 
-void IN_MoveleftUp(void)
+void IN_MoveleftUp( void )
 {
-	KeyUp(&in_moveleft);
+	KeyUp( &in_moveleft );
 	gHUD.m_Spectator.HandleButtonsUp( IN_MOVELEFT );
 }
 
-void IN_MoverightDown(void)
+void IN_MoverightDown( void )
 {
-	KeyDown(&in_moveright);
+	KeyDown( &in_moveright );
 	gHUD.m_Spectator.HandleButtonsDown( IN_MOVERIGHT );
 }
 
-void IN_MoverightUp(void)
+void IN_MoverightUp( void )
 {
-	KeyUp(&in_moveright);
+	KeyUp( &in_moveright );
 	gHUD.m_Spectator.HandleButtonsUp( IN_MOVERIGHT );
 }
-void IN_SpeedDown(void) {KeyDown(&in_speed);}
-void IN_SpeedUp(void) {KeyUp(&in_speed);}
-void IN_StrafeDown(void) {KeyDown(&in_strafe);}
-void IN_StrafeUp(void) {KeyUp(&in_strafe);}
-
-void IN_Attack2Down(void) 
+void IN_SpeedDown( void )
 {
-	KeyDown(&in_attack2);
+	KeyDown( &in_speed );
+}
+void IN_SpeedUp( void )
+{
+	KeyUp( &in_speed );
+}
+void IN_StrafeDown( void )
+{
+	KeyDown( &in_strafe );
+}
+void IN_StrafeUp( void )
+{
+	KeyUp( &in_strafe );
+}
+
+void IN_Attack2Down( void )
+{
+	KeyDown( &in_attack2 );
 	gHUD.m_Spectator.HandleButtonsDown( IN_ATTACK2 );
 }
 
-void IN_Attack2Up(void) {KeyUp(&in_attack2);}
-void IN_UseDown (void)
+void IN_Attack2Up( void )
 {
-	KeyDown(&in_use);
+	KeyUp( &in_attack2 );
+}
+void IN_UseDown( void )
+{
+	KeyDown( &in_use );
 	gHUD.m_Spectator.HandleButtonsDown( IN_USE );
 }
-void IN_UseUp (void) {KeyUp(&in_use);}
-
-void IN_JumpDown (void)
+void IN_UseUp( void )
 {
-	KeyDown(&in_jump);
+	KeyUp( &in_use );
+}
+
+void IN_JumpDown( void )
+{
+	KeyDown( &in_jump );
 	gHUD.m_Spectator.HandleButtonsDown( IN_JUMP );
 }
-void IN_JumpUp (void) {KeyUp(&in_jump);}
-
-void IN_DuckDown(void)
+void IN_JumpUp( void )
 {
-	KeyDown(&in_duck);
+	KeyUp( &in_jump );
+}
+
+void IN_DuckDown( void )
+{
+	KeyDown( &in_duck );
 	gHUD.m_Spectator.HandleButtonsDown( IN_DUCK );
 }
-void IN_DuckUp(void) {KeyUp(&in_duck);}
-void IN_ReloadDown(void) {KeyDown(&in_reload);}
-void IN_ReloadUp(void) {KeyUp(&in_reload);}
-void IN_Alt1Down(void) {KeyDown(&in_alt1);}
-void IN_Alt1Up(void) {KeyUp(&in_alt1);}
-void IN_GraphDown(void) {KeyDown(&in_graph);}
-void IN_GraphUp(void) {KeyUp(&in_graph);}
+void IN_DuckUp( void )
+{
+	KeyUp( &in_duck );
+}
+void IN_ReloadDown( void )
+{
+	KeyDown( &in_reload );
+}
+void IN_ReloadUp( void )
+{
+	KeyUp( &in_reload );
+}
+void IN_Alt1Down( void )
+{
+	KeyDown( &in_alt1 );
+}
+void IN_Alt1Up( void )
+{
+	KeyUp( &in_alt1 );
+}
+void IN_GraphDown( void )
+{
+	KeyDown( &in_graph );
+}
+void IN_GraphUp( void )
+{
+	KeyUp( &in_graph );
+}
 
-void IN_AttackDown(void)
+void IN_AttackDown( void )
 {
 	KeyDown( &in_attack );
 	gHUD.m_Spectator.HandleButtonsDown( IN_ATTACK );
 }
 
-void IN_AttackUp(void)
+void IN_AttackUp( void )
 {
 	KeyUp( &in_attack );
 	in_cancel = 0;
 }
 
 // Special handling
-void IN_Cancel(void)
+void IN_Cancel( void )
 {
 	in_cancel = 1;
 }
 
-void IN_Impulse (void)
+void IN_Impulse( void )
 {
-	in_impulse = atoi( gEngfuncs.Cmd_Argv(1) );
+	in_impulse = atoi( gEngfuncs.Cmd_Argv( 1 ) );
 }
 
-void IN_ScoreDown(void)
+void IN_ScoreDown( void )
 {
-	KeyDown(&in_score);
+	KeyDown( &in_score );
 
 	if ( gViewPort )
 	{
@@ -520,9 +618,9 @@ void IN_ScoreDown(void)
 	}
 }
 
-void IN_ScoreUp(void)
+void IN_ScoreUp( void )
 {
-	KeyUp(&in_score);
+	KeyUp( &in_score );
 
 	if ( gViewPort )
 	{
@@ -530,7 +628,7 @@ void IN_ScoreUp(void)
 	}
 }
 
-void IN_MLookUp (void)
+void IN_MLookUp( void )
 {
 	KeyUp( &in_mlook );
 	if ( !( in_mlook.state & 1 ) && lookspring->value )
@@ -549,15 +647,15 @@ Returns 0.25 if a key was pressed and released during the frame,
 1.0 if held for the entire time
 ===============
 */
-float CL_KeyState (kbutton_t *key)
+float CL_KeyState( kbutton_t *key )
 {
-	float		val = 0.0;
-	int			impulsedown, impulseup, down;
-	
+	float val = 0.0;
+	int impulsedown, impulseup, down;
+
 	impulsedown = key->state & 2;
-	impulseup	= key->state & 4;
-	down		= key->state & 1;
-	
+	impulseup   = key->state & 4;
+	down        = key->state & 1;
+
 	if ( impulsedown && !impulseup )
 	{
 		// pressed and held this frame?
@@ -581,17 +679,17 @@ float CL_KeyState (kbutton_t *key)
 		if ( down )
 		{
 			// released and re-pressed this frame
-			val = 0.75;	
+			val = 0.75;
 		}
 		else
 		{
 			// pressed and released this frame
-			val = 0.25;	
+			val = 0.25;
 		}
 	}
 
 	// clear impulses
-	key->state &= 1;		
+	key->state &= 1;
 	return val;
 }
 
@@ -602,12 +700,12 @@ CL_AdjustAngles
 Moves the local angle positions
 ================
 */
-void CL_AdjustAngles ( float frametime, float *viewangles )
+void CL_AdjustAngles( float frametime, float *viewangles )
 {
-	float	speed;
-	float	up, down;
-	
-	if (in_speed.state & 1)
+	float speed;
+	float up, down;
+
+	if ( in_speed.state & 1 )
 	{
 		speed = frametime * cl_anglespeedkey->value;
 	}
@@ -616,36 +714,36 @@ void CL_AdjustAngles ( float frametime, float *viewangles )
 		speed = frametime;
 	}
 
-	if (!(in_strafe.state & 1))
+	if ( !( in_strafe.state & 1 ) )
 	{
-		viewangles[YAW] -= speed*cl_yawspeed->value*CL_KeyState (&in_right);
-		viewangles[YAW] += speed*cl_yawspeed->value*CL_KeyState (&in_left);
-		viewangles[YAW] = anglemod(viewangles[YAW]);
+		viewangles[YAW] -= speed * cl_yawspeed->value * CL_KeyState( &in_right );
+		viewangles[YAW] += speed * cl_yawspeed->value * CL_KeyState( &in_left );
+		viewangles[YAW] = anglemod( viewangles[YAW] );
 	}
-	if (in_klook.state & 1)
+	if ( in_klook.state & 1 )
 	{
-		V_StopPitchDrift ();
-		viewangles[PITCH] -= speed*cl_pitchspeed->value * CL_KeyState (&in_forward);
-		viewangles[PITCH] += speed*cl_pitchspeed->value * CL_KeyState (&in_back);
+		V_StopPitchDrift();
+		viewangles[PITCH] -= speed * cl_pitchspeed->value * CL_KeyState( &in_forward );
+		viewangles[PITCH] += speed * cl_pitchspeed->value * CL_KeyState( &in_back );
 	}
-	
-	up = CL_KeyState (&in_lookup);
-	down = CL_KeyState(&in_lookdown);
-	
-	viewangles[PITCH] -= speed*cl_pitchspeed->value * up;
-	viewangles[PITCH] += speed*cl_pitchspeed->value * down;
 
-	if (up || down)
-		V_StopPitchDrift ();
-		
-	if (viewangles[PITCH] > cl_pitchdown->value)
+	up   = CL_KeyState( &in_lookup );
+	down = CL_KeyState( &in_lookdown );
+
+	viewangles[PITCH] -= speed * cl_pitchspeed->value * up;
+	viewangles[PITCH] += speed * cl_pitchspeed->value * down;
+
+	if ( up || down )
+		V_StopPitchDrift();
+
+	if ( viewangles[PITCH] > cl_pitchdown->value )
 		viewangles[PITCH] = cl_pitchdown->value;
-	if (viewangles[PITCH] < -cl_pitchup->value)
+	if ( viewangles[PITCH] < -cl_pitchup->value )
 		viewangles[PITCH] = -cl_pitchup->value;
 
-	if (viewangles[ROLL] > 50)
+	if ( viewangles[ROLL] > 50 )
 		viewangles[ROLL] = 50;
-	if (viewangles[ROLL] < -50)
+	if ( viewangles[ROLL] < -50 )
 		viewangles[ROLL] = -50;
 }
 
@@ -658,41 +756,41 @@ if active == 1 then we are 1) not playing back demos ( where our commands are ig
 2 ) we have finished signing on to server
 ================
 */
-void EXPORT CL_CreateMove ( float frametime, struct usercmd_s *cmd, int active )
-{	
+void EXPORT CL_CreateMove( float frametime, struct usercmd_s *cmd, int active )
+{
 	float spd;
 	vec3_t viewangles;
 	static vec3_t oldangles;
 
 	if ( active )
 	{
-		//memset( viewangles, 0, sizeof( vec3_t ) );
-		//viewangles[ 0 ] = viewangles[ 1 ] = viewangles[ 2 ] = 0.0;
+		// memset( viewangles, 0, sizeof( vec3_t ) );
+		// viewangles[ 0 ] = viewangles[ 1 ] = viewangles[ 2 ] = 0.0;
 		gEngfuncs.GetViewAngles( (float *)viewangles );
 
-		CL_AdjustAngles ( frametime, viewangles );
+		CL_AdjustAngles( frametime, viewangles );
 
-		memset (cmd, 0, sizeof(*cmd));
-		
+		memset( cmd, 0, sizeof( *cmd ) );
+
 		gEngfuncs.SetViewAngles( (float *)viewangles );
 
 		if ( in_strafe.state & 1 )
 		{
-			cmd->sidemove += cl_sidespeed->value * CL_KeyState (&in_right);
-			cmd->sidemove -= cl_sidespeed->value * CL_KeyState (&in_left);
+			cmd->sidemove += cl_sidespeed->value * CL_KeyState( &in_right );
+			cmd->sidemove -= cl_sidespeed->value * CL_KeyState( &in_left );
 		}
 
-		cmd->sidemove += cl_sidespeed->value * CL_KeyState (&in_moveright);
-		cmd->sidemove -= cl_sidespeed->value * CL_KeyState (&in_moveleft);
+		cmd->sidemove += cl_sidespeed->value * CL_KeyState( &in_moveright );
+		cmd->sidemove -= cl_sidespeed->value * CL_KeyState( &in_moveleft );
 
-		cmd->upmove += cl_upspeed->value * CL_KeyState (&in_up);
-		cmd->upmove -= cl_upspeed->value * CL_KeyState (&in_down);
+		cmd->upmove += cl_upspeed->value * CL_KeyState( &in_up );
+		cmd->upmove -= cl_upspeed->value * CL_KeyState( &in_down );
 
-		if ( !(in_klook.state & 1 ) )
-		{	
-			cmd->forwardmove += cl_forwardspeed->value * CL_KeyState (&in_forward);
-			cmd->forwardmove -= cl_backspeed->value * CL_KeyState (&in_back);
-		}	
+		if ( !( in_klook.state & 1 ) )
+		{
+			cmd->forwardmove += cl_forwardspeed->value * CL_KeyState( &in_forward );
+			cmd->forwardmove -= cl_backspeed->value * CL_KeyState( &in_back );
+		}
 
 		// adjust for speed key
 		if ( in_speed.state & 1 )
@@ -707,7 +805,7 @@ void EXPORT CL_CreateMove ( float frametime, struct usercmd_s *cmd, int active )
 		if ( spd != 0.0 )
 		{
 			// scale the 3 speeds so that the total velocity is not > cl.maxspeed
-			float fmov = sqrt( (cmd->forwardmove*cmd->forwardmove) + (cmd->sidemove*cmd->sidemove) + (cmd->upmove*cmd->upmove) );
+			float fmov = sqrt( ( cmd->forwardmove * cmd->forwardmove ) + ( cmd->sidemove * cmd->sidemove ) + ( cmd->upmove * cmd->upmove ) );
 
 			if ( fmov > spd )
 			{
@@ -719,24 +817,24 @@ void EXPORT CL_CreateMove ( float frametime, struct usercmd_s *cmd, int active )
 		}
 
 		// Allow mice and other controllers to add their inputs
-		IN_Move ( frametime, cmd );
+		IN_Move( frametime, cmd );
 	}
 
 	cmd->impulse = in_impulse;
-	in_impulse = 0;
+	in_impulse   = 0;
 
 	cmd->weaponselect = g_weaponselect;
-	g_weaponselect = 0;
-	
+	g_weaponselect    = 0;
+
 	//
 	// set button and flag bits
 	//
 	cmd->buttons = CL_ButtonBits( 1 );
 
 	// If they're in a modal dialog, ignore the attack button.
-	if(GetClientVoiceMgr()->IsInSquelchMode())
+	if ( GetClientVoiceMgr()->IsInSquelchMode() )
 		cmd->buttons &= ~IN_ATTACK;
-	
+
 	// Using joystick?
 	if ( in_joystick->value )
 	{
@@ -771,7 +869,7 @@ CL_IsDead
 Returns 1 if health is <= 0
 ============
 */
-int	CL_IsDead( void )
+int CL_IsDead( void )
 {
 	return ( gHUD.m_Health.m_iHealth <= 0 ) ? 1 : 0;
 }
@@ -792,13 +890,13 @@ int CL_ButtonBits( int bResetState )
 	{
 		bits |= IN_ATTACK;
 	}
-	
-	if (in_duck.state & 3)
+
+	if ( in_duck.state & 3 )
 	{
 		bits |= IN_DUCK;
 	}
- 
-	if (in_jump.state & 3)
+
+	if ( in_jump.state & 3 )
 	{
 		bits |= IN_JUMP;
 	}
@@ -807,18 +905,18 @@ int CL_ButtonBits( int bResetState )
 	{
 		bits |= IN_FORWARD;
 	}
-	
-	if (in_back.state & 3)
+
+	if ( in_back.state & 3 )
 	{
 		bits |= IN_BACK;
 	}
 
-	if (in_use.state & 3)
+	if ( in_use.state & 3 )
 	{
 		bits |= IN_USE;
 	}
 
-	if (in_cancel)
+	if ( in_cancel )
 	{
 		bits |= IN_CANCEL;
 	}
@@ -827,33 +925,33 @@ int CL_ButtonBits( int bResetState )
 	{
 		bits |= IN_LEFT;
 	}
-	
-	if (in_right.state & 3)
+
+	if ( in_right.state & 3 )
 	{
 		bits |= IN_RIGHT;
 	}
-	
+
 	if ( in_moveleft.state & 3 )
 	{
 		bits |= IN_MOVELEFT;
 	}
-	
-	if (in_moveright.state & 3)
+
+	if ( in_moveright.state & 3 )
 	{
 		bits |= IN_MOVERIGHT;
 	}
 
-	if (in_attack2.state & 3)
+	if ( in_attack2.state & 3 )
 	{
 		bits |= IN_ATTACK2;
 	}
 
-	if (in_reload.state & 3)
+	if ( in_reload.state & 3 )
 	{
 		bits |= IN_RELOAD;
 	}
 
-	if (in_alt1.state & 3)
+	if ( in_alt1.state & 3 )
 	{
 		bits |= IN_ALT1;
 	}
@@ -921,81 +1019,81 @@ void CL_ResetButtonBits( int bits )
 InitInput
 ============
 */
-void InitInput (void)
+void InitInput( void )
 {
-	gEngfuncs.pfnAddCommand ("+moveup",IN_UpDown);
-	gEngfuncs.pfnAddCommand ("-moveup",IN_UpUp);
-	gEngfuncs.pfnAddCommand ("+movedown",IN_DownDown);
-	gEngfuncs.pfnAddCommand ("-movedown",IN_DownUp);
-	gEngfuncs.pfnAddCommand ("+left",IN_LeftDown);
-	gEngfuncs.pfnAddCommand ("-left",IN_LeftUp);
-	gEngfuncs.pfnAddCommand ("+right",IN_RightDown);
-	gEngfuncs.pfnAddCommand ("-right",IN_RightUp);
-	gEngfuncs.pfnAddCommand ("+forward",IN_ForwardDown);
-	gEngfuncs.pfnAddCommand ("-forward",IN_ForwardUp);
-	gEngfuncs.pfnAddCommand ("+back",IN_BackDown);
-	gEngfuncs.pfnAddCommand ("-back",IN_BackUp);
-	gEngfuncs.pfnAddCommand ("+lookup", IN_LookupDown);
-	gEngfuncs.pfnAddCommand ("-lookup", IN_LookupUp);
-	gEngfuncs.pfnAddCommand ("+lookdown", IN_LookdownDown);
-	gEngfuncs.pfnAddCommand ("-lookdown", IN_LookdownUp);
-	gEngfuncs.pfnAddCommand ("+strafe", IN_StrafeDown);
-	gEngfuncs.pfnAddCommand ("-strafe", IN_StrafeUp);
-	gEngfuncs.pfnAddCommand ("+moveleft", IN_MoveleftDown);
-	gEngfuncs.pfnAddCommand ("-moveleft", IN_MoveleftUp);
-	gEngfuncs.pfnAddCommand ("+moveright", IN_MoverightDown);
-	gEngfuncs.pfnAddCommand ("-moveright", IN_MoverightUp);
-	gEngfuncs.pfnAddCommand ("+speed", IN_SpeedDown);
-	gEngfuncs.pfnAddCommand ("-speed", IN_SpeedUp);
-	gEngfuncs.pfnAddCommand ("+attack", IN_AttackDown);
-	gEngfuncs.pfnAddCommand ("-attack", IN_AttackUp);
-	gEngfuncs.pfnAddCommand ("+attack2", IN_Attack2Down);
-	gEngfuncs.pfnAddCommand ("-attack2", IN_Attack2Up);
-	gEngfuncs.pfnAddCommand ("+use", IN_UseDown);
-	gEngfuncs.pfnAddCommand ("-use", IN_UseUp);
-	gEngfuncs.pfnAddCommand ("+jump", IN_JumpDown);
-	gEngfuncs.pfnAddCommand ("-jump", IN_JumpUp);
-	gEngfuncs.pfnAddCommand ("impulse", IN_Impulse);
-	gEngfuncs.pfnAddCommand ("+klook", IN_KLookDown);
-	gEngfuncs.pfnAddCommand ("-klook", IN_KLookUp);
-	gEngfuncs.pfnAddCommand ("+mlook", IN_MLookDown);
-	gEngfuncs.pfnAddCommand ("-mlook", IN_MLookUp);
-	gEngfuncs.pfnAddCommand ("+jlook", IN_JLookDown);
-	gEngfuncs.pfnAddCommand ("-jlook", IN_JLookUp);
-	gEngfuncs.pfnAddCommand ("+duck", IN_DuckDown);
-	gEngfuncs.pfnAddCommand ("-duck", IN_DuckUp);
-	gEngfuncs.pfnAddCommand ("+reload", IN_ReloadDown);
-	gEngfuncs.pfnAddCommand ("-reload", IN_ReloadUp);
-	gEngfuncs.pfnAddCommand ("+alt1", IN_Alt1Down);
-	gEngfuncs.pfnAddCommand ("-alt1", IN_Alt1Up);
-	gEngfuncs.pfnAddCommand ("+score", IN_ScoreDown);
-	gEngfuncs.pfnAddCommand ("-score", IN_ScoreUp);
-	gEngfuncs.pfnAddCommand ("+showscores", IN_ScoreDown);
-	gEngfuncs.pfnAddCommand ("-showscores", IN_ScoreUp);
-	gEngfuncs.pfnAddCommand ("+graph", IN_GraphDown);
-	gEngfuncs.pfnAddCommand ("-graph", IN_GraphUp);
-	gEngfuncs.pfnAddCommand ("+break",IN_BreakDown);
-	gEngfuncs.pfnAddCommand ("-break",IN_BreakUp);
+	gEngfuncs.pfnAddCommand( "+moveup", IN_UpDown );
+	gEngfuncs.pfnAddCommand( "-moveup", IN_UpUp );
+	gEngfuncs.pfnAddCommand( "+movedown", IN_DownDown );
+	gEngfuncs.pfnAddCommand( "-movedown", IN_DownUp );
+	gEngfuncs.pfnAddCommand( "+left", IN_LeftDown );
+	gEngfuncs.pfnAddCommand( "-left", IN_LeftUp );
+	gEngfuncs.pfnAddCommand( "+right", IN_RightDown );
+	gEngfuncs.pfnAddCommand( "-right", IN_RightUp );
+	gEngfuncs.pfnAddCommand( "+forward", IN_ForwardDown );
+	gEngfuncs.pfnAddCommand( "-forward", IN_ForwardUp );
+	gEngfuncs.pfnAddCommand( "+back", IN_BackDown );
+	gEngfuncs.pfnAddCommand( "-back", IN_BackUp );
+	gEngfuncs.pfnAddCommand( "+lookup", IN_LookupDown );
+	gEngfuncs.pfnAddCommand( "-lookup", IN_LookupUp );
+	gEngfuncs.pfnAddCommand( "+lookdown", IN_LookdownDown );
+	gEngfuncs.pfnAddCommand( "-lookdown", IN_LookdownUp );
+	gEngfuncs.pfnAddCommand( "+strafe", IN_StrafeDown );
+	gEngfuncs.pfnAddCommand( "-strafe", IN_StrafeUp );
+	gEngfuncs.pfnAddCommand( "+moveleft", IN_MoveleftDown );
+	gEngfuncs.pfnAddCommand( "-moveleft", IN_MoveleftUp );
+	gEngfuncs.pfnAddCommand( "+moveright", IN_MoverightDown );
+	gEngfuncs.pfnAddCommand( "-moveright", IN_MoverightUp );
+	gEngfuncs.pfnAddCommand( "+speed", IN_SpeedDown );
+	gEngfuncs.pfnAddCommand( "-speed", IN_SpeedUp );
+	gEngfuncs.pfnAddCommand( "+attack", IN_AttackDown );
+	gEngfuncs.pfnAddCommand( "-attack", IN_AttackUp );
+	gEngfuncs.pfnAddCommand( "+attack2", IN_Attack2Down );
+	gEngfuncs.pfnAddCommand( "-attack2", IN_Attack2Up );
+	gEngfuncs.pfnAddCommand( "+use", IN_UseDown );
+	gEngfuncs.pfnAddCommand( "-use", IN_UseUp );
+	gEngfuncs.pfnAddCommand( "+jump", IN_JumpDown );
+	gEngfuncs.pfnAddCommand( "-jump", IN_JumpUp );
+	gEngfuncs.pfnAddCommand( "impulse", IN_Impulse );
+	gEngfuncs.pfnAddCommand( "+klook", IN_KLookDown );
+	gEngfuncs.pfnAddCommand( "-klook", IN_KLookUp );
+	gEngfuncs.pfnAddCommand( "+mlook", IN_MLookDown );
+	gEngfuncs.pfnAddCommand( "-mlook", IN_MLookUp );
+	gEngfuncs.pfnAddCommand( "+jlook", IN_JLookDown );
+	gEngfuncs.pfnAddCommand( "-jlook", IN_JLookUp );
+	gEngfuncs.pfnAddCommand( "+duck", IN_DuckDown );
+	gEngfuncs.pfnAddCommand( "-duck", IN_DuckUp );
+	gEngfuncs.pfnAddCommand( "+reload", IN_ReloadDown );
+	gEngfuncs.pfnAddCommand( "-reload", IN_ReloadUp );
+	gEngfuncs.pfnAddCommand( "+alt1", IN_Alt1Down );
+	gEngfuncs.pfnAddCommand( "-alt1", IN_Alt1Up );
+	gEngfuncs.pfnAddCommand( "+score", IN_ScoreDown );
+	gEngfuncs.pfnAddCommand( "-score", IN_ScoreUp );
+	gEngfuncs.pfnAddCommand( "+showscores", IN_ScoreDown );
+	gEngfuncs.pfnAddCommand( "-showscores", IN_ScoreUp );
+	gEngfuncs.pfnAddCommand( "+graph", IN_GraphDown );
+	gEngfuncs.pfnAddCommand( "-graph", IN_GraphUp );
+	gEngfuncs.pfnAddCommand( "+break", IN_BreakDown );
+	gEngfuncs.pfnAddCommand( "-break", IN_BreakUp );
 
-	lookstrafe			= gEngfuncs.pfnRegisterVariable ( "lookstrafe", "0", FCVAR_ARCHIVE );
-	lookspring			= gEngfuncs.pfnRegisterVariable ( "lookspring", "0", FCVAR_ARCHIVE );
-	cl_anglespeedkey	= gEngfuncs.pfnRegisterVariable ( "cl_anglespeedkey", "0.67", 0 );
-	cl_yawspeed			= gEngfuncs.pfnRegisterVariable ( "cl_yawspeed", "210", 0 );
-	cl_pitchspeed		= gEngfuncs.pfnRegisterVariable ( "cl_pitchspeed", "225", 0 );
-	cl_upspeed			= gEngfuncs.pfnRegisterVariable ( "cl_upspeed", "320", 0 );
-	cl_forwardspeed		= gEngfuncs.pfnRegisterVariable ( "cl_forwardspeed", "400", FCVAR_ARCHIVE );
-	cl_backspeed		= gEngfuncs.pfnRegisterVariable ( "cl_backspeed", "400", FCVAR_ARCHIVE );
-	cl_sidespeed		= gEngfuncs.pfnRegisterVariable ( "cl_sidespeed", "400", 0 );
-	cl_movespeedkey		= gEngfuncs.pfnRegisterVariable ( "cl_movespeedkey", "0.3", 0 );
-	cl_pitchup			= gEngfuncs.pfnRegisterVariable ( "cl_pitchup", "89", 0 );
-	cl_pitchdown		= gEngfuncs.pfnRegisterVariable ( "cl_pitchdown", "89", 0 );
+	lookstrafe       = gEngfuncs.pfnRegisterVariable( "lookstrafe", "0", FCVAR_ARCHIVE );
+	lookspring       = gEngfuncs.pfnRegisterVariable( "lookspring", "0", FCVAR_ARCHIVE );
+	cl_anglespeedkey = gEngfuncs.pfnRegisterVariable( "cl_anglespeedkey", "0.67", 0 );
+	cl_yawspeed      = gEngfuncs.pfnRegisterVariable( "cl_yawspeed", "210", 0 );
+	cl_pitchspeed    = gEngfuncs.pfnRegisterVariable( "cl_pitchspeed", "225", 0 );
+	cl_upspeed       = gEngfuncs.pfnRegisterVariable( "cl_upspeed", "320", 0 );
+	cl_forwardspeed  = gEngfuncs.pfnRegisterVariable( "cl_forwardspeed", "400", FCVAR_ARCHIVE );
+	cl_backspeed     = gEngfuncs.pfnRegisterVariable( "cl_backspeed", "400", FCVAR_ARCHIVE );
+	cl_sidespeed     = gEngfuncs.pfnRegisterVariable( "cl_sidespeed", "400", 0 );
+	cl_movespeedkey  = gEngfuncs.pfnRegisterVariable( "cl_movespeedkey", "0.3", 0 );
+	cl_pitchup       = gEngfuncs.pfnRegisterVariable( "cl_pitchup", "89", 0 );
+	cl_pitchdown     = gEngfuncs.pfnRegisterVariable( "cl_pitchdown", "89", 0 );
 
-	cl_vsmoothing		= gEngfuncs.pfnRegisterVariable ( "cl_vsmoothing", "0.05", FCVAR_ARCHIVE );
+	cl_vsmoothing = gEngfuncs.pfnRegisterVariable( "cl_vsmoothing", "0.05", FCVAR_ARCHIVE );
 
-	m_pitch			    = gEngfuncs.pfnRegisterVariable ( "m_pitch","0.022", FCVAR_ARCHIVE );
-	m_yaw				= gEngfuncs.pfnRegisterVariable ( "m_yaw","0.022", FCVAR_ARCHIVE );
-	m_forward			= gEngfuncs.pfnRegisterVariable ( "m_forward","1", FCVAR_ARCHIVE );
-	m_side				= gEngfuncs.pfnRegisterVariable ( "m_side","0.8", FCVAR_ARCHIVE );
+	m_pitch   = gEngfuncs.pfnRegisterVariable( "m_pitch", "0.022", FCVAR_ARCHIVE );
+	m_yaw     = gEngfuncs.pfnRegisterVariable( "m_yaw", "0.022", FCVAR_ARCHIVE );
+	m_forward = gEngfuncs.pfnRegisterVariable( "m_forward", "1", FCVAR_ARCHIVE );
+	m_side    = gEngfuncs.pfnRegisterVariable( "m_side", "0.8", FCVAR_ARCHIVE );
 
 	// Initialize third person camera controls.
 	CAM_Init();
@@ -1012,7 +1110,7 @@ void InitInput (void)
 ShutdownInput
 ============
 */
-void ShutdownInput (void)
+void ShutdownInput( void )
 {
 	IN_Shutdown();
 	KB_Shutdown();
@@ -1025,15 +1123,14 @@ void EXPORT HUD_Shutdown( void )
 	ShutdownInput();
 
 	extern CSysModule *g_hTrackerModule;
-	if (g_hTrackerModule)
+	if ( g_hTrackerModule )
 	{
-		Sys_UnloadModule(g_hTrackerModule);
+		Sys_UnloadModule( g_hTrackerModule );
 	}
 
 	extern CSysModule *g_pFileSystemModule;
-	if (g_pFileSystemModule)
+	if ( g_pFileSystemModule )
 	{
-		Sys_UnloadModule(g_pFileSystemModule);
+		Sys_UnloadModule( g_pFileSystemModule );
 	}
-
 }

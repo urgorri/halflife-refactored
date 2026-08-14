@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 
 //	-------------------------------------------
 //
@@ -31,36 +31,36 @@
 #include "player.h"
 class CGameTeamMaster : public CRulePointEntity
 {
-public:
-	void		KeyValue( KeyValueData *pkvd );
-	void		Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	int			ObjectCaps( void ) { return CRulePointEntity:: ObjectCaps() | FCAP_MASTER; }
+  public:
+	void KeyValue( KeyValueData *pkvd );
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	int ObjectCaps( void ) { return CRulePointEntity::ObjectCaps() | FCAP_MASTER; }
 
-	BOOL		IsTriggered( CBaseEntity *pActivator );
-	const char	*TeamID( void );
-	inline BOOL RemoveOnFire( void ) { return (pev->spawnflags & SF_TEAMMASTER_FIREONCE) ? TRUE : FALSE; }
-	inline BOOL AnyTeam( void ) { return (pev->spawnflags & SF_TEAMMASTER_ANYTEAM) ? TRUE : FALSE; }
+	BOOL IsTriggered( CBaseEntity *pActivator );
+	const char *TeamID( void );
+	inline BOOL RemoveOnFire( void ) { return ( pev->spawnflags & SF_TEAMMASTER_FIREONCE ) ? TRUE : FALSE; }
+	inline BOOL AnyTeam( void ) { return ( pev->spawnflags & SF_TEAMMASTER_ANYTEAM ) ? TRUE : FALSE; }
 
-private:
-	BOOL		TeamMatch( CBaseEntity *pActivator );
+  private:
+	BOOL TeamMatch( CBaseEntity *pActivator );
 
-	int			m_teamIndex;
-	USE_TYPE	triggerType;
+	int m_teamIndex;
+	USE_TYPE triggerType;
 };
 
 LINK_ENTITY_TO_CLASS( game_team_master, CGameTeamMaster );
 
 void CGameTeamMaster::KeyValue( KeyValueData *pkvd )
 {
-	if (FStrEq(pkvd->szKeyName, "teamindex"))
+	if ( FStrEq( pkvd->szKeyName, "teamindex" ) )
 	{
-		m_teamIndex = atoi( pkvd->szValue );
+		m_teamIndex    = atoi( pkvd->szValue );
 		pkvd->fHandled = TRUE;
 	}
-	else if (FStrEq(pkvd->szKeyName, "triggerstate"))
+	else if ( FStrEq( pkvd->szKeyName, "triggerstate" ) )
 	{
 		int type = atoi( pkvd->szValue );
-		switch( type )
+		switch ( type )
 		{
 		case 0:
 			triggerType = USE_OFF;
@@ -77,7 +77,6 @@ void CGameTeamMaster::KeyValue( KeyValueData *pkvd )
 	else
 		CRulePointEntity::KeyValue( pkvd );
 }
-
 
 void CGameTeamMaster::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
@@ -105,21 +104,18 @@ void CGameTeamMaster::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TY
 	}
 }
 
-
 BOOL CGameTeamMaster::IsTriggered( CBaseEntity *pActivator )
 {
 	return TeamMatch( pActivator );
 }
 
-
 const char *CGameTeamMaster::TeamID( void )
 {
-	if ( m_teamIndex < 0 )		// Currently set to "no team"
+	if ( m_teamIndex < 0 ) // Currently set to "no team"
 		return "";
 
-	return g_pGameRules->GetIndexedTeamName( m_teamIndex );		// UNDONE: Fill this in with the team from the "teamlist"
+	return g_pGameRules->GetIndexedTeamName( m_teamIndex ); // UNDONE: Fill this in with the team from the "teamlist"
 }
-
 
 BOOL CGameTeamMaster::TeamMatch( CBaseEntity *pActivator )
 {
@@ -131,7 +127,6 @@ BOOL CGameTeamMaster::TeamMatch( CBaseEntity *pActivator )
 
 	return UTIL_TeamsMatch( pActivator->TeamID(), TeamID() );
 }
-
 
 //
 // Flag: Fire once

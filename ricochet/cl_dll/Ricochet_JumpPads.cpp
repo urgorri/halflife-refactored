@@ -28,38 +28,38 @@ typedef enum
 typedef struct
 {
 	// Type of entity
-	ric_padtype_t	type;
+	ric_padtype_t type;
 
 	// Classname
-	char			classname[ 32 ];
+	char classname[32];
 
 	// Model name
-	char			modelname[ 32 ];
+	char modelname[32];
 
 	// What this entity targets
-	char			target[ 32 ];
+	char target[32];
 
 	// If entity is a target, the name tag it uses
-	char			targetname[ 32 ];
+	char targetname[32];
 
 	// Orientation of the pad
-	float			angles[3];
+	float angles[3];
 
 	// Target origin
-	float			origin[3];
+	float origin[3];
 
 	// Bounding box of the pad
-	float			absmin[3];
-	float			absmax[3];
+	float absmin[3];
+	float absmax[3];
 
 	// Model associated with the pad
-	struct	model_s *model;
+	struct model_s *model;
 
-	float			height;
+	float height;
 } ric_pad_t;
 
 // Pad/Target entity database
-static ric_pad_t s_pads[ MAX_PADS ];
+static ric_pad_t s_pads[MAX_PADS];
 static int s_num_pads = 0;
 
 // We'll use this for playing the jump sounds locally.
@@ -100,18 +100,18 @@ void Ricochet_SetKeyValue( ric_pad_t *pad, const char *key, const char *value )
 	{
 		if ( sscanf( value, "%f %f %f", &x, &y, &z ) == 3 )
 		{
-			pad->angles[ 0 ] = x ;
-			pad->angles[ 1 ] = y;
-			pad->angles[ 2 ] = z;
+			pad->angles[0] = x;
+			pad->angles[1] = y;
+			pad->angles[2] = z;
 		}
 	}
 	else if ( !stricmp( key, "origin" ) )
 	{
 		if ( sscanf( value, "%f %f %f", &x, &y, &z ) == 3 )
 		{
-			pad->origin[ 0 ]  = x;
-			pad->origin[ 1 ]  = y;
-			pad->origin[ 2 ]  = z;
+			pad->origin[0] = x;
+			pad->origin[1] = y;
+			pad->origin[2] = z;
 		}
 	}
 }
@@ -125,16 +125,16 @@ Evaluate Key/Value pairs for the entity
 */
 char *Ricochet_ParsePad( char *buffer, ric_pad_t *pad, int *error )
 {
-	char		key[256];
-	char		token[ 1024 ];
-	int			n;
+	char key[256];
+	char token[1024];
+	int n;
 
 	memset( pad, 0, sizeof( *pad ) );
 
-	while (1)
-	{	
+	while ( 1 )
+	{
 		// Parse key
-		buffer = gEngfuncs.COM_ParseFile ( buffer, token );
+		buffer = gEngfuncs.COM_ParseFile( buffer, token );
 		if ( token[0] == '}' )
 			break;
 
@@ -144,23 +144,23 @@ char *Ricochet_ParsePad( char *buffer, ric_pad_t *pad, int *error )
 			*error = 1;
 			break;
 		}
-		
+
 		// Store off the key
-		strcpy ( key, token );
+		strcpy( key, token );
 
 		// Fix heynames with trailing spaces
 		n = strlen( key );
-		while (n && key[n-1] == ' ')
+		while ( n && key[n - 1] == ' ' )
 		{
-			key[n-1] = 0;
+			key[n - 1] = 0;
 			n--;
 		}
 
-		// Parse value	
-		buffer = gEngfuncs.COM_ParseFile ( buffer, token );
+		// Parse value
+		buffer = gEngfuncs.COM_ParseFile( buffer, token );
 
 		// Ran out of buffer?
-		if (!buffer)
+		if ( !buffer )
 		{
 			*error = 1;
 			break;
@@ -189,29 +189,29 @@ Parse through entity lump looking for pads or targets
 ==============================
 */
 void Ricochet_ProcessEnts( char *buffer )
-{	
+{
 	int i;
-	char token[ 1024 ];
-	ric_pad_t	*pad = NULL;
-	int			error = 0;
-	
+	char token[1024];
+	ric_pad_t *pad = NULL;
+	int error      = 0;
+
 	// parse entities from entity lump of .bsp file
-	while (1)
+	while ( 1 )
 	{
-		// parse the opening brace	
-		buffer = gEngfuncs.COM_ParseFile ( buffer, token );
-		if (!buffer)
+		// parse the opening brace
+		buffer = gEngfuncs.COM_ParseFile( buffer, token );
+		if ( !buffer )
 			break;
-		
+
 		// Didn't find opening brace?
 		if ( token[0] != '{' )
 		{
-			gEngfuncs.Con_Printf ("Ricochet_ProcessEnts: found %s when expecting {\n", token );
+			gEngfuncs.Con_Printf( "Ricochet_ProcessEnts: found %s when expecting {\n", token );
 			return;
 		}
 
 		// Assume we're filling in this pad
-		pad = &s_pads[ s_num_pads ];
+		pad = &s_pads[s_num_pads];
 
 		// Fill in data
 		buffer = Ricochet_ParsePad( buffer, pad, &error );
@@ -219,7 +219,7 @@ void Ricochet_ProcessEnts( char *buffer )
 		// Check for errors and abort if any
 		if ( error )
 		{
-			gEngfuncs.Con_Printf ("Ricochet_ProcessEnts: error parsing entities\n" );
+			gEngfuncs.Con_Printf( "Ricochet_ProcessEnts: error parsing entities\n" );
 			return;
 		}
 
@@ -244,8 +244,8 @@ void Ricochet_ProcessEnts( char *buffer )
 			// Fill in abs bbox
 			for ( i = 0; i < 3; i++ )
 			{
-				pad->absmin[ i ] = pad->model->mins[ i ] - 1.0;
-				pad->absmax[ i ] = pad->model->maxs[ i ] + 1.0;
+				pad->absmin[i] = pad->model->mins[i] - 1.0;
+				pad->absmax[i] = pad->model->maxs[i] + 1.0;
 			}
 		}
 
@@ -267,30 +267,30 @@ Open the .bsp and read in the entity lump
 */
 char *Ricochet_LoadEntityLump( const char *filename )
 {
-	int			i;
-	dheader_t	header;
-	int			size = 0;
-	lump_t		*curLump;
-	char		*fileBuffer = NULL, *buffer, *entlump;
+	int i;
+	dheader_t header;
+	int size = 0;
+	lump_t *curLump;
+	char *fileBuffer = NULL, *buffer, *entlump;
 
-	fileBuffer = (char *)gEngfuncs.COM_LoadFile((char *)filename, 5, &size);
-	if (size < sizeof(dheader_t))
+	fileBuffer = (char *)gEngfuncs.COM_LoadFile( (char *)filename, 5, &size );
+	if ( size < sizeof( dheader_t ) )
 		return NULL;
 
 	// Read in the .bsp header
-	memcpy(&header, fileBuffer, sizeof(dheader_t));
+	memcpy( &header, fileBuffer, sizeof( dheader_t ) );
 
 	// Check the version
 	i = header.version;
-	if ( i != 29 && i != 30)
+	if ( i != 29 && i != 30 )
 	{
-		gEngfuncs.COM_FreeFile(fileBuffer);
-		gEngfuncs.Con_Printf("Ricochet_LoadEntityLump:  Map [%s] has incorrect BSP version (%i should be %i).\n", filename, i, BSPVERSION);
+		gEngfuncs.COM_FreeFile( fileBuffer );
+		gEngfuncs.Con_Printf( "Ricochet_LoadEntityLump:  Map [%s] has incorrect BSP version (%i should be %i).\n", filename, i, BSPVERSION );
 		return NULL;
 	}
 
 	// Get entity lump
-	curLump = &header.lumps[ LUMP_ENTITIES ];
+	curLump = &header.lumps[LUMP_ENTITIES];
 	// and entity lump size
 	size = curLump->filelen;
 
@@ -301,8 +301,8 @@ char *Ricochet_LoadEntityLump( const char *filename )
 	buffer = (char *)malloc( size + 1 );
 	if ( !buffer )
 	{
-		gEngfuncs.COM_FreeFile(fileBuffer);
-		gEngfuncs.Con_Printf("Ricochet_LoadEntityLump:  Couldn't allocate %i bytes\n", size + 1 );
+		gEngfuncs.COM_FreeFile( fileBuffer );
+		gEngfuncs.Con_Printf( "Ricochet_LoadEntityLump:  Couldn't allocate %i bytes\n", size + 1 );
 		return NULL;
 	}
 
@@ -310,11 +310,11 @@ char *Ricochet_LoadEntityLump( const char *filename )
 	memcpy( buffer, entlump, size );
 
 	// Terminate the string
-	buffer[ size ] = '\0';
+	buffer[size] = '\0';
 
-	if (fileBuffer)
+	if ( fileBuffer )
 	{
-		gEngfuncs.COM_FreeFile(fileBuffer);
+		gEngfuncs.COM_FreeFile( fileBuffer );
 	}
 
 	return buffer;
@@ -329,8 +329,8 @@ Load in the .bsp file and process the entities
 */
 void Ricochet_LoadJumpPads( const char *map )
 {
-	char	*buffer = NULL;
-	char	filename[ 256 ];
+	char *buffer = NULL;
+	char filename[256];
 
 	sprintf( filename, "%s/%s", gEngfuncs.pfnGetGameDirectory(), map );
 
@@ -366,7 +366,7 @@ ric_pad_t *Ricochet_FindTarget( const char *name, int numpads, ric_pad_t *pads )
 	// Find the target
 	for ( i = 0; i < numpads; i++ )
 	{
-		target = &pads[ i ];
+		target = &pads[i];
 		if ( !target )
 			continue;
 
@@ -388,19 +388,19 @@ Register impact ( impart velocity on player and if final function call, play app
 */
 void Ricochet_PadTouched( int numpads, ric_pad_t *pads, ric_pad_t *pad, struct local_state_s *player )
 {
-	int				i;
-	ric_pad_t		*target;
-	float			origin[ 3 ];
-	pmtrace_t 		tr;
-	float			flGravity = pmove->movevars->gravity;
+	int i;
+	ric_pad_t *target;
+	float origin[3];
+	pmtrace_t tr;
+	float flGravity = pmove->movevars->gravity;
 
-	float			vecMidPoint[3];
-	float			end[ 3 ];
+	float vecMidPoint[3];
+	float end[3];
 
 	// Ricochet jump pads use default jump height
-	float			flHeight = 150;
+	float flHeight = 150;
 
-	float			zero[ 3 ] = { 0.0, 0.0, 0.0 };
+	float zero[3] = { 0.0, 0.0, 0.0 };
 
 	// Find the target
 	target = Ricochet_FindTarget( pad->target, numpads, pads );
@@ -408,11 +408,11 @@ void Ricochet_PadTouched( int numpads, ric_pad_t *pads, ric_pad_t *pad, struct l
 	// Target now points to target pad
 	for ( i = 0; i < 3; i++ )
 	{
-		origin[ i ] = player->playerstate.origin[ i ];
-		
+		origin[i] = player->playerstate.origin[i];
+
 		// Get a rough idea of how high to launch
-		vecMidPoint[ i ] = origin[ i ] + ( target->origin[ i ] - origin[ i ]) * 0.5;
-		end[ i ] = vecMidPoint[ i ];
+		vecMidPoint[i] = origin[i] + ( target->origin[i] - origin[i] ) * 0.5;
+		end[i]         = vecMidPoint[i];
 	}
 
 	if ( pad->height != 0.0 )
@@ -421,7 +421,7 @@ void Ricochet_PadTouched( int numpads, ric_pad_t *pads, ric_pad_t *pad, struct l
 	}
 
 	// Move up by height
-	end[ 2 ] += flHeight;
+	end[2] += flHeight;
 
 	// See if we can reach the apex from the midpoint
 	gEngfuncs.pEventAPI->EV_PlayerTrace( vecMidPoint, end, PM_STUDIO_BOX, -1, &tr );
@@ -436,25 +436,25 @@ void Ricochet_PadTouched( int numpads, ric_pad_t *pads, ric_pad_t *pad, struct l
 	vecMidPoint[2] -= 15;
 
 	// How high should we travel to reach the apex
-	float distance1 = fabs(vecMidPoint[2] - origin[2]);
-	float distance2 = fabs(vecMidPoint[2] - target->origin[2]);
+	float distance1 = fabs( vecMidPoint[2] - origin[2] );
+	float distance2 = fabs( vecMidPoint[2] - target->origin[2] );
 
 	// How long will it take to travel this distance
-	float time1 = sqrt( distance1 / (0.5 * flGravity) );
-	float time2 = sqrt( distance2 / (0.5 * flGravity) );
-	if (time1 < 0.1)
+	float time1 = sqrt( distance1 / ( 0.5 * flGravity ) );
+	float time2 = sqrt( distance2 / ( 0.5 * flGravity ) );
+	if ( time1 < 0.1 )
 		return;
 
 	// Determine how hard to launch to get there in time.
 	float vecTargetVel[3];
-	
+
 	for ( i = 0; i < 3; i++ )
 	{
-		vecTargetVel[ i ] = (target->origin[ i ] - origin[ i ]) / (time1 + time2);
+		vecTargetVel[i] = ( target->origin[i] - origin[i] ) / ( time1 + time2 );
 	}
 
 	// Adjust upward velocity needed
-	vecTargetVel[ 2 ] = flGravity * time1;
+	vecTargetVel[2] = flGravity * time1;
 
 	// Fill in needed velocity
 	for ( i = 0; i < 3; i++ )
@@ -476,28 +476,28 @@ Ricochet_TouchPads
 See if player's resting position impacts any jump pads
 ==============================
 */
-void Ricochet_TouchPads (  struct local_state_s *player, ric_pad_t *pads, int numpads )
+void Ricochet_TouchPads( struct local_state_s *player, ric_pad_t *pads, int numpads )
 {
-	int			i, j;
-	ric_pad_t	*pad;
-	float		absmin[3], absmax[3];
-	physent_t	pe;
-	hull_t		*hull;
-	int			num;
-	float		test[3];
-	float		pmins[ 3 ] = { 16, 16, 36 };
+	int i, j;
+	ric_pad_t *pad;
+	float absmin[3], absmax[3];
+	physent_t pe;
+	hull_t *hull;
+	int num;
+	float test[3];
+	float pmins[3] = { 16, 16, 36 };
 
 	// Determine player's bbox
 	for ( j = 0; j < 3; j++ )
 	{
-		absmin[ j ] = player->playerstate.origin[ j ] - pmins[ j ];
-		absmax[ j ] = player->playerstate.origin[ j ] + pmins[ j ];
+		absmin[j] = player->playerstate.origin[j] - pmins[j];
+		absmax[j] = player->playerstate.origin[j] + pmins[j];
 	}
 
 	// Cycle through pads looking for a match
 	for ( i = 0; i < numpads; i++ )
 	{
-		pad = &pads[ i ];
+		pad = &pads[i];
 		if ( !pad )
 			continue;
 
@@ -506,18 +506,13 @@ void Ricochet_TouchPads (  struct local_state_s *player, ric_pad_t *pads, int nu
 			continue;
 
 		// Trivial reject?
-		if ( absmin[0] > pad->absmax[0]
-			|| absmin[1] > pad->absmax[1]
-			|| absmin[2] > pad->absmax[2]
-			|| absmax[0] < pad->absmin[0]
-			|| absmax[1] < pad->absmin[1]
-			|| absmax[2] < pad->absmin[2] )
+		if ( absmin[0] > pad->absmax[0] || absmin[1] > pad->absmax[1] || absmin[2] > pad->absmax[2] || absmax[0] < pad->absmin[0] || absmax[1] < pad->absmin[1] || absmax[2] < pad->absmin[2] )
 			continue;
-			
+
 		// Set up physent for the test case
-		pe.model	= pad->model;
-		pe.origin	= pad->origin;
-		
+		pe.model  = pad->model;
+		pe.origin = pad->origin;
+
 		// Use standing player hull
 		pmove->usehull = 0;
 
@@ -527,20 +522,20 @@ void Ricochet_TouchPads (  struct local_state_s *player, ric_pad_t *pads, int nu
 
 		// Get the hull
 		hull = (hull_t *)pmove->PM_HullForBsp( &pe, test );
-		num = hull->firstclipnode;
+		num  = hull->firstclipnode;
 
 		// Offset the origin by the offset appropriate for this hull.
 		for ( j = 0; j < 3; j++ )
 		{
-			test[ j ] = player->playerstate.origin[ j ] - test[ j ];
+			test[j] = player->playerstate.origin[j] - test[j];
 		}
 
 		// Test the player's hull for intersection with this model
-		if ( pmove->PM_HullPointContents ( hull, num, test ) != CONTENTS_SOLID )
+		if ( pmove->PM_HullPointContents( hull, num, test ) != CONTENTS_SOLID )
 		{
 			continue;
 		}
-		
+
 		// TOUCHED!!!
 		Ricochet_PadTouched( numpads, pads, pad, player );
 
@@ -559,8 +554,8 @@ Load data if needed, otherwise just run checks on player's final position to see
 */
 void Ricochet_CheckJumpPads( struct local_state_s *from, struct local_state_s *to )
 {
-	static char current_level[ 128 ];
-	
+	static char current_level[128];
+
 	// See if we've changed to a new map
 	if ( stricmp( current_level, gEngfuncs.pfnGetLevelName() ) )
 	{

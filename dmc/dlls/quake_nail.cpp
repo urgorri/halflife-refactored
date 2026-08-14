@@ -33,10 +33,10 @@ CQuakeNail *CQuakeNail::CreateNail( Vector vecOrigin, Vector vecAngles, CBaseEnt
 	UTIL_SetOrigin( pNail->pev, vecOrigin );
 
 	pNail->pev->velocity = vecAngles * 1000;
-	pNail->pev->angles = UTIL_VecToAngles(vecAngles);
-	pNail->pev->owner = pOwner->edict();
+	pNail->pev->angles   = UTIL_VecToAngles( vecAngles );
+	pNail->pev->owner    = pOwner->edict();
 	pNail->Spawn();
-	pNail->pev->classname = MAKE_STRING("spike");
+	pNail->pev->classname = MAKE_STRING( "spike" );
 
 	// don't send to clients.
 	pNail->pev->effects |= EF_NODRAW;
@@ -46,8 +46,8 @@ CQuakeNail *CQuakeNail::CreateNail( Vector vecOrigin, Vector vecAngles, CBaseEnt
 
 CQuakeNail *CQuakeNail::CreateSuperNail( Vector vecOrigin, Vector vecAngles, CBaseEntity *pOwner )
 {
-	CQuakeNail *pNail = CreateNail( vecOrigin, vecAngles, pOwner );
-	pNail->pev->classname = MAKE_STRING("superspike");
+	CQuakeNail *pNail     = CreateNail( vecOrigin, vecAngles, pOwner );
+	pNail->pev->classname = MAKE_STRING( "superspike" );
 
 	// Super nails simply do more damage
 	pNail->pev->dmg = 18;
@@ -61,18 +61,18 @@ void CQuakeNail::Spawn( void )
 
 	// Setup
 	pev->movetype = MOVETYPE_FLYMISSILE;
-	pev->solid = SOLID_BBOX;
-	
+	pev->solid    = SOLID_BBOX;
+
 	// Safety removal
 	pev->nextthink = gpGlobals->time + 6;
 	SetThink( &CQuakeNail::SUB_Remove );
-	
+
 	// Touch
 	SetTouch( &CQuakeNail::NailTouch );
 
 	// Model
-	SET_MODEL( ENT(pev), "models/spike.mdl" );
-	UTIL_SetSize(pev, Vector( 0, 0, 0), Vector(0, 0, 0));
+	SET_MODEL( ENT( pev ), "models/spike.mdl" );
+	UTIL_SetSize( pev, Vector( 0, 0, 0 ), Vector( 0, 0, 0 ) );
 	UTIL_SetOrigin( pev, pev->origin );
 
 	// Damage
@@ -82,21 +82,21 @@ void CQuakeNail::Spawn( void )
 //=========================================================
 void CQuakeNail::NailTouch( CBaseEntity *pOther )
 {
-	if (pOther->pev->solid == SOLID_TRIGGER)
+	if ( pOther->pev->solid == SOLID_TRIGGER )
 		return;
 
 	// Remove if we've hit skybrush
-	if ( UTIL_PointContents(pev->origin) == CONTENT_SKY )
+	if ( UTIL_PointContents( pev->origin ) == CONTENT_SKY )
 	{
 		UTIL_Remove( this );
 		return;
 	}
 
 	// Hit something that bleeds
-	if (pOther->pev->takedamage)
+	if ( pOther->pev->takedamage )
 	{
-		CBaseEntity *pOwner = CBaseEntity::Instance(pev->owner);
-		
+		CBaseEntity *pOwner = CBaseEntity::Instance( pev->owner );
+
 		if ( g_pGameRules->PlayerRelationship( pOther, pOwner ) != GR_TEAMMATE )
 			SpawnBlood( pev->origin, pOther->BloodColor(), pev->dmg );
 
@@ -108,15 +108,12 @@ void CQuakeNail::NailTouch( CBaseEntity *pOther )
 		{
 			TraceResult tr;
 			tr.vecEndPos = pev->origin;
-			tr.pHit = pOther->edict();
+			tr.pHit      = pOther->edict();
 
-			//Arent we doing this client side?
-			//UTIL_GunshotDecalTrace( &tr, DECAL_GUNSHOT1 + RANDOM_LONG( 0, 4 ) );
+			// Arent we doing this client side?
+			// UTIL_GunshotDecalTrace( &tr, DECAL_GUNSHOT1 + RANDOM_LONG( 0, 4 ) );
 		}
 	}
 
 	UTIL_Remove( this );
 }
-
-
-

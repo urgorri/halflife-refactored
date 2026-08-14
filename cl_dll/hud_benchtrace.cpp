@@ -15,16 +15,16 @@
 typedef struct
 {
 	// Inputs
-	char	server[ 256 ];
+	char server[256];
 
 	// Outputs
-	int		*p_nresults;
-	int		*p_ndone;
-	
+	int *p_nresults;
+	int *p_ndone;
+
 	// Local variables
-	DWORD	hThreadId;
-	HANDLE	hThread;
-	HANDLE	hEventDone;
+	DWORD hThreadId;
+	HANDLE hThread;
+	HANDLE hEventDone;
 } trace_params_t;
 
 // Static forces it to be zeroed out
@@ -39,9 +39,9 @@ struct trace_options_s
 
 struct
 {
-	DWORD			dwAddress;
-	unsigned long	ulStatus, ulRoundTripTime;
-	unsigned char	a[8];
+	DWORD dwAddress;
+	unsigned long ulStatus, ulRoundTripTime;
+	unsigned char a[8];
 	struct trace_options_s Options;
 } traceReturn;
 
@@ -55,27 +55,30 @@ Performs a synchronous hopcount on the specified server
 int Trace_GetHopCount( char *pServer, int nMaxHops )
 {
 #ifdef _WIN32
-	HMODULE					hICMP;			// Handle to ICMP .dll
-	HANDLE					hIP;			// Handle to icmp session
-	DWORD					*dwIPAddr;		// remote IP Address as a DWORD
-	struct hostent			*pHostEnt;		// Name of remote host
-	struct trace_options_s	traceOptions;	// Input options
-	int						c;				// Hop counter
+	HMODULE hICMP;                       // Handle to ICMP .dll
+	HANDLE hIP;                          // Handle to icmp session
+	DWORD *dwIPAddr;                     // remote IP Address as a DWORD
+	struct hostent *pHostEnt;            // Name of remote host
+	struct trace_options_s traceOptions; // Input options
+	int c;                               // Hop counter
 
 	// Prototypes
-	HANDLE ( WINAPI *pfnICMPCreateFile ) ( VOID );
-	BOOL ( WINAPI *pfnICMPCloseFile ) ( HANDLE );
-	DWORD (WINAPI *pfnICMPSendEcho) ( HANDLE, DWORD, LPVOID, WORD, LPVOID, LPVOID, DWORD, DWORD );
+	HANDLE( WINAPI * pfnICMPCreateFile )
+	( VOID );
+	BOOL( WINAPI * pfnICMPCloseFile )
+	( HANDLE );
+	DWORD( WINAPI * pfnICMPSendEcho )
+	( HANDLE, DWORD, LPVOID, WORD, LPVOID, LPVOID, DWORD, DWORD );
 
 	hICMP = ::LoadLibrary( "ICMP.DLL" );
-	
-	pfnICMPCreateFile	= ( HANDLE ( WINAPI *)(VOID ) )::GetProcAddress( hICMP,"IcmpCreateFile");
-	pfnICMPCloseFile	= ( BOOL ( WINAPI *) ( HANDLE ) )::GetProcAddress( hICMP,"IcmpCloseHandle");
-	pfnICMPSendEcho		= ( DWORD ( WINAPI * ) ( HANDLE, DWORD, LPVOID, WORD, LPVOID, LPVOID, DWORD,DWORD ) )::GetProcAddress( hICMP,"IcmpSendEcho" );
-	
+
+	pfnICMPCreateFile = ( HANDLE( WINAPI * )( VOID ) )::GetProcAddress( hICMP, "IcmpCreateFile" );
+	pfnICMPCloseFile  = ( BOOL( WINAPI  *)( HANDLE ) )::GetProcAddress( hICMP, "IcmpCloseHandle" );
+	pfnICMPSendEcho   = ( DWORD( WINAPI   *)( HANDLE, DWORD, LPVOID, WORD, LPVOID, LPVOID, DWORD, DWORD ) )::GetProcAddress( hICMP, "IcmpSendEcho" );
+
 	if ( !pfnICMPCreateFile ||
-		 !pfnICMPCloseFile ||
-		 !pfnICMPSendEcho )
+	     !pfnICMPCloseFile ||
+	     !pfnICMPSendEcho )
 	{
 		return -1;
 	}
@@ -94,10 +97,10 @@ int Trace_GetHopCount( char *pServer, int nMaxHops )
 	}
 
 	// Take first IP address returned
-	dwIPAddr = ( DWORD * )( *pHostEnt->h_addr_list );
+	dwIPAddr = (DWORD *)( *pHostEnt->h_addr_list );
 
 	// Fixme:  If not tracing, can use a "binary search" method to do the trace route
-	for ( c = 1; c <= nMaxHops ; c++)
+	for ( c = 1; c <= nMaxHops; c++ )
 	{
 		// Set TTL correctly
 		traceOptions.ucTTL = (unsigned char)c;
@@ -106,8 +109,8 @@ int Trace_GetHopCount( char *pServer, int nMaxHops )
 		memset( &traceReturn, 0, sizeof( traceReturn ) );
 
 		// Send echo request, 2000 milliseconds maximum waiting time
-		pfnICMPSendEcho ( hIP, *dwIPAddr, 0, 0, &traceOptions, &traceReturn, sizeof(traceReturn), 2000 );
-		
+		pfnICMPSendEcho( hIP, *dwIPAddr, 0, 0, &traceOptions, &traceReturn, sizeof( traceReturn ), 2000 );
+
 		// Found requrested remote address, c contains the correct hopcount
 		if ( traceReturn.dwAddress == *dwIPAddr )
 			break;
@@ -175,7 +178,7 @@ DWORD WINAPI Trace_ThreadFunction( LPVOID p )
 {
 	int *results;
 
-	results = ( int * )p;
+	results = (int *)p;
 
 	*results = Trace_GetHopCount( tp.server, 30 );
 	SetEvent( tp.hEventDone );
@@ -207,7 +210,7 @@ void Trace_StartTrace( int *results, int *finished, const char *server )
 		return;
 	}
 
-	tp.p_ndone = finished;
+	tp.p_ndone  = finished;
 	*tp.p_ndone = 0;
 
 	tp.hThread = CreateThread( NULL, 0, Trace_ThreadFunction, results, 0, &tp.hThreadId );

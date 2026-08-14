@@ -7,27 +7,27 @@
 
 class CFuncTankLaser : public CFuncTank
 {
-public:
-	void	Activate( void );
-	void	KeyValue( KeyValueData *pkvd );
-	void	Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker );
-	void	Think( void );
+  public:
+	void Activate( void );
+	void KeyValue( KeyValueData *pkvd );
+	void Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker );
+	void Think( void );
 	CLaser *GetLaser( void );
 
-	virtual int	Save( CSave &save );
-	virtual int	Restore( CRestore &restore );
-	static	TYPEDESCRIPTION m_SaveData[];
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
 
-private:
-	CLaser	*m_pLaser;
-	float	m_laserTime;
+  private:
+	CLaser *m_pLaser;
+	float m_laserTime;
 };
 LINK_ENTITY_TO_CLASS( func_tanklaser, CFuncTankLaser );
 
-TYPEDESCRIPTION	CFuncTankLaser::m_SaveData[] =
-{
-	DEFINE_FIELD( CFuncTankLaser, m_pLaser, FIELD_CLASSPTR ),
-	DEFINE_FIELD( CFuncTankLaser, m_laserTime, FIELD_TIME ),
+TYPEDESCRIPTION CFuncTankLaser::m_SaveData[] =
+    {
+        DEFINE_FIELD( CFuncTankLaser, m_pLaser, FIELD_CLASSPTR ),
+        DEFINE_FIELD( CFuncTankLaser, m_laserTime, FIELD_TIME ),
 };
 
 IMPLEMENT_SAVERESTORE( CFuncTankLaser, CFuncTank );
@@ -36,7 +36,7 @@ void CFuncTankLaser::Activate( void )
 {
 	if ( !GetLaser() )
 	{
-		UTIL_Remove(this);
+		UTIL_Remove( this );
 		ALERT( at_error, "Laser tank with no env_laser!\n" );
 	}
 	else
@@ -45,51 +45,47 @@ void CFuncTankLaser::Activate( void )
 	}
 }
 
-
 void CFuncTankLaser::KeyValue( KeyValueData *pkvd )
 {
-	if (FStrEq(pkvd->szKeyName, "laserentity"))
+	if ( FStrEq( pkvd->szKeyName, "laserentity" ) )
 	{
-		pev->message = ALLOC_STRING(pkvd->szValue);
+		pev->message   = ALLOC_STRING( pkvd->szValue );
 		pkvd->fHandled = TRUE;
 	}
 	else
 		CFuncTank::KeyValue( pkvd );
 }
 
-
 CLaser *CFuncTankLaser::GetLaser( void )
 {
 	if ( m_pLaser )
 		return m_pLaser;
 
-	edict_t	*pentLaser;
+	edict_t *pentLaser;
 
-	pentLaser = FIND_ENTITY_BY_TARGETNAME( NULL, STRING(pev->message) );
+	pentLaser = FIND_ENTITY_BY_TARGETNAME( NULL, STRING( pev->message ) );
 	while ( !FNullEnt( pentLaser ) )
 	{
 		// Found the landmark
 		if ( FClassnameIs( pentLaser, "env_laser" ) )
 		{
-			m_pLaser = (CLaser *)CBaseEntity::Instance(pentLaser);
+			m_pLaser = (CLaser *)CBaseEntity::Instance( pentLaser );
 			break;
 		}
 		else
-			pentLaser = FIND_ENTITY_BY_TARGETNAME( pentLaser, STRING(pev->message) );
+			pentLaser = FIND_ENTITY_BY_TARGETNAME( pentLaser, STRING( pev->message ) );
 	}
 
 	return m_pLaser;
 }
 
-
 void CFuncTankLaser::Think( void )
 {
-	if ( m_pLaser && (gpGlobals->time > m_laserTime) )
+	if ( m_pLaser && ( gpGlobals->time > m_laserTime ) )
 		m_pLaser->TurnOff();
 
 	CFuncTank::Think();
 }
-
 
 void CFuncTankLaser::Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker )
 {
@@ -99,9 +95,9 @@ void CFuncTankLaser::Fire( const Vector &barrelEnd, const Vector &forward, entva
 	if ( m_fireLast != 0 && GetLaser() )
 	{
 		// TankTrace needs gpGlobals->v_up, etc.
-		UTIL_MakeAimVectors(pev->angles);
+		UTIL_MakeAimVectors( pev->angles );
 
-		int bulletCount = (gpGlobals->time - m_fireLast) * m_fireRate;
+		int bulletCount = ( gpGlobals->time - m_fireLast ) * m_fireRate;
 		if ( bulletCount )
 		{
 			for ( i = 0; i < bulletCount; i++ )

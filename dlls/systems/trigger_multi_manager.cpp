@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== trigger_multi_manager.cpp ========================================================
@@ -25,46 +25,45 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "core/saverestore.h"
-#include "trains.h"			// trigger_camera has train functionality
+#include "trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
 
-
-#define SF_MULTIMAN_CLONE		0x80000000
-#define SF_MULTIMAN_THREAD		0x00000001
+#define SF_MULTIMAN_CLONE 0x80000000
+#define SF_MULTIMAN_THREAD 0x00000001
 class CMultiManager : public CBaseToggle
 {
-public:
+  public:
 	void KeyValue( KeyValueData *pkvd );
-	void Spawn ( void );
-	void EXPORT ManagerThink ( void );
-	void EXPORT ManagerUse   ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void Spawn( void );
+	void EXPORT ManagerThink( void );
+	void EXPORT ManagerUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 
 #if _DEBUG
 	void EXPORT ManagerReport( void );
 #endif
 
-	BOOL		HasTarget( string_t targetname );
+	BOOL HasTarget( string_t targetname );
 
 	int ObjectCaps( void ) { return CBaseToggle::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
 
-	virtual int		Save( CSave &save );
-	virtual int		Restore( CRestore &restore );
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
 
-	static	TYPEDESCRIPTION m_SaveData[];
+	static TYPEDESCRIPTION m_SaveData[];
 
-	int		m_cTargets;	// the total number of targets in this manager's fire list.
-	int		m_index;	// Current target
-	float	m_startTime;// Time we started firing
-	int		m_iTargetName	[ MAX_MULTI_TARGETS ];// list if indexes into global string array
-	float	m_flTargetDelay [ MAX_MULTI_TARGETS ];// delay (in seconds) from time of manager fire to target fire
-private:
-	inline BOOL IsClone( void ) { return (pev->spawnflags & SF_MULTIMAN_CLONE) ? TRUE : FALSE; }
+	int m_cTargets;                           // the total number of targets in this manager's fire list.
+	int m_index;                              // Current target
+	float m_startTime;                        // Time we started firing
+	int m_iTargetName[MAX_MULTI_TARGETS];     // list if indexes into global string array
+	float m_flTargetDelay[MAX_MULTI_TARGETS]; // delay (in seconds) from time of manager fire to target fire
+  private:
+	inline BOOL IsClone( void ) { return ( pev->spawnflags & SF_MULTIMAN_CLONE ) ? TRUE : FALSE; }
 	inline BOOL ShouldClone( void )
 	{
 		if ( IsClone() )
 			return FALSE;
 
-		return (pev->spawnflags & SF_MULTIMAN_THREAD) ? TRUE : FALSE;
+		return ( pev->spawnflags & SF_MULTIMAN_THREAD ) ? TRUE : FALSE;
 	}
 
 	CMultiManager *Clone( void );
@@ -72,27 +71,27 @@ private:
 LINK_ENTITY_TO_CLASS( multi_manager, CMultiManager );
 
 // Global Savedata for multi_manager
-TYPEDESCRIPTION	CMultiManager::m_SaveData[] =
-{
-	DEFINE_FIELD( CMultiManager, m_cTargets, FIELD_INTEGER ),
-	DEFINE_FIELD( CMultiManager, m_index, FIELD_INTEGER ),
-	DEFINE_FIELD( CMultiManager, m_startTime, FIELD_TIME ),
-	DEFINE_ARRAY( CMultiManager, m_iTargetName, FIELD_STRING, MAX_MULTI_TARGETS ),
-	DEFINE_ARRAY( CMultiManager, m_flTargetDelay, FIELD_FLOAT, MAX_MULTI_TARGETS ),
+TYPEDESCRIPTION CMultiManager::m_SaveData[] =
+    {
+        DEFINE_FIELD( CMultiManager, m_cTargets, FIELD_INTEGER ),
+        DEFINE_FIELD( CMultiManager, m_index, FIELD_INTEGER ),
+        DEFINE_FIELD( CMultiManager, m_startTime, FIELD_TIME ),
+        DEFINE_ARRAY( CMultiManager, m_iTargetName, FIELD_STRING, MAX_MULTI_TARGETS ),
+        DEFINE_ARRAY( CMultiManager, m_flTargetDelay, FIELD_FLOAT, MAX_MULTI_TARGETS ),
 };
 
-IMPLEMENT_SAVERESTORE(CMultiManager,CBaseToggle);
+IMPLEMENT_SAVERESTORE( CMultiManager, CBaseToggle );
 
-void CMultiManager :: KeyValue( KeyValueData *pkvd )
+void CMultiManager ::KeyValue( KeyValueData *pkvd )
 {
 	// UNDONE: Maybe this should do something like this:
-	//CBaseToggle::KeyValue( pkvd );
+	// CBaseToggle::KeyValue( pkvd );
 	// if ( !pkvd->fHandled )
 	// ... etc.
 
-	if (FStrEq(pkvd->szKeyName, "wait"))
+	if ( FStrEq( pkvd->szKeyName, "wait" ) )
 	{
-		m_flWait = atof(pkvd->szValue);
+		m_flWait       = atof( pkvd->szValue );
 		pkvd->fHandled = TRUE;
 	}
 	else // add this field to the target list
@@ -103,20 +102,19 @@ void CMultiManager :: KeyValue( KeyValueData *pkvd )
 			char tmp[128];
 
 			UTIL_StripToken( pkvd->szKeyName, tmp, sizeof( tmp ) );
-			m_iTargetName [ m_cTargets ] = ALLOC_STRING( tmp );
-			m_flTargetDelay [ m_cTargets ] = atof (pkvd->szValue);
+			m_iTargetName[m_cTargets]   = ALLOC_STRING( tmp );
+			m_flTargetDelay[m_cTargets] = atof( pkvd->szValue );
 			m_cTargets++;
 			pkvd->fHandled = TRUE;
 		}
 	}
 }
 
-
-void CMultiManager :: Spawn( void )
+void CMultiManager ::Spawn( void )
 {
 	pev->solid = SOLID_NOT;
-	SetUse ( &CMultiManager::ManagerUse );
-	SetThink ( &CMultiManager::ManagerThink);
+	SetUse( &CMultiManager::ManagerUse );
+	SetThink( &CMultiManager::ManagerThink );
 
 	// Sort targets
 	// Quick and dirty bubble sort
@@ -127,46 +125,44 @@ void CMultiManager :: Spawn( void )
 		swapped = 0;
 		for ( int i = 1; i < m_cTargets; i++ )
 		{
-			if ( m_flTargetDelay[i] < m_flTargetDelay[i-1] )
+			if ( m_flTargetDelay[i] < m_flTargetDelay[i - 1] )
 			{
 				// Swap out of order elements
-				int name = m_iTargetName[i];
-				float delay = m_flTargetDelay[i];
-				m_iTargetName[i] = m_iTargetName[i-1];
-				m_flTargetDelay[i] = m_flTargetDelay[i-1];
-				m_iTargetName[i-1] = name;
-				m_flTargetDelay[i-1] = delay;
-				swapped = 1;
+				int name               = m_iTargetName[i];
+				float delay            = m_flTargetDelay[i];
+				m_iTargetName[i]       = m_iTargetName[i - 1];
+				m_flTargetDelay[i]     = m_flTargetDelay[i - 1];
+				m_iTargetName[i - 1]   = name;
+				m_flTargetDelay[i - 1] = delay;
+				swapped                = 1;
 			}
 		}
 	}
 }
 
-
 BOOL CMultiManager::HasTarget( string_t targetname )
 {
 	for ( int i = 0; i < m_cTargets; i++ )
-		if ( FStrEq(STRING(targetname), STRING(m_iTargetName[i])) )
+		if ( FStrEq( STRING( targetname ), STRING( m_iTargetName[i] ) ) )
 			return TRUE;
 
 	return FALSE;
 }
 
-
 // Designers were using this to fire targets that may or may not exist --
 // so I changed it to use the standard target fire code, made it a little simpler.
-void CMultiManager :: ManagerThink ( void )
+void CMultiManager ::ManagerThink( void )
 {
-	float	time;
+	float time;
 
 	time = gpGlobals->time - m_startTime;
-	while ( m_index < m_cTargets && m_flTargetDelay[ m_index ] <= time )
+	while ( m_index < m_cTargets && m_flTargetDelay[m_index] <= time )
 	{
-		FireTargets( STRING( m_iTargetName[ m_index ] ), m_hActivator, this, USE_TOGGLE, 0 );
+		FireTargets( STRING( m_iTargetName[m_index] ), m_hActivator, this, USE_TOGGLE, 0 );
 		m_index++;
 	}
 
-	if ( m_index >= m_cTargets )// have we fired all targets?
+	if ( m_index >= m_cTargets ) // have we fired all targets?
 	{
 		SetThink( NULL );
 		if ( IsClone() )
@@ -174,10 +170,10 @@ void CMultiManager :: ManagerThink ( void )
 			UTIL_Remove( this );
 			return;
 		}
-		SetUse ( &CMultiManager::ManagerUse );// allow manager re-use
+		SetUse( &CMultiManager::ManagerUse ); // allow manager re-use
 	}
 	else
-		pev->nextthink = m_startTime + m_flTargetDelay[ m_index ];
+		pev->nextthink = m_startTime + m_flTargetDelay[m_index];
 }
 
 CMultiManager *CMultiManager::Clone( void )
@@ -185,7 +181,7 @@ CMultiManager *CMultiManager::Clone( void )
 	CMultiManager *pMulti = GetClassPtr( (CMultiManager *)NULL );
 
 	edict_t *pEdict = pMulti->pev->pContainingEntity;
-	memcpy( pMulti->pev, pev, sizeof(*pev) );
+	memcpy( pMulti->pev, pev, sizeof( *pev ) );
 	pMulti->pev->pContainingEntity = pEdict;
 
 	pMulti->pev->spawnflags |= SF_MULTIMAN_CLONE;
@@ -196,9 +192,8 @@ CMultiManager *CMultiManager::Clone( void )
 	return pMulti;
 }
 
-
 // The USE function builds the time table and starts the entity thinking.
-void CMultiManager :: ManagerUse ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
+void CMultiManager ::ManagerUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
 	// In multiplayer games, clone the MM and execute in the clone (like a thread)
 	// to allow multiple players to trigger the same multimanager
@@ -210,29 +205,28 @@ void CMultiManager :: ManagerUse ( CBaseEntity *pActivator, CBaseEntity *pCaller
 	}
 
 	m_hActivator = pActivator;
-	m_index = 0;
-	m_startTime = gpGlobals->time;
+	m_index      = 0;
+	m_startTime  = gpGlobals->time;
 
-	SetUse( NULL );// disable use until all targets have fired
+	SetUse( NULL ); // disable use until all targets have fired
 
-	SetThink ( &CMultiManager::ManagerThink );
+	SetThink( &CMultiManager::ManagerThink );
 	pev->nextthink = gpGlobals->time;
 }
 
 #if _DEBUG
-void CMultiManager :: ManagerReport ( void )
+void CMultiManager ::ManagerReport( void )
 {
-	int	cIndex;
+	int cIndex;
 
-	for ( cIndex = 0 ; cIndex < m_cTargets ; cIndex++ )
+	for ( cIndex = 0; cIndex < m_cTargets; cIndex++ )
 	{
-		ALERT ( at_console, "%s %f\n", STRING(m_iTargetName[cIndex]), m_flTargetDelay[cIndex] );
+		ALERT( at_console, "%s %f\n", STRING( m_iTargetName[cIndex] ), m_flTargetDelay[cIndex] );
 	}
 }
 #endif
 
 //***********************************************************
-
 
 //
 // Render parameters trigger
@@ -240,6 +234,5 @@ void CMultiManager :: ManagerReport ( void )
 // This entity will copy its render parameters (renderfx, rendermode, rendercolor, renderamt)
 // to its targets when triggered.
 //
-
 
 // Flags to indicate masking off various render parameters that are normally copied to the targets

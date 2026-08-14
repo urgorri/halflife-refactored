@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -18,17 +18,16 @@
 //-----------------------------------------------------------------------------
 class IGameClientExports : public IBaseInterface
 {
-public:
+  public:
 	// returns the name of the server the user is connected to, if any
 	virtual const char *GetServerHostName() = 0;
 
 	// ingame voice manipulation
-	virtual bool IsPlayerGameVoiceMuted(int playerIndex) = 0;
-	virtual void MutePlayerGameVoice(int playerIndex) = 0;
-	virtual void UnmutePlayerGameVoice(int playerIndex) = 0;
+	virtual bool IsPlayerGameVoiceMuted( int playerIndex ) = 0;
+	virtual void MutePlayerGameVoice( int playerIndex )    = 0;
+	virtual void UnmutePlayerGameVoice( int playerIndex )  = 0;
 };
 
 #define GAMECLIENTEXPORTS_INTERFACE_VERSION "GameClientExports001"
-
 
 #endif // IGAMECLIENTEXPORTS_H

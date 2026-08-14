@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== trigger_base.cpp ========================================================
@@ -25,20 +25,18 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "core/saverestore.h"
-#include "trains.h"			// trigger_camera has train functionality
+#include "trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
 
-
-extern void SetMovedir(entvars_t* pev);
-
+extern void SetMovedir( entvars_t *pev );
 
 #include "trigger_base.h"
 
-#define SF_TRIGGER_HURT_TARGETONCE	1// Only fire hurt target once
-#define	SF_TRIGGER_HURT_START_OFF	2//spawnflag that makes trigger_push spawn turned OFF
-#define	SF_TRIGGER_HURT_NO_CLIENTS	8//spawnflag that makes trigger_push spawn turned OFF
-#define SF_TRIGGER_HURT_CLIENTONLYFIRE	16// trigger hurt will only fire its target if it is hurting a client
-#define SF_TRIGGER_HURT_CLIENTONLYTOUCH 32// only clients may touch this trigger.
+#define SF_TRIGGER_HURT_TARGETONCE 1       // Only fire hurt target once
+#define SF_TRIGGER_HURT_START_OFF 2        // spawnflag that makes trigger_push spawn turned OFF
+#define SF_TRIGGER_HURT_NO_CLIENTS 8       // spawnflag that makes trigger_push spawn turned OFF
+#define SF_TRIGGER_HURT_CLIENTONLYFIRE 16  // trigger hurt will only fire its target if it is hurting a client
+#define SF_TRIGGER_HURT_CLIENTONLYTOUCH 32 // only clients may touch this trigger.
 LINK_ENTITY_TO_CLASS( trigger, CBaseTrigger );
 
 /*
@@ -46,40 +44,39 @@ LINK_ENTITY_TO_CLASS( trigger, CBaseTrigger );
 InitTrigger
 ================
 */
-void CBaseTrigger::InitTrigger( )
+void CBaseTrigger::InitTrigger()
 {
 	// trigger angles are used for one-way touches.  An angle of 0 is assumed
 	// to mean no restrictions, so use a yaw of 360 instead.
-	if (pev->angles != g_vecZero)
-		SetMovedir(pev);
-	pev->solid = SOLID_TRIGGER;
+	if ( pev->angles != g_vecZero )
+		SetMovedir( pev );
+	pev->solid    = SOLID_TRIGGER;
 	pev->movetype = MOVETYPE_NONE;
-	SET_MODEL(ENT(pev), STRING(pev->model));    // set size and link into world
-	if ( CVAR_GET_FLOAT("showtriggers") == 0 )
+	SET_MODEL( ENT( pev ), STRING( pev->model ) ); // set size and link into world
+	if ( CVAR_GET_FLOAT( "showtriggers" ) == 0 )
 		SetBits( pev->effects, EF_NODRAW );
 }
-
 
 //
 // Cache user-entity-field values until spawn is called.
 //
 
-void CBaseTrigger :: KeyValue( KeyValueData *pkvd )
+void CBaseTrigger ::KeyValue( KeyValueData *pkvd )
 {
-	if (FStrEq(pkvd->szKeyName, "damage"))
+	if ( FStrEq( pkvd->szKeyName, "damage" ) )
 	{
-		pev->dmg = atof(pkvd->szValue);
+		pev->dmg       = atof( pkvd->szValue );
 		pkvd->fHandled = TRUE;
 	}
-	else if (FStrEq(pkvd->szKeyName, "count"))
+	else if ( FStrEq( pkvd->szKeyName, "count" ) )
 	{
-		m_cTriggersLeft = (int) atof(pkvd->szValue);
-		pkvd->fHandled = TRUE;
+		m_cTriggersLeft = (int)atof( pkvd->szValue );
+		pkvd->fHandled  = TRUE;
 	}
-	else if (FStrEq(pkvd->szKeyName, "damagetype"))
+	else if ( FStrEq( pkvd->szKeyName, "damagetype" ) )
 	{
-		m_bitsDamageInflict = atoi(pkvd->szValue);
-		pkvd->fHandled = TRUE;
+		m_bitsDamageInflict = atoi( pkvd->szValue );
+		pkvd->fHandled      = TRUE;
 	}
 	else
 		CBaseToggle::KeyValue( pkvd );
@@ -90,50 +87,58 @@ void CBaseTrigger::CounterUse( CBaseEntity *pActivator, CBaseEntity *pCaller, US
 	m_cTriggersLeft--;
 	m_hActivator = pActivator;
 
-	if (m_cTriggersLeft < 0)
+	if ( m_cTriggersLeft < 0 )
 		return;
 
 	BOOL fTellActivator =
-		(m_hActivator != 0) &&
-		FClassnameIs(m_hActivator->pev, "player") &&
-		!FBitSet(pev->spawnflags, SPAWNFLAG_NOMESSAGE);
-	if (m_cTriggersLeft != 0)
+	    ( m_hActivator != 0 ) &&
+	    FClassnameIs( m_hActivator->pev, "player" ) &&
+	    !FBitSet( pev->spawnflags, SPAWNFLAG_NOMESSAGE );
+	if ( m_cTriggersLeft != 0 )
 	{
-		if (fTellActivator)
+		if ( fTellActivator )
 		{
 			// UNDONE: I don't think we want these Quakesque messages
-			switch (m_cTriggersLeft)
+			switch ( m_cTriggersLeft )
 			{
-			case 1:		ALERT(at_console, "Only 1 more to go...");		break;
-			case 2:		ALERT(at_console, "Only 2 more to go...");		break;
-			case 3:		ALERT(at_console, "Only 3 more to go...");		break;
-			default:	ALERT(at_console, "There are more to go...");	break;
+			case 1:
+				ALERT( at_console, "Only 1 more to go..." );
+				break;
+			case 2:
+				ALERT( at_console, "Only 2 more to go..." );
+				break;
+			case 3:
+				ALERT( at_console, "Only 3 more to go..." );
+				break;
+			default:
+				ALERT( at_console, "There are more to go..." );
+				break;
 			}
 		}
 		return;
 	}
 
 	// !!!UNDONE: I don't think we want these Quakesque messages
-	if (fTellActivator)
-		ALERT(at_console, "Sequence completed!");
+	if ( fTellActivator )
+		ALERT( at_console, "Sequence completed!" );
 
 	ActivateMultiTrigger( m_hActivator );
 }
 
-void CBaseTrigger :: TeleportTouch( CBaseEntity *pOther )
+void CBaseTrigger ::TeleportTouch( CBaseEntity *pOther )
 {
-	entvars_t* pevToucher = pOther->pev;
-	edict_t	*pentTarget = NULL;
+	entvars_t *pevToucher = pOther->pev;
+	edict_t *pentTarget   = NULL;
 
 	// Only teleport monsters or clients
-	if ( !FBitSet( pevToucher->flags, FL_CLIENT|FL_MONSTER ) )
+	if ( !FBitSet( pevToucher->flags, FL_CLIENT | FL_MONSTER ) )
 		return;
 
-	if (!UTIL_IsMasterTriggered(m_sMaster, pOther))
+	if ( !UTIL_IsMasterTriggered( m_sMaster, pOther ) )
 		return;
 
 	if ( !( pev->spawnflags & SF_TRIGGER_ALLOWMONSTERS ) )
-	{// no monsters allowed!
+	{ // no monsters allowed!
 		if ( FBitSet( pevToucher->flags, FL_MONSTER ) )
 		{
 			return;
@@ -141,22 +146,22 @@ void CBaseTrigger :: TeleportTouch( CBaseEntity *pOther )
 	}
 
 	if ( ( pev->spawnflags & SF_TRIGGER_NOCLIENTS ) )
-	{// no clients allowed
+	{ // no clients allowed
 		if ( pOther->IsPlayer() )
 		{
 			return;
 		}
 	}
 
-	pentTarget = FIND_ENTITY_BY_TARGETNAME( pentTarget, STRING(pev->target) );
-	if (FNullEnt(pentTarget))
-	   return;
+	pentTarget = FIND_ENTITY_BY_TARGETNAME( pentTarget, STRING( pev->target ) );
+	if ( FNullEnt( pentTarget ) )
+		return;
 
 	Vector tmp = VARS( pentTarget )->origin;
 
 	if ( pOther->IsPlayer() )
 	{
-		tmp.z -= pOther->pev->mins.z;// make origin adjustments in case the teleportee is a player. (origin in center, not at feet)
+		tmp.z -= pOther->pev->mins.z; // make origin adjustments in case the teleportee is a player. (origin in center, not at feet)
 	}
 
 	tmp.z++;
@@ -176,16 +181,16 @@ void CBaseTrigger :: TeleportTouch( CBaseEntity *pOther )
 	pevToucher->velocity = pevToucher->basevelocity = g_vecZero;
 }
 
-void CBaseTrigger :: MultiTouch( CBaseEntity *pOther )
+void CBaseTrigger ::MultiTouch( CBaseEntity *pOther )
 {
-	entvars_t	*pevToucher;
+	entvars_t *pevToucher;
 
 	pevToucher = pOther->pev;
 
 	// Only touch clients, monsters, or pushables (depending on flags)
-	if ( ((pevToucher->flags & FL_CLIENT) && !(pev->spawnflags & SF_TRIGGER_NOCLIENTS)) ||
-		 ((pevToucher->flags & FL_MONSTER) && (pev->spawnflags & SF_TRIGGER_ALLOWMONSTERS)) ||
-		 (pev->spawnflags & SF_TRIGGER_PUSHABLES) && FClassnameIs(pevToucher,"func_pushable") )
+	if ( ( ( pevToucher->flags & FL_CLIENT ) && !( pev->spawnflags & SF_TRIGGER_NOCLIENTS ) ) ||
+	     ( ( pevToucher->flags & FL_MONSTER ) && ( pev->spawnflags & SF_TRIGGER_ALLOWMONSTERS ) ) ||
+	     ( pev->spawnflags & SF_TRIGGER_PUSHABLES ) && FClassnameIs( pevToucher, "func_pushable" ) )
 	{
 
 #if 0
@@ -202,37 +207,37 @@ void CBaseTrigger :: MultiTouch( CBaseEntity *pOther )
 	}
 }
 
-void CBaseTrigger :: ActivateMultiTrigger( CBaseEntity *pActivator )
+void CBaseTrigger ::ActivateMultiTrigger( CBaseEntity *pActivator )
 {
-	if (pev->nextthink > gpGlobals->time)
-		return;         // still waiting for reset time
+	if ( pev->nextthink > gpGlobals->time )
+		return; // still waiting for reset time
 
-	if (!UTIL_IsMasterTriggered(m_sMaster,pActivator))
+	if ( !UTIL_IsMasterTriggered( m_sMaster, pActivator ) )
 		return;
 
-	if (FClassnameIs(pev, "trigger_secret"))
+	if ( FClassnameIs( pev, "trigger_secret" ) )
 	{
-		if ( pev->enemy == NULL || !FClassnameIs(pev->enemy, "player"))
+		if ( pev->enemy == NULL || !FClassnameIs( pev->enemy, "player" ) )
 			return;
 		gpGlobals->found_secrets++;
 	}
 
-	if (!FStringNull(pev->noise))
-		EMIT_SOUND(ENT(pev), CHAN_VOICE, (char*)STRING(pev->noise), 1, ATTN_NORM);
+	if ( !FStringNull( pev->noise ) )
+		EMIT_SOUND( ENT( pev ), CHAN_VOICE, (char *)STRING( pev->noise ), 1, ATTN_NORM );
 
-// don't trigger again until reset
-// pev->takedamage = DAMAGE_NO;
+	// don't trigger again until reset
+	// pev->takedamage = DAMAGE_NO;
 
 	m_hActivator = pActivator;
 	SUB_UseTargets( m_hActivator, USE_TOGGLE, 0 );
 
 	if ( pev->message && pActivator->IsPlayer() )
 	{
-		UTIL_ShowMessage( STRING(pev->message), pActivator );
-//		CLIENT_PRINTF( ENT( pActivator->pev ), print_center, STRING(pev->message) );
+		UTIL_ShowMessage( STRING( pev->message ), pActivator );
+		//		CLIENT_PRINTF( ENT( pActivator->pev ), print_center, STRING(pev->message) );
 	}
 
-	if (m_flWait > 0)
+	if ( m_flWait > 0 )
 	{
 		SetThink( &CBaseTrigger::MultiWaitOver );
 		pev->nextthink = gpGlobals->time + m_flWait;
@@ -243,51 +248,51 @@ void CBaseTrigger :: ActivateMultiTrigger( CBaseEntity *pActivator )
 		// called while C code is looping through area links...
 		SetTouch( NULL );
 		pev->nextthink = gpGlobals->time + 0.1;
-		SetThink(  &CBaseTrigger::SUB_Remove );
+		SetThink( &CBaseTrigger::SUB_Remove );
 	}
 }
 
-void CBaseTrigger :: MultiWaitOver( void )
+void CBaseTrigger ::MultiWaitOver( void )
 {
-//	if (pev->max_health)
-//		{
-//		pev->health		= pev->max_health;
-//		pev->takedamage	= DAMAGE_YES;
-//		pev->solid		= SOLID_BBOX;
-//		}
+	//	if (pev->max_health)
+	//		{
+	//		pev->health		= pev->max_health;
+	//		pev->takedamage	= DAMAGE_YES;
+	//		pev->solid		= SOLID_BBOX;
+	//		}
 	SetThink( NULL );
 }
 
-void CBaseTrigger :: ToggleUse ( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
+void CBaseTrigger ::ToggleUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	if (pev->solid == SOLID_NOT)
-	{// if the trigger is off, turn it on
+	if ( pev->solid == SOLID_NOT )
+	{ // if the trigger is off, turn it on
 		pev->solid = SOLID_TRIGGER;
 
 		// Force retouch
 		gpGlobals->force_retouch++;
 	}
 	else
-	{// turn the trigger off
+	{ // turn the trigger off
 		pev->solid = SOLID_NOT;
 	}
 	UTIL_SetOrigin( pev, pev->origin );
 }
 
-void CBaseTrigger :: HurtTouch ( CBaseEntity *pOther )
+void CBaseTrigger ::HurtTouch( CBaseEntity *pOther )
 {
 	float fldmg;
 
 	if ( !pOther->pev->takedamage )
 		return;
 
-	if ( (pev->spawnflags & SF_TRIGGER_HURT_CLIENTONLYTOUCH) && !pOther->IsPlayer() )
+	if ( ( pev->spawnflags & SF_TRIGGER_HURT_CLIENTONLYTOUCH ) && !pOther->IsPlayer() )
 	{
 		// this trigger is only allowed to touch clients, and this ain't a client.
 		return;
 	}
 
-	if ( (pev->spawnflags & SF_TRIGGER_HURT_NO_CLIENTS) && pOther->IsPlayer() )
+	if ( ( pev->spawnflags & SF_TRIGGER_HURT_NO_CLIENTS ) && pOther->IsPlayer() )
 		return;
 
 	// HACKHACK -- In multiplayer, players touch this based on packet receipt.
@@ -298,10 +303,10 @@ void CBaseTrigger :: HurtTouch ( CBaseEntity *pOther )
 		if ( pev->dmgtime > gpGlobals->time )
 		{
 			if ( gpGlobals->time != pev->pain_finished )
-			{// too early to hurt again, and not same frame with a different entity
+			{ // too early to hurt again, and not same frame with a different entity
 				if ( pOther->IsPlayer() )
 				{
-					int playerMask = 1 << (pOther->entindex() - 1);
+					int playerMask = 1 << ( pOther->entindex() - 1 );
 
 					// If I've already touched this player (this time), then bail out
 					if ( pev->impulse & playerMask )
@@ -323,7 +328,7 @@ void CBaseTrigger :: HurtTouch ( CBaseEntity *pOther )
 			pev->impulse = 0;
 			if ( pOther->IsPlayer() )
 			{
-				int playerMask = 1 << (pOther->entindex() - 1);
+				int playerMask = 1 << ( pOther->entindex() - 1 );
 
 				// Mark this player as touched
 				// BUGBUG - There can be only 32 players!
@@ -331,22 +336,20 @@ void CBaseTrigger :: HurtTouch ( CBaseEntity *pOther )
 			}
 		}
 	}
-	else	// Original code -- single player
+	else // Original code -- single player
 	{
 		if ( pev->dmgtime > gpGlobals->time && gpGlobals->time != pev->pain_finished )
-		{// too early to hurt again, and not same frame with a different entity
+		{ // too early to hurt again, and not same frame with a different entity
 			return;
 		}
 	}
-
 
 	// If this is time_based damage (poison, radiation), override the pev->dmg with a
 	// default for the given damage type.  Monsters only take time-based damage
 	// while touching the trigger.  Player continues taking damage for a while after
 	// leaving the trigger
 
-	fldmg = pev->dmg * 0.5;	// 0.5 seconds worth of damage, pev->dmg is damage/second
-
+	fldmg = pev->dmg * 0.5; // 0.5 seconds worth of damage, pev->dmg is damage/second
 
 	// JAY: Cut this because it wasn't fully realized.  Damage is simpler now.
 #if 0
@@ -384,8 +387,7 @@ void CBaseTrigger :: HurtTouch ( CBaseEntity *pOther )
 	pev->pain_finished = gpGlobals->time;
 
 	// Apply damage every half second
-	pev->dmgtime = gpGlobals->time + 0.5;// half second delay until this trigger can hurt toucher again
-
+	pev->dmgtime = gpGlobals->time + 0.5; // half second delay until this trigger can hurt toucher again
 
 	if ( pev->target )
 	{

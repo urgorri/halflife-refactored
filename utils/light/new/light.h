@@ -4,51 +4,50 @@
 #include "bspfile.h"
 #include "threads.h"
 
-
-#define DEFAULTLIGHTLEVEL	300
+#define DEFAULTLIGHTLEVEL 300
 
 typedef struct entity_s
 {
-	char	classname[64];
-	vec3_t	origin;
-	float	angle;
-	int		light;
-	int		style;
-	qboolean	targetent;
-	vec3_t	targetorigin;
+	char classname[64];
+	vec3_t origin;
+	float angle;
+	int light;
+	int style;
+	qboolean targetent;
+	vec3_t targetorigin;
 } lightentity_t;
 
-extern	lightentity_t	lightentities[MAX_MAP_ENTITIES];
-extern	int		numlightentities;
+extern lightentity_t lightentities[MAX_MAP_ENTITIES];
+extern int numlightentities;
 
-#define	ON_EPSILON	0.1
+#define ON_EPSILON 0.1
 
-#define	MAXLIGHTS			1024
+#define MAXLIGHTS 1024
 
-void LoadNodes (char *file);
-qboolean TestLine (vec3_t start, vec3_t stop);
+void LoadNodes( char *file );
+qboolean TestLine( vec3_t start, vec3_t stop );
 
-void LightFace (int surfnum);
-void LightLeaf (dleaf_t *leaf);
+void LightFace( int surfnum );
+void LightLeaf( dleaf_t *leaf );
 
-void MakeTnodes (dmodel_t *bm);
+void MakeTnodes( dmodel_t *bm );
 
-extern	float		scaledist;
-extern	float		scalecos;
-extern	float		rangescale;
+extern float scaledist;
+extern float scalecos;
+extern float rangescale;
 
-extern	int		c_culldistplane, c_proper;
+extern int c_culldistplane, c_proper;
 
-byte *GetFileSpace (int size);
-extern	byte		*filebase;
+byte *GetFileSpace( int size );
+extern byte *filebase;
 
-extern	vec3_t	bsp_origin;
-extern	vec3_t	bsp_xvector;
-extern	vec3_t	bsp_yvector;
+extern vec3_t bsp_origin;
+extern vec3_t bsp_xvector;
+extern vec3_t bsp_yvector;
 
-void TransformSample (vec3_t in, vec3_t out);
-void RotateSample (vec3_t in, vec3_t out);
+void TransformSample( vec3_t in, vec3_t out );
+void RotateSample( vec3_t in, vec3_t out );
 
-extern	qboolean	extrasamples;
+extern qboolean extrasamples;
 
-extern	float		minlights[MAX_MAP_FACES];
+extern float minlights[MAX_MAP_FACES];

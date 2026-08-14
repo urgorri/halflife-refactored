@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -8,8 +8,7 @@
 #ifndef VGUI_SCHEME_H
 #define VGUI_SCHEME_H
 
-#include<VGUI.h>
-
+#include <VGUI.h>
 
 namespace vgui
 {
@@ -19,10 +18,10 @@ class Cursor;
 
 class VGUIAPI Scheme
 {
-public:
+  public:
 	enum SchemeColor
 	{
-		sc_user=0,
+		sc_user = 0,
 		sc_black,
 		sc_white,
 		sc_primary1,
@@ -35,7 +34,7 @@ public:
 	};
 	enum SchemeFont
 	{
-		sf_user=0,
+		sf_user = 0,
 		sf_primary1,
 		sf_primary2,
 		sf_primary3,
@@ -44,7 +43,7 @@ public:
 	};
 	enum SchemeCursor
 	{
-		scu_user=0,
+		scu_user = 0,
 		scu_none,
 		scu_arrow,
 		scu_ibeam,
@@ -60,23 +59,26 @@ public:
 		scu_hand,
 		scu_last,
 	};
-public:
+
+  public:
 	Scheme();
-public:
-	virtual void    setColor(SchemeColor sc,int r,int g,int b,int a);
-	virtual void    getColor(SchemeColor sc,int& r,int& g,int& b,int& a);
-	virtual void    setFont(SchemeFont sf,Font* font);
-	virtual Font*   getFont(SchemeFont sf);
-	virtual void    setCursor(SchemeCursor sc,Cursor* cursor);
-	virtual Cursor* getCursor(SchemeCursor sc);
-protected:
-	int     _color[sc_last][4];
-    Font*   _font[sf_last];
-	Cursor* _cursor[scu_last];
-    friend class Panel;
-    friend class Canvas;
+
+  public:
+	virtual void setColor( SchemeColor sc, int r, int g, int b, int a );
+	virtual void getColor( SchemeColor sc, int &r, int &g, int &b, int &a );
+	virtual void setFont( SchemeFont sf, Font *font );
+	virtual Font *getFont( SchemeFont sf );
+	virtual void setCursor( SchemeCursor sc, Cursor *cursor );
+	virtual Cursor *getCursor( SchemeCursor sc );
+
+  protected:
+	int _color[sc_last][4];
+	Font *_font[sf_last];
+	Cursor *_cursor[scu_last];
+	friend class Panel;
+	friend class Canvas;
 };
 
-}
+} // namespace vgui
 
 #endif

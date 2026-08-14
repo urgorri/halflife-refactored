@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== trigger_auto.cpp ========================================================
@@ -25,50 +25,49 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "core/saverestore.h"
-#include "trains.h"			// trigger_camera has train functionality
+#include "trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
 
-
-#define SF_AUTO_FIREONCE		0x0001
+#define SF_AUTO_FIREONCE 0x0001
 class CAutoTrigger : public CBaseDelay
 {
-public:
+  public:
 	void KeyValue( KeyValueData *pkvd );
 	void Spawn( void );
 	void Precache( void );
 	void Think( void );
 
 	int ObjectCaps( void ) { return CBaseDelay::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
-	virtual int		Save( CSave &save );
-	virtual int		Restore( CRestore &restore );
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
 
-	static	TYPEDESCRIPTION m_SaveData[];
+	static TYPEDESCRIPTION m_SaveData[];
 
-private:
-	int			m_globalstate;
-	USE_TYPE	triggerType;
+  private:
+	int m_globalstate;
+	USE_TYPE triggerType;
 };
 LINK_ENTITY_TO_CLASS( trigger_auto, CAutoTrigger );
 
-TYPEDESCRIPTION	CAutoTrigger::m_SaveData[] =
-{
-	DEFINE_FIELD( CAutoTrigger, m_globalstate, FIELD_STRING ),
-	DEFINE_FIELD( CAutoTrigger, triggerType, FIELD_INTEGER ),
+TYPEDESCRIPTION CAutoTrigger::m_SaveData[] =
+    {
+        DEFINE_FIELD( CAutoTrigger, m_globalstate, FIELD_STRING ),
+        DEFINE_FIELD( CAutoTrigger, triggerType, FIELD_INTEGER ),
 };
 
-IMPLEMENT_SAVERESTORE(CAutoTrigger,CBaseDelay);
+IMPLEMENT_SAVERESTORE( CAutoTrigger, CBaseDelay );
 
 void CAutoTrigger::KeyValue( KeyValueData *pkvd )
 {
-	if (FStrEq(pkvd->szKeyName, "globalstate"))
+	if ( FStrEq( pkvd->szKeyName, "globalstate" ) )
 	{
-		m_globalstate = ALLOC_STRING( pkvd->szValue );
+		m_globalstate  = ALLOC_STRING( pkvd->szValue );
 		pkvd->fHandled = TRUE;
 	}
-	else if (FStrEq(pkvd->szKeyName, "triggerstate"))
+	else if ( FStrEq( pkvd->szKeyName, "triggerstate" ) )
 	{
 		int type = atoi( pkvd->szValue );
-		switch( type )
+		switch ( type )
 		{
 		case 0:
 			triggerType = USE_OFF;
@@ -86,18 +85,15 @@ void CAutoTrigger::KeyValue( KeyValueData *pkvd )
 		CBaseDelay::KeyValue( pkvd );
 }
 
-
 void CAutoTrigger::Spawn( void )
 {
 	Precache();
 }
 
-
 void CAutoTrigger::Precache( void )
 {
 	pev->nextthink = gpGlobals->time + 0.1;
 }
-
 
 void CAutoTrigger::Think( void )
 {

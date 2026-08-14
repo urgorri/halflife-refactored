@@ -1,13 +1,13 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
 
 // Author: Michael S. Booth (mike@turtlerockstudios.com), 2003
 
-#pragma warning( disable : 4530 )					// STL uses exceptions, but we are not compiling with them - ignore warning
+#pragma warning( disable : 4530 ) // STL uses exceptions, but we are not compiling with them - ignore warning
 
 #define DEFINE_EVENT_NAMES
 
@@ -29,27 +29,24 @@
 
 #include "tutor.h"
 
-const float smokeRadius = 115.0f;		///< for smoke grenades
+const float smokeRadius = 115.0f; ///< for smoke grenades
 
-
-//#define CHECK_PERFORMANCE
+// #define CHECK_PERFORMANCE
 #ifdef CHECK_PERFORMANCE
-	// crude performance timing
-	static CPerformanceCounter perfCounter;
+                                  // crude performance timing
+static CPerformanceCounter perfCounter;
 
-	struct PerfInfo
-	{
-		float frameTime;
-		float botThinkTime;
-	};
+struct PerfInfo
+{
+	float frameTime;
+	float botThinkTime;
+};
 
-	#define MAX_PERF_DATA 50000
-	static PerfInfo perfData[ MAX_PERF_DATA ];
-	static int perfDataCount = 0;
-	static int perfFileIndex = 0;
+#define MAX_PERF_DATA 50000
+static PerfInfo perfData[MAX_PERF_DATA];
+static int perfDataCount = 0;
+static int perfFileIndex = 0;
 #endif
-
-
 
 /**
  * Convert name to GameEventType
@@ -57,13 +54,12 @@ const float smokeRadius = 115.0f;		///< for smoke grenades
  */
 GameEventType NameToGameEvent( const char *name )
 {
-	for( int i=0; GameEventName[i]; ++i )
-		if (!stricmp( GameEventName[i], name ))
-			return static_cast<GameEventType>( i );
+	for ( int i = 0; GameEventName[i]; ++i )
+		if ( !stricmp( GameEventName[i], name ) )
+			return static_cast< GameEventType >( i );
 
 	return EVENT_INVALID;
 }
-
 
 //--------------------------------------------------------------------------------------------------------------
 CBotManager::CBotManager()
@@ -83,14 +79,14 @@ void CBotManager::RestartRound( void )
 	sprintf( filename, "perfdata%02X.txt", perfFileIndex++ );
 	FILE *fp = fopen( filename, "w" );
 
-	if (fp)
+	if ( fp )
 	{
-		for( int p=0; p<perfDataCount; ++p )
+		for ( int p = 0; p < perfDataCount; ++p )
 			fprintf( fp, "%f\t%f\n", perfData[p].frameTime, perfData[p].botThinkTime );
 
 		fclose( fp );
 	}
-		
+
 	perfDataCount = 0;
 #endif
 
@@ -104,17 +100,17 @@ void CBotManager::RestartRound( void )
 void CBotManager::StartFrame( void )
 {
 	// debug smoke grenade visualization
-	if (cv_bot_debug.value == 5)
+	if ( cv_bot_debug.value == 5 )
 	{
 		Vector edge, lastEdge;
 
 		ActiveGrenadeList::iterator iter = m_activeGrenadeList.begin();
-		while( iter != m_activeGrenadeList.end() )
+		while ( iter != m_activeGrenadeList.end() )
 		{
 			ActiveGrenade *ag = *iter;
 
 			// lazy validation
-			if (!ag->IsValid())
+			if ( !ag->IsValid() )
 			{
 				delete ag;
 				iter = m_activeGrenadeList.erase( iter );
@@ -131,7 +127,7 @@ void CBotManager::StartFrame( void )
 
 			lastEdge = Vector( smokeRadius + pos->x, pos->y, pos->z );
 			float angle;
-			for( angle=0.0f; angle <= 180.0f; angle += 22.5f )
+			for ( angle = 0.0f; angle <= 180.0f; angle += 22.5f )
 			{
 				edge.x = smokeRadius * BotCOS( angle ) + pos->x;
 				edge.y = pos->y;
@@ -143,7 +139,7 @@ void CBotManager::StartFrame( void )
 			}
 
 			lastEdge = Vector( pos->x, smokeRadius + pos->y, pos->z );
-			for( angle=0.0f; angle <= 180.0f; angle += 22.5f )
+			for ( angle = 0.0f; angle <= 180.0f; angle += 22.5f )
 			{
 				edge.x = pos->x;
 				edge.y = smokeRadius * BotCOS( angle ) + pos->y;
@@ -156,40 +152,39 @@ void CBotManager::StartFrame( void )
 		}
 	}
 
-
 	//
 	// Process each active bot
 	//
 
 #ifdef CHECK_PERFORMANCE
 	static double lastTime = 0.0f;
-	double startTime = perfCounter.GetCurTime();
+	double startTime       = perfCounter.GetCurTime();
 #endif
 
-	for( int i = 1; i <= gpGlobals->maxClients; ++i )
+	for ( int i = 1; i <= gpGlobals->maxClients; ++i )
 	{
 		CBasePlayer *pPlayer = (CBasePlayer *)UTIL_PlayerByIndex( i );
 
-		if (!pPlayer)
+		if ( !pPlayer )
 			continue;
 
-		if (pPlayer->IsBot() && IsEntityValid( pPlayer ))
+		if ( pPlayer->IsBot() && IsEntityValid( pPlayer ) )
 		{
-			CBot *pBot = static_cast<CBot *>( pPlayer );
+			CBot *pBot = static_cast< CBot * >( pPlayer );
 
 			pBot->BotThink();
 		}
 	}
 
 #ifdef CHECK_PERFORMANCE
-	if (perfDataCount < MAX_PERF_DATA)
+	if ( perfDataCount < MAX_PERF_DATA )
 	{
-		if (lastTime > 0.0f)
+		if ( lastTime > 0.0f )
 		{
 			double endTime = perfCounter.GetCurTime();
 
-			perfData[ perfDataCount ].frameTime = (float)(startTime - lastTime);
-			perfData[ perfDataCount ].botThinkTime = (float)(endTime - startTime);
+			perfData[perfDataCount].frameTime    = (float)( startTime - lastTime );
+			perfData[perfDataCount].botThinkTime = (float)( endTime - startTime );
 			++perfDataCount;
 		}
 
@@ -219,34 +214,34 @@ const char *CBotManager::GetNavMapFilename( void ) const
 void CBotManager::OnEvent( GameEventType event, CBaseEntity *entity, CBaseEntity *other )
 {
 	// propogate event to all bots
-	for ( int i=1; i <= gpGlobals->maxClients; ++i )
+	for ( int i = 1; i <= gpGlobals->maxClients; ++i )
 	{
-		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
+		CBasePlayer *player = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if ( player == NULL )
 			continue;
 
-		if (FNullEnt( player->pev ))
+		if ( FNullEnt( player->pev ) )
 			continue;
 
-		if (FStrEq( STRING( player->pev->netname ), "" ))
+		if ( FStrEq( STRING( player->pev->netname ), "" ) )
 			continue;
 
-		if (!player->IsBot())
+		if ( !player->IsBot() )
 			continue;
 
 		// do not send self-generated event
-		if (entity == player)
+		if ( entity == player )
 			continue;
 
-		CBot *bot = static_cast<CBot *>( player );
+		CBot *bot = static_cast< CBot * >( player );
 		bot->OnEvent( event, entity, other );
 	}
 
-	if (TheTutor)
+	if ( TheTutor )
 		TheTutor->OnEvent( event, entity, other );
 
-	if (g_pHostages)
+	if ( g_pHostages )
 		g_pHostages->OnEvent( event, entity, other );
 }
 
@@ -266,11 +261,11 @@ void CBotManager::AddGrenade( int type, CGrenade *grenade )
  */
 void CBotManager::RemoveGrenade( CGrenade *grenade )
 {
-	for( ActiveGrenadeList::iterator iter = m_activeGrenadeList.begin(); iter != m_activeGrenadeList.end(); ++iter )
+	for ( ActiveGrenadeList::iterator iter = m_activeGrenadeList.begin(); iter != m_activeGrenadeList.end(); ++iter )
 	{
 		ActiveGrenade *ag = *iter;
 
-		if (ag->IsEntity( grenade ))
+		if ( ag->IsEntity( grenade ) )
 		{
 			ag->OnEntityGone();
 			return;
@@ -285,11 +280,11 @@ void CBotManager::RemoveGrenade( CGrenade *grenade )
 void CBotManager::ValidateActiveGrenades( void )
 {
 	ActiveGrenadeList::iterator iter = m_activeGrenadeList.begin();
-	while( iter != m_activeGrenadeList.end() )
+	while ( iter != m_activeGrenadeList.end() )
 	{
 		ActiveGrenade *ag = *iter;
 
-		if (!ag->IsValid())
+		if ( !ag->IsValid() )
 		{
 			delete ag;
 			iter = m_activeGrenadeList.erase( iter );
@@ -304,7 +299,7 @@ void CBotManager::ValidateActiveGrenades( void )
 //--------------------------------------------------------------------------------------------------------------
 void CBotManager::DestroyAllGrenades( void )
 {
-	for( ActiveGrenadeList::iterator iter = m_activeGrenadeList.begin(); iter != m_activeGrenadeList.end(); ++iter )
+	for ( ActiveGrenadeList::iterator iter = m_activeGrenadeList.begin(); iter != m_activeGrenadeList.end(); ++iter )
 		delete *iter;
 
 	m_activeGrenadeList.clear();
@@ -317,12 +312,12 @@ void CBotManager::DestroyAllGrenades( void )
 bool CBotManager::IsInsideSmokeCloud( const Vector *pos )
 {
 	ActiveGrenadeList::iterator iter = m_activeGrenadeList.begin();
-	while( iter != m_activeGrenadeList.end() )
+	while ( iter != m_activeGrenadeList.end() )
 	{
 		ActiveGrenade *ag = *iter;
 
 		// lazy validation
-		if (!ag->IsValid())
+		if ( !ag->IsValid() )
 		{
 			delete ag;
 			iter = m_activeGrenadeList.erase( iter );
@@ -333,12 +328,12 @@ bool CBotManager::IsInsideSmokeCloud( const Vector *pos )
 			++iter;
 		}
 
-		if (ag->GetID() == WEAPON_SMOKEGRENADE)
+		if ( ag->GetID() == WEAPON_SMOKEGRENADE )
 		{
 			const Vector *smokeOrigin = ag->GetDetonationPosition();
 
-			if ((*smokeOrigin - *pos).IsLengthLessThan( smokeRadius ))
-				return true;			
+			if ( ( *smokeOrigin - *pos ).IsLengthLessThan( smokeRadius ) )
+				return true;
 		}
 	}
 
@@ -348,27 +343,26 @@ bool CBotManager::IsInsideSmokeCloud( const Vector *pos )
 //--------------------------------------------------------------------------------------------------------------
 /**
  * Return true if line intersects smoke volume
- * Determine the length of the line of sight covered by each smoke cloud, 
+ * Determine the length of the line of sight covered by each smoke cloud,
  * and sum them (overlap is additive for obstruction).
  * If the overlap exceeds the threshold, the bot can't see through.
  */
 bool CBotManager::IsLineBlockedBySmoke( const Vector *from, const Vector *to )
 {
 	const float smokeRadiusSq = smokeRadius * smokeRadius;
-	float totalSmokedLength = 0.0f;	// distance along line of sight covered by smoke
+	float totalSmokedLength   = 0.0f; // distance along line of sight covered by smoke
 
 	// compute unit vector and length of line of sight segment
-	Vector sightDir = *to - *from;
+	Vector sightDir   = *to - *from;
 	float sightLength = sightDir.NormalizeInPlace();
 
-
 	ActiveGrenadeList::iterator iter = m_activeGrenadeList.begin();
-	while( iter != m_activeGrenadeList.end() )
+	while ( iter != m_activeGrenadeList.end() )
 	{
 		ActiveGrenade *ag = *iter;
 
 		// lazy validation
-		if (!ag->IsValid())
+		if ( !ag->IsValid() )
 		{
 			delete ag;
 			iter = m_activeGrenadeList.erase( iter );
@@ -379,7 +373,7 @@ bool CBotManager::IsLineBlockedBySmoke( const Vector *from, const Vector *to )
 			++iter;
 		}
 
-		if (ag->GetID() == WEAPON_SMOKEGRENADE)
+		if ( ag->GetID() == WEAPON_SMOKEGRENADE )
 		{
 			const Vector *smokeOrigin = ag->GetDetonationPosition();
 
@@ -391,9 +385,9 @@ bool CBotManager::IsLineBlockedBySmoke( const Vector *from, const Vector *to )
 			Vector close;
 
 			// constrain closest point to line segment
-			if (alongDist < 0.0f)
+			if ( alongDist < 0.0f )
 				close = *from;
-			else if (alongDist >= sightLength)
+			else if ( alongDist >= sightLength )
 				close = *to;
 			else
 				close = *from + sightDir * alongDist;
@@ -402,20 +396,20 @@ bool CBotManager::IsLineBlockedBySmoke( const Vector *from, const Vector *to )
 			Vector toClose = close - *smokeOrigin;
 			float lengthSq = toClose.LengthSquared();
 
-			if (lengthSq < smokeRadiusSq)
+			if ( lengthSq < smokeRadiusSq )
 			{
 				// some portion of the ray intersects the cloud
 
 				float fromSq = toGrenade.LengthSquared();
-				float toSq = (*smokeOrigin - *to).LengthSquared();
+				float toSq   = ( *smokeOrigin - *to ).LengthSquared();
 
-				if (fromSq < smokeRadiusSq)
+				if ( fromSq < smokeRadiusSq )
 				{
-					if (toSq < smokeRadiusSq)
+					if ( toSq < smokeRadiusSq )
 					{
 						// both 'from' and 'to' lie within the cloud
 						// entire length is smoked
-						totalSmokedLength += (*to - *from).Length();
+						totalSmokedLength += ( *to - *from ).Length();
 					}
 					else
 					{
@@ -423,39 +417,38 @@ bool CBotManager::IsLineBlockedBySmoke( const Vector *from, const Vector *to )
 						// compute half of total smoked length as if ray crosses entire cloud chord
 						float halfSmokedLength = sqrt( smokeRadiusSq - lengthSq );
 
-						if (alongDist > 0.0f)
+						if ( alongDist > 0.0f )
 						{
 							// ray goes thru 'close'
-							totalSmokedLength += halfSmokedLength + (close - *from).Length();						
+							totalSmokedLength += halfSmokedLength + ( close - *from ).Length();
 						}
 						else
 						{
 							// ray starts after 'close'
-							totalSmokedLength += halfSmokedLength - (close - *from).Length();						
+							totalSmokedLength += halfSmokedLength - ( close - *from ).Length();
 						}
-
 					}
 				}
-				else if (toSq < smokeRadiusSq)
+				else if ( toSq < smokeRadiusSq )
 				{
 					// 'from' is outside the cloud, 'to' is inside
 					// compute half of total smoked length as if ray crosses entire cloud chord
 					float halfSmokedLength = sqrt( smokeRadiusSq - lengthSq );
 
 					Vector v = *to - *smokeOrigin;
-					if (DotProduct( v, sightDir ) > 0.0f)
+					if ( DotProduct( v, sightDir ) > 0.0f )
 					{
 						// ray goes thru 'close'
-						totalSmokedLength += halfSmokedLength + (close - *to).Length();					
+						totalSmokedLength += halfSmokedLength + ( close - *to ).Length();
 					}
 					else
 					{
 						// ray ends before 'close'
-						totalSmokedLength += halfSmokedLength - (close - *to).Length();
+						totalSmokedLength += halfSmokedLength - ( close - *to ).Length();
 					}
 				}
 				else
-				{			
+				{
 					// 'from' and 'to' lie outside of the cloud - the line of sight completely crosses it
 					// determine the length of the chord that crosses the cloud
 					float smokedLength = 2.0f * sqrt( smokeRadiusSq - lengthSq );
@@ -470,5 +463,5 @@ bool CBotManager::IsLineBlockedBySmoke( const Vector *from, const Vector *to )
 	const float maxSmokedLength = 0.7f * smokeRadius;
 
 	// return true if the total length of smoke-covered line-of-sight is too much
-	return (totalSmokedLength > maxSmokedLength);
+	return ( totalSmokedLength > maxSmokedLength );
 }

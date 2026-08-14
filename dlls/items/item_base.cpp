@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 /*
 
 ===== items.cpp ========================================================
@@ -33,19 +33,19 @@ extern int gmsgItemPickup;
 
 class CWorldItem : public CBaseEntity
 {
-public:
-	void	KeyValue(KeyValueData *pkvd ); 
-	void	Spawn( void );
-	int		m_iType;
+  public:
+	void KeyValue( KeyValueData *pkvd );
+	void Spawn( void );
+	int m_iType;
 };
 
-LINK_ENTITY_TO_CLASS(world_items, CWorldItem);
+LINK_ENTITY_TO_CLASS( world_items, CWorldItem );
 
-void CWorldItem::KeyValue(KeyValueData *pkvd)
+void CWorldItem::KeyValue( KeyValueData *pkvd )
 {
-	if (FStrEq(pkvd->szKeyName, "type"))
+	if ( FStrEq( pkvd->szKeyName, "type" ) )
 	{
-		m_iType = atoi(pkvd->szValue);
+		m_iType        = atoi( pkvd->szValue );
 		pkvd->fHandled = TRUE;
 	}
 	else
@@ -56,7 +56,7 @@ void CWorldItem::Spawn( void )
 {
 	CBaseEntity *pEntity = NULL;
 
-	switch (m_iType) 
+	switch ( m_iType )
 	{
 	case 44: // ITEM_BATTERY:
 		pEntity = CBaseEntity::Create( "item_battery", pev->origin, pev->angles );
@@ -72,32 +72,31 @@ void CWorldItem::Spawn( void )
 		break;
 	}
 
-	if (!pEntity)
+	if ( !pEntity )
 	{
 		ALERT( at_console, "unable to create world_item %d\n", m_iType );
 	}
 	else
 	{
-		pEntity->pev->target = pev->target;
+		pEntity->pev->target     = pev->target;
 		pEntity->pev->targetname = pev->targetname;
 		pEntity->pev->spawnflags = pev->spawnflags;
 	}
 
-	REMOVE_ENTITY(edict());
+	REMOVE_ENTITY( edict() );
 }
-
 
 void CItem::Spawn( void )
 {
 	pev->movetype = MOVETYPE_TOSS;
-	pev->solid = SOLID_TRIGGER;
+	pev->solid    = SOLID_TRIGGER;
 	UTIL_SetOrigin( pev, pev->origin );
-	UTIL_SetSize(pev, Vector(-16, -16, 0), Vector(16, 16, 16));
-	SetTouch(&CItem::ItemTouch);
+	UTIL_SetSize( pev, Vector( -16, -16, 0 ), Vector( 16, 16, 16 ) );
+	SetTouch( &CItem::ItemTouch );
 
-	if (DROP_TO_FLOOR(ENT(pev)) == 0)
+	if ( DROP_TO_FLOOR( ENT( pev ) ) == 0 )
 	{
-		ALERT(at_error, "Item %s fell out of level at %f,%f,%f", STRING( pev->classname ), pev->origin.x, pev->origin.y, pev->origin.z);
+		ALERT( at_error, "Item %s fell out of level at %f,%f,%f", STRING( pev->classname ), pev->origin.x, pev->origin.y, pev->origin.z );
 		UTIL_Remove( this );
 		return;
 	}
@@ -122,37 +121,37 @@ void CItem::ItemTouch( CBaseEntity *pOther )
 		return;
 	}
 
-	if (MyTouch( pPlayer ))
+	if ( MyTouch( pPlayer ) )
 	{
 		SUB_UseTargets( pOther, USE_TOGGLE, 0 );
 		SetTouch( NULL );
-		
-		// player grabbed the item. 
+
+		// player grabbed the item.
 		g_pGameRules->PlayerGotItem( pPlayer, this );
 		if ( g_pGameRules->ItemShouldRespawn( this ) == GR_ITEM_RESPAWN_YES )
 		{
-			Respawn(); 
+			Respawn();
 		}
 		else
 		{
 			UTIL_Remove( this );
 		}
 	}
-	else if (gEvilImpulse101)
+	else if ( gEvilImpulse101 )
 	{
 		UTIL_Remove( this );
 	}
 }
 
-CBaseEntity* CItem::Respawn( void )
+CBaseEntity *CItem::Respawn( void )
 {
 	SetTouch( NULL );
 	pev->effects |= EF_NODRAW;
 
-	UTIL_SetOrigin( pev, g_pGameRules->VecItemRespawnSpot( this ) );// blip to whereever you should respawn.
+	UTIL_SetOrigin( pev, g_pGameRules->VecItemRespawnSpot( this ) ); // blip to whereever you should respawn.
 
-	SetThink ( &CItem::Materialize );
-	pev->nextthink = g_pGameRules->FlItemRespawnTime( this ); 
+	SetThink( &CItem::Materialize );
+	pev->nextthink = g_pGameRules->FlItemRespawnTime( this );
 	return this;
 }
 
@@ -161,7 +160,7 @@ void CItem::Materialize( void )
 	if ( pev->effects & EF_NODRAW )
 	{
 		// changing from invisible state to visible.
-		EMIT_SOUND_DYN( ENT(pev), CHAN_WEAPON, "items/suitchargeok1.wav", 1, ATTN_NORM, 0, 150 );
+		EMIT_SOUND_DYN( ENT( pev ), CHAN_WEAPON, "items/suitchargeok1.wav", 1, ATTN_NORM, 0, 150 );
 		pev->effects &= ~EF_NODRAW;
 		pev->effects |= EF_MUZZLEFLASH;
 	}

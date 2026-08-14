@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, or modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 
 //	-------------------------------------------
 //
@@ -30,27 +30,25 @@
 #include "core/cbase.h"
 #include "player.h"
 
-TYPEDESCRIPTION	CRuleEntity::m_SaveData[] =
-{
-	DEFINE_FIELD( CRuleEntity, m_iszMaster, FIELD_STRING),
+TYPEDESCRIPTION CRuleEntity::m_SaveData[] =
+    {
+        DEFINE_FIELD( CRuleEntity, m_iszMaster, FIELD_STRING ),
 };
 
 IMPLEMENT_SAVERESTORE( CRuleEntity, CBaseEntity );
 
-
 void CRuleEntity::Spawn( void )
 {
-	pev->solid			= SOLID_NOT;
-	pev->movetype		= MOVETYPE_NONE;
-	pev->effects		= EF_NODRAW;
+	pev->solid    = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
+	pev->effects  = EF_NODRAW;
 }
-
 
 void CRuleEntity::KeyValue( KeyValueData *pkvd )
 {
-	if (FStrEq(pkvd->szKeyName, "master"))
+	if ( FStrEq( pkvd->szKeyName, "master" ) )
 	{
-		SetMaster( ALLOC_STRING(pkvd->szValue) );
+		SetMaster( ALLOC_STRING( pkvd->szValue ) );
 		pkvd->fHandled = TRUE;
 	}
 	else
@@ -76,8 +74,8 @@ BOOL CRuleEntity::CanFireForActivator( CBaseEntity *pActivator )
 void CRulePointEntity::Spawn( void )
 {
 	CRuleEntity::Spawn();
-	pev->frame			= 0;
-	pev->model			= 0;
+	pev->frame = 0;
+	pev->model = 0;
 }
 
 //
@@ -86,6 +84,6 @@ void CRulePointEntity::Spawn( void )
 //
 void CRuleBrushEntity::Spawn( void )
 {
-	SET_MODEL( edict(), STRING(pev->model) );
+	SET_MODEL( edict(), STRING( pev->model ) );
 	CRuleEntity::Spawn();
 }

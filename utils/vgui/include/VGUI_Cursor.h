@@ -1,6 +1,6 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
@@ -8,7 +8,7 @@
 #ifndef VGUI_CURSOR_H
 #define VGUI_CURSOR_H
 
-#include<VGUI.h>
+#include <VGUI.h>
 
 namespace vgui
 {
@@ -17,7 +17,7 @@ class Bitmap;
 
 class VGUIAPI Cursor
 {
-public:
+  public:
 	enum DefaultCursor
 	{
 		dc_user,
@@ -36,22 +36,27 @@ public:
 		dc_hand,
 		dc_last,
 	};
-private:
-	int           _hotspot[2];
-	Bitmap*       _bitmap;
+
+  private:
+	int _hotspot[2];
+	Bitmap *_bitmap;
 	DefaultCursor _dc;
-public:
-	Cursor(DefaultCursor dc);
-	Cursor(Bitmap* bitmap,int hotspotX,int hotspotY);
-public:
-	virtual void getHotspot(int& x,int& y);
-private:
-	virtual void privateInit(Bitmap* bitmap,int hotspotX,int hotspotY);
-public:
-	virtual Bitmap*       getBitmap();
+
+  public:
+	Cursor( DefaultCursor dc );
+	Cursor( Bitmap *bitmap, int hotspotX, int hotspotY );
+
+  public:
+	virtual void getHotspot( int &x, int &y );
+
+  private:
+	virtual void privateInit( Bitmap *bitmap, int hotspotX, int hotspotY );
+
+  public:
+	virtual Bitmap *getBitmap();
 	virtual DefaultCursor getDefaultCursor();
 };
 
-}
+} // namespace vgui
 
 #endif
