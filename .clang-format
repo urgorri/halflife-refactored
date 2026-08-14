@@ -1,15 +1,61 @@
 # .clang-format for Half-Life Refactored
 ---
 Language: Cpp
+
 BasedOnStyle: Microsoft
-UseTab: Always
-TabWidth: 4
+
 IndentWidth: 4
+TabWidth: 4
+UseTab: ForIndentation
+
 BreakBeforeBraces: Allman
-ColumnLimit: 120
+
+AlignAfterOpenBracket: true
+AlignConsecutiveAssignments: true
+AlignOperands: true
+
 AllowShortBlocksOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
-PointerAlignment: Left
-SpaceAfterCStyleCast: true
-SpacesInParentheses: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+SpaceAfterCStyleCast: false
+
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterForeachMacros: true
+  AfterFunctionDeclarationName: false
+  AfterFunctionDefinitionName: false
+  AfterIfMacros: true
+  # AfterNot: false
+  AfterOverloadedOperator: false
+  AfterPlacementOperator: false
+  BeforeNonEmptyParentheses: false
+
+SpaceInEmptyParentheses: false
+
+SpacesInAngles: true
+
+SpacesInParens: Custom
+SpacesInParensOptions:
+  # ExceptDoubleParentheses: false
+  InConditionalStatements: true
+  InCStyleCasts: false
+  InEmptyParentheses: false
+  Other: true
+
+SpacesBeforeTrailingComments: 1
+
+IndentCaseLabels: false
+IndentWrappedFunctionNames: true
+
+PointerAlignment: Right
+
+ColumnLimit: 0
+BinPackArguments: false
+BinPackParameters: true
+
+SortIncludes: false
 ...
