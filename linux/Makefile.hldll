@@ -186,7 +186,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/zombie.o
 
 HLWPN_OBJS = \
-	$(HLWPN_OBJ_DIR)/hl_wpn_glock.o
+	$(HLDLL_OBJ_DIR)/weapons/weapon_glock.o
 
 PM_OBJS = \
 	$(PM_OBJ_DIR)/pm_shared.o \

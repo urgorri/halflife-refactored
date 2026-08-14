@@ -108,7 +108,7 @@ DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HL1_SERVER_OBJ_DIR)/squeakgrenade.o \
 	$(HL1_SERVER_OBJ_DIR)/tripmine.o \
-	$(HL1_SERVER_OBJ_DIR)/wpn_shared/hl_wpn_glock.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_glock.o \
 
 
 PUBLIC_OBJS = \

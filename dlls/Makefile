@@ -239,7 +239,7 @@ neat:
 	-mkdir $(DLL_OBJDIR)/items
 	-mkdir $(DLL_OBJDIR)/ai
 	-mkdir $(CORE_OBJDIR)
-		-mkdir $(GAME_SHARED_OBJDIR)
+	-mkdir $(GAME_SHARED_OBJDIR)
 	-mkdir $(PM_SHARED_OBJDIR)
 	-mkdir $(DLL_OBJDIR)/weapons
 	-mkdir $(DLL_OBJDIR)/monsters
@@ -252,7 +252,6 @@ spotless: clean
 	-rm -r $(DLL_OBJDIR)
 	-rm -r $(SYSTEMS_OBJDIR)
 	-rm -r $(CORE_OBJDIR)
-	-rm -r $(WPN_SHARED_OBJDIR)
 	-rm -r $(GAME_SHARED_OBJDIR)
 	-rm -r $(PM_SHARED_OBJDIR)
 
