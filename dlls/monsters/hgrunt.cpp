@@ -28,7 +28,7 @@
 */
 
 #include "core/extdll.h"
-#include "plane.h"
+#include "core/plane.h"
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"

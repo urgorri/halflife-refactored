@@ -26,7 +26,7 @@
 
 #include "core/extdll.h"
 #include "core/util.h"
-#include "wxdebug.h"
+#include "core/wxdebug.h"
 
 #include <tchar.h>
 

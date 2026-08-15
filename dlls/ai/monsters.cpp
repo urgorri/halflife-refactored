@@ -30,7 +30,7 @@
 #include "weapons.h"
 #include "gameplay/scripted.h"
 #include "ai/squadmonster.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "ai/soundent.h"
 #include "gameplay/gamerules.h"
 

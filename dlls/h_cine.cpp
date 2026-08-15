@@ -26,7 +26,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
-#include "decals.h"
+#include "core/decals.h"
 
 class CLegacyCineMonster : public CBaseMonster
 {

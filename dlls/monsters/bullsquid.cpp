@@ -23,7 +23,7 @@
 #include "ai/schedule.h"
 #include "ai/nodes.h"
 #include "systems/effects.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "ai/soundent.h"
 #include "core/game.h"
 

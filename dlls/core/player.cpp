@@ -32,7 +32,7 @@
 #include "ai/soundent.h"
 #include "ai/monsters.h"
 #include "shake.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "gameplay/gamerules.h"
 #include "core/game.h"
 #include "pm_shared.h"

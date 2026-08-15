@@ -22,7 +22,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "systems/explode.h"
 
 // Spark Shower

@@ -16,7 +16,7 @@
 #include "ai/soundent.h"
 #include "ai/monsters.h"
 #include "..\engine\shake.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "gameplay/gamerules.h"
 
 float AmmoDamage( const char *pName )

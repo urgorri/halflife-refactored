@@ -183,8 +183,8 @@
     <ClCompile Include="..\..\dlls\systems\h_cycler.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\h_export.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\core\h_export.cpp">
+      <Filter>Source Files\dlls\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_handgrenade.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -318,8 +318,8 @@
     <ClCompile Include="..\..\dlls\ai\playermonster.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\plane.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\core\plane.cpp">
+      <Filter>Source Files\dlls\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\world\plats.cpp">
       <Filter>Source Files\dlls\world</Filter>
@@ -528,8 +528,8 @@
     <ClInclude Include="..\..\dlls\client.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\decals.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\core\decals.h">
+      <Filter>Header Files\dlls\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\defaultai.h">
       <Filter>Header Files\dlls</Filter>
@@ -582,8 +582,8 @@
     <ClInclude Include="..\..\dlls\nodes.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\plane.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\core\plane.h">
+      <Filter>Header Files\dlls\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\pm_shared\pm_shared.h">
       <Filter>Header Files\pm_shared</Filter>

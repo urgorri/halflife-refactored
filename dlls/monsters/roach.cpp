@@ -22,7 +22,7 @@
 #include "ai/monsters.h"
 #include "ai/schedule.h"
 #include "ai/soundent.h"
-#include "decals.h"
+#include "core/decals.h"
 
 #define ROACH_IDLE 0
 #define ROACH_BORED 1

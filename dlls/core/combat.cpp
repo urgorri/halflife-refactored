@@ -25,8 +25,8 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "ai/soundent.h"
-#include "decals.h"
 #include "core/animation.h"
+#include "core/decals.h"
 #include "weapons.h"
 #include "systems/func_break.h"
 
@@ -977,7 +977,7 @@ int CBaseMonster ::DeadTakeDamage( entvars_t *pevInflictor, entvars_t *pevAttack
 
 	pev->flags &= ~FL_ONGROUND;
 	pev->origin.z += 1;
-	
+
 	// let the damage scoot the corpse around a bit.
 	if ( !FNullEnt(pevInflictor) && (pevAttacker->solid != SOLID_TRIGGER) )
 	{
