@@ -20,7 +20,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "gameplay/scripted.h"
 #include "ai/nodes.h"
 #include "ai/defaultai.h"

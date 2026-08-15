@@ -81,8 +81,8 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/aflock.o \
 	$(DLL_OBJDIR)/monsters/agrunt.o \
 	$(DLL_OBJDIR)/systems/airtank.o \
-	$(DLL_OBJDIR)/animating.o \
-	$(DLL_OBJDIR)/animation.o \
+	$(CORE_OBJDIR)/animating.o \
+	$(CORE_OBJDIR)/animation.o \
 	$(DLL_OBJDIR)/monsters/apache.o \
 	$(DLL_OBJDIR)/monsters/barnacle.o \
 	$(DLL_OBJDIR)/monsters/barney.o \

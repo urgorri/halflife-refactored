@@ -108,8 +108,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\monsters\aflock.cpp" />
     <ClCompile Include="..\..\dlls\monsters\agrunt.cpp" />
     <ClCompile Include="..\..\dlls\systems\airtank.cpp" />
-    <ClCompile Include="..\..\dlls\animating.cpp" />
-    <ClCompile Include="..\..\dlls\animation.cpp" />
+    <ClCompile Include="..\..\dlls\core\animating.cpp" />
+    <ClCompile Include="..\..\dlls\core\animation.cpp" />
     <ClCompile Include="..\..\dlls\monsters\apache.cpp" />
     <ClCompile Include="..\..\dlls\monsters\barnacle.cpp" />
     <ClCompile Include="..\..\dlls\monsters\barney.cpp" />

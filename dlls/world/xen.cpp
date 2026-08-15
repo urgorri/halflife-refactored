@@ -15,7 +15,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "systems/effects.h"
 
 #define XEN_PLANT_GLOW_SPRITE "sprites/flare3.spr"

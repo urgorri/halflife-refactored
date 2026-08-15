@@ -23,7 +23,7 @@
 #include "ai/defaultai.h"
 
 #include "ai/soundent.h"
-#include "animation.h"
+#include "core/animation.h"
 
 //=========================================================
 // Talking monster base class

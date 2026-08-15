@@ -40,7 +40,7 @@ typedef unsigned char byte;
 #include "ai/activitymap.h"
 
 #ifndef ANIMATION_H
-#include "animation.h"
+#include "core/animation.h"
 #endif
 
 #ifndef SCRIPTEVENT_H

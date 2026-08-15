@@ -21,7 +21,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "ai/schedule.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "ai/nodes.h"
 #include "ai/squadmonster.h"
 #include "ai/soundent.h"

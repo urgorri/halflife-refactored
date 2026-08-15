@@ -21,7 +21,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "ai/nodes.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "systems/doors.h"
 
 #if !defined( _WIN32 )

@@ -37,8 +37,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/aflock.o \
 	$(HLDLL_OBJ_DIR)/monsters/agrunt.o \
 	$(HLDLL_OBJ_DIR)/systems/airtank.o \
-	$(HLDLL_OBJ_DIR)/animating.o \
-	$(HLDLL_OBJ_DIR)/animation.o \
+	$(HLCORE_OBJ_DIR)/animating.o \
+	$(HLCORE_OBJ_DIR)/animation.o \
 	$(HLDLL_OBJ_DIR)/monsters/apache.o \
 	$(HLDLL_OBJ_DIR)/monsters/barnacle.o \
 	$(HLDLL_OBJ_DIR)/monsters/barney.o \
@@ -208,7 +208,6 @@ dirs:
 	-mkdir -p $(HLDLL_OBJ_DIR)/gameplay
 	-mkdir -p $(HLDLL_OBJ_DIR)/ai
 	-mkdir -p $(HLDLL_OBJ_DIR)/systems
-	-mkdir -p $(HLDLL_OBJ_DIR)/core
 	-mkdir -p $(HLCORE_OBJ_DIR)
 	-mkdir -p $(HLWPN_OBJ_DIR)
 	-mkdir -p $(PM_OBJ_DIR)
