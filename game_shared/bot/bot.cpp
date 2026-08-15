@@ -13,8 +13,8 @@
 #include "weapons.h"
 #include "soundent.h"
 #include "gamerules.h"
-#include "player.h"
-#include "client.h"
+#include "core/player.h"
+#include "core/client.h"
 #include "pm_shared.h"
 
 #include "bot.h"

@@ -19,7 +19,7 @@
 #include "weapons.h"
 #include "systems/explode.h"
 
-#include "player.h"
+#include "core/player.h"
 
 #include "systems/func_tank.h"
 

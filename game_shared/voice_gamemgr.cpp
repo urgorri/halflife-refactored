@@ -12,7 +12,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "player.h"
+#include "core/player.h"
 
 #define UPDATE_INTERVAL 0.3
 

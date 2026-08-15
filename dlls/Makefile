@@ -92,7 +92,7 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/bullsquid.o \
 	$(DLL_OBJDIR)/systems/buttons.o \
 	$(CORE_OBJDIR)/cbase.o \
-	$(DLL_OBJDIR)/client.o \
+	$(CORE_OBJDIR)/client.o \
 	$(DLL_OBJDIR)/combat.o \
 	$(DLL_OBJDIR)/monsters/controller.o \
 	$(DLL_OBJDIR)/crossbow.o \

@@ -23,7 +23,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "player.h"
+#include "core/player.h"
 #include "ai/monsters.h"
 #include "weapons.h"
 #include "ai/nodes.h"

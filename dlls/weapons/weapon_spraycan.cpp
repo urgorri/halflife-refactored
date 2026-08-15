@@ -1,7 +1,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "player.h"
+#include "core/player.h"
 #include "decals.h"
 #include "weapons/weapon_spraycan.h"
 

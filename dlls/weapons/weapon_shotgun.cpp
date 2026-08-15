@@ -20,7 +20,7 @@
 #include "weapons.h"
 #include "weapons/weapon_shotgun.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "gameplay/gamerules.h"
 
 // special deathmatch shotgun spreads

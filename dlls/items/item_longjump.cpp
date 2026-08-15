@@ -16,7 +16,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "weapons.h"
-#include "player.h"
+#include "core/player.h"
 #include "skill.h"
 #include "items/item_base.h"
 #include "gameplay/gamerules.h"

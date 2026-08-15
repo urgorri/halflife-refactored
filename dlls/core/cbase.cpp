@@ -16,7 +16,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "core/saverestore.h"
-#include "client.h"
+#include "core/client.h"
 #include "decals.h"
 #include "gameplay/gamerules.h"
 #include "game.h"

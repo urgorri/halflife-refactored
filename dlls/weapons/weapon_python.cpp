@@ -20,7 +20,7 @@
 #include "weapons.h"
 #include "weapons/weapon_python.h"
 #include "ai/monsters.h"
-#include "player.h"
+#include "core/player.h"
 #include "gameplay/gamerules.h"
 
 enum python_e

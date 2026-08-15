@@ -23,7 +23,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "player.h"
+#include "core/player.h"
 #include "core/saverestore.h"
 #include "world/trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"

@@ -21,7 +21,7 @@
 #include "weapons.h"
 #include "weapons/weapon_rpg.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "gameplay/gamerules.h"
 
 enum rpg_e

@@ -93,7 +93,7 @@
     <ClCompile Include="..\..\dlls\core\cbase.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\client.cpp">
+    <ClCompile Include="..\..\dlls\core\client.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\combat.cpp">
@@ -522,7 +522,7 @@
     <ClInclude Include="..\..\dlls\core\cdll_dll.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\client.h">
+    <ClInclude Include="..\..\dlls\core\client.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\decals.h">
@@ -561,7 +561,7 @@
     <ClInclude Include="..\..\dlls\gameplay\gamerules.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\player.h">
+    <ClInclude Include="..\..\dlls\core\player.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\items\item_base.h">

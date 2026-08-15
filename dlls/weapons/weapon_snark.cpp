@@ -21,7 +21,7 @@
 #include "weapons.h"
 #include "weapons/weapon_snark.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "ai/soundent.h"
 #include "gameplay/gamerules.h"
 

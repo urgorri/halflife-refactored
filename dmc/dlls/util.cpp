@@ -27,7 +27,7 @@
 #include <time.h>
 #include "../engine/shake.h"
 #include "decals.h"
-#include "player.h"
+#include "core/player.h"
 #include "weapons.h"
 #include "gamerules.h"
 

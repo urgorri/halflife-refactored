@@ -18,7 +18,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "player.h"
+#include "core/player.h"
 
 #include "bot_manager.h"
 #include "bot_util.h"
