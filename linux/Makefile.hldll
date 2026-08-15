@@ -73,7 +73,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/projectile_grenade.o \
 	$(HLCORE_OBJ_DIR)/globals.o \
 	$(HLDLL_OBJ_DIR)/monsters/gman.o \
-	$(HLDLL_OBJ_DIR)/h_ai.o \
+	$(HLDLL_OBJ_DIR)/ai/h_ai.o \
 	$(HLDLL_OBJ_DIR)/h_battery.o \
 	$(HLDLL_OBJ_DIR)/h_cine.o \
 	$(HLDLL_OBJ_DIR)/h_cycler.o \
@@ -108,16 +108,16 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/game_counter_set.o \
 	$(HLDLL_OBJ_DIR)/gameplay/game_player_equip.o \
 	$(HLDLL_OBJ_DIR)/gameplay/game_player_team.o \
-	$(HLDLL_OBJ_DIR)/monstermaker.o \
+	$(HLDLL_OBJ_DIR)/ai/monstermaker.o \
 	$(HLDLL_OBJ_DIR)/ai/monsters.o \
-	$(HLDLL_OBJ_DIR)/monsterstate.o \
+	$(HLDLL_OBJ_DIR)/ai/monsterstate.o \
 	$(HLDLL_OBJ_DIR)/mortar.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_mp5.o \
 	$(HLDLL_OBJ_DIR)/monsters/nihilanth.o \
 	$(HLDLL_OBJ_DIR)/ai/nodes.o \
 	$(HLDLL_OBJ_DIR)/observer.o \
 	$(HLDLL_OBJ_DIR)/monsters/osprey.o \
-	$(HLDLL_OBJ_DIR)/pathcorner.o \
+	$(HLDLL_OBJ_DIR)/ai/pathcorner.o \
 	$(HLDLL_OBJ_DIR)/plane.o \
 	$(HLDLL_OBJ_DIR)/plats.o \
 	$(HLDLL_OBJ_DIR)/core/player.o \
@@ -137,7 +137,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HLDLL_OBJ_DIR)/skill.o \
 	$(HLDLL_OBJ_DIR)/sound.o \
-	$(HLDLL_OBJ_DIR)/soundent.o \
+	$(HLDLL_OBJ_DIR)/ai/soundent.o \
 	$(HLDLL_OBJ_DIR)/spectator.o \
 	$(HLDLL_OBJ_DIR)/ai/squadmonster.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_snark.o \
@@ -146,7 +146,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/teamplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/multiplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/singleplay_gamerules.o \
-	$(HLDLL_OBJ_DIR)/tempmonster.o \
+	$(HLDLL_OBJ_DIR)/ai/tempmonster.o \
 	$(HLDLL_OBJ_DIR)/systems/trigger_auto.o \
 	$(HLDLL_OBJ_DIR)/systems/trigger_base.o \
 	$(HLDLL_OBJ_DIR)/systems/trigger_camera.o \
