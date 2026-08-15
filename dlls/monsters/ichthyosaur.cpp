@@ -26,7 +26,7 @@
 #include "ai/flyingmonster.h"
 #include "ai/nodes.h"
 #include "ai/soundent.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "systems/effects.h"
 #include "weapons.h"
 

@@ -23,7 +23,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "core/saverestore.h"
 
 TYPEDESCRIPTION CBaseAnimating::m_SaveData[] =

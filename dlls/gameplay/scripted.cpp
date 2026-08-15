@@ -25,7 +25,7 @@
 #include "ai/monsters.h"
 
 #ifndef ANIMATION_H
-#include "animation.h"
+#include "core/animation.h"
 #endif
 
 #ifndef SAVERESTORE_H

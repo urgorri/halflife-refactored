@@ -16,6 +16,9 @@
     <Filter Include="Source Files\dlls">
       <UniqueIdentifier>{a59f65b1-455f-459d-bc2a-75775255cd5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\core">
+      <UniqueIdentifier>{12345678-1234-1234-1234-123456789abc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\dlls\systems">
       <UniqueIdentifier>{264c9d96-bfa6-407b-8919-75ec443db459}</UniqueIdentifier>
     </Filter>
@@ -60,11 +63,11 @@
     <ClCompile Include="..\..\dlls\systems\airtank.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\animating.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\core\animating.cpp">
+      <Filter>Source Files\dlls\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\animation.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\core\animation.cpp">
+      <Filter>Source Files\dlls\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\apache.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -510,8 +513,8 @@
     <ClInclude Include="..\..\dlls\ai\activitymap.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\animation.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\core\animation.h">
+      <Filter>Header Files\dlls\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\ai\basemonster.h">
       <Filter>Header Files\dlls</Filter>

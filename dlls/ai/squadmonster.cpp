@@ -20,7 +20,7 @@
 #include "core/cbase.h"
 #include "ai/nodes.h"
 #include "ai/monsters.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "core/saverestore.h"
 #include "ai/squadmonster.h"
 #include "plane.h"

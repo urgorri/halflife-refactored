@@ -33,7 +33,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "ai/schedule.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "ai/squadmonster.h"
 #include "weapons.h"
 #include "ai/soundent.h"

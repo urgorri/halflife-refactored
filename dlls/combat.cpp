@@ -26,7 +26,7 @@
 #include "ai/monsters.h"
 #include "ai/soundent.h"
 #include "decals.h"
-#include "animation.h"
+#include "core/animation.h"
 #include "weapons.h"
 #include "systems/func_break.h"
 
