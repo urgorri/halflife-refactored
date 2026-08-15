@@ -26,7 +26,7 @@
 #include "ai/squadmonster.h"
 #include "weapons.h"
 #include "ai/soundent.h"
-#include "game.h"
+#include "core/game.h"
 
 extern DLL_GLOBAL int g_iSkillLevel;
 

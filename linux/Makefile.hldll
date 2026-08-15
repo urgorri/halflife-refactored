@@ -49,7 +49,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/buttons.o \
 	$(HLCORE_OBJ_DIR)/cbase.o \
 	$(HLDLL_OBJ_DIR)/client.o \
-	$(HLDLL_OBJ_DIR)/combat.o \
+	$(HLCORE_OBJ_DIR)/combat.o \
 	$(HLDLL_OBJ_DIR)/monsters/controller.o \
 	$(HLDLL_OBJ_DIR)/crossbow.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
@@ -65,7 +65,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/func_tanklaser.o \
 	$(HLDLL_OBJ_DIR)/systems/func_tankmortar.o \
 	$(HLDLL_OBJ_DIR)/systems/func_tankrocket.o \
-	$(HLDLL_OBJ_DIR)/game.o \
+	$(HLCORE_OBJ_DIR)/game.o \
 	$(HLDLL_OBJ_DIR)/gameplay/gamerules.o \
 	$(HLDLL_OBJ_DIR)/monsters/gargantua.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_gauss.o \
@@ -135,13 +135,13 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/scripted.o \
 	$(HLDLL_OBJ_DIR)/monsters/scientist.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
-	$(HLDLL_OBJ_DIR)/skill.o \
+	$(HLCORE_OBJ_DIR)/skill.o \
 	$(HLDLL_OBJ_DIR)/systems/sound.o \
 	$(HLDLL_OBJ_DIR)/ai/soundent.o \
 	$(HLDLL_OBJ_DIR)/spectator.o \
 	$(HLDLL_OBJ_DIR)/ai/squadmonster.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_snark.o \
-	$(HLDLL_OBJ_DIR)/subs.o \
+	$(HLCORE_OBJ_DIR)/subs.o \
 	$(HLDLL_OBJ_DIR)/ai/talkmonster.o \
 	$(HLDLL_OBJ_DIR)/gameplay/teamplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/multiplay_gamerules.o \

@@ -24,7 +24,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "core/saverestore.h"
-#include "skill.h"
+#include "core/skill.h"
 #include "gameplay/gamerules.h"
 
 class CRecharge : public CBaseToggle

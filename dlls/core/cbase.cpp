@@ -19,7 +19,7 @@
 #include "client.h"
 #include "decals.h"
 #include "gameplay/gamerules.h"
-#include "game.h"
+#include "core/game.h"
 
 void EntvarsKeyvalue( entvars_t *pev, KeyValueData *pkvd );
 

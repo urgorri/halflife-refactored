@@ -120,7 +120,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\buttons.cpp" />
     <ClCompile Include="..\..\dlls\core\cbase.cpp" />
     <ClCompile Include="..\..\dlls\client.cpp" />
-    <ClCompile Include="..\..\dlls\combat.cpp" />
+    <ClCompile Include="..\..\dlls\core\combat.cpp" />
     <ClCompile Include="..\..\dlls\monsters\controller.cpp" />
     <ClCompile Include="..\..\dlls\crossbow.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp" />
@@ -136,7 +136,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\func_tanklaser.cpp" />
     <ClCompile Include="..\..\dlls\systems\func_tankmortar.cpp" />
     <ClCompile Include="..\..\dlls\systems\func_tankrocket.cpp" />
-    <ClCompile Include="..\..\dlls\game.cpp" />
+    <ClCompile Include="..\..\dlls\core\game.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\gamerules.cpp" />
     <ClCompile Include="..\..\dlls\monsters\gargantua.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp" />
@@ -209,13 +209,13 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\ai\schedule.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_shotgun.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\singleplay_gamerules.cpp" />
-    <ClCompile Include="..\..\dlls\skill.cpp" />
+    <ClCompile Include="..\..\dlls\core\skill.cpp" />
     <ClCompile Include="..\..\dlls\systems\sound.cpp" />
     <ClCompile Include="..\..\dlls\ai\soundent.cpp" />
     <ClCompile Include="..\..\dlls\spectator.cpp" />
     <ClCompile Include="..\..\dlls\ai\squadmonster.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_snark.cpp" />
-    <ClCompile Include="..\..\dlls\subs.cpp" />
+    <ClCompile Include="..\..\dlls\core\subs.cpp" />
     <ClCompile Include="..\..\dlls\ai\talkmonster.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\ai\tempmonster.cpp" />
@@ -292,7 +292,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\schedule.h" />
     <ClInclude Include="..\..\dlls\gameplay\scripted.h" />
     <ClInclude Include="..\..\dlls\scriptevent.h" />
-    <ClInclude Include="..\..\dlls\skill.h" />
+    <ClInclude Include="..\..\dlls\core\skill.h" />
     <ClInclude Include="..\..\dlls\ai\soundent.h" />
     <ClInclude Include="..\..\dlls\spectator.h" />
     <ClInclude Include="..\..\dlls\squadmonster.h" />

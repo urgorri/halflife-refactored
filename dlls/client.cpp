@@ -32,7 +32,7 @@
 #include "client.h"
 #include "ai/soundent.h"
 #include "gameplay/gamerules.h"
-#include "game.h"
+#include "core/game.h"
 #include "customentity.h"
 #include "weapons.h"
 #include "weapons/weapon_rpg.h"
