@@ -26,7 +26,7 @@
 #include "customentity.h"
 #include "../weapons.h"
 #include "../effects.h"
-#include "../soundent.h"
+#include "ai/soundent.h"
 #include "../decals.h"
 #include "../explode.h"
 #include "../func_break.h"

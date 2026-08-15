@@ -21,12 +21,12 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
-#include "talkmonster.h"
+#include "ai/talkmonster.h"
 #include "gameplay/scripted.h"
 #include "ai/schedule.h"
 #include "ai/defaultai.h"
 #include "weapons.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 
 //=========================================================
 // Monster's Anim Events Go Here

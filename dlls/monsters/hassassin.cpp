@@ -25,7 +25,7 @@
 #include "ai/schedule.h"
 #include "ai/squadmonster.h"
 #include "weapons.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "game.h"
 
 extern DLL_GLOBAL int g_iSkillLevel;

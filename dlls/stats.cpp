@@ -13,7 +13,7 @@
 #include "trains.h"
 #include "ai/nodes.h"
 #include "weapons.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "ai/monsters.h"
 #include "..\engine\shake.h"
 #include "decals.h"

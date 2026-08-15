@@ -24,7 +24,7 @@
 #include "ai/schedule.h"
 #include "effects.h"
 #include "weapons.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 
 extern DLL_GLOBAL int g_iSkillLevel;
 

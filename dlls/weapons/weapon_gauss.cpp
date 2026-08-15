@@ -22,7 +22,7 @@
 #include "weapons/weapon_gauss.h"
 #include "ai/nodes.h"
 #include "player.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "shake.h"
 #include "gameplay/gamerules.h"
 

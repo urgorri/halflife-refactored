@@ -99,7 +99,7 @@ OBJ = \
 	$(DLL_OBJDIR)/effects.o \
 	$(DLL_OBJDIR)/weapons/weapon_egon.o \
 	$(DLL_OBJDIR)/explode.o \
-	$(DLL_OBJDIR)/flyingmonster.o \
+	$(DLL_OBJDIR)/ai/flyingmonster.o \
 	$(DLL_OBJDIR)/func_break.o \
 	$(DLL_OBJDIR)/systems/func_tank.o \
 	$(DLL_OBJDIR)/systems/func_tankgun.o \
@@ -114,7 +114,7 @@ OBJ = \
 	$(DLL_OBJDIR)/weapons/projectile_grenade.o \
 	$(CORE_OBJDIR)/globals.o \
 	$(DLL_OBJDIR)/monsters/gman.o \
-	$(DLL_OBJDIR)/h_ai.o \
+	$(DLL_OBJDIR)/ai/h_ai.o \
 	$(DLL_OBJDIR)/h_battery.o \
 	$(DLL_OBJDIR)/h_cine.o \
 	$(DLL_OBJDIR)/h_cycler.o \
@@ -149,16 +149,16 @@ OBJ = \
 	$(DLL_OBJDIR)/gameplay/game_counter_set.o \
 	$(DLL_OBJDIR)/gameplay/game_player_equip.o \
 	$(DLL_OBJDIR)/gameplay/game_player_team.o \
-	$(DLL_OBJDIR)/monstermaker.o \
+	$(DLL_OBJDIR)/ai/monstermaker.o \
 	$(DLL_OBJDIR)/ai/monsters.o \
-	$(DLL_OBJDIR)/monsterstate.o \
+	$(DLL_OBJDIR)/ai/monsterstate.o \
 	$(DLL_OBJDIR)/mortar.o \
 	$(DLL_OBJDIR)/weapons/weapon_mp5.o \
 	$(DLL_OBJDIR)/gameplay/multiplay_gamerules.o \
 	$(DLL_OBJDIR)/monsters/nihilanth.o \
 	$(DLL_OBJDIR)/monsters/osprey.o \
 	$(DLL_OBJDIR)/ai/nodes.o \
-	$(DLL_OBJDIR)/pathcorner.o \
+	$(DLL_OBJDIR)/ai/pathcorner.o \
 	$(DLL_OBJDIR)/plane.o \
 	$(DLL_OBJDIR)/plats.o \
 	$(CORE_OBJDIR)/player.o \
@@ -179,14 +179,14 @@ OBJ = \
 	$(DLL_OBJDIR)/gameplay/singleplay_gamerules.o \
 	$(DLL_OBJDIR)/skill.o \
 	$(DLL_OBJDIR)/sound.o \
-	$(DLL_OBJDIR)/soundent.o \
+	$(DLL_OBJDIR)/ai/soundent.o \
 	$(DLL_OBJDIR)/spectator.o \
 	$(DLL_OBJDIR)/ai/squadmonster.o \
 	$(DLL_OBJDIR)/weapons/weapon_snark.o \
 	$(DLL_OBJDIR)/subs.o \
-	$(DLL_OBJDIR)/talkmonster.o \
+	$(DLL_OBJDIR)/ai/talkmonster.o \
 	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \
-	$(DLL_OBJDIR)/tempmonster.o \
+	$(DLL_OBJDIR)/ai/tempmonster.o \
 	$(DLL_OBJDIR)/systems/trigger_relay.o \
 	$(DLL_OBJDIR)/systems/trigger_camera.o \
 	$(DLL_OBJDIR)/systems/trigger_base.o \

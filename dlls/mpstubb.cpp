@@ -17,9 +17,9 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "ai/nodes.h"
-#include "talkmonster.h"
+#include "ai/talkmonster.h"
 
 float CTalkMonster::g_talkWaitTime = 0; // time delay until it's ok to speak: used so that two NPCs don't talk at once
 

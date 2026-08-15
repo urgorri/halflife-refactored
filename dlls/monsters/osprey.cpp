@@ -18,7 +18,7 @@
 #include "ai/monsters.h"
 #include "weapons.h"
 #include "ai/nodes.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "effects.h"
 #include "customentity.h"
 

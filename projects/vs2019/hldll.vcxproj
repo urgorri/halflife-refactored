@@ -129,7 +129,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\effects.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp" />
     <ClCompile Include="..\..\dlls\explode.cpp" />
-    <ClCompile Include="..\..\dlls\flyingmonster.cpp" />
+    <ClCompile Include="..\..\dlls\ai\flyingmonster.cpp" />
     <ClCompile Include="..\..\dlls\func_break.cpp" />
     <ClCompile Include="..\..\dlls\systems\func_tank.cpp" />
     <ClCompile Include="..\..\dlls\systems\func_tankgun.cpp" />
@@ -152,7 +152,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\weapons\projectile_hornet.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_hornetgun.cpp" />
     <ClCompile Include="..\..\dlls\monsters\houndeye.cpp" />
-    <ClCompile Include="..\..\dlls\h_ai.cpp" />
+    <ClCompile Include="..\..\dlls\ai\h_ai.cpp" />
     <ClCompile Include="..\..\dlls\h_battery.cpp" />
     <ClCompile Include="..\..\dlls\h_cine.cpp" />
     <ClCompile Include="..\..\dlls\h_cycler.cpp" />
@@ -179,9 +179,9 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\gameplay\game_counter_set.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\game_player_equip.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\game_player_team.cpp" />
-    <ClCompile Include="..\..\dlls\monstermaker.cpp" />
+    <ClCompile Include="..\..\dlls\ai\monstermaker.cpp" />
     <ClCompile Include="..\..\dlls\ai\monsters.cpp" />
-    <ClCompile Include="..\..\dlls\monsterstate.cpp" />
+    <ClCompile Include="..\..\dlls\ai\monsterstate.cpp" />
     <ClCompile Include="..\..\dlls\mortar.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_mp5.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\multiplay_gamerules.cpp" />
@@ -189,7 +189,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\ai\nodes.cpp" />
     <ClCompile Include="..\..\dlls\observer.cpp" />
     <ClCompile Include="..\..\dlls\monsters\osprey.cpp" />
-    <ClCompile Include="..\..\dlls\pathcorner.cpp" />
+    <ClCompile Include="..\..\dlls\ai\pathcorner.cpp" />
+    <ClCompile Include="..\..\dlls\ai\playermonster.cpp" />
     <ClCompile Include="..\..\dlls\plane.cpp" />
     <ClCompile Include="..\..\dlls\plats.cpp" />
     <ClCompile Include="..\..\dlls\core\player.cpp" />
@@ -210,14 +211,14 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\gameplay\singleplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\skill.cpp" />
     <ClCompile Include="..\..\dlls\sound.cpp" />
-    <ClCompile Include="..\..\dlls\soundent.cpp" />
+    <ClCompile Include="..\..\dlls\ai\soundent.cpp" />
     <ClCompile Include="..\..\dlls\spectator.cpp" />
     <ClCompile Include="..\..\dlls\ai\squadmonster.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_snark.cpp" />
     <ClCompile Include="..\..\dlls\subs.cpp" />
-    <ClCompile Include="..\..\dlls\talkmonster.cpp" />
+    <ClCompile Include="..\..\dlls\ai\talkmonster.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp" />
-    <ClCompile Include="..\..\dlls\tempmonster.cpp" />
+    <ClCompile Include="..\..\dlls\ai\tempmonster.cpp" />
     <ClCompile Include="..\..\dlls\systems\trigger_auto.cpp" />
     <ClCompile Include="..\..\dlls\systems\trigger_base.cpp" />
     <ClCompile Include="..\..\dlls\systems\trigger_camera.cpp" />
@@ -261,8 +262,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\pm_shared\pm_shared.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\dlls\activity.h" />
-    <ClInclude Include="..\..\dlls\activitymap.h" />
+    <ClInclude Include="..\..\dlls\ai\activity.h" />
+    <ClInclude Include="..\..\dlls\ai\activitymap.h" />
     <ClInclude Include="..\..\dlls\animation.h" />
     <ClInclude Include="..\..\dlls\ai\basemonster.h" />
     <ClInclude Include="..\..\dlls\core\cbase.h" />
@@ -275,13 +276,14 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\core\enginecallback.h" />
     <ClInclude Include="..\..\dlls\explode.h" />
     <ClInclude Include="..\..\dlls\core\extdll.h" />
-    <ClInclude Include="..\..\dlls\flyingmonster.h" />
+    <ClInclude Include="..\..\dlls\ai\flyingmonster.h" />
     <ClInclude Include="..\..\dlls\func_break.h" />
     <ClInclude Include="..\..\dlls\gameplay\gamerules.h" />
     <ClInclude Include="..\..\dlls\weapons\projectile_hornet.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_hornetgun.h" />
     <ClInclude Include="..\..\dlls\items\item_base.h" />
-    <ClInclude Include="..\..\dlls\monsterevent.h" />
+    <ClInclude Include="..\..\dlls\ai\monsterevent.h" />
+    <ClInclude Include="..\..\dlls\ai\squad.h" />
     <ClInclude Include="..\..\dlls\monsters.h" />
     <ClInclude Include="..\..\dlls\nodes.h" />
     <ClInclude Include="..\..\dlls\plane.h" />
@@ -291,10 +293,10 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\gameplay\scripted.h" />
     <ClInclude Include="..\..\dlls\scriptevent.h" />
     <ClInclude Include="..\..\dlls\skill.h" />
-    <ClInclude Include="..\..\dlls\soundent.h" />
+    <ClInclude Include="..\..\dlls\ai\soundent.h" />
     <ClInclude Include="..\..\dlls\spectator.h" />
     <ClInclude Include="..\..\dlls\squadmonster.h" />
-    <ClInclude Include="..\..\dlls\talkmonster.h" />
+    <ClInclude Include="..\..\dlls\ai\talkmonster.h" />
     <ClInclude Include="..\..\dlls\gameplay\teamplay_gamerules.h" />
     <ClInclude Include="..\..\dlls\trains.h" />
     <ClInclude Include="..\..\dlls\systems\turret.h" />

@@ -21,7 +21,7 @@
 #include "ai/monsters.h"
 #include "ai/schedule.h"
 #include "ai/defaultai.h"
-#include "soundent.h"
+#include "ai/soundent.h"
 #include "gameplay/scripted.h"
 #include "ai/nodes.h"
 

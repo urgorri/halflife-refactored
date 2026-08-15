@@ -15,6 +15,10 @@
 #ifndef TALKMONSTER_H
 #define TALKMONSTER_H
 
+#ifndef BASEMONSTER_H
+#include "ai/basemonster.h"
+#endif
+
 #ifndef MONSTERS_H
 #include "ai/monsters.h"
 #endif

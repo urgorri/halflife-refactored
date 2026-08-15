@@ -23,8 +23,8 @@
 #include "ai/schedule.h"
 #include "ai/squadmonster.h"
 #include "weapons.h"
-#include "soundent.h"
 #include "weapons/projectile_hornet.h"
+#include "ai/soundent.h"
 
 //=========================================================
 // monster-specific schedule types
