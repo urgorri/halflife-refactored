@@ -58,7 +58,7 @@
 #define DEBUG_BEAMS 0
 
 #if DEBUG_BEAMS
-#include "../effects.h"
+#include "systems/effects.h"
 #endif
 
 class CLeech : public CBaseMonster

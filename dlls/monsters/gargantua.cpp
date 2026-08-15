@@ -25,11 +25,11 @@
 #include "ai/schedule.h"
 #include "customentity.h"
 #include "../weapons.h"
-#include "../effects.h"
+#include "systems/effects.h"
 #include "ai/soundent.h"
 #include "../decals.h"
-#include "../explode.h"
-#include "../func_break.h"
+#include "systems/explode.h"
+#include "systems/func_break.h"
 
 //=========================================================
 // Gargantua Monster
