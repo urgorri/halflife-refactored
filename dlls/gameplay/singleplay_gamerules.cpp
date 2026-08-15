@@ -18,7 +18,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "player.h"
+#include "core/player.h"
 #include "weapons.h"
 #include "gameplay/gamerules.h"
 #include "core/skill.h"

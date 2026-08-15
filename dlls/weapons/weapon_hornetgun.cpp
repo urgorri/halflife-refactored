@@ -21,7 +21,7 @@
 #include "weapons.h"
 #include "weapons/weapon_hornetgun.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "weapons/projectile_hornet.h"
 #include "gameplay/gamerules.h"
 

@@ -20,7 +20,7 @@
 #include "disc_weapon.h"
 #include "discwar.h"
 #include "nodes.h"
-#include "player.h"
+#include "core/player.h"
 
 #include "usercmd.h"
 #include "entity_state.h"

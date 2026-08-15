@@ -21,7 +21,7 @@
 #include "weapons.h"
 #include "weapons/weapon_satchel.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "gameplay/gamerules.h"
 
 enum satchel_e

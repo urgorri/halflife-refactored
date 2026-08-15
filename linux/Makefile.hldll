@@ -48,8 +48,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/bullsquid.o \
 	$(HLDLL_OBJ_DIR)/systems/buttons.o \
 	$(HLCORE_OBJ_DIR)/cbase.o \
-	$(HLDLL_OBJ_DIR)/client.o \
 	$(HLCORE_OBJ_DIR)/combat.o \
+	$(HLCORE_OBJ_DIR)/client.o \
 	$(HLDLL_OBJ_DIR)/monsters/controller.o \
 	$(HLDLL_OBJ_DIR)/crossbow.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \

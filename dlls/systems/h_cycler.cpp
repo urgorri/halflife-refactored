@@ -26,7 +26,7 @@
 #include "ai/monsters.h"
 #include "core/animation.h"
 #include "weapons.h"
-#include "player.h"
+#include "core/player.h"
 
 #define TEMP_FOR_SCREEN_SHOTS
 #ifdef TEMP_FOR_SCREEN_SHOTS //===================================================

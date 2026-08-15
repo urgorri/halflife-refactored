@@ -16,8 +16,8 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "core/saverestore.h"
-#include "client.h"
 #include "core/decals.h"
+#include "core/client.h"
 #include "gameplay/gamerules.h"
 #include "core/game.h"
 
@@ -358,7 +358,7 @@ int DispatchRestore( edict_t *pent, SAVERESTOREDATA *pSaveData, int globalEntity
 		pEntity = (CBaseEntity *)GET_PRIVATE( pent );
 
 #if 0
-		if ( pEntity && pEntity->pev->globalname && globalEntity ) 
+		if ( pEntity && pEntity->pev->globalname && globalEntity )
 		{
 			ALERT( at_console, "Global %s is %s\n", STRING(pEntity->pev->globalname), STRING(pEntity->pev->model) );
 		}

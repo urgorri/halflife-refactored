@@ -18,7 +18,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "player.h"
+#include "core/player.h"
 #include "pm_shared.h"
 
 // Find the next client in the game for this player to spectate

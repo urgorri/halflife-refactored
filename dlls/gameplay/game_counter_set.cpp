@@ -28,7 +28,7 @@
 #include "gameplay/gamerules.h"
 #include "gameplay/maprules.h"
 #include "core/cbase.h"
-#include "player.h"
+#include "core/player.h"
 class CGameCounterSet : public CRulePointEntity
 {
   public:

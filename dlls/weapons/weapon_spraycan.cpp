@@ -1,8 +1,8 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "player.h"
 #include "core/decals.h"
+#include "core/player.h"
 #include "weapons/weapon_spraycan.h"
 
 // decal frame at a time. For PreAlpha CD

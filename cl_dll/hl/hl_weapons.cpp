@@ -33,7 +33,7 @@
 #include "weapons/weapon_hornetgun.h"
 
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 
 #include "usercmd.h"
 #include "entity_state.h"

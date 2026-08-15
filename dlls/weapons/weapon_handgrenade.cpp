@@ -19,7 +19,7 @@
 #include "weapons.h"
 #include "weapons/weapon_handgrenade.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 
 #define HANDGRENADE_PRIMARY_VOLUME 450
 

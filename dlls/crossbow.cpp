@@ -20,7 +20,7 @@
 #include "ai/monsters.h"
 #include "weapons.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "gameplay/gamerules.h"
 
 #ifndef CLIENT_DLL

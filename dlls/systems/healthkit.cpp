@@ -18,7 +18,7 @@
 #include "ai/monsters.h"
 #include "weapons.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "items/item_base.h"
 #include "gameplay/gamerules.h"
 

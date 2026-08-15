@@ -35,7 +35,7 @@ char *sTeamNames[] =
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "player.h"
+#include "core/player.h"
 #include "weapons.h"
 #include "gamerules.h"
 #include "skill.h"

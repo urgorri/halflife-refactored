@@ -18,7 +18,7 @@
 #include "monsters.h"
 #include "weapons.h"
 #include "nodes.h"
-#include "player.h"
+#include "core/player.h"
 
 class CAirtank : public CGrenade
 {

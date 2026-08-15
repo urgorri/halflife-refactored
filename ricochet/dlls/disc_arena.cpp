@@ -19,7 +19,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "player.h"
+#include "core/player.h"
 #include "gamerules.h"
 #include "weapons.h"
 #include "discwar.h"

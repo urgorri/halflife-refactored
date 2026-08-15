@@ -21,7 +21,7 @@
 #include "weapons.h"
 #include "weapons/weapon_gauss.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "ai/soundent.h"
 #include "shake.h"
 #include "gameplay/gamerules.h"

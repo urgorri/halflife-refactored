@@ -22,7 +22,7 @@
 #include "monsters.h"
 #include "weapons.h"
 #include "nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "items.h"
 #include "gamerules.h"
 #include "discwar.h"

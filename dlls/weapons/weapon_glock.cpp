@@ -20,7 +20,7 @@
 #include "weapons.h"
 #include "weapons/weapon_glock.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 
 enum glock_e
 {

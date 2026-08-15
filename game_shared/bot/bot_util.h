@@ -9,7 +9,7 @@
 #define BOT_UTIL_H
 
 #include "eiface.h"
-#include "player.h"
+#include "core/player.h"
 #include "shared_util.h"
 #include "GameEvent.h"
 

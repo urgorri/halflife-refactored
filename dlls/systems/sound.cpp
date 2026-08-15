@@ -20,7 +20,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "weapons.h"
-#include "player.h"
+#include "core/player.h"
 #include "ai/talkmonster.h"
 #include "gameplay/gamerules.h"
 

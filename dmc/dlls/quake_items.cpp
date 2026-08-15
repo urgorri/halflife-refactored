@@ -19,7 +19,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "player.h"
+#include "core/player.h"
 #include "shake.h"
 #include "../engine/studio.h"
 #include "weapons.h"

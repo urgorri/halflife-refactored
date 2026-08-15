@@ -20,7 +20,7 @@
 #include "weapons.h"
 #include "weapons/weapon_mp5.h"
 #include "ai/nodes.h"
-#include "player.h"
+#include "core/player.h"
 #include "ai/soundent.h"
 #include "gameplay/gamerules.h"
 
