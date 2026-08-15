@@ -107,7 +107,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
   <ItemGroup>
     <ClCompile Include="..\..\dlls\monsters\aflock.cpp" />
     <ClCompile Include="..\..\dlls\monsters\agrunt.cpp" />
-    <ClCompile Include="..\..\dlls\airtank.cpp" />
+    <ClCompile Include="..\..\dlls\systems\airtank.cpp" />
     <ClCompile Include="..\..\dlls\animating.cpp" />
     <ClCompile Include="..\..\dlls\animation.cpp" />
     <ClCompile Include="..\..\dlls\monsters\apache.cpp" />
@@ -147,15 +147,15 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\weapons\weapon_handgrenade.cpp" />
     <ClCompile Include="..\..\dlls\monsters\hassassin.cpp" />
     <ClCompile Include="..\..\dlls\monsters\headcrab.cpp" />
-    <ClCompile Include="..\..\dlls\healthkit.cpp" />
+    <ClCompile Include="..\..\dlls\systems\healthkit.cpp" />
     <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp" />
     <ClCompile Include="..\..\dlls\weapons\projectile_hornet.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_hornetgun.cpp" />
     <ClCompile Include="..\..\dlls\monsters\houndeye.cpp" />
     <ClCompile Include="..\..\dlls\ai\h_ai.cpp" />
-    <ClCompile Include="..\..\dlls\h_battery.cpp" />
+    <ClCompile Include="..\..\dlls\systems\h_battery.cpp" />
     <ClCompile Include="..\..\dlls\h_cine.cpp" />
-    <ClCompile Include="..\..\dlls\h_cycler.cpp" />
+    <ClCompile Include="..\..\dlls\systems\h_cycler.cpp" />
     <ClCompile Include="..\..\dlls\h_export.cpp" />
     <ClCompile Include="..\..\dlls\monsters\ichthyosaur.cpp" />
     <ClCompile Include="..\..\dlls\monsters\islave.cpp" />
@@ -182,7 +182,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\ai\monstermaker.cpp" />
     <ClCompile Include="..\..\dlls\ai\monsters.cpp" />
     <ClCompile Include="..\..\dlls\ai\monsterstate.cpp" />
-    <ClCompile Include="..\..\dlls\mortar.cpp" />
+    <ClCompile Include="..\..\dlls\systems\mortar.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_mp5.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\multiplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\monsters\nihilanth.cpp" />

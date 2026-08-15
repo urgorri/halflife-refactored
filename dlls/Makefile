@@ -80,7 +80,7 @@ $(PM_SHARED_OBJDIR)/%.o: $(PM_SHARED_SRCDIR)/%.c
 OBJ = \
 	$(DLL_OBJDIR)/monsters/aflock.o \
 	$(DLL_OBJDIR)/monsters/agrunt.o \
-	$(DLL_OBJDIR)/airtank.o \
+	$(DLL_OBJDIR)/systems/airtank.o \
 	$(DLL_OBJDIR)/animating.o \
 	$(DLL_OBJDIR)/animation.o \
 	$(DLL_OBJDIR)/monsters/apache.o \
@@ -118,14 +118,14 @@ OBJ = \
 	$(CORE_OBJDIR)/globals.o \
 	$(DLL_OBJDIR)/monsters/gman.o \
 	$(DLL_OBJDIR)/ai/h_ai.o \
-	$(DLL_OBJDIR)/h_battery.o \
+	$(DLL_OBJDIR)/systems/h_battery.o \
 	$(DLL_OBJDIR)/h_cine.o \
-	$(DLL_OBJDIR)/h_cycler.o \
+	$(DLL_OBJDIR)/systems/h_cycler.o \
 	$(DLL_OBJDIR)/h_export.o \
 	$(DLL_OBJDIR)/weapons/weapon_handgrenade.o \
 	$(DLL_OBJDIR)/monsters/hassassin.o \
 	$(DLL_OBJDIR)/monsters/headcrab.o \
-	$(DLL_OBJDIR)/healthkit.o \
+	$(DLL_OBJDIR)/systems/healthkit.o \
 	$(DLL_OBJDIR)/monsters/hgrunt.o \
 	$(DLL_OBJDIR)/weapons/projectile_hornet.o \
 	$(DLL_OBJDIR)/weapons/weapon_hornetgun.o \
@@ -155,7 +155,7 @@ OBJ = \
 	$(DLL_OBJDIR)/ai/monstermaker.o \
 	$(DLL_OBJDIR)/ai/monsters.o \
 	$(DLL_OBJDIR)/ai/monsterstate.o \
-	$(DLL_OBJDIR)/mortar.o \
+	$(DLL_OBJDIR)/systems/mortar.o \
 	$(DLL_OBJDIR)/weapons/weapon_mp5.o \
 	$(DLL_OBJDIR)/gameplay/multiplay_gamerules.o \
 	$(DLL_OBJDIR)/monsters/nihilanth.o \

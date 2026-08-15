@@ -57,8 +57,8 @@
     <ClCompile Include="..\..\dlls\monsters\agrunt.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\airtank.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\airtank.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\animating.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -171,14 +171,14 @@
     <ClCompile Include="..\..\dlls\ai\h_ai.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\h_battery.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\h_battery.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\h_cine.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\h_cycler.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\h_cycler.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\h_export.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -192,8 +192,8 @@
     <ClCompile Include="..\..\dlls\monsters\headcrab.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\healthkit.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\healthkit.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -288,8 +288,8 @@
     <ClCompile Include="..\..\dlls\ai\monsterstate.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\mortar.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\mortar.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_mp5.cpp">
       <Filter>Source Files\dlls</Filter>
