@@ -23,8 +23,8 @@
 #include "weapons.h"
 #include "gameplay/gamerules.h"
 #include "gameplay/teamplay_gamerules.h"
-#include "skill.h"
-#include "game.h"
+#include "core/skill.h"
+#include "core/game.h"
 
 extern edict_t *EntSelectSpawnPoint( CBaseEntity *pPlayer );
 

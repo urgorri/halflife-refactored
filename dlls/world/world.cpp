@@ -27,7 +27,7 @@
 #include "ai/soundent.h"
 #include "client.h"
 #include "decals.h"
-#include "skill.h"
+#include "core/skill.h"
 #include "systems/effects.h"
 #include "player.h"
 #include "weapons.h"

@@ -21,7 +21,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "ai/schedule.h"
-#include "game.h"
+#include "core/game.h"
 
 //=========================================================
 // Monster's Anim Events Go Here

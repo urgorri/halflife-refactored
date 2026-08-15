@@ -93,7 +93,7 @@ OBJ = \
 	$(DLL_OBJDIR)/systems/buttons.o \
 	$(CORE_OBJDIR)/cbase.o \
 	$(DLL_OBJDIR)/client.o \
-	$(DLL_OBJDIR)/combat.o \
+	$(CORE_OBJDIR)/combat.o \
 	$(DLL_OBJDIR)/monsters/controller.o \
 	$(DLL_OBJDIR)/crossbow.o \
 	$(DLL_OBJDIR)/weapons/weapon_crowbar.o \
@@ -109,7 +109,7 @@ OBJ = \
 	$(DLL_OBJDIR)/systems/func_tanklaser.o \
 	$(DLL_OBJDIR)/systems/func_tankrocket.o \
 	$(DLL_OBJDIR)/systems/func_tankmortar.o \
-	$(DLL_OBJDIR)/game.o \
+	$(CORE_OBJDIR)/game.o \
 	$(DLL_OBJDIR)/gameplay/gamerules.o \
 	$(DLL_OBJDIR)/monsters/gargantua.o \
 	$(DLL_OBJDIR)/weapons/weapon_gauss.o \
@@ -180,13 +180,13 @@ OBJ = \
 	$(DLL_OBJDIR)/ai/schedule.o \
 	$(DLL_OBJDIR)/weapons/weapon_shotgun.o \
 	$(DLL_OBJDIR)/gameplay/singleplay_gamerules.o \
-	$(DLL_OBJDIR)/skill.o \
+	$(CORE_OBJDIR)/skill.o \
 	$(DLL_OBJDIR)/systems/sound.o \
 	$(DLL_OBJDIR)/ai/soundent.o \
 	$(DLL_OBJDIR)/spectator.o \
 	$(DLL_OBJDIR)/ai/squadmonster.o \
 	$(DLL_OBJDIR)/weapons/weapon_snark.o \
-	$(DLL_OBJDIR)/subs.o \
+	$(CORE_OBJDIR)/subs.o \
 	$(DLL_OBJDIR)/ai/talkmonster.o \
 	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \
 	$(DLL_OBJDIR)/ai/tempmonster.o \

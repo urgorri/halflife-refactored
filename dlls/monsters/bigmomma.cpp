@@ -24,7 +24,7 @@
 #include "ai/schedule.h"
 #include "decals.h"
 #include "weapons.h"
-#include "game.h"
+#include "core/game.h"
 
 #define SF_INFOBM_RUN 0x0001
 #define SF_INFOBM_WAIT 0x0002

@@ -96,7 +96,7 @@
     <ClCompile Include="..\..\dlls\client.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\combat.cpp">
+    <ClCompile Include="..\..\dlls\core\combat.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\controller.cpp">
@@ -147,7 +147,7 @@
     <ClCompile Include="..\..\dlls\systems\func_tankrocket.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\game.cpp">
+    <ClCompile Include="..\..\dlls\core\game.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\gamerules.cpp">
@@ -360,7 +360,7 @@
     <ClCompile Include="..\..\dlls\gameplay\singleplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\skill.cpp">
+    <ClCompile Include="..\..\dlls\core\skill.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\systems\sound.cpp">
@@ -378,7 +378,7 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_snark.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\subs.cpp">
+    <ClCompile Include="..\..\dlls\core\subs.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\ai\talkmonster.cpp">
@@ -622,7 +622,7 @@
     <ClInclude Include="..\..\dlls\scriptevent.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\skill.h">
+    <ClInclude Include="..\..\dlls\core\skill.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\ai\soundent.h">

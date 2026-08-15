@@ -22,8 +22,8 @@
 #include "weapons.h"
 #include "gameplay/gamerules.h"
 
-#include "skill.h"
-#include "game.h"
+#include "core/skill.h"
+#include "core/game.h"
 #include "items/item_base.h"
 #include "voice_gamemgr.h"
 #include "hltv.h"
