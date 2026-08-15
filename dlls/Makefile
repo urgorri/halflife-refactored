@@ -59,6 +59,9 @@ DO_CC=$(CC) $(CFLAGS) $(SHLIBCFLAGS) $(INCLUDEDIRS) -o $@ -c $<
 $(DLL_OBJDIR)/%.o: $(DLL_SRCDIR)/%.cpp
 	$(DO_CC)
 
+$(DLL_OBJDIR)/world/%.o: $(DLL_SRCDIR)/world/%.cpp
+	$(DO_CC)
+
 $(SYSTEMS_OBJDIR)/%.o: $(SYSTEMS_SRCDIR)/%.cpp
 	$(DO_CC)
 
@@ -85,7 +88,7 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/barney.o \
 	$(DLL_OBJDIR)/monsters/bigmomma.o \
 	$(DLL_OBJDIR)/monsters/bloater.o \
-	$(DLL_OBJDIR)/bmodels.o \
+	$(DLL_OBJDIR)/world/bmodels.o \
 	$(DLL_OBJDIR)/monsters/bullsquid.o \
 	$(DLL_OBJDIR)/buttons.o \
 	$(CORE_OBJDIR)/cbase.o \
@@ -160,7 +163,7 @@ OBJ = \
 	$(DLL_OBJDIR)/ai/nodes.o \
 	$(DLL_OBJDIR)/ai/pathcorner.o \
 	$(DLL_OBJDIR)/plane.o \
-	$(DLL_OBJDIR)/plats.o \
+	$(DLL_OBJDIR)/world/plats.o \
 	$(CORE_OBJDIR)/player.o \
 	$(DLL_OBJDIR)/weapons/weapon_spraycan.o \
 	$(DLL_OBJDIR)/monsters/monster_deadhev.o \
@@ -220,8 +223,8 @@ OBJ = \
 	$(CORE_OBJDIR)/util.o \
 	$(DLL_OBJDIR)/weapons.o \
 	$(DLL_OBJDIR)/weapons/weapon_base.o \
-	$(DLL_OBJDIR)/world.o \
-	$(DLL_OBJDIR)/xen.o \
+	$(DLL_OBJDIR)/world/world.o \
+	$(DLL_OBJDIR)/world/xen.o \
 	$(DLL_OBJDIR)/monsters/zombie.o \
 	$(DLL_OBJDIR)/weapons/weapon_glock.o \
 	$(GAME_SHARED_OBJDIR)/voice_gamemgr.o \
@@ -246,6 +249,7 @@ neat:
 	-mkdir $(DLL_OBJDIR)/monsters
 	-mkdir $(DLL_OBJDIR)/gameplay
 	-mkdir $(DLL_OBJDIR)/systems
+	-mkdir $(DLL_OBJDIR)/world
 clean:
 	-rm -f $(OBJ)
 	-rm -f $(DLLNAME)_$(ARCH).$(SHLIBEXT)

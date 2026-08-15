@@ -43,6 +43,12 @@
     <Filter Include="Header Files\dlls\systems">
       <UniqueIdentifier>{7f858c21-12c8-4770-bdc9-2785d0d86e11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\world">
+      <UniqueIdentifier>{8f858c21-12c8-4770-bdc9-2785d0d86e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dlls\world">
+      <UniqueIdentifier>{9f858c21-12c8-4770-bdc9-2785d0d86e13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlls\monsters\aflock.cpp">
@@ -75,8 +81,8 @@
     <ClCompile Include="..\..\dlls\monsters\bloater.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\bmodels.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\world\bmodels.cpp">
+      <Filter>Source Files\dlls\world</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\bullsquid.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -312,8 +318,8 @@
     <ClCompile Include="..\..\dlls\plane.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\plats.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\world\plats.cpp">
+      <Filter>Source Files\dlls\world</Filter>
     </ClCompile>
     <ClCompile Include="..\..\pm_shared\pm_shared.c">
       <Filter>Source Files\pm_shared</Filter>
@@ -487,11 +493,11 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_base.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\world.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\world\world.cpp">
+      <Filter>Source Files\dlls\world</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\xen.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\world\xen.cpp">
+      <Filter>Source Files\dlls\world</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -634,8 +640,8 @@
     <ClInclude Include="..\..\dlls\gameplay\teamplay_gamerules.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\trains.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\world\trains.h">
+      <Filter>Header Files\dlls\world</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\systems\turret.h">
       <Filter>Header Files\dlls\systems</Filter>

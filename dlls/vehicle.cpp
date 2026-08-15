@@ -1,7 +1,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "trains.h"
+#include "world/trains.h"
 #include "core/saverestore.h"
 #include "weapons.h"
 #include "minmax.h"

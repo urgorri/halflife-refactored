@@ -27,7 +27,7 @@
 #include "items/item_base.h"
 #include "voice_gamemgr.h"
 #include "hltv.h"
-#include "trains.h"
+#include "world/trains.h"
 
 #if !defined( _WIN32 )
 #include <ctype.h>

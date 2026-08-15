@@ -26,7 +26,7 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "weapons/weapon_spraycan.h"
-#include "trains.h"
+#include "world/trains.h"
 #include "ai/nodes.h"
 #include "weapons.h"
 #include "ai/soundent.h"

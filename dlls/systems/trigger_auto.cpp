@@ -25,7 +25,7 @@
 #include "core/cbase.h"
 #include "player.h"
 #include "core/saverestore.h"
-#include "trains.h" // trigger_camera has train functionality
+#include "world/trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
 
 #define SF_AUTO_FIREONCE 0x0001

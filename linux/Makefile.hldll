@@ -44,7 +44,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/barney.o \
 	$(HLDLL_OBJ_DIR)/monsters/bigmomma.o \
 	$(HLDLL_OBJ_DIR)/monsters/bloater.o \
-	$(HLDLL_OBJ_DIR)/bmodels.o \
+	$(HLDLL_OBJ_DIR)/world/bmodels.o \
 	$(HLDLL_OBJ_DIR)/monsters/bullsquid.o \
 	$(HLDLL_OBJ_DIR)/buttons.o \
 	$(HLCORE_OBJ_DIR)/cbase.o \
@@ -119,7 +119,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/osprey.o \
 	$(HLDLL_OBJ_DIR)/ai/pathcorner.o \
 	$(HLDLL_OBJ_DIR)/plane.o \
-	$(HLDLL_OBJ_DIR)/plats.o \
+	$(HLDLL_OBJ_DIR)/world/plats.o \
 	$(HLDLL_OBJ_DIR)/core/player.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_spraycan.o \
 	$(HLDLL_OBJ_DIR)/monsters/monster_deadhev.o \
@@ -181,8 +181,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/vehicle.o \
 	$(HLDLL_OBJ_DIR)/weapons.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
-	$(HLDLL_OBJ_DIR)/world.o \
-	$(HLDLL_OBJ_DIR)/xen.o \
+	$(HLDLL_OBJ_DIR)/world/world.o \
+	$(HLDLL_OBJ_DIR)/world/xen.o \
 	$(HLDLL_OBJ_DIR)/monsters/zombie.o
 
 HLWPN_OBJS = \
@@ -213,6 +213,7 @@ dirs:
 	-mkdir -p $(HLWPN_OBJ_DIR)
 	-mkdir -p $(PM_OBJ_DIR)
 	-mkdir -p $(GAME_SHARED_OBJ_DIR)
+	-mkdir -p $(HLDLL_OBJ_DIR)/world
 
 hl.$(SHLIBEXT): $(HLDLL_OBJS) $(HLWPN_OBJS) $(PM_OBJS) $(GAME_SHARED_OBJS)
 	$(CC) $(LDFLAGS) $(SHLIBLDFLAGS) -o $(BUILD_DIR)/$@ $(HLDLL_OBJS) $(HLWPN_OBJS) $(PM_OBJS) $(GAME_SHARED_OBJS)
@@ -231,6 +232,10 @@ $(HLDLL_OBJ_DIR)/systems/%.o : $(HLDLL_SRC_DIR)/systems/%.cpp
 
 $(HLDLL_OBJ_DIR)/weapons/%.o : $(HLDLL_SRC_DIR)/weapons/%.cpp
 	$(DO_HLDLL_CC)
+
+$(HLDLL_OBJ_DIR)/world/%.o : $(HLDLL_SRC_DIR)/world/%.cpp
+	$(DO_HLDLL_CC)
+
 
 
 $(HLDLL_OBJ_DIR)/ai/%.o : $(HLDLL_SRC_DIR)/ai/%.cpp

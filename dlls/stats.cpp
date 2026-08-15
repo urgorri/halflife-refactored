@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2001, Valve LLC, All rights reserved. ============
+//========= Copyright  1996-2001, Valve LLC, All rights reserved. ============
 //
 // Purpose: New version of the slider bar
 //
@@ -10,7 +10,7 @@
 
 #include "core/cbase.h"
 #include "player.h"
-#include "trains.h"
+#include "world/trains.h"
 #include "ai/nodes.h"
 #include "weapons.h"
 #include "ai/soundent.h"
