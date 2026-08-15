@@ -121,7 +121,7 @@ OBJ = \
 	$(DLL_OBJDIR)/systems/h_battery.o \
 	$(DLL_OBJDIR)/h_cine.o \
 	$(DLL_OBJDIR)/systems/h_cycler.o \
-	$(DLL_OBJDIR)/h_export.o \
+	$(CORE_OBJDIR)/h_export.o \
 	$(DLL_OBJDIR)/weapons/weapon_handgrenade.o \
 	$(DLL_OBJDIR)/monsters/hassassin.o \
 	$(DLL_OBJDIR)/monsters/headcrab.o \
@@ -162,7 +162,7 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/osprey.o \
 	$(DLL_OBJDIR)/ai/nodes.o \
 	$(DLL_OBJDIR)/ai/pathcorner.o \
-	$(DLL_OBJDIR)/plane.o \
+	$(CORE_OBJDIR)/plane.o \
 	$(DLL_OBJDIR)/world/plats.o \
 	$(CORE_OBJDIR)/player.o \
 	$(DLL_OBJDIR)/weapons/weapon_spraycan.o \

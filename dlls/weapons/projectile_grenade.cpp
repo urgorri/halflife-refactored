@@ -25,7 +25,7 @@
 #include "weapons.h"
 #include "ai/nodes.h"
 #include "ai/soundent.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "weapons/projectile_grenade.h"
 
 //===================grenade

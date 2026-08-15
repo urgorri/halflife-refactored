@@ -19,7 +19,7 @@
 #include "customentity.h"
 #include "systems/effects.h"
 #include "weapons.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "systems/func_break.h"
 #include "shake.h"
 

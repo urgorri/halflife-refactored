@@ -2,7 +2,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "player.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "weapons/weapon_spraycan.h"
 
 // decal frame at a time. For PreAlpha CD

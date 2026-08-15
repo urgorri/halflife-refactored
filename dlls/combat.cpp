@@ -25,7 +25,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "ai/soundent.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "animation.h"
 #include "weapons.h"
 #include "systems/func_break.h"

@@ -27,7 +27,7 @@
 #include "core/saverestore.h"
 #include <time.h>
 #include "shake.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "player.h"
 #include "weapons.h"
 #include "gameplay/gamerules.h"

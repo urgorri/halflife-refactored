@@ -23,7 +23,7 @@
 #include "animation.h"
 #include "core/saverestore.h"
 #include "ai/squadmonster.h"
-#include "plane.h"
+#include "core/plane.h"
 
 //=========================================================
 // Save/Restore

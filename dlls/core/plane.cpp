@@ -13,7 +13,7 @@
  *
  ****/
 #include "core/extdll.h"
-#include "plane.h"
+#include "core/plane.h"
 
 //=========================================================
 // Plane

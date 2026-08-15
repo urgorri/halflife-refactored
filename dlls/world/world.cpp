@@ -26,7 +26,7 @@
 #include "ai/nodes.h"
 #include "ai/soundent.h"
 #include "client.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "skill.h"
 #include "systems/effects.h"
 #include "player.h"

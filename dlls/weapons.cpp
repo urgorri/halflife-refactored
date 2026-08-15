@@ -28,7 +28,7 @@
 #include "weapons.h"
 #include "ai/nodes.h"
 #include "ai/soundent.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "gameplay/gamerules.h"
 
 extern CGraph WorldGraph;

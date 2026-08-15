@@ -24,7 +24,7 @@
 #include "core/cbase.h"
 #include "core/saverestore.h"
 #include "systems/func_break.h"
-#include "decals.h"
+#include "core/decals.h"
 #include "systems/explode.h"
 
 extern DLL_GLOBAL Vector g_vecAttackDir;
