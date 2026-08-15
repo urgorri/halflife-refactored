@@ -14,7 +14,7 @@
  ****/
 
 #include "turret.h"
-#include "effects.h"
+#include "systems/effects.h"
 
 //===== turret.cpp ========================================================
 //
@@ -28,8 +28,8 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons.h"
-#include "explode.h"
-#include "effects.h"
+#include "systems/explode.h"
+#include "systems/effects.h"
 
 extern Vector VecBModelOrigin( entvars_t *pevBModel );
 

@@ -38,7 +38,7 @@
 #include "weapons.h"
 #include "ai/soundent.h"
 #include "ai/talkmonster.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "customentity.h"
 
 int g_fGruntQuestion; // true if an idle grunt asked a question. Cleared when someone answers.

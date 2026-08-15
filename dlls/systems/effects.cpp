@@ -17,10 +17,10 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "customentity.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "weapons.h"
 #include "decals.h"
-#include "func_break.h"
+#include "systems/func_break.h"
 #include "shake.h"
 
 #define SF_GIBSHOOTER_REPEATABLE 1 // allows a gibshooter to be refired

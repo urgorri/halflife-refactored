@@ -20,7 +20,7 @@
 #include "ai/monsters.h"
 #include "weapons.h"
 #include "ai/nodes.h"
-#include "effects.h"
+#include "systems/effects.h"
 
 #define N_SCALE 15
 #define N_SPHERES 20

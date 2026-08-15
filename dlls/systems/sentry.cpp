@@ -15,9 +15,9 @@
 
 #include "turret.h"
 #include "ai/monsters.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "weapons.h"
-#include "explode.h"
+#include "systems/explode.h"
 
 //=========================================================
 // Sentry gun - smallest turret, placed near grunt entrenchments

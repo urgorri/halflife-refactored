@@ -90,7 +90,7 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/bloater.o \
 	$(DLL_OBJDIR)/world/bmodels.o \
 	$(DLL_OBJDIR)/monsters/bullsquid.o \
-	$(DLL_OBJDIR)/buttons.o \
+	$(DLL_OBJDIR)/systems/buttons.o \
 	$(CORE_OBJDIR)/cbase.o \
 	$(DLL_OBJDIR)/client.o \
 	$(DLL_OBJDIR)/combat.o \
@@ -98,12 +98,12 @@ OBJ = \
 	$(DLL_OBJDIR)/crossbow.o \
 	$(DLL_OBJDIR)/weapons/weapon_crowbar.o \
 	$(DLL_OBJDIR)/ai/defaultai.o \
-	$(DLL_OBJDIR)/doors.o \
-	$(DLL_OBJDIR)/effects.o \
+	$(DLL_OBJDIR)/systems/doors.o \
+	$(DLL_OBJDIR)/systems/effects.o \
 	$(DLL_OBJDIR)/weapons/weapon_egon.o \
-	$(DLL_OBJDIR)/explode.o \
+	$(DLL_OBJDIR)/systems/explode.o \
 	$(DLL_OBJDIR)/ai/flyingmonster.o \
-	$(DLL_OBJDIR)/func_break.o \
+	$(DLL_OBJDIR)/systems/func_break.o \
 	$(DLL_OBJDIR)/systems/func_tank.o \
 	$(DLL_OBJDIR)/systems/func_tankgun.o \
 	$(DLL_OBJDIR)/systems/func_tanklaser.o \
@@ -139,7 +139,7 @@ OBJ = \
 	$(DLL_OBJDIR)/items/item_security.o \
 	$(DLL_OBJDIR)/items/item_longjump.o \
 	$(DLL_OBJDIR)/monsters/leech.o \
-	$(DLL_OBJDIR)/lights.o \
+	$(DLL_OBJDIR)/systems/lights.o \
 	$(DLL_OBJDIR)/gameplay/maprules.o \
 	$(DLL_OBJDIR)/gameplay/game_score.o \
 	$(DLL_OBJDIR)/gameplay/game_end.o \
@@ -181,7 +181,7 @@ OBJ = \
 	$(DLL_OBJDIR)/weapons/weapon_shotgun.o \
 	$(DLL_OBJDIR)/gameplay/singleplay_gamerules.o \
 	$(DLL_OBJDIR)/skill.o \
-	$(DLL_OBJDIR)/sound.o \
+	$(DLL_OBJDIR)/systems/sound.o \
 	$(DLL_OBJDIR)/ai/soundent.o \
 	$(DLL_OBJDIR)/spectator.o \
 	$(DLL_OBJDIR)/ai/squadmonster.o \

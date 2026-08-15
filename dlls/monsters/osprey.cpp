@@ -19,7 +19,7 @@
 #include "weapons.h"
 #include "ai/nodes.h"
 #include "ai/soundent.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "customentity.h"
 
 typedef struct

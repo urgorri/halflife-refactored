@@ -22,7 +22,7 @@
 #include "ai/monsters.h"
 #include "ai/schedule.h"
 #include "ai/nodes.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "decals.h"
 #include "ai/soundent.h"
 #include "game.h"

@@ -87,8 +87,8 @@
     <ClCompile Include="..\..\dlls\monsters\bullsquid.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\buttons.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\buttons.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\cbase.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -114,23 +114,23 @@
     <ClCompile Include="..\..\dlls\monsters\gman.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\doors.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\doors.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\effects.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\effects.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\explode.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\explode.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\ai\flyingmonster.cpp">
       <Filter>Source Files\dlls\ai</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\func_break.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\func_break.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\systems\func_tank.cpp">
       <Filter>Source Files\dlls\systems</Filter>
@@ -240,8 +240,8 @@
     <ClCompile Include="..\..\dlls\monsters\leech.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\lights.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\lights.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\maprules.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -363,8 +363,8 @@
     <ClCompile Include="..\..\dlls\skill.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\sound.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\systems\sound.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\ai\soundent.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -501,8 +501,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\dlls\doors.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\systems\doors.h">
+      <Filter>Header Files\dlls\systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\ai\activity.h">
       <Filter>Header Files\dlls</Filter>
@@ -531,8 +531,8 @@
     <ClInclude Include="..\..\dlls\defaultai.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\effects.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\systems\effects.h">
+      <Filter>Header Files\dlls\systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\engine\eiface.h">
       <Filter>Header Files\engine</Filter>
@@ -546,8 +546,8 @@
     <ClInclude Include="..\..\dlls\core\enginecallback.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\explode.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\systems\explode.h">
+      <Filter>Header Files\dlls\systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\extdll.h">
       <Filter>Header Files\dlls</Filter>
@@ -555,8 +555,8 @@
     <ClInclude Include="..\..\dlls\ai\flyingmonster.h">
       <Filter>Header Files\dlls\ai</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\func_break.h">
-      <Filter>Header Files\dlls</Filter>
+    <ClInclude Include="..\..\dlls\systems\func_break.h">
+      <Filter>Header Files\dlls\systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\gameplay\gamerules.h">
       <Filter>Header Files\dlls</Filter>

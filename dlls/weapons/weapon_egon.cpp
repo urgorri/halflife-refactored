@@ -22,7 +22,7 @@
 #include "weapons.h"
 #include "weapons/weapon_egon.h"
 #include "ai/nodes.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "customentity.h"
 #include "gameplay/gamerules.h"
 

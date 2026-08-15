@@ -6,7 +6,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "weapons.h"
 
 #define TURRET_SHOTS 2

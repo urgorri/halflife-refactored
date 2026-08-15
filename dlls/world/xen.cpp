@@ -16,7 +16,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "animation.h"
-#include "effects.h"
+#include "systems/effects.h"
 
 #define XEN_PLANT_GLOW_SPRITE "sprites/flare3.spr"
 #define XEN_PLANT_HIDE_TIME 5

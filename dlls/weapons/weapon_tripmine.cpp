@@ -19,7 +19,7 @@
 #include "weapons.h"
 #include "ai/nodes.h"
 #include "player.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "gameplay/gamerules.h"
 
 #define TRIPMINE_PRIMARY_VOLUME 450

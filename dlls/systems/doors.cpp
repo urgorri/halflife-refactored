@@ -21,7 +21,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "doors.h"
+#include "systems/doors.h"
 
 extern void SetMovedir( entvars_t *ev );
 

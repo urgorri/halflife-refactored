@@ -25,7 +25,7 @@
 #include "core/cbase.h"
 #include "core/saverestore.h"
 #include "ai/nodes.h"
-#include "doors.h"
+#include "systems/doors.h"
 
 extern CGraph WorldGraph;
 

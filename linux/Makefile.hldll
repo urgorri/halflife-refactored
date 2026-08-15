@@ -46,7 +46,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/bloater.o \
 	$(HLDLL_OBJ_DIR)/world/bmodels.o \
 	$(HLDLL_OBJ_DIR)/monsters/bullsquid.o \
-	$(HLDLL_OBJ_DIR)/buttons.o \
+	$(HLDLL_OBJ_DIR)/systems/buttons.o \
 	$(HLCORE_OBJ_DIR)/cbase.o \
 	$(HLDLL_OBJ_DIR)/client.o \
 	$(HLDLL_OBJ_DIR)/combat.o \
@@ -54,12 +54,12 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/crossbow.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
-	$(HLDLL_OBJ_DIR)/doors.o \
-	$(HLDLL_OBJ_DIR)/effects.o \
+	$(HLDLL_OBJ_DIR)/systems/doors.o \
+	$(HLDLL_OBJ_DIR)/systems/effects.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_egon.o \
-	$(HLDLL_OBJ_DIR)/explode.o \
+	$(HLDLL_OBJ_DIR)/systems/explode.o \
 	$(HLDLL_OBJ_DIR)/ai/flyingmonster.o \
-	$(HLDLL_OBJ_DIR)/func_break.o \
+	$(HLDLL_OBJ_DIR)/systems/func_break.o \
 	$(HLDLL_OBJ_DIR)/systems/func_tank.o \
 	$(HLDLL_OBJ_DIR)/systems/func_tankgun.o \
 	$(HLDLL_OBJ_DIR)/systems/func_tanklaser.o \
@@ -95,7 +95,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/items/item_security.o \
 	$(HLDLL_OBJ_DIR)/items/item_longjump.o \
 	$(HLDLL_OBJ_DIR)/monsters/leech.o \
-	$(HLDLL_OBJ_DIR)/lights.o \
+	$(HLDLL_OBJ_DIR)/systems/lights.o \
 	$(HLDLL_OBJ_DIR)/gameplay/maprules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/game_score.o \
 	$(HLDLL_OBJ_DIR)/gameplay/game_end.o \
@@ -136,7 +136,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/scientist.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HLDLL_OBJ_DIR)/skill.o \
-	$(HLDLL_OBJ_DIR)/sound.o \
+	$(HLDLL_OBJ_DIR)/systems/sound.o \
 	$(HLDLL_OBJ_DIR)/ai/soundent.o \
 	$(HLDLL_OBJ_DIR)/spectator.o \
 	$(HLDLL_OBJ_DIR)/ai/squadmonster.o \

@@ -23,7 +23,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "decals.h"
-#include "explode.h"
+#include "systems/explode.h"
 
 // Spark Shower
 class CShower : public CBaseEntity

@@ -15,9 +15,9 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "effects.h"
+#include "systems/effects.h"
 #include "weapons.h"
-#include "explode.h"
+#include "systems/explode.h"
 
 #include "player.h"
 
