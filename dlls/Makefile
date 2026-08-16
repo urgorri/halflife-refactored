@@ -181,6 +181,7 @@ OBJ = \
 	$(DLL_OBJDIR)/weapons/weapon_shotgun.o \
 	$(DLL_OBJDIR)/gameplay/singleplay_gamerules.o \
 	$(CORE_OBJDIR)/skill.o \
+	$(DLL_OBJDIR)/gameplay/stats.o \
 	$(DLL_OBJDIR)/systems/sound.o \
 	$(DLL_OBJDIR)/ai/soundent.o \
 	$(DLL_OBJDIR)/spectator.o \

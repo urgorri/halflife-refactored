@@ -363,6 +363,9 @@
     <ClCompile Include="..\..\dlls\gameplay\singleplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\stats.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\core\skill.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
