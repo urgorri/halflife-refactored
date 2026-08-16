@@ -177,7 +177,7 @@
     <ClCompile Include="..\..\dlls\systems\h_battery.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\h_cine.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\h_cine.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\systems\h_cycler.cpp">

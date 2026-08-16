@@ -119,7 +119,7 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/gman.o \
 	$(DLL_OBJDIR)/ai/h_ai.o \
 	$(DLL_OBJDIR)/systems/h_battery.o \
-	$(DLL_OBJDIR)/h_cine.o \
+	$(DLL_OBJDIR)/gameplay/h_cine.o \
 	$(DLL_OBJDIR)/systems/h_cycler.o \
 	$(CORE_OBJDIR)/h_export.o \
 	$(DLL_OBJDIR)/weapons/weapon_handgrenade.o \
