@@ -154,7 +154,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\monsters\houndeye.cpp" />
     <ClCompile Include="..\..\dlls\ai\h_ai.cpp" />
     <ClCompile Include="..\..\dlls\systems\h_battery.cpp" />
-    <ClCompile Include="..\..\dlls\h_cine.cpp" />
+    <ClCompile Include="..\..\dlls\gameplay\h_cine.cpp" />
     <ClCompile Include="..\..\dlls\systems\h_cycler.cpp" />
     <ClCompile Include="..\..\dlls\core\h_export.cpp" />
     <ClCompile Include="..\..\dlls\monsters\ichthyosaur.cpp" />

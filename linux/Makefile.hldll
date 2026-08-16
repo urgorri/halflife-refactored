@@ -75,7 +75,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/gman.o \
 	$(HLDLL_OBJ_DIR)/ai/h_ai.o \
 	$(HLDLL_OBJ_DIR)/systems/h_battery.o \
-	$(HLDLL_OBJ_DIR)/h_cine.o \
+	$(HLDLL_OBJ_DIR)/gameplay/h_cine.o \
 	$(HLDLL_OBJ_DIR)/systems/h_cycler.o \
 	$(HLDLL_OBJ_DIR)/core/h_export.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_handgrenade.o \
