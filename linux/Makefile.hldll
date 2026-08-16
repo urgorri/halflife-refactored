@@ -138,7 +138,7 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/skill.o \
 	$(HLDLL_OBJ_DIR)/systems/sound.o \
 	$(HLDLL_OBJ_DIR)/ai/soundent.o \
-	$(HLDLL_OBJ_DIR)/spectator.o \
+	$(HLDLL_OBJ_DIR)/gameplay/spectator.o \
 	$(HLDLL_OBJ_DIR)/ai/squadmonster.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_snark.o \
 	$(HLCORE_OBJ_DIR)/subs.o \
