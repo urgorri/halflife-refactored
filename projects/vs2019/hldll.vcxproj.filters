@@ -306,7 +306,7 @@
     <ClCompile Include="..\..\dlls\ai\nodes.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\observer.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\observer.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\osprey.cpp">
