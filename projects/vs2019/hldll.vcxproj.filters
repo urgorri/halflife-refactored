@@ -375,7 +375,7 @@
     <ClCompile Include="..\..\dlls\ai\soundent.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\spectator.cpp">
+    <ClCompile Include="..\..\dlls\gameplay\spectator.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\ai\squadmonster.cpp">
@@ -634,7 +634,7 @@
     <ClInclude Include="..\..\dlls\ai\soundent.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\spectator.h">
+    <ClInclude Include="..\..\dlls\gameplay\spectator.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\squadmonster.h">

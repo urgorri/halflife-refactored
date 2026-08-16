@@ -185,7 +185,7 @@ OBJ = \
 	$(DLL_OBJDIR)/gameplay/stats.o \
 	$(DLL_OBJDIR)/systems/sound.o \
 	$(DLL_OBJDIR)/ai/soundent.o \
-	$(DLL_OBJDIR)/spectator.o \
+	$(DLL_OBJDIR)/gameplay/spectator.o \
 	$(DLL_OBJDIR)/ai/squadmonster.o \
 	$(DLL_OBJDIR)/weapons/weapon_snark.o \
 	$(CORE_OBJDIR)/subs.o \

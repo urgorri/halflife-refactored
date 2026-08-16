@@ -28,7 +28,7 @@
 #include "core/cbase.h"
 #include "core/saverestore.h"
 #include "core/player.h"
-#include "spectator.h"
+#include "gameplay/spectator.h"
 #include "core/client.h"
 #include "ai/soundent.h"
 #include "gameplay/gamerules.h"
