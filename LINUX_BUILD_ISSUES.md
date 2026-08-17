@@ -1,19 +1,45 @@
-# Linux Build Issues
+# Linux Build Issues & Action Plan
 
-When attempting to build the `hl_cdll` project locally on Linux (Ubuntu 24.04 via g++), there are several pre-existing compilation errors that block a successful build. These issues are related to the codebase age and compatibility with modern compilers.
+This document outlines the verified pre-existing Linux compilation issues blocking a clean build of `hldll` and `hl_cdll` using GCC/G++ on modern Linux distributions (e.g., Ubuntu 22.04 / 24.04).
 
-## Findings:
+All items below have been audited against the current codebase and remain **pending** action.
 
-1. **Missing Steam Header:**
-   The client build looks for `steam/steamtypes.h` (included via `engine/cdll_int.h`), but this file is missing from the repository.
+---
 
-2. **Windows Types in Linux Build:**
-   The file `cl_dll/inputw32.cpp` uses Windows-specific types like `POINT` (resulting in `error: ‘POINT’ does not name a type; did you mean ‘tagPOINT’?`) and is not correctly excluded from the Linux makefile configuration, causing failures when compiling `inputw32.o`.
+## Actionable Tasks
 
-3. **String Constant Conversion Restrictions:**
-   Modern g++ correctly forbids converting a string constant to `char*` without a cast (`-Wwrite-strings`). There are multiple occurrences of this in `cl_dll/hud_spectator.cpp` (e.g., `gEngfuncs.pfnRegisterVariable( "spec_drawstatus", "1", 0 );`).
+### 1. Fix Steam Header Include Resolution
+- [ ] **Ensure `public/` is in include paths across all Linux makefiles**
+  - **Root Cause**: `public/steam/steamtypes.h` exists in the repository, but `#include "steam/steamtypes.h"` (in `engine/cdll_int.h` and `public/archtypes.h`) fails when `PUBLIC_SRC_DIR` is not passed or `-I../public` is omitted during standalone make invocations.
+  - **Affected Files**: `linux/Makefile.hl_cdll`, `linux/Makefile.hldll`, `linux/Makefile.dmc_cdll`, `linux/Makefile.ricochet_cdll`
+  - **Action**: Add `-I$(SOURCE_DIR)/public` and fallback `-I../public` directly into `INCLUDEDIRS` for all subsystem makefiles.
 
-4. **Case-Insensitive String Comparisons:**
-   The build uses macros like `-Dstricmp=strcasecmp`, but depending on the standard library includes (e.g. `string.h` vs `strings.h`), `stricmp` often fails to map correctly without explicit `#include <strings.h>`.
+### 2. Resolve Win32 API & Type Dependencies in Client Input
+- [ ] **Guard Win32 input calls & types in `cl_dll/inputw32.cpp` (or `cl_dll/input/inputw32.cpp`)**
+  - **Root Cause**: `inputw32.cpp` uses Windows-specific types (`POINT`) and calls Win32 APIs directly (`GetCursorPos`, `SetCursorPos`, `SystemParametersInfo`). On Linux, this causes `‘POINT’ does not name a type` and unresolved symbol errors.
+  - **Affected Files**: `cl_dll/inputw32.cpp` (or `cl_dll/input/inputw32.cpp`), `common/port.h`, `linux/Makefile.hl_cdll`
+  - **Action**:
+    - Wrap Win32-specific mouse pointer manipulation in `#ifdef _WIN32` blocks with SDL2 / stub fallbacks for Linux.
+    - Ensure `common/port.h` defines `POINT` consistently when building on Linux.
 
-These issues were not introduced by the VGUI refactoring and require broader platform and dependency fixes beyond the scope of this update.
+### 3. Fix String Constant to `char*` Conversions (`-Wwrite-strings`)
+- [ ] **Replace direct `pfnRegisterVariable` calls with `CVAR_CREATE` or explicit casts**
+  - **Root Cause**: Modern C++ forbids implicit conversion from string literals (`const char[]`) to non-const `char*`. While `cl_dll/cl_util.h` provides `CVAR_CREATE` with explicit casts, several files call `gEngfuncs.pfnRegisterVariable` directly with string literals.
+  - **Affected Files**:
+    - `cl_dll/hud_spectator.cpp` (or `cl_dll/hud/hud_spectator.cpp`)
+    - `cl_dll/in_camera.cpp` (or `cl_dll/input/in_camera.cpp`)
+    - `cl_dll/input.cpp` (or `cl_dll/input/input.cpp`)
+    - `cl_dll/inputw32.cpp` (or `cl_dll/input/inputw32.cpp`)
+  - **Action**: Update direct `gEngfuncs.pfnRegisterVariable` calls to use `CVAR_CREATE(name, value, flags)` or explicit `(char *)` casts.
+
+### 4. Include `<strings.h>` for POSIX Case-Insensitive String Functions
+- [ ] **Add `#include <strings.h>` to `common/port.h`**
+  - **Root Cause**: The Linux build defines `-Dstricmp=strcasecmp` and `-D_strnicmp=strncasecmp`. On POSIX systems, `strcasecmp` and `strncasecmp` are declared in `<strings.h>`, but `common/port.h` only includes `<string.h>`, causing compilation failures when standard POSIX compliance flags are enabled.
+  - **Affected Files**: `common/port.h`
+  - **Action**: Add `#include <strings.h>` inside the `#ifndef _WIN32` block in `common/port.h`.
+
+### 5. Update Linux Makefiles for Modular Directory Layout
+- [ ] **Add pattern rules and output directory creation for refactored folders in `linux/Makefile.hl_cdll`**
+  - **Root Cause**: The client codebase has been restructured into subdirectories (`vgui/`, `hud/`, `studio/`, `input/`). The makefile must create these target build directories in `$(HL1_OBJ_DIR)` and provide matching compilation rules (`$(HL1_OBJ_DIR)/hud/%.o`, etc.).
+  - **Affected Files**: `linux/Makefile.hl_cdll`
+  - **Action**: Ensure `mkdir -p` includes `hud`, `studio`, `input`, and appropriate `$(HL1_OBJ_DIR)/subfolder/%.o` compile rules are declared.
