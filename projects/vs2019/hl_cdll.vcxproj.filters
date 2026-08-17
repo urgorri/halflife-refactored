@@ -57,6 +57,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="Source Files\studio">
+      <UniqueIdentifier>{6d26d83a-49bd-4604-bb9e-4a6c90c7ef03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\studio">
+      <UniqueIdentifier>{a98c56fa-244a-466a-9bbd-e43c5f2b87d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{11b95b87-d4f1-4df2-a9b0-4ecb226cd1a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\dlls\crossbow.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
@@ -153,8 +164,8 @@
     <ClCompile Include="..\..\cl_dll\flashlight.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\GameStudioModelRenderer.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\studio\GameStudioModelRenderer.cpp">
+      <Filter>Source Files\studio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\geiger.cpp">
       <Filter>Source Files\cl_dll</Filter>
@@ -186,14 +197,14 @@
     <ClCompile Include="..\..\cl_dll\hud_update.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\in_camera.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\input\in_camera.cpp">
+      <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\input.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\input\input.cpp">
+      <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\inputw32.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\input\inputw32.cpp">
+      <Filter>Source Files\input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\interpolation.cpp">
       <Filter>Source Files\cl_dll</Filter>
@@ -225,11 +236,11 @@
     <ClCompile Include="..\..\cl_dll\statusbar.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\studio_util.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\studio\studio_util.cpp">
+      <Filter>Source Files\studio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\StudioModelRenderer.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\studio\StudioModelRenderer.cpp">
+      <Filter>Source Files\studio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\text_message.cpp">
       <Filter>Source Files\cl_dll</Filter>
@@ -338,8 +349,8 @@
     <ClInclude Include="..\..\cl_dll\eventscripts.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\GameStudioModelRenderer.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\studio\GameStudioModelRenderer.h">
+      <Filter>Header Files\studio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\health.h">
       <Filter>Header Files\cl_dll</Filter>
@@ -386,8 +397,8 @@
     <ClInclude Include="..\..\cl_dll\vgui\vgui_ScorePanel.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\StudioModelRenderer.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\studio\StudioModelRenderer.h">
+      <Filter>Header Files\studio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\tri.h">
       <Filter>Header Files\cl_dll</Filter>

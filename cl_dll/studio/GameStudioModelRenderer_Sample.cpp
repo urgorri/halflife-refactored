@@ -6,8 +6,8 @@
 //=============================================================================
 
 #include <assert.h>
-#include "hud.h"
-#include "cl_util.h"
+#include "../hud.h"
+#include "../cl_util.h"
 #include "const.h"
 #include "com_model.h"
 #include "studio.h"

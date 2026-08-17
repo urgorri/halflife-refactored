@@ -5,16 +5,16 @@
 // $NoKeywords: $
 //=============================================================================
 
-#include "hud.h"
-#include "cl_util.h"
-#include "camera.h"
-#include "kbutton.h"
+#include "../hud.h"
+#include "../cl_util.h"
+#include "../camera.h"
+#include "../kbutton.h"
 #include "cvardef.h"
 #include "usercmd.h"
 #include "const.h"
-#include "camera.h"
-#include "in_defs.h"
-#include "Exports.h"
+#include "../camera.h"
+#include "../in_defs.h"
+#include "../Exports.h"
 
 #include "SDL2/SDL_mouse.h"
 #include "port.h"

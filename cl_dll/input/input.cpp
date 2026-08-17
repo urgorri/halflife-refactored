@@ -4,23 +4,23 @@
 
 // Quake is a trademark of Id Software, Inc., (c) 1996 Id Software, Inc. All
 // rights reserved.
-#include "hud.h"
-#include "cl_util.h"
-#include "camera.h"
+#include "../hud.h"
+#include "../cl_util.h"
+#include "../camera.h"
 extern "C"
 {
-#include "kbutton.h"
+#include "../kbutton.h"
 }
 #include "cvardef.h"
 #include "usercmd.h"
 #include "const.h"
-#include "camera.h"
-#include "in_defs.h"
-#include "view.h"
-#include "bench.h"
+#include "../camera.h"
+#include "../in_defs.h"
+#include "../view.h"
+#include "../bench.h"
 #include <string.h>
 #include <ctype.h>
-#include "Exports.h"
+#include "../Exports.h"
 
 #include "vgui/vgui_TeamFortressViewport.h"
 

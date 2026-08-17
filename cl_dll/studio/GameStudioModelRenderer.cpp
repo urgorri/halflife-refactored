@@ -6,8 +6,8 @@
 //=============================================================================
 
 #include <assert.h>
-#include "hud.h"
-#include "cl_util.h"
+#include "../hud.h"
+#include "../cl_util.h"
 #include "const.h"
 #include "com_model.h"
 #include "studio.h"
@@ -26,7 +26,7 @@
 
 #include "StudioModelRenderer.h"
 #include "GameStudioModelRenderer.h"
-#include "Exports.h"
+#include "../Exports.h"
 
 //
 // Override the StudioModelRender virtual member functions here to implement custom bone

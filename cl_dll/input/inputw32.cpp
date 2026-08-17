@@ -10,18 +10,18 @@
 
 #include "port.h"
 
-#include "hud.h"
-#include "cl_util.h"
-#include "camera.h"
-#include "kbutton.h"
+#include "../hud.h"
+#include "../cl_util.h"
+#include "../camera.h"
+#include "../kbutton.h"
 #include "cvardef.h"
 #include "usercmd.h"
 #include "const.h"
-#include "camera.h"
-#include "in_defs.h"
-#include "../public/keydefs.h"
-#include "view.h"
-#include "Exports.h"
+#include "../camera.h"
+#include "../in_defs.h"
+#include "../../public/keydefs.h"
+#include "../view.h"
+#include "../Exports.h"
 
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_mouse.h>
