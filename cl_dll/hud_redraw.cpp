@@ -20,7 +20,7 @@
 #include "cl_util.h"
 #include "bench.h"
 
-#include "vgui_TeamFortressViewport.h"
+#include "vgui/vgui_TeamFortressViewport.h"
 
 #define MAX_LOGO_FRAMES 56
 

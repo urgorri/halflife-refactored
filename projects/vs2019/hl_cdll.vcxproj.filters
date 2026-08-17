@@ -243,13 +243,13 @@
     <ClCompile Include="..\..\game_shared\vgui_checkbutton2.cpp">
       <Filter>Source Files\game_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_CustomObjects.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_CustomObjects.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_ClassMenu.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_ClassMenu.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_ControlConfigPanel.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game_shared\vgui_grid.cpp">
@@ -258,7 +258,7 @@
     <ClCompile Include="..\..\game_shared\vgui_helpers.cpp">
       <Filter>Source Files\game_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_int.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_int.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game_shared\vgui_loadtga.cpp">
@@ -267,13 +267,13 @@
     <ClCompile Include="..\..\game_shared\vgui_listbox.cpp">
       <Filter>Source Files\game_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_MOTDWindow.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_MOTDWindow.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_SchemeManager.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_SchemeManager.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_ScorePanel.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_ScorePanel.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game_shared\voice_banmgr.cpp">
@@ -288,16 +288,16 @@
     <ClCompile Include="..\..\cl_dll\view.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_ServerBrowser.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_ServerBrowser.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_SpectatorPanel.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_SpectatorPanel.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_TeamFortressViewport.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamFortressViewport.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui_teammenu.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_teammenu.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\voice_status.cpp">
@@ -383,7 +383,7 @@
     <ClInclude Include="..\..\pm_shared\pm_movevars.h">
       <Filter>Header Files\pm_shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\vgui_ScorePanel.h">
+    <ClInclude Include="..\..\cl_dll\vgui\vgui_ScorePanel.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\StudioModelRenderer.h">
@@ -395,13 +395,13 @@
     <ClInclude Include="..\..\cl_dll\util_vector.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\vgui_ControlConfigPanel.h">
+    <ClInclude Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\vgui_int.h">
+    <ClInclude Include="..\..\cl_dll\vgui\vgui_int.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\vgui_SchemeManager.h">
+    <ClInclude Include="..\..\cl_dll\vgui\vgui_SchemeManager.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\game_shared\vgui_slider2.h">
@@ -419,10 +419,10 @@
     <ClInclude Include="..\..\cl_dll\wrect.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\vgui_ServerBrowser.h">
+    <ClInclude Include="..\..\cl_dll\vgui\vgui_ServerBrowser.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\vgui_SpectatorPanel.h">
+    <ClInclude Include="..\..\cl_dll\vgui\vgui_SpectatorPanel.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\view.h">

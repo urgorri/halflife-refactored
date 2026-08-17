@@ -34,19 +34,19 @@
 #include <VGUI_App.h>
 #include <VGUI_BuildGroup.h>
 
-#include "hud.h"
-#include "cl_util.h"
-#include "camera.h"
-#include "kbutton.h"
+#include "../hud.h"
+#include "../cl_util.h"
+#include "../camera.h"
+#include "../kbutton.h"
 #include "cvardef.h"
 #include "usercmd.h"
 #include "const.h"
-#include "camera.h"
-#include "in_defs.h"
+#include "../camera.h"
+#include "../in_defs.h"
 #include "parsemsg.h"
 #include "pm_shared.h"
 #include "keydefs.h"
-#include "demo.h"
+#include "../demo.h"
 #include "demo_api.h"
 
 #include "vgui_int.h"

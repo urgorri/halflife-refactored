@@ -78,18 +78,18 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/tri.o \
 	$(HL1_OBJ_DIR)/util.o \
 	$(HL1_OBJ_DIR)/view.o \
-	$(HL1_OBJ_DIR)/vgui_int.o \
-	$(HL1_OBJ_DIR)/vgui_ClassMenu.o \
-	$(HL1_OBJ_DIR)/vgui_ConsolePanel.o \
-	$(HL1_OBJ_DIR)/vgui_ControlConfigPanel.o \
-	$(HL1_OBJ_DIR)/vgui_CustomObjects.o \
-	$(HL1_OBJ_DIR)/vgui_MOTDWindow.o \
-	$(HL1_OBJ_DIR)/vgui_SchemeManager.o \
-	$(HL1_OBJ_DIR)/vgui_ScorePanel.o \
-	$(HL1_OBJ_DIR)/vgui_ServerBrowser.o \
-	$(HL1_OBJ_DIR)/vgui_TeamFortressViewport.o \
-	$(HL1_OBJ_DIR)/vgui_SpectatorPanel.o \
-	$(HL1_OBJ_DIR)/vgui_teammenu.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_int.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_ClassMenu.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_ConsolePanel.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_ControlConfigPanel.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_CustomObjects.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_MOTDWindow.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_SchemeManager.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_ScorePanel.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_ServerBrowser.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_TeamFortressViewport.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_SpectatorPanel.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_teammenu.o \
 	$(HL1_OBJ_DIR)/voice_status.o \
 	$(HL1_OBJ_DIR)/hud_servers.o \
 
@@ -183,7 +183,7 @@ $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/hl/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DI
 $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/dlls/wpn_shared/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
 	$(DO_CC)
 
-$(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/VGUI/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
+$(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/vgui/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
 	$(DO_CC)
 
 $(PUBLIC_OBJ_DIR)/%.o : $(PUBLIC_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(PUBLIC_OBJ_DIR)),  $(PUBLIC_OBJ_DIR))
@@ -201,3 +201,6 @@ $(PM_SHARED_OBJ_DIR)/%.o : $(PM_SHARED_SRC_DIR)/%.c $(filter-out $(wildcard  $(P
 clean:
 	-rm -rf $(HL1_OBJ_DIR)
 	-rm -f client.$(SHLIBEXT)
+
+$(HL1_OBJ_DIR)/VGUI/%.o: $(HL_SRC_DIR)/vgui/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
+	$(DO_CC)

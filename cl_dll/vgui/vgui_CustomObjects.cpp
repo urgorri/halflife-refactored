@@ -18,15 +18,15 @@
 
 #include "VGUI_Font.h"
 
-#include "hud.h"
-#include "cl_util.h"
-#include "camera.h"
-#include "kbutton.h"
+#include "../hud.h"
+#include "../cl_util.h"
+#include "../camera.h"
+#include "../kbutton.h"
 #include "cvardef.h"
 #include "usercmd.h"
 #include "const.h"
-#include "camera.h"
-#include "in_defs.h"
+#include "../camera.h"
+#include "../in_defs.h"
 #include "parsemsg.h"
 
 #include "vgui_int.h"

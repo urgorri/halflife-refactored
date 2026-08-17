@@ -24,12 +24,12 @@
 #include <stdio.h>
 #include "parsemsg.h"
 #include "hud_servers.h"
-#include "vgui_int.h"
-#include "vgui_TeamFortressViewport.h"
+#include "vgui/vgui_int.h"
+#include "vgui/vgui_TeamFortressViewport.h"
 
 #include "demo.h"
 #include "demo_api.h"
-#include "vgui_ScorePanel.h"
+#include "vgui/vgui_ScorePanel.h"
 
 hud_player_info_t g_PlayerInfoList[MAX_PLAYERS + 1];    // player info from the engine
 extra_player_info_t g_PlayerExtraInfo[MAX_PLAYERS + 1]; // additional player info sent directly to the client dll

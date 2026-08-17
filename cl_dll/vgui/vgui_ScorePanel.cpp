@@ -18,8 +18,8 @@
 
 #include <VGUI_LineBorder.h>
 
-#include "hud.h"
-#include "cl_util.h"
+#include "../hud.h"
+#include "../cl_util.h"
 #include "const.h"
 #include "entity_state.h"
 #include "cl_entity.h"
@@ -27,7 +27,7 @@
 #include "vgui_ScorePanel.h"
 #include "vgui_helpers.h"
 #include "vgui_loadtga.h"
-#include "voice_status.h"
+#include "../voice_status.h"
 #include "vgui_SpectatorPanel.h"
 
 extern hud_player_info_t g_PlayerInfoList[MAX_PLAYERS + 1];    // player info from the engine
