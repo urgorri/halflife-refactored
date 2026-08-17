@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include "parsemsg.h"
 
-#include "vgui_TeamFortressViewport.h"
+#include "vgui/vgui_TeamFortressViewport.h"
 
 DECLARE_MESSAGE( m_TextMessage, TextMsg );
 

@@ -23,7 +23,7 @@
 #include "netadr.h"
 #undef INTERFACE_H
 #include "../public/interface.h"
-// #include "vgui_schememanager.h"
+// #include "vgui_SchemeManager.h"
 
 extern "C"
 {
@@ -32,7 +32,7 @@ extern "C"
 
 #include <string.h>
 #include "hud_servers.h"
-#include "vgui_int.h"
+#include "vgui/vgui_int.h"
 #include "interface.h"
 
 #ifdef _WIN32
@@ -43,7 +43,7 @@ extern "C"
 #include "Exports.h"
 #
 #include "tri.h"
-#include "vgui_TeamFortressViewport.h"
+#include "vgui/vgui_TeamFortressViewport.h"
 #include "../public/interface.h"
 
 cl_enginefunc_t gEngfuncs;

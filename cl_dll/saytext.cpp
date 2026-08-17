@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <malloc.h> // _alloca
 
-#include "vgui_TeamFortressViewport.h"
+#include "vgui/vgui_TeamFortressViewport.h"
 
 extern float *GetClientColor( int clientIndex );
 

@@ -22,7 +22,7 @@ extern "C"
 #include <ctype.h>
 #include "Exports.h"
 
-#include "vgui_TeamFortressViewport.h"
+#include "vgui/vgui_TeamFortressViewport.h"
 
 extern int g_iAlive;
 

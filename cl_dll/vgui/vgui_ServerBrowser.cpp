@@ -12,9 +12,9 @@
 #include <VGUI_Button.h>
 #include <VGUI_ActionSignal.h>
 
-#include "hud.h"
-#include "cl_util.h"
-#include "hud_servers.h"
+#include "../hud.h"
+#include "../cl_util.h"
+#include "../hud_servers.h"
 #include "net_api.h"
 
 #include "vgui_TeamFortressViewport.h"
