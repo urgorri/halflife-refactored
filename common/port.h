@@ -55,7 +55,7 @@ typedef char *LPSTR;
 // const int MAX_PATH = PATH_MAX;
 #define MAX_PATH PATH_MAX
 
-#ifdef LINUX
+#ifndef _WIN32
 typedef struct POINT_s
 {
 	int x;

@@ -1074,25 +1074,25 @@ void InitInput( void )
 	gEngfuncs.pfnAddCommand( "+break", IN_BreakDown );
 	gEngfuncs.pfnAddCommand( "-break", IN_BreakUp );
 
-	lookstrafe       = gEngfuncs.pfnRegisterVariable( "lookstrafe", "0", FCVAR_ARCHIVE );
-	lookspring       = gEngfuncs.pfnRegisterVariable( "lookspring", "0", FCVAR_ARCHIVE );
-	cl_anglespeedkey = gEngfuncs.pfnRegisterVariable( "cl_anglespeedkey", "0.67", 0 );
-	cl_yawspeed      = gEngfuncs.pfnRegisterVariable( "cl_yawspeed", "210", 0 );
-	cl_pitchspeed    = gEngfuncs.pfnRegisterVariable( "cl_pitchspeed", "225", 0 );
-	cl_upspeed       = gEngfuncs.pfnRegisterVariable( "cl_upspeed", "320", 0 );
-	cl_forwardspeed  = gEngfuncs.pfnRegisterVariable( "cl_forwardspeed", "400", FCVAR_ARCHIVE );
-	cl_backspeed     = gEngfuncs.pfnRegisterVariable( "cl_backspeed", "400", FCVAR_ARCHIVE );
-	cl_sidespeed     = gEngfuncs.pfnRegisterVariable( "cl_sidespeed", "400", 0 );
-	cl_movespeedkey  = gEngfuncs.pfnRegisterVariable( "cl_movespeedkey", "0.3", 0 );
-	cl_pitchup       = gEngfuncs.pfnRegisterVariable( "cl_pitchup", "89", 0 );
-	cl_pitchdown     = gEngfuncs.pfnRegisterVariable( "cl_pitchdown", "89", 0 );
+	lookstrafe       = CVAR_CREATE( "lookstrafe", "0", FCVAR_ARCHIVE  );
+	lookspring       = CVAR_CREATE( "lookspring", "0", FCVAR_ARCHIVE  );
+	cl_anglespeedkey = CVAR_CREATE( "cl_anglespeedkey", "0.67", 0  );
+	cl_yawspeed      = CVAR_CREATE( "cl_yawspeed", "210", 0  );
+	cl_pitchspeed    = CVAR_CREATE( "cl_pitchspeed", "225", 0  );
+	cl_upspeed       = CVAR_CREATE( "cl_upspeed", "320", 0  );
+	cl_forwardspeed  = CVAR_CREATE( "cl_forwardspeed", "400", FCVAR_ARCHIVE  );
+	cl_backspeed     = CVAR_CREATE( "cl_backspeed", "400", FCVAR_ARCHIVE  );
+	cl_sidespeed     = CVAR_CREATE( "cl_sidespeed", "400", 0  );
+	cl_movespeedkey  = CVAR_CREATE( "cl_movespeedkey", "0.3", 0  );
+	cl_pitchup       = CVAR_CREATE( "cl_pitchup", "89", 0  );
+	cl_pitchdown     = CVAR_CREATE( "cl_pitchdown", "89", 0  );
 
-	cl_vsmoothing = gEngfuncs.pfnRegisterVariable( "cl_vsmoothing", "0.05", FCVAR_ARCHIVE );
+	cl_vsmoothing = CVAR_CREATE( "cl_vsmoothing", "0.05", FCVAR_ARCHIVE  );
 
-	m_pitch   = gEngfuncs.pfnRegisterVariable( "m_pitch", "0.022", FCVAR_ARCHIVE );
-	m_yaw     = gEngfuncs.pfnRegisterVariable( "m_yaw", "0.022", FCVAR_ARCHIVE );
-	m_forward = gEngfuncs.pfnRegisterVariable( "m_forward", "1", FCVAR_ARCHIVE );
-	m_side    = gEngfuncs.pfnRegisterVariable( "m_side", "0.8", FCVAR_ARCHIVE );
+	m_pitch   = CVAR_CREATE( "m_pitch", "0.022", FCVAR_ARCHIVE  );
+	m_yaw     = CVAR_CREATE( "m_yaw", "0.022", FCVAR_ARCHIVE  );
+	m_forward = CVAR_CREATE( "m_forward", "1", FCVAR_ARCHIVE  );
+	m_side    = CVAR_CREATE( "m_side", "0.8", FCVAR_ARCHIVE  );
 
 	// Initialize third person camera controls.
 	CAM_Init();
