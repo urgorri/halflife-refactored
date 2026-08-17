@@ -85,7 +85,9 @@ static bool IN_UseRawInput()
 
 int mouse_buttons;
 int mouse_oldbuttonstate;
+#ifdef _WIN32
 POINT current_pos;
+#endif
 int old_mouse_x, old_mouse_y, mx_accum, my_accum;
 float mouse_x, mouse_y;
 
@@ -524,8 +526,10 @@ void IN_MouseMove( float frametime, usercmd_t *cmd )
 #endif
 		{
 			SDL_GetRelativeMouseState( &deltaX, &deltaY );
+#ifdef _WIN32
 			current_pos.x = deltaX;
 			current_pos.y = deltaY;
+#endif
 		}
 
 #ifdef _WIN32
@@ -1102,40 +1106,40 @@ IN_Init
 */
 void IN_Init( void )
 {
-	m_filter    = gEngfuncs.pfnRegisterVariable( "m_filter", "0", FCVAR_ARCHIVE );
-	sensitivity = gEngfuncs.pfnRegisterVariable( "sensitivity", "3", FCVAR_ARCHIVE | FCVAR_FILTERSTUFFTEXT ); // user mouse sensitivity setting.
+	m_filter    = CVAR_CREATE( "m_filter", "0", FCVAR_ARCHIVE  );
+	sensitivity = CVAR_CREATE( "sensitivity", "3", FCVAR_ARCHIVE | FCVAR_FILTERSTUFFTEXT  ); // user mouse sensitivity setting.
 
-	in_joystick            = gEngfuncs.pfnRegisterVariable( "joystick", "0", FCVAR_ARCHIVE );
-	joy_name               = gEngfuncs.pfnRegisterVariable( "joyname", "joystick", 0 );
-	joy_advanced           = gEngfuncs.pfnRegisterVariable( "joyadvanced", "0", 0 );
-	joy_advaxisx           = gEngfuncs.pfnRegisterVariable( "joyadvaxisx", "0", 0 );
-	joy_advaxisy           = gEngfuncs.pfnRegisterVariable( "joyadvaxisy", "0", 0 );
-	joy_advaxisz           = gEngfuncs.pfnRegisterVariable( "joyadvaxisz", "0", 0 );
-	joy_advaxisr           = gEngfuncs.pfnRegisterVariable( "joyadvaxisr", "0", 0 );
-	joy_advaxisu           = gEngfuncs.pfnRegisterVariable( "joyadvaxisu", "0", 0 );
-	joy_advaxisv           = gEngfuncs.pfnRegisterVariable( "joyadvaxisv", "0", 0 );
-	joy_supported          = gEngfuncs.pfnRegisterVariable( "joysupported", "1", 0 );
-	joy_forwardthreshold   = gEngfuncs.pfnRegisterVariable( "joyforwardthreshold", "0.15", 0 );
-	joy_sidethreshold      = gEngfuncs.pfnRegisterVariable( "joysidethreshold", "0.15", 0 );
-	joy_pitchthreshold     = gEngfuncs.pfnRegisterVariable( "joypitchthreshold", "0.15", 0 );
-	joy_yawthreshold       = gEngfuncs.pfnRegisterVariable( "joyyawthreshold", "0.15", 0 );
-	joy_forwardsensitivity = gEngfuncs.pfnRegisterVariable( "joyforwardsensitivity", "-1.0", 0 );
-	joy_sidesensitivity    = gEngfuncs.pfnRegisterVariable( "joysidesensitivity", "-1.0", 0 );
-	joy_pitchsensitivity   = gEngfuncs.pfnRegisterVariable( "joypitchsensitivity", "1.0", 0 );
-	joy_yawsensitivity     = gEngfuncs.pfnRegisterVariable( "joyyawsensitivity", "-1.0", 0 );
-	joy_wwhack1            = gEngfuncs.pfnRegisterVariable( "joywwhack1", "0.0", 0 );
-	joy_wwhack2            = gEngfuncs.pfnRegisterVariable( "joywwhack2", "0.0", 0 );
+	in_joystick            = CVAR_CREATE( "joystick", "0", FCVAR_ARCHIVE  );
+	joy_name               = CVAR_CREATE( "joyname", "joystick", 0  );
+	joy_advanced           = CVAR_CREATE( "joyadvanced", "0", 0  );
+	joy_advaxisx           = CVAR_CREATE( "joyadvaxisx", "0", 0  );
+	joy_advaxisy           = CVAR_CREATE( "joyadvaxisy", "0", 0  );
+	joy_advaxisz           = CVAR_CREATE( "joyadvaxisz", "0", 0  );
+	joy_advaxisr           = CVAR_CREATE( "joyadvaxisr", "0", 0  );
+	joy_advaxisu           = CVAR_CREATE( "joyadvaxisu", "0", 0  );
+	joy_advaxisv           = CVAR_CREATE( "joyadvaxisv", "0", 0  );
+	joy_supported          = CVAR_CREATE( "joysupported", "1", 0  );
+	joy_forwardthreshold   = CVAR_CREATE( "joyforwardthreshold", "0.15", 0  );
+	joy_sidethreshold      = CVAR_CREATE( "joysidethreshold", "0.15", 0  );
+	joy_pitchthreshold     = CVAR_CREATE( "joypitchthreshold", "0.15", 0  );
+	joy_yawthreshold       = CVAR_CREATE( "joyyawthreshold", "0.15", 0  );
+	joy_forwardsensitivity = CVAR_CREATE( "joyforwardsensitivity", "-1.0", 0  );
+	joy_sidesensitivity    = CVAR_CREATE( "joysidesensitivity", "-1.0", 0  );
+	joy_pitchsensitivity   = CVAR_CREATE( "joypitchsensitivity", "1.0", 0  );
+	joy_yawsensitivity     = CVAR_CREATE( "joyyawsensitivity", "-1.0", 0  );
+	joy_wwhack1            = CVAR_CREATE( "joywwhack1", "0.0", 0  );
+	joy_wwhack2            = CVAR_CREATE( "joywwhack2", "0.0", 0  );
 
-	m_customaccel          = gEngfuncs.pfnRegisterVariable( "m_customaccel", "0", FCVAR_ARCHIVE );
-	m_customaccel_scale    = gEngfuncs.pfnRegisterVariable( "m_customaccel_scale", "0.04", FCVAR_ARCHIVE );
-	m_customaccel_max      = gEngfuncs.pfnRegisterVariable( "m_customaccel_max", "0", FCVAR_ARCHIVE );
-	m_customaccel_exponent = gEngfuncs.pfnRegisterVariable( "m_customaccel_exponent", "1", FCVAR_ARCHIVE );
+	m_customaccel          = CVAR_CREATE( "m_customaccel", "0", FCVAR_ARCHIVE  );
+	m_customaccel_scale    = CVAR_CREATE( "m_customaccel_scale", "0.04", FCVAR_ARCHIVE  );
+	m_customaccel_max      = CVAR_CREATE( "m_customaccel_max", "0", FCVAR_ARCHIVE  );
+	m_customaccel_exponent = CVAR_CREATE( "m_customaccel_exponent", "1", FCVAR_ARCHIVE  );
 
 	m_rawinput = gEngfuncs.pfnGetCvarPointer( "m_rawinput" );
 
 #ifdef _WIN32
 	m_bMouseThread      = gEngfuncs.CheckParm( "-mousethread", NULL ) != NULL;
-	m_mousethread_sleep = gEngfuncs.pfnRegisterVariable( "m_mousethread_sleep", "10", FCVAR_ARCHIVE );
+	m_mousethread_sleep = CVAR_CREATE( "m_mousethread_sleep", "10", FCVAR_ARCHIVE  );
 
 	if ( !IN_UseRawInput() && m_bMouseThread && m_mousethread_sleep )
 	{
