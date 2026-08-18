@@ -6,7 +6,7 @@
 //=============================================================================
 
 #include "hud.h"
-#include "cl_util.h"
+#include "../cl_util.h"
 #include "cl_entity.h"
 #include "triangleapi.h"
 #include "vgui/vgui_TeamFortressViewport.h"
@@ -23,7 +23,7 @@
 #include "com_model.h"
 #include "demo_api.h"
 #include "event_api.h"
-#include "studio_util.h"
+#include "../studio_util.h"
 #include "screenfade.h"
 
 #pragma warning( disable : 4244 )

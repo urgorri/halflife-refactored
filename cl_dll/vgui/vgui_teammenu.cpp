@@ -21,7 +21,7 @@
 #include "VGUI_ScrollPanel.h"
 #include "VGUI_TextImage.h"
 
-#include "../hud.h"
+#include "../hud/hud.h"
 #include "../cl_util.h"
 #include "vgui_TeamFortressViewport.h"
 

@@ -7,7 +7,7 @@
 
 // hud_servers.cpp
 #include "hud.h"
-#include "cl_util.h"
+#include "../cl_util.h"
 #include "hud_servers_priv.h"
 #include "hud_servers.h"
 #include "net_api.h"

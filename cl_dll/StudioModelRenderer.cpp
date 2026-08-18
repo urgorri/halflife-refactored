@@ -1,7 +1,7 @@
 // studio_model.cpp
 // routines for setting up to draw 3DStudio models
 
-#include "hud.h"
+#include "hud/hud.h"
 #include "cl_util.h"
 #include "const.h"
 #include "com_model.h"

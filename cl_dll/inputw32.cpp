@@ -10,7 +10,7 @@
 
 #include "port.h"
 
-#include "hud.h"
+#include "hud/hud.h"
 #include "cl_util.h"
 #include "camera.h"
 #include "kbutton.h"
