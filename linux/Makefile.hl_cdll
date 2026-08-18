@@ -44,7 +44,6 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/hud/ammo_secondary.o \
 	$(HL1_OBJ_DIR)/hud/ammohistory.o \
 	$(HL1_OBJ_DIR)/hud/battery.o \
-
 	$(HL1_OBJ_DIR)/cdll_int.o \
 	$(HL1_OBJ_DIR)/com_weapons.o \
 	$(HL1_OBJ_DIR)/hud/death.o \
@@ -74,7 +73,6 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/input/inputw32.o \
 	$(HL1_OBJ_DIR)/studio/studio_util.o \
 	$(HL1_OBJ_DIR)/studio/StudioModelRenderer.o \
-
 	$(HL1_OBJ_DIR)/tri.o \
 	$(HL1_OBJ_DIR)/util.o \
 	$(HL1_OBJ_DIR)/view.o \
