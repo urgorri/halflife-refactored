@@ -12,7 +12,7 @@
  *   without written permission from Valve LLC.
  *
  ****/
-#include "hud.h"
+#include "hud/hud.h"
 #include "cl_util.h"
 #include "const.h"
 #include "entity_state.h"

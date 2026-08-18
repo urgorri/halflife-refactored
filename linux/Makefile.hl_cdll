@@ -35,46 +35,46 @@ DO_PM_SHARED_CC=$(CC) $(INCLUDEDIRS)  $(CFLAGS) $(SHLIBCFLAGS) -o $@ -c $<
 #####################################################################
 
 HL1_OBJS = \
-	$(HL1_OBJ_DIR)/hud_spectator.o \
+	$(HL1_OBJ_DIR)/hud/hud_spectator.o \
 	$(HL1_OBJ_DIR)/ev_hldm.o \
 	$(HL1_OBJ_DIR)/hl/hl_baseentity.o \
 	$(HL1_OBJ_DIR)/hl/hl_events.o \
 	$(HL1_OBJ_DIR)/hl/hl_objects.o \
 	$(HL1_OBJ_DIR)/hl/hl_weapons.o \
-	$(HL1_OBJ_DIR)/hud.o \
+	$(HL1_OBJ_DIR)/hud/hud.o \
 	$(HL1_OBJ_DIR)/inputw32.o \
-	$(HL1_OBJ_DIR)/ammo.o \
-	$(HL1_OBJ_DIR)/ammo_secondary.o \
-	$(HL1_OBJ_DIR)/ammohistory.o \
-	$(HL1_OBJ_DIR)/battery.o \
+	$(HL1_OBJ_DIR)/hud/ammo.o \
+	$(HL1_OBJ_DIR)/hud/ammo_secondary.o \
+	$(HL1_OBJ_DIR)/hud/ammohistory.o \
+	$(HL1_OBJ_DIR)/hud/battery.o \
 	$(HL1_OBJ_DIR)/cdll_int.o \
 	$(HL1_OBJ_DIR)/com_weapons.o \
-	$(HL1_OBJ_DIR)/death.o \
+	$(HL1_OBJ_DIR)/hud/death.o \
 	$(HL1_OBJ_DIR)/demo.o \
 	$(HL1_OBJ_DIR)/entity.o \
 	$(HL1_OBJ_DIR)/ev_common.o \
 	$(HL1_OBJ_DIR)/events.o \
-	$(HL1_OBJ_DIR)/flashlight.o \
+	$(HL1_OBJ_DIR)/hud/flashlight.o \
 	$(HL1_OBJ_DIR)/GameStudioModelRenderer.o \
-	$(HL1_OBJ_DIR)/geiger.o \
-	$(HL1_OBJ_DIR)/health.o \
-	$(HL1_OBJ_DIR)/hud_bench.o \
-	$(HL1_OBJ_DIR)/hud_benchtrace.o \
-	$(HL1_OBJ_DIR)/hud_msg.o \
-	$(HL1_OBJ_DIR)/hud_redraw.o \
-	$(HL1_OBJ_DIR)/hud_update.o \
+	$(HL1_OBJ_DIR)/hud/geiger.o \
+	$(HL1_OBJ_DIR)/hud/health.o \
+	$(HL1_OBJ_DIR)/hud/hud_bench.o \
+	$(HL1_OBJ_DIR)/hud/hud_benchtrace.o \
+	$(HL1_OBJ_DIR)/hud/hud_msg.o \
+	$(HL1_OBJ_DIR)/hud/hud_redraw.o \
+	$(HL1_OBJ_DIR)/hud/hud_update.o \
 	$(HL1_OBJ_DIR)/in_camera.o \
 	$(HL1_OBJ_DIR)/input.o \
 	$(HL1_OBJ_DIR)/interpolation.o \
-	$(HL1_OBJ_DIR)/menu.o \
-	$(HL1_OBJ_DIR)/message.o \
-	$(HL1_OBJ_DIR)/saytext.o \
-	$(HL1_OBJ_DIR)/status_icons.o \
-	$(HL1_OBJ_DIR)/statusbar.o \
+	$(HL1_OBJ_DIR)/hud/menu.o \
+	$(HL1_OBJ_DIR)/hud/message.o \
+	$(HL1_OBJ_DIR)/hud/saytext.o \
+	$(HL1_OBJ_DIR)/hud/status_icons.o \
+	$(HL1_OBJ_DIR)/hud/statusbar.o \
 	$(HL1_OBJ_DIR)/studio_util.o \
 	$(HL1_OBJ_DIR)/StudioModelRenderer.o \
-	$(HL1_OBJ_DIR)/text_message.o \
-	$(HL1_OBJ_DIR)/train.o \
+	$(HL1_OBJ_DIR)/hud/text_message.o \
+	$(HL1_OBJ_DIR)/hud/train.o \
 	$(HL1_OBJ_DIR)/tri.o \
 	$(HL1_OBJ_DIR)/util.o \
 	$(HL1_OBJ_DIR)/view.o \
@@ -90,8 +90,8 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/VGUI/vgui_TeamFortressViewport.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_SpectatorPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_teammenu.o \
-	$(HL1_OBJ_DIR)/voice_status.o \
-	$(HL1_OBJ_DIR)/hud_servers.o \
+	$(HL1_OBJ_DIR)/hud/voice_status.o \
+	$(HL1_OBJ_DIR)/hud/hud_servers.o \
 
 
 DLL_OBJS = \
@@ -147,6 +147,8 @@ endif
 
 $(HL1_OBJ_DIR):
 	mkdir -p $(HL1_OBJ_DIR)
+	mkdir -p $(HL1_OBJ_DIR)/hud
+	mkdir -p $(HL1_OBJ_DIR)/hud
 	mkdir -p $(HL1_OBJ_DIR)/hl
 	mkdir -p $(HL1_OBJ_DIR)/dlls/wpn_shared
 	mkdir -p $(HL1_OBJ_DIR)/VGUI
@@ -167,6 +169,11 @@ $(GAME_SHARED_OBJ_DIR):
 
 $(PM_SHARED_OBJ_DIR):
 	mkdir -p $(PM_SHARED_OBJ_DIR)
+
+
+
+$(HL1_OBJ_DIR)/hud/%.o: $(HL_SRC_DIR)/hud/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)/hud),  $(HL1_OBJ_DIR)/hud)
+	$(DO_CC)
 
 $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
 	$(DO_CC)

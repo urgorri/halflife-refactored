@@ -28,8 +28,8 @@
 #define _cdecl
 #endif
 
-#include "wrect.h"
-#include "cl_dll.h"
+#include "../wrect.h"
+#include "../cl_dll.h"
 #include "ammo.h"
 
 #define DHN_DRAWZERO 1
@@ -44,7 +44,7 @@ typedef struct
 	int x, y;
 } POSITION;
 
-#include "global_consts.h"
+#include "../global_consts.h"
 
 typedef struct
 {
@@ -252,7 +252,7 @@ struct team_info_t
 	int teamnumber;
 };
 
-#include "player_info.h"
+#include "../player_info.h"
 
 //
 //-----------------------------------------------------

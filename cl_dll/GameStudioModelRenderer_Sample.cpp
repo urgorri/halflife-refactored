@@ -6,7 +6,7 @@
 //=============================================================================
 
 #include <assert.h>
-#include "hud.h"
+#include "hud/hud.h"
 #include "cl_util.h"
 #include "const.h"
 #include "com_model.h"

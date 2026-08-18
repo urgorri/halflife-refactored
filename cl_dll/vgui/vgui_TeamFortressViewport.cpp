@@ -34,7 +34,7 @@
 #include <VGUI_App.h>
 #include <VGUI_BuildGroup.h>
 
-#include "../hud.h"
+#include "../hud/hud.h"
 #include "../cl_util.h"
 #include "../camera.h"
 #include "../kbutton.h"

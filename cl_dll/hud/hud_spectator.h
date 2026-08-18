@@ -10,7 +10,7 @@
 #pragma once
 
 #include "cl_entity.h"
-#include "interpolation.h"
+#include "../interpolation.h"
 
 #define INSET_OFF 0
 #define INSET_CHASE_FREE 1

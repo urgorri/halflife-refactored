@@ -17,8 +17,8 @@
 //
 #include <math.h>
 #include "hud.h"
-#include "cl_util.h"
-#include "bench.h"
+#include "../cl_util.h"
+#include "../bench.h"
 
 #include "vgui/vgui_TeamFortressViewport.h"
 
