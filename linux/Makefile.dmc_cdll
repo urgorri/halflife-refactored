@@ -18,7 +18,7 @@ CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS) -DCLIENT_DLL -DDMC_BUILD -I/usr/include/mal
 		 -DDISABLE_JUMP_ORIGIN -DDISABLE_VEC_ORIGIN -D_MAX_PATH=PATH_MAX
 		 
 INCLUDEDIRS=-I$(PUBLIC_SRC_DIR) -I../utils/vgui/include -I$(DMC_SRC_DIR)/../dlls \
-	-I../engine -I$(COMMON_SRC_DIR) -I../utils/common -I$(DMC_SRC_DIR)/../pm_shared -I$(DMC_SRC_DIR) -I../game_shared  -I../external
+	-I../engine -I$(COMMON_SRC_DIR) -I../utils/common -I$(DMC_SRC_DIR)/../pm_shared -I$(DMC_SRC_DIR) -I../game_shared  -I../external -I$(SOURCE_DIR)/public -I../public
 
 ifeq ($(OS),Darwin)
 LDFLAGS=$(SHLIBLDFLAGS) $(CPP_LIB) -framework Carbon $(CFG)/vgui.dylib -L. -lSDL2-2.0.0
