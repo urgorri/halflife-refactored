@@ -19,9 +19,10 @@ jobs:
           fetch-depth: 0
 
       - name: Install clang-format
+        timeout-minutes: 5
         run: |
-          sudo apt-get update
-          sudo apt-get install -y clang-format
+          sudo apt-get -o Acquire::http::Timeout="15" -o Acquire::https::Timeout="15" -o Acquire::Retries="3" update && \
+          sudo apt-get -o Acquire::http::Timeout="15" -o Acquire::https::Timeout="15" -o Acquire::Retries="3" install -y clang-format
 
       - name: Format all C/C++ files
         run: |
