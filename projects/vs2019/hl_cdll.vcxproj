@@ -60,7 +60,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CLIENT_DLL;CLIENT_WEAPONS;HL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -88,7 +88,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;CLIENT_DLL;CLIENT_WEAPONS;HL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -125,6 +125,10 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\GameStudioModelRenderer.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\geiger.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\health.cpp" />
+    <ClCompile Include="..\..\cl_dll\flashlight.cpp" />
+    <ClCompile Include="..\..\cl_dll\studio\GameStudioModelRenderer.cpp" />
+    <ClCompile Include="..\..\cl_dll\geiger.cpp" />
+    <ClCompile Include="..\..\cl_dll\health.cpp" />
     <ClCompile Include="..\..\cl_dll\hl\hl_baseentity.cpp" />
     <ClCompile Include="..\..\cl_dll\hl\hl_events.cpp" />
     <ClCompile Include="..\..\cl_dll\hl\hl_objects.cpp" />
@@ -150,6 +154,27 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\studio_util.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\text_message.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\train.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud_bench.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud_benchtrace.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud_msg.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud_redraw.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud_servers.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud_spectator.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud_update.cpp" />
+    <ClCompile Include="..\..\cl_dll\input\input.cpp" />
+    <ClCompile Include="..\..\cl_dll\input\inputw32.cpp" />
+    <ClCompile Include="..\..\cl_dll\interpolation.cpp" />
+    <ClCompile Include="..\..\cl_dll\input\in_camera.cpp" />
+    <ClCompile Include="..\..\cl_dll\menu.cpp" />
+    <ClCompile Include="..\..\cl_dll\message.cpp" />
+    <ClCompile Include="..\..\cl_dll\saytext.cpp" />
+    <ClCompile Include="..\..\cl_dll\statusbar.cpp" />
+    <ClCompile Include="..\..\cl_dll\status_icons.cpp" />
+    <ClCompile Include="..\..\cl_dll\studio\StudioModelRenderer.cpp" />
+    <ClCompile Include="..\..\cl_dll\studio\studio_util.cpp" />
+    <ClCompile Include="..\..\cl_dll\text_message.cpp" />
+    <ClCompile Include="..\..\cl_dll\train.cpp" />
     <ClCompile Include="..\..\cl_dll\tri.cpp" />
     <ClCompile Include="..\..\cl_dll\util.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ClassMenu.cpp" />
@@ -209,10 +234,16 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClInclude Include="..\..\cl_dll\hud\hud_servers.h" />
     <ClInclude Include="..\..\cl_dll\hud\hud_servers_priv.h" />
     <ClInclude Include="..\..\cl_dll\hud\hud_spectator.h" />
+    <ClInclude Include="..\..\cl_dll\studio\GameStudioModelRenderer.h" />
+    <ClInclude Include="..\..\cl_dll\health.h" />
+    <ClInclude Include="..\..\cl_dll\hud.h" />
+    <ClInclude Include="..\..\cl_dll\hud_servers.h" />
+    <ClInclude Include="..\..\cl_dll\hud_servers_priv.h" />
+    <ClInclude Include="..\..\cl_dll\hud_spectator.h" />
     <ClInclude Include="..\..\cl_dll\interpolation.h" />
     <ClInclude Include="..\..\cl_dll\in_defs.h" />
     <ClInclude Include="..\..\cl_dll\kbutton.h" />
-    <ClInclude Include="..\..\cl_dll\StudioModelRenderer.h" />
+    <ClInclude Include="..\..\cl_dll\studio\StudioModelRenderer.h" />
     <ClInclude Include="..\..\cl_dll\tri.h" />
     <ClInclude Include="..\..\cl_dll\util_vector.h" />
     <ClInclude Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.h" />

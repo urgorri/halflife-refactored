@@ -13,7 +13,7 @@
 
 // these are included for the math functions
 #include "com_model.h"
-#include "studio_util.h"
+#include "studio/studio_util.h"
 
 #pragma warning( disable : 4244 )
 
