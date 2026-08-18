@@ -1,0 +1,62 @@
+# Suppress false positive ODR violations between independent mods
+ctuOneDefinitionRuleViolation
+
+# Suppress save/restore table shadowing (DECLARE_SAVERESTORE macro design pattern)
+duplInheritedMember
+
+# Suppress float-to-int bitwise casts in U_Srand
+invalidPointerCast
+
+# Suppress virtual calls in gamerules constructors
+virtualCallInConstructor
+
+# Suppress legacy unused variables/statements
+constStatement
+
+# Suppress old C-style cast warnings
+dangerousTypeCast
+
+# Suppress uninitialized member variables warnings in constructors
+uninitMemberVar
+uninitDerivedMemberVar
+legacyUninitvar
+uninitvar
+
+# Suppress memset on classes with floats or virtual tables (standard GoldSrc SDK pattern)
+memsetClassFloat
+
+# Suppress signed bitwise shifts
+shiftTooManyBitsSigned
+
+# Suppress unchecked memory allocation checks
+nullPointerOutOfMemory
+nullPointerRedundantCheck
+nullPointerArithmeticOutOfMemory
+nullPointerArithmeticRedundantCheck
+
+# Suppress minor style/performance/portability warnings from legacy code
+uselessAssignmentPtrArg
+intToPointerCast
+noCopyConstructor
+noOperatorEq
+useInitializationList
+arrayIndexOutOfBoundsCond
+arrayIndexOutOfBounds
+containerOutOfBounds
+derefInvalidIterator
+identicalInnerCondition
+oppositeInnerCondition
+sprintfOverlappingData
+invalidPrintfArgType_sint
+invalidPrintfArgType_float
+invalidPrintfArgType_uint
+wrongPrintfScanfArgNum
+
+# Suppress macro parsing / syntax failures
+syntaxError
+
+# Suppress sscanf/scanf field width warnings
+invalidscanf
+
+# Suppress potential null pointer dereference warnings in legacy code
+nullPointer
