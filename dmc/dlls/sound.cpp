@@ -1392,7 +1392,7 @@ void SENTENCEG_Init()
 
 	i = 0;
 
-	while ( rgsentenceg[i].count && i < CSENTENCEG_MAX )
+	while ( i < CSENTENCEG_MAX && rgsentenceg[i].count )
 	{
 		USENTENCEG_InitLRU( &( rgsentenceg[i].rgblru[0] ), rgsentenceg[i].count );
 		i++;
