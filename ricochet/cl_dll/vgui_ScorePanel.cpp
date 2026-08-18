@@ -742,8 +742,9 @@ void ScorePanel::FillGrid()
 						{
 							pszTemp = "#Player_plural";
 						}
-
-						sprintf( sz, "%s (%d %s)", sz, team_info->players, CHudTextMessage::BufferedLocaliseTextString( pszTemp ) );
+						char szTemp[128];
+						strcpy( szTemp, sz );
+						sprintf( sz, "%s (%d %s)", szTemp, team_info->players, CHudTextMessage::BufferedLocaliseTextString( pszTemp ) );
 					}
 
 					break;
