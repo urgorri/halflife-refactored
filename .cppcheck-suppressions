@@ -44,19 +44,13 @@ arrayIndexOutOfBoundsCond
 arrayIndexOutOfBounds
 containerOutOfBounds
 derefInvalidIterator
-identicalInnerCondition
 oppositeInnerCondition
-sprintfOverlappingData
 invalidPrintfArgType_sint
 invalidPrintfArgType_float
 invalidPrintfArgType_uint
-wrongPrintfScanfArgNum
 
 # Suppress macro parsing / syntax failures
 syntaxError
-
-# Suppress sscanf/scanf field width warnings
-invalidscanf
 
 # Suppress potential null pointer dereference warnings in legacy code
 nullPointer
