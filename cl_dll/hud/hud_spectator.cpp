@@ -180,11 +180,11 @@ int CHudSpectator::Init()
 	gEngfuncs.pfnAddCommand( "spec_menu", SpectatorMenu );
 	gEngfuncs.pfnAddCommand( "togglescores", ToggleScores );
 
-	m_drawnames    = CVAR_CREATE( "spec_drawnames", "1", 0  );
-	m_drawcone     = CVAR_CREATE( "spec_drawcone", "1", 0  );
-	m_drawstatus   = CVAR_CREATE( "spec_drawstatus", "1", 0  );
-	m_autoDirector = CVAR_CREATE( "spec_autodirector", "1", 0  );
-	m_pip          = CVAR_CREATE( "spec_pip", "1", 0  );
+	m_drawnames    = CVAR_CREATE( "spec_drawnames", "1", 0 );
+	m_drawcone     = CVAR_CREATE( "spec_drawcone", "1", 0 );
+	m_drawstatus   = CVAR_CREATE( "spec_drawstatus", "1", 0 );
+	m_autoDirector = CVAR_CREATE( "spec_autodirector", "1", 0 );
+	m_pip          = CVAR_CREATE( "spec_pip", "1", 0 );
 
 	if ( !m_drawnames || !m_drawcone || !m_drawstatus || !m_autoDirector || !m_pip )
 	{

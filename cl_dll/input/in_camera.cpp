@@ -519,19 +519,19 @@ void CAM_Init( void )
 	gEngfuncs.pfnAddCommand( "-camdistance", CAM_EndDistance );
 	gEngfuncs.pfnAddCommand( "snapto", CAM_ToggleSnapto );
 
-	cam_command    = CVAR_CREATE( "cam_command", "0", 0  );    // tells camera to go to thirdperson
-	cam_snapto     = CVAR_CREATE( "cam_snapto", "0", 0  );     // snap to thirdperson view
-	cam_idealyaw   = CVAR_CREATE( "cam_idealyaw", "90", 0  );  // thirdperson yaw
-	cam_idealpitch = CVAR_CREATE( "cam_idealpitch", "0", 0  ); // thirperson pitch
-	cam_idealdist  = CVAR_CREATE( "cam_idealdist", "64", 0  ); // thirdperson distance
-	cam_contain    = CVAR_CREATE( "cam_contain", "0", 0  );    // contain camera to world
+	cam_command    = CVAR_CREATE( "cam_command", "0", 0 );    // tells camera to go to thirdperson
+	cam_snapto     = CVAR_CREATE( "cam_snapto", "0", 0 );     // snap to thirdperson view
+	cam_idealyaw   = CVAR_CREATE( "cam_idealyaw", "90", 0 );  // thirdperson yaw
+	cam_idealpitch = CVAR_CREATE( "cam_idealpitch", "0", 0 ); // thirperson pitch
+	cam_idealdist  = CVAR_CREATE( "cam_idealdist", "64", 0 ); // thirdperson distance
+	cam_contain    = CVAR_CREATE( "cam_contain", "0", 0 );    // contain camera to world
 
-	c_maxpitch    = CVAR_CREATE( "c_maxpitch", "90.0", 0  );
-	c_minpitch    = CVAR_CREATE( "c_minpitch", "0.0", 0  );
-	c_maxyaw      = CVAR_CREATE( "c_maxyaw", "135.0", 0  );
-	c_minyaw      = CVAR_CREATE( "c_minyaw", "-135.0", 0  );
-	c_maxdistance = CVAR_CREATE( "c_maxdistance", "200.0", 0  );
-	c_mindistance = CVAR_CREATE( "c_mindistance", "30.0", 0  );
+	c_maxpitch    = CVAR_CREATE( "c_maxpitch", "90.0", 0 );
+	c_minpitch    = CVAR_CREATE( "c_minpitch", "0.0", 0 );
+	c_maxyaw      = CVAR_CREATE( "c_maxyaw", "135.0", 0 );
+	c_minyaw      = CVAR_CREATE( "c_minyaw", "-135.0", 0 );
+	c_maxdistance = CVAR_CREATE( "c_maxdistance", "200.0", 0 );
+	c_mindistance = CVAR_CREATE( "c_mindistance", "30.0", 0 );
 }
 
 void CAM_ClearStates( void )

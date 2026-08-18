@@ -218,7 +218,7 @@ surface_t *ChoosePlaneFromList( surface_t *surfaces, vec3_t mins, vec3_t maxs )
 			l = plane->type;
 
 			if ( l <= PLANE_Z )
-			{   // axial aligned
+			{ // axial aligned
 				//
 				// calculate the split metric along axis l
 				//

@@ -139,7 +139,7 @@ Task_t tlFollow[] =
     {
         { TASK_SET_FAIL_SCHEDULE, (float)SCHED_CANT_FOLLOW }, // If you fail, bail out of follow
         { TASK_MOVE_TO_TARGET_RANGE, (float)128 },            // Move within 128 of target ent (client)
-        //	{ TASK_SET_SCHEDULE,		(float)SCHED_TARGET_FACE },
+                                                              //	{ TASK_SET_SCHEDULE,		(float)SCHED_TARGET_FACE },
 };
 
 Schedule_t slFollow[] =
@@ -159,7 +159,7 @@ Task_t tlFollowScared[] =
     {
         { TASK_SET_FAIL_SCHEDULE, (float)SCHED_TARGET_CHASE }, // If you fail, follow normally
         { TASK_MOVE_TO_TARGET_RANGE_SCARED, (float)128 },      // Move within 128 of target ent (client)
-        //	{ TASK_SET_SCHEDULE,		(float)SCHED_TARGET_FACE_SCARED },
+                                                               //	{ TASK_SET_SCHEDULE,		(float)SCHED_TARGET_FACE_SCARED },
 };
 
 Schedule_t slFollowScared[] =
@@ -284,8 +284,8 @@ Schedule_t slIdleSciStand[] =
               bits_COND_PROVOKED,
 
           bits_SOUND_COMBAT | // sound flags
-              // bits_SOUND_PLAYER		|
-              // bits_SOUND_WORLD		|
+                              // bits_SOUND_PLAYER		|
+                              // bits_SOUND_WORLD		|
               bits_SOUND_DANGER |
               bits_SOUND_MEAT | // scents
               bits_SOUND_CARCASS |

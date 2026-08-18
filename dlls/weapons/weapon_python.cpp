@@ -275,7 +275,6 @@ void CPython::WeaponIdle( void )
 	SendWeaponAnim( iAnim, UseDecrement() ? 1 : 0, bUseScope );
 }
 
-
 void CPythonAmmo::Spawn( void )
 {
 	Precache();

@@ -178,7 +178,7 @@ int DispatchSpawn( edict_t *pent )
 					return -1;
 				else if ( !FStrEq( STRING( gpGlobals->mapname ), pGlobal->levelName ) )
 					pEntity->MakeDormant(); // Hasn't been moved to this level yet, wait but stay alive
-				                            // In this level & not dead, continue on as normal
+					                        // In this level & not dead, continue on as normal
 			}
 			else
 			{

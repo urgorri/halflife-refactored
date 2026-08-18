@@ -251,8 +251,6 @@ bool bIsMultiplayer( void );
 void LoadVModel( char *szViewModel, CBasePlayer *m_pPlayer );
 #endif
 
-
-
 class CCrossbow : public CBasePlayerWeapon
 {
   public:
@@ -286,10 +284,5 @@ class CCrossbow : public CBasePlayerWeapon
 	unsigned short m_usCrossbow;
 	unsigned short m_usCrossbow2;
 };
-
-
-
-
-
 
 #endif // WEAPONS_H

@@ -31,7 +31,7 @@
 #include <unistd.h> // exit()
 #include <string.h> // strncpy()
 #include <strings.h>
-#include <ctype.h>  // tolower()
+#include <ctype.h> // tolower()
 #include <limits.h>
 #include <sys/time.h>
 #include <errno.h>

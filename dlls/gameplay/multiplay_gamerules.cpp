@@ -785,51 +785,51 @@ void CHalfLifeMultiplay::DeathNotice( CBasePlayer *pVictim, entvars_t *pKiller, 
 	//  Print a standard message
 	// TODO: make this go direct to console
 	return; // just remove for now
-	/*
-	    char	szText[ 128 ];
-
-	    if ( pKiller->flags & FL_MONSTER )
-	    {
-	        // killed by a monster
-	        strcpy ( szText, STRING( pVictim->pev->netname ) );
-	        strcat ( szText, " was killed by a monster.\n" );
-	        return;
-	    }
-
-	    if ( pKiller == pVictim->pev )
-	    {
-	        strcpy ( szText, STRING( pVictim->pev->netname ) );
-	        strcat ( szText, " commited suicide.\n" );
-	    }
-	    else if ( pKiller->flags & FL_CLIENT )
-	    {
-	        strcpy ( szText, STRING( pKiller->netname ) );
-
-	        strcat( szText, " : " );
-	        strcat( szText, killer_weapon_name );
-	        strcat( szText, " : " );
-
-	        strcat ( szText, STRING( pVictim->pev->netname ) );
-	        strcat ( szText, "\n" );
-	    }
-	    else if ( FClassnameIs ( pKiller, "worldspawn" ) )
-	    {
-	        strcpy ( szText, STRING( pVictim->pev->netname ) );
-	        strcat ( szText, " fell or drowned or something.\n" );
-	    }
-	    else if ( pKiller->solid == SOLID_BSP )
-	    {
-	        strcpy ( szText, STRING( pVictim->pev->netname ) );
-	        strcat ( szText, " was mooshed.\n" );
-	    }
-	    else
-	    {
-	        strcpy ( szText, STRING( pVictim->pev->netname ) );
-	        strcat ( szText, " died mysteriously.\n" );
-	    }
-
-	    UTIL_ClientPrintAll( szText );
-	*/
+	        /*
+	            char	szText[ 128 ];
+	    
+	            if ( pKiller->flags & FL_MONSTER )
+	            {
+	                // killed by a monster
+	                strcpy ( szText, STRING( pVictim->pev->netname ) );
+	                strcat ( szText, " was killed by a monster.\n" );
+	                return;
+	            }
+	    
+	            if ( pKiller == pVictim->pev )
+	            {
+	                strcpy ( szText, STRING( pVictim->pev->netname ) );
+	                strcat ( szText, " commited suicide.\n" );
+	            }
+	            else if ( pKiller->flags & FL_CLIENT )
+	            {
+	                strcpy ( szText, STRING( pKiller->netname ) );
+	    
+	                strcat( szText, " : " );
+	                strcat( szText, killer_weapon_name );
+	                strcat( szText, " : " );
+	    
+	                strcat ( szText, STRING( pVictim->pev->netname ) );
+	                strcat ( szText, "\n" );
+	            }
+	            else if ( FClassnameIs ( pKiller, "worldspawn" ) )
+	            {
+	                strcpy ( szText, STRING( pVictim->pev->netname ) );
+	                strcat ( szText, " fell or drowned or something.\n" );
+	            }
+	            else if ( pKiller->solid == SOLID_BSP )
+	            {
+	                strcpy ( szText, STRING( pVictim->pev->netname ) );
+	                strcat ( szText, " was mooshed.\n" );
+	            }
+	            else
+	            {
+	                strcpy ( szText, STRING( pVictim->pev->netname ) );
+	                strcat ( szText, " died mysteriously.\n" );
+	            }
+	    
+	            UTIL_ClientPrintAll( szText );
+	        */
 }
 
 //=========================================================

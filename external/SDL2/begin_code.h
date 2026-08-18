@@ -184,7 +184,7 @@
 	do                  \
 	{                   \
 	} while ( 0 ) /* fallthrough */
-#endif            /* _HAS_FALLTHROUGH */
+#endif /* _HAS_FALLTHROUGH */
 #undef _HAS_FALLTHROUGH
 #endif /* C++17 or C2x */
 #endif /* SDL_FALLTHROUGH not defined */

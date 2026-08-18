@@ -1106,40 +1106,40 @@ IN_Init
 */
 void IN_Init( void )
 {
-	m_filter    = CVAR_CREATE( "m_filter", "0", FCVAR_ARCHIVE  );
-	sensitivity = CVAR_CREATE( "sensitivity", "3", FCVAR_ARCHIVE | FCVAR_FILTERSTUFFTEXT  ); // user mouse sensitivity setting.
+	m_filter    = CVAR_CREATE( "m_filter", "0", FCVAR_ARCHIVE );
+	sensitivity = CVAR_CREATE( "sensitivity", "3", FCVAR_ARCHIVE | FCVAR_FILTERSTUFFTEXT ); // user mouse sensitivity setting.
 
-	in_joystick            = CVAR_CREATE( "joystick", "0", FCVAR_ARCHIVE  );
-	joy_name               = CVAR_CREATE( "joyname", "joystick", 0  );
-	joy_advanced           = CVAR_CREATE( "joyadvanced", "0", 0  );
-	joy_advaxisx           = CVAR_CREATE( "joyadvaxisx", "0", 0  );
-	joy_advaxisy           = CVAR_CREATE( "joyadvaxisy", "0", 0  );
-	joy_advaxisz           = CVAR_CREATE( "joyadvaxisz", "0", 0  );
-	joy_advaxisr           = CVAR_CREATE( "joyadvaxisr", "0", 0  );
-	joy_advaxisu           = CVAR_CREATE( "joyadvaxisu", "0", 0  );
-	joy_advaxisv           = CVAR_CREATE( "joyadvaxisv", "0", 0  );
-	joy_supported          = CVAR_CREATE( "joysupported", "1", 0  );
-	joy_forwardthreshold   = CVAR_CREATE( "joyforwardthreshold", "0.15", 0  );
-	joy_sidethreshold      = CVAR_CREATE( "joysidethreshold", "0.15", 0  );
-	joy_pitchthreshold     = CVAR_CREATE( "joypitchthreshold", "0.15", 0  );
-	joy_yawthreshold       = CVAR_CREATE( "joyyawthreshold", "0.15", 0  );
-	joy_forwardsensitivity = CVAR_CREATE( "joyforwardsensitivity", "-1.0", 0  );
-	joy_sidesensitivity    = CVAR_CREATE( "joysidesensitivity", "-1.0", 0  );
-	joy_pitchsensitivity   = CVAR_CREATE( "joypitchsensitivity", "1.0", 0  );
-	joy_yawsensitivity     = CVAR_CREATE( "joyyawsensitivity", "-1.0", 0  );
-	joy_wwhack1            = CVAR_CREATE( "joywwhack1", "0.0", 0  );
-	joy_wwhack2            = CVAR_CREATE( "joywwhack2", "0.0", 0  );
+	in_joystick            = CVAR_CREATE( "joystick", "0", FCVAR_ARCHIVE );
+	joy_name               = CVAR_CREATE( "joyname", "joystick", 0 );
+	joy_advanced           = CVAR_CREATE( "joyadvanced", "0", 0 );
+	joy_advaxisx           = CVAR_CREATE( "joyadvaxisx", "0", 0 );
+	joy_advaxisy           = CVAR_CREATE( "joyadvaxisy", "0", 0 );
+	joy_advaxisz           = CVAR_CREATE( "joyadvaxisz", "0", 0 );
+	joy_advaxisr           = CVAR_CREATE( "joyadvaxisr", "0", 0 );
+	joy_advaxisu           = CVAR_CREATE( "joyadvaxisu", "0", 0 );
+	joy_advaxisv           = CVAR_CREATE( "joyadvaxisv", "0", 0 );
+	joy_supported          = CVAR_CREATE( "joysupported", "1", 0 );
+	joy_forwardthreshold   = CVAR_CREATE( "joyforwardthreshold", "0.15", 0 );
+	joy_sidethreshold      = CVAR_CREATE( "joysidethreshold", "0.15", 0 );
+	joy_pitchthreshold     = CVAR_CREATE( "joypitchthreshold", "0.15", 0 );
+	joy_yawthreshold       = CVAR_CREATE( "joyyawthreshold", "0.15", 0 );
+	joy_forwardsensitivity = CVAR_CREATE( "joyforwardsensitivity", "-1.0", 0 );
+	joy_sidesensitivity    = CVAR_CREATE( "joysidesensitivity", "-1.0", 0 );
+	joy_pitchsensitivity   = CVAR_CREATE( "joypitchsensitivity", "1.0", 0 );
+	joy_yawsensitivity     = CVAR_CREATE( "joyyawsensitivity", "-1.0", 0 );
+	joy_wwhack1            = CVAR_CREATE( "joywwhack1", "0.0", 0 );
+	joy_wwhack2            = CVAR_CREATE( "joywwhack2", "0.0", 0 );
 
-	m_customaccel          = CVAR_CREATE( "m_customaccel", "0", FCVAR_ARCHIVE  );
-	m_customaccel_scale    = CVAR_CREATE( "m_customaccel_scale", "0.04", FCVAR_ARCHIVE  );
-	m_customaccel_max      = CVAR_CREATE( "m_customaccel_max", "0", FCVAR_ARCHIVE  );
-	m_customaccel_exponent = CVAR_CREATE( "m_customaccel_exponent", "1", FCVAR_ARCHIVE  );
+	m_customaccel          = CVAR_CREATE( "m_customaccel", "0", FCVAR_ARCHIVE );
+	m_customaccel_scale    = CVAR_CREATE( "m_customaccel_scale", "0.04", FCVAR_ARCHIVE );
+	m_customaccel_max      = CVAR_CREATE( "m_customaccel_max", "0", FCVAR_ARCHIVE );
+	m_customaccel_exponent = CVAR_CREATE( "m_customaccel_exponent", "1", FCVAR_ARCHIVE );
 
 	m_rawinput = gEngfuncs.pfnGetCvarPointer( "m_rawinput" );
 
 #ifdef _WIN32
 	m_bMouseThread      = gEngfuncs.CheckParm( "-mousethread", NULL ) != NULL;
-	m_mousethread_sleep = CVAR_CREATE( "m_mousethread_sleep", "10", FCVAR_ARCHIVE  );
+	m_mousethread_sleep = CVAR_CREATE( "m_mousethread_sleep", "10", FCVAR_ARCHIVE );
 
 	if ( !IN_UseRawInput() && m_bMouseThread && m_mousethread_sleep )
 	{
