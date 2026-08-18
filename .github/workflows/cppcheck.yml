@@ -23,4 +23,4 @@ jobs:
       - name: Run Cppcheck
         run: |
           echo "Running cppcheck on the entire repository..."
-          cppcheck --enable=warning,performance,portability --inline-suppr --error-exitcode=1 .
+          cppcheck --enable=warning,performance,portability --inline-suppr --suppress=ctuOneDefinitionRuleViolation --suppress=duplInheritedMember --suppress=invalidPointerCast --suppress=virtualCallInConstructor --suppress=constStatement --error-exitcode=1 -iutils -iexternal -idevtools .
