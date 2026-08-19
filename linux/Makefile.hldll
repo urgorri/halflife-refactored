@@ -124,6 +124,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/core/plane.o \
 	$(HLDLL_OBJ_DIR)/world/plats.o \
 	$(HLDLL_OBJ_DIR)/core/player.o \
+	$(HLDLL_OBJ_DIR)/core/player_physics.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_spraycan.o \
 	$(HLDLL_OBJ_DIR)/monsters/monster_deadhev.o \
 	$(HLDLL_OBJ_DIR)/gameplay/stripweapons.o \

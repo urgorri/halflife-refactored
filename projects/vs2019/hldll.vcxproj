@@ -197,6 +197,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\core\plane.cpp" />
     <ClCompile Include="..\..\dlls\world\plats.cpp" />
     <ClCompile Include="..\..\dlls\core\player.cpp" />
+    <ClCompile Include="..\..\dlls\core\player_physics.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_spraycan.cpp" />
     <ClCompile Include="..\..\dlls\monsters\monster_deadhev.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\stripweapons.cpp" />
