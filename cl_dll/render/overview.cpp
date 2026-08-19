@@ -10,6 +10,7 @@
 #include "cl_entity.h"
 #include "triangleapi.h"
 #include "vgui/vgui_TeamFortressViewport.h"
+#include "render/overview.h"
 
 // these are included for the math functions
 #include "com_model.h"
