@@ -895,8 +895,6 @@ void EV_FireGauss( event_args_t *args )
 	vec3_t angles;
 	vec3_t velocity;
 	float flDamage  = args->fparam1;
-	int primaryfire = args->bparam1;
-
 	int m_fPrimaryFire  = args->bparam1;
 	int m_iWeaponVolume = GAUSS_PRIMARY_FIRE_VOLUME;
 	vec3_t vecSrc;
