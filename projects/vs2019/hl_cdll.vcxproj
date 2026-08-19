@@ -60,7 +60,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CLIENT_DLL;CLIENT_WEAPONS;HL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input;..\..\cl_dll\core;..\..\cl_dll\render;..\..\cl_dll\entities</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input;..\..\cl_dll\core;..\..\cl_dll\render;..\..\cl_dll\entities;..\..\cl_dll\hl;..\..\cl_dll\systems;..\..\cl_dll\events</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -88,7 +88,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;CLIENT_DLL;CLIENT_WEAPONS;HL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input;..\..\cl_dll\core;..\..\cl_dll\render;..\..\cl_dll\entities</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input;..\..\cl_dll\core;..\..\cl_dll\render;..\..\cl_dll\entities;..\..\cl_dll\hl;..\..\cl_dll\systems;..\..\cl_dll\events</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -114,13 +114,13 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\hud\ammo_secondary.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\battery.cpp" />
     <ClCompile Include="..\..\cl_dll\core\cdll_int.cpp" />
-    <ClCompile Include="..\..\cl_dll\com_weapons.cpp" />
+    <ClCompile Include="..\..\cl_dll\hl\com_weapons.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\death.cpp" />
-    <ClCompile Include="..\..\cl_dll\demo.cpp" />
+    <ClCompile Include="..\..\cl_dll\systems\demo.cpp" />
     <ClCompile Include="..\..\cl_dll\entities\entity.cpp" />
-    <ClCompile Include="..\..\cl_dll\events.cpp" />
-    <ClCompile Include="..\..\cl_dll\ev_common.cpp" />
-    <ClCompile Include="..\..\cl_dll\ev_hldm.cpp" />
+    <ClCompile Include="..\..\cl_dll\events\events.cpp" />
+    <ClCompile Include="..\..\cl_dll\events\ev_common.cpp" />
+    <ClCompile Include="..\..\cl_dll\events\ev_hldm.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\flashlight.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\geiger.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\health.cpp" />
@@ -201,10 +201,10 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClInclude Include="..\..\cl_dll\core\camera.h" />
     <ClInclude Include="..\..\cl_dll\core\cl_dll.h" />
     <ClInclude Include="..\..\cl_dll\core\cl_util.h" />
-    <ClInclude Include="..\..\cl_dll\com_weapons.h" />
-    <ClInclude Include="..\..\cl_dll\demo.h" />
-    <ClInclude Include="..\..\cl_dll\eventscripts.h" />
-    <ClInclude Include="..\..\cl_dll\ev_hldm.h" />
+    <ClInclude Include="..\..\cl_dll\hl\com_weapons.h" />
+    <ClInclude Include="..\..\cl_dll\systems\demo.h" />
+    <ClInclude Include="..\..\cl_dll\events\eventscripts.h" />
+    <ClInclude Include="..\..\cl_dll\events\ev_hldm.h" />
     <ClInclude Include="..\..\cl_dll\hud\health.h" />
     <ClInclude Include="..\..\cl_dll\hud\hud.h" />
     <ClInclude Include="..\..\cl_dll\hud\hud_servers.h" />

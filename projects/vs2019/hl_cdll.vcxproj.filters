@@ -82,8 +82,8 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\ev_hldm.cpp">
-      <Filter>Source Files\_hl\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\events\ev_hldm.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
@@ -148,23 +148,23 @@
     <ClCompile Include="..\..\cl_dll\core\cdll_int.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\com_weapons.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\hl\com_weapons.cpp">
+      <Filter>Source Files\cl_dll\hl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\message.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\demo.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\systems\demo.cpp">
+      <Filter>Source Files\cl_dll\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\entities\entity.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\ev_common.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\events\ev_common.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\events.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\events\events.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\flashlight.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
@@ -345,17 +345,17 @@
     <ClInclude Include="..\..\cl_dll\core\cl_util.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\com_weapons.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\hl\com_weapons.h">
+      <Filter>Header Files\cl_dll\hl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\demo.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\systems\demo.h">
+      <Filter>Header Files\cl_dll\systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\ev_hldm.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\events\ev_hldm.h">
+      <Filter>Header Files\cl_dll\events</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\eventscripts.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\events\eventscripts.h">
+      <Filter>Header Files\cl_dll\events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\studio\GameStudioModelRenderer.h">
       <Filter>Header Files\studio</Filter>
