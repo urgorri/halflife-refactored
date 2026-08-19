@@ -288,6 +288,15 @@
     <ClCompile Include="..\..\dlls\ai\monsters.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\ai\monster_combat.cpp">
+      <Filter>Source Files\dlls\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\ai\monster_scheduler.cpp">
+      <Filter>Source Files\dlls\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\ai\monster_sensors.cpp">
+      <Filter>Source Files\dlls\ai</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\ai\monsterstate.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -577,6 +586,15 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\ai\monsterevent.h">
       <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\ai\monster_combat.h">
+      <Filter>Header Files\dlls\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\ai\monster_scheduler.h">
+      <Filter>Header Files\dlls\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\ai\monster_sensors.h">
+      <Filter>Header Files\dlls\ai</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\ai\squad.h">
       <Filter>Header Files\dlls</Filter>
