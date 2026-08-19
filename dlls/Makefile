@@ -223,6 +223,7 @@ OBJ = \
 	$(SYSTEMS_OBJDIR)/miniturret.o \
 	$(SYSTEMS_OBJDIR)/sentry.o \
 	$(CORE_OBJDIR)/util.o \
+	$(CORE_OBJDIR)/util_entity.o \
 	$(DLL_OBJDIR)/weapons/weapons.o \
 	$(DLL_OBJDIR)/weapons/weapon_base.o \
 	$(DLL_OBJDIR)/world/world.o \

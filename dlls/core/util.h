@@ -25,6 +25,8 @@
 #ifndef ENGINECALLBACK_H
 #include "core/enginecallback.h"
 #endif
+
+#include "util_entity.h"
 inline void MESSAGE_BEGIN( int msg_dest, int msg_type, const float *pOrigin, entvars_t *ent ); // implementation later in this file
 
 extern globalvars_t *gpGlobals;
@@ -258,23 +260,15 @@ extern Vector UTIL_VecToAngles( const Vector &vec );
 extern float UTIL_AngleMod( float a );
 extern float UTIL_AngleDiff( float destAngle, float srcAngle );
 
-extern CBaseEntity *UTIL_FindEntityInSphere( CBaseEntity *pStartEntity, const Vector &vecCenter, float flRadius );
-extern CBaseEntity *UTIL_FindEntityByString( CBaseEntity *pStartEntity, const char *szKeyword, const char *szValue );
-extern CBaseEntity *UTIL_FindEntityByClassname( CBaseEntity *pStartEntity, const char *szName );
-extern CBaseEntity *UTIL_FindEntityByTargetname( CBaseEntity *pStartEntity, const char *szName );
-extern CBaseEntity *UTIL_FindEntityGeneric( const char *szName, Vector &vecSrc, float flRadius );
 
 // returns a CBaseEntity pointer to a player by index.  Only returns if the player is spawned and connected
 // otherwise returns NULL
 // Index is 1 based
-extern CBaseEntity *UTIL_PlayerByIndex( int playerIndex );
 
 #define UTIL_EntitiesInPVS( pent ) ( *g_engfuncs.pfnEntitiesInPVS )( pent )
 extern void UTIL_MakeVectors( const Vector &vecAngles );
 
 // Pass in an array of pointers and an array size, it fills the array and returns the number inserted
-extern int UTIL_MonstersInSphere( CBaseEntity **pList, int listMax, const Vector &center, float radius );
-extern int UTIL_EntitiesInBox( CBaseEntity **pList, int listMax, const Vector &mins, const Vector &maxs, int flagMask );
 
 inline void UTIL_MakeVectorsPrivate( const Vector &vecAngles, float *p_vForward, float *p_vRight, float *p_vUp )
 {
@@ -294,31 +288,7 @@ extern void UTIL_ShowMessageAll( const char *pString );
 extern void UTIL_ScreenFadeAll( const Vector &color, float fadeTime, float holdTime, int alpha, int flags );
 extern void UTIL_ScreenFade( CBaseEntity *pEntity, const Vector &color, float fadeTime, float fadeHold, int alpha, int flags );
 
-typedef enum
-{
-	ignore_monsters      = 1,
-	dont_ignore_monsters = 0,
-	missile              = 2
-} IGNORE_MONSTERS;
-typedef enum
-{
-	ignore_glass      = 1,
-	dont_ignore_glass = 0
-} IGNORE_GLASS;
-extern void UTIL_TraceLine( const Vector &vecStart, const Vector &vecEnd, IGNORE_MONSTERS igmon, edict_t *pentIgnore, TraceResult *ptr );
-extern void UTIL_TraceLine( const Vector &vecStart, const Vector &vecEnd, IGNORE_MONSTERS igmon, IGNORE_GLASS ignoreGlass, edict_t *pentIgnore, TraceResult *ptr );
-typedef enum
-{
-	point_hull = 0,
-	human_hull = 1,
-	large_hull = 2,
-	head_hull  = 3
-};
-extern void UTIL_TraceHull( const Vector &vecStart, const Vector &vecEnd, IGNORE_MONSTERS igmon, int hullNumber, edict_t *pentIgnore, TraceResult *ptr );
-extern TraceResult UTIL_GetGlobalTrace( void );
-extern void UTIL_TraceModel( const Vector &vecStart, const Vector &vecEnd, int hullNumber, edict_t *pentModel, TraceResult *ptr );
 extern Vector UTIL_GetAimVector( edict_t *pent, float flSpeed );
-extern int UTIL_PointContents( const Vector &vec );
 
 extern int UTIL_IsMasterTriggered( string_t sMaster, CBaseEntity *pActivator );
 extern void UTIL_BloodStream( const Vector &origin, const Vector &direction, int color, int amount );
@@ -582,21 +552,8 @@ void EMIT_GROUPNAME_SUIT( edict_t *entity, const char *groupname );
 #define GROUP_OP_AND 0
 #define GROUP_OP_NAND 1
 
-extern int g_groupmask;
-extern int g_groupop;
 
-class UTIL_GroupTrace
-{
-  public:
-	UTIL_GroupTrace( int groupmask, int op );
-	~UTIL_GroupTrace( void );
 
-  private:
-	int m_oldgroupmask, m_oldgroupop;
-};
-
-void UTIL_SetGroupTrace( int groupmask, int op );
-void UTIL_UnsetGroupTrace( void );
 
 int UTIL_SharedRandomLong( unsigned int seed, int low, int high );
 float UTIL_SharedRandomFloat( unsigned int seed, float low, float high );
