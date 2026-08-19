@@ -20,7 +20,7 @@
 #include "../camera.h"
 #include "../in_defs.h"
 #include "../../public/keydefs.h"
-#include "../view.h"
+#include "../render/view.h"
 #include "../Exports.h"
 
 #include <SDL2/SDL_events.h>
