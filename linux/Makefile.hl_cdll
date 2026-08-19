@@ -60,7 +60,6 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/hud/hud_redraw.o \
 	$(HL1_OBJ_DIR)/hud/hud_update.o \
 	$(HL1_OBJ_DIR)/render/interpolation.o \
-	$(HL1_OBJ_DIR)/render/overview.o \
 	$(HL1_OBJ_DIR)/hud/menu.o \
 	$(HL1_OBJ_DIR)/hud/message.o \
 	$(HL1_OBJ_DIR)/hud/saytext.o \
@@ -163,6 +162,9 @@ $(HL1_SERVER_OBJ_DIR):
 	mkdir -p $(HL1_SERVER_OBJ_DIR)/wpn_shared
 	mkdir -p $(HL1_SERVER_OBJ_DIR)/weapons
 
+$(HL1_SERVER_OBJ_DIR)/weapons:
+	mkdir -p $(HL1_SERVER_OBJ_DIR)/weapons
+
 $(PUBLIC_OBJ_DIR):
 	mkdir -p $(PUBLIC_OBJ_DIR)
 
@@ -186,7 +188,7 @@ $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR))
 $(HL1_SERVER_OBJ_DIR)/%.o: $(HL_SERVER_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)),  $(HL1_SERVER_OBJ_DIR))
 	$(DO_CC)
 
-$(HL1_SERVER_OBJ_DIR)/weapons/%.o: $(HL_SERVER_SRC_DIR)/weapons/%.cpp
+$(HL1_SERVER_OBJ_DIR)/weapons/%.o: $(HL_SERVER_SRC_DIR)/weapons/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)/weapons),  $(HL1_SERVER_OBJ_DIR)/weapons)
 	$(DO_CC)
 
 $(HL1_OBJ_DIR)/hl/%.o: $(HL_SRC_DIR)/hl/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)/hl),  $(HL1_OBJ_DIR)/hl)

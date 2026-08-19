@@ -138,7 +138,6 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\hud\hud_spectator.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_update.cpp" />
     <ClCompile Include="..\..\cl_dll\render\interpolation.cpp" />
-    <ClCompile Include="..\..\cl_dll\render\overview.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\menu.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\message.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\saytext.cpp" />
