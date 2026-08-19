@@ -24,7 +24,7 @@
 #include "ai/monsters.h"
 #include "ai/schedule.h"
 #include "customentity.h"
-#include "../weapons.h"
+#include "weapons.h"
 #include "systems/effects.h"
 #include "ai/soundent.h"
 #include "core/decals.h"
