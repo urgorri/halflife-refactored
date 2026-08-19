@@ -5,17 +5,7 @@
 #pragma once
 #endif
 
-#include <VGUI_Panel.h>
-
-using namespace vgui;
-
-class ScrollPanel;
-class CTransparentPanel;
-class Label;
-class TextPanel;
-class CommandButton;
-
-#include "vgui_TeamFortressViewport.h" // For CMenuPanel
+#include "vgui_TeamFortressViewport.h" // For CMenuPanel and VGUI headers
 
 class CTeamMenuPanel : public CMenuPanel
 {
