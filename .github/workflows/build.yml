@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Build Windows Client DLL
         run: >
@@ -56,7 +56,7 @@ jobs:
           Copy-Item "projects/vs2019/Release/hldll/hl.dll" "package/dlls/"
 
       - name: Upload Windows DLLs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: halflife-windows
           path: package/
@@ -67,7 +67,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install dependencies
         timeout-minutes: 5
@@ -118,7 +118,7 @@ jobs:
           cp linux/release/dlls/hl.so package/dlls/
 
       - name: Upload Linux DLLs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: halflife-linux
-          path: package/
+           name: halflife-linux
+           path: package/
