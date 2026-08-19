@@ -54,6 +54,7 @@
 #include "vgui_ServerBrowser.h"
 #include "vgui_ScorePanel.h"
 #include "vgui_SpectatorPanel.h"
+#include "vgui_TeamMenuPanel.h"
 
 #include "shake.h"
 #include "screenfade.h"

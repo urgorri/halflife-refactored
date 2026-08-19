@@ -313,7 +313,7 @@
     <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamFortressViewport.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui\vgui_teammenu.cpp">
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamMenuPanel.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\voice_status.cpp">
@@ -442,6 +442,9 @@
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\vgui\vgui_SpectatorPanel.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\vgui\vgui_TeamMenuPanel.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\render\view.h">

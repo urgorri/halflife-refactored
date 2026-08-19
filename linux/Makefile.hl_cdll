@@ -87,7 +87,7 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ServerBrowser.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_TeamFortressViewport.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_SpectatorPanel.o \
-	$(HL1_OBJ_DIR)/VGUI/vgui_teammenu.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_TeamMenuPanel.o \
 	$(HL1_OBJ_DIR)/hud/voice_status.o \
 	$(HL1_OBJ_DIR)/hud/hud_servers.o \
 
