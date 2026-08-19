@@ -46,7 +46,7 @@
 #include "parsemsg.h"
 #include "pm_shared.h"
 #include "keydefs.h"
-#include "../demo.h"
+#include "demo.h"
 #include "demo_api.h"
 
 #include "vgui_int.h"
