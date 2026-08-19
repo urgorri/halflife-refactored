@@ -1,6 +1,17 @@
-/*** 
- * monster_scheduler.cpp - Monster Route Navigation & Scheduling routines
- ***/
+/***
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   This source code contains proprietary and confidential information of
+ *   Valve LLC and its suppliers.  Access to this code is restricted to
+ *   persons who have executed a written SDK license with Valve.  Any access,
+ *   use or distribution of this code by or to any unlicensed person is illegal.
+ *
+ ****/
 
 #include "core/extdll.h"
 #include "core/util.h"
@@ -19,6 +30,10 @@
 #include "ai/defaultai.h"
 #include "ai/schedule.h"
 
+
+//=========================================================
+// 	RouteClear - zeroes out the monster's route array and goal
+//=========================================================
 void CBaseMonster ::RouteClear( void )
 {
 	RouteNew();
@@ -336,9 +351,9 @@ void CBaseMonster ::RouteSimplify( CBaseEntity *pTargetEnt )
 }
 
 //=========================================================
-// FBecomeProne - tries to send a monster into PRONE state.
-// right now only used when a barnacle snatches someone, so
-// may have some special case stuff for that.
+// AdvanceRoute - poorly named function that advances the
+// m_iRouteIndex. If it goes beyond ROUTE_SIZE, the route
+// is refreshed.
 //=========================================================
 void CBaseMonster ::AdvanceRoute( float distance )
 {
@@ -766,6 +781,92 @@ void CBaseMonster ::Move( float flInterval )
 		// Can't move, stop
 		Stop();
 		// Blocking entity is in global trace_ent
+		pBlocker = CBaseEntity::Instance( gpGlobals->trace_ent );
+		if ( pBlocker )
+		{
+			DispatchBlocked( edict(), pBlocker->edict() );
+		}
+
+		if ( pBlocker && m_moveWaitTime > 0 && pBlocker->IsMoving() && !pBlocker->IsPlayer() && ( gpGlobals->time - m_flMoveWaitFinished ) > 3.0 )
+		{
+			// Can we still move toward our target?
+			if ( flDist < m_flGroundSpeed )
+			{
+				// No, Wait for a second
+				m_flMoveWaitFinished = gpGlobals->time + m_moveWaitTime;
+				return;
+			}
+			// Ok, still enough room to take a step
+		}
+		else
+		{
+			// try to triangulate around whatever is in the way.
+			if ( FTriangulate( pev->origin, m_Route[m_iRouteIndex].vecLocation, flDist, pTargetEnt, &vecApex ) )
+			{
+				InsertWaypoint( vecApex, bits_MF_TO_DETOUR );
+				RouteSimplify( pTargetEnt );
+			}
+			else
+			{
+				//				ALERT ( at_aiconsole, "Couldn't Triangulate\n" );
+				Stop();
+				// Only do this once until your route is cleared
+				if ( m_moveWaitTime > 0 && !( m_afMemory & bits_MEMORY_MOVE_FAILED ) )
+				{
+					FRefreshRoute();
+					if ( FRouteClear() )
+					{
+						TaskFail();
+					}
+					else
+					{
+						// Don't get stuck
+						if ( ( gpGlobals->time - m_flMoveWaitFinished ) < 0.2 )
+							Remember( bits_MEMORY_MOVE_FAILED );
+
+						m_flMoveWaitFinished = gpGlobals->time + 0.1;
+					}
+				}
+				else
+				{
+					TaskFail();
+					ALERT( at_aiconsole, "%s Failed to move (%d)!\n", STRING( pev->classname ), HasMemory( bits_MEMORY_MOVE_FAILED ) );
+					// ALERT( at_aiconsole, "%f, %f, %f\n", pev->origin.z, (pev->origin + (vecDir * flCheckDist)).z, m_Route[m_iRouteIndex].vecLocation.z );
+				}
+				return;
+			}
+		}
+	}
+
+	// close enough to the target, now advance to the next target. This is done before actually reaching
+	// the target so that we get a nice natural turn while moving.
+	if ( ShouldAdvanceRoute( flWaypointDist ) ) ///!!!BUGBUG- magic number
+	{
+		AdvanceRoute( flWaypointDist );
+	}
+
+	// Might be waiting for a door
+	if ( m_flMoveWaitFinished > gpGlobals->time )
+	{
+		Stop();
+		return;
+	}
+
+	// UNDONE: this is a hack to quit moving farther than it has looked ahead.
+	if ( flCheckDist < m_flGroundSpeed * flInterval )
+	{
+		flInterval = flCheckDist / m_flGroundSpeed;
+		// ALERT( at_console, "%.02f\n", flInterval );
+	}
+	MoveExecute( pTargetEnt, vecDir, flInterval );
+
+	if ( MovementIsComplete() )
+	{
+		Stop();
+		RouteClear();
+	}
+}
+
 BOOL CBaseMonster::ShouldAdvanceRoute( float flWaypointDist )
 {
 	if ( flWaypointDist <= MONSTER_CUT_CORNER_DIST )
@@ -796,14 +897,6 @@ void CBaseMonster::MoveExecute( CBaseEntity *pTargetEnt, const Vector &vecDir, f
 	// ALERT( at_console, "dist %f\n", m_flGroundSpeed * pev->framerate * flInterval );
 }
 
-//=========================================================
-// MonsterInit - after a monster is spawned, it needs to
-// be dropped into the world, checked for mobility problems,
-// and put on the proper path, if any. This function does
-// all of those things after the monster spawns. Any
-// initialization that should take place for all monsters
-// goes here.
-//=========================================================
 void CBaseMonster ::MovementComplete( void )
 {
 	switch ( m_iTaskStatus )
@@ -837,9 +930,18 @@ int CBaseMonster::TaskIsRunning( void )
 }
 
 //=========================================================
-// IRelationship - returns an integer that describes the
-// relationship between two types of monster.
+// FindCover - tries to find a nearby node that will hide
+// the caller from its enemy.
+//
+// If supplied, search will return a node at least as far
+// away as MinDist, but no farther than MaxDist.
+// if MaxDist isn't supplied, it defaults to a reasonable
+// value
 //=========================================================
+// UNDONE: Should this find the nearest node?
+
+// float CGraph::PathLength( int iStart, int iDest, int iHull, int afCapMask )
+
 BOOL CBaseMonster ::FindCover( Vector vecThreat, Vector vecViewOffset, float flMinDist, float flMaxDist )
 {
 	int i;
@@ -1022,13 +1124,16 @@ BOOL CBaseMonster ::BuildNearestRoute( Vector vecThreat, Vector vecViewOffset, f
 }
 
 //=========================================================
-// BestVisibleEnemy - this functions searches the link
-// list whose head is the caller's m_pLink field, and returns
-// a pointer to the enemy entity in that list that is nearest the
-// caller.
-//
-// !!!UNDONE - currently, this only returns the closest enemy.
-// we'll want to consider distance, relationship, attack types, back turned, etc.
+// NODE GRAPH
+//=========================================================
+
+//=========================================================
+// FGetNodeRoute - tries to build an entire node path from
+// the callers origin to the passed vector. If this is
+// possible, ROUTE_SIZE waypoints will be copied into the
+// callers m_Route. TRUE is returned if the operation
+// succeeds (path is valid) or FALSE if failed (no path
+// exists )
 //=========================================================
 BOOL CBaseMonster ::FGetNodeRoute( Vector vecDest )
 {
@@ -1210,4 +1315,3 @@ BOOL CBaseMonster ::FindLateralCover( const Vector &vecThreat, const Vector &vec
 
 	return FALSE;
 }
-

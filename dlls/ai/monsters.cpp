@@ -189,141 +189,12 @@ void CBaseMonster ::BarnacleVictimReleased( void )
 }
 
 //=========================================================
-// Listen - monsters dig through the active sound list for
-// any sounds that may interest them. (smells, too!)
-//=========================================================
-	iSound = CSoundEnt::ActiveList();
-
-	// UNDONE: Clear these here?
-	ClearConditions( bits_COND_HEAR_SOUND | bits_COND_SMELL_FOOD | bits_COND_SMELL );
-	hearingSensitivity = HearingSensitivity();
-
-	while ( iSound != SOUNDLIST_EMPTY )
-	{
-		pCurrentSound = CSoundEnt::SoundPointerForIndex( iSound );
-
-		if ( pCurrentSound &&
-		     ( pCurrentSound->m_iType & iMySounds ) &&
-		     ( pCurrentSound->m_vecOrigin - EarPosition() ).Length() <= pCurrentSound->m_iVolume * hearingSensitivity )
-
-		// if ( ( g_pSoundEnt->m_SoundPool[ iSound ].m_iType & iMySounds ) && ( g_pSoundEnt->m_SoundPool[ iSound ].m_vecOrigin - EarPosition()).Length () <= g_pSoundEnt->m_SoundPool[ iSound ].m_iVolume * hearingSensitivity )
-		{
-			// the monster cares about this sound, and it's close enough to hear.
-			// g_pSoundEnt->m_SoundPool[ iSound ].m_iNextAudible = m_iAudibleList;
-			pCurrentSound->m_iNextAudible = m_iAudibleList;
-
-			if ( pCurrentSound->FIsSound() )
-			{
-				// this is an audible sound.
-				SetConditions( bits_COND_HEAR_SOUND );
-			}
-			else
-			{
-				// if not a sound, must be a smell - determine if it's just a scent, or if it's a food scent
-				//				if ( g_pSoundEnt->m_SoundPool[ iSound ].m_iType & ( bits_SOUND_MEAT | bits_SOUND_CARCASS ) )
-				if ( pCurrentSound->m_iType & ( bits_SOUND_MEAT | bits_SOUND_CARCASS ) )
-				{
-					// the detected scent is a food item, so set both conditions.
-					// !!!BUGBUG - maybe a virtual function to determine whether or not the scent is food?
-					SetConditions( bits_COND_SMELL_FOOD );
-					SetConditions( bits_COND_SMELL );
-				}
-				else
-				{
-					// just a normal scent.
-					SetConditions( bits_COND_SMELL );
-				}
-			}
-
-			//			m_afSoundTypes |= g_pSoundEnt->m_SoundPool[ iSound ].m_iType;
-			m_afSoundTypes |= pCurrentSound->m_iType;
-
-			m_iAudibleList = iSound;
-		}
-
-		//		iSound = g_pSoundEnt->m_SoundPool[ iSound ].m_iNext;
-		iSound = pCurrentSound->m_iNext;
-	}
-}
-
-//=========================================================
-// FLSoundVolume - subtracts the volume of the given sound
-// from the distance the sound source is from the caller,
-// and returns that value, which is considered to be the 'local'
-// volume of the sound.
+// FValidateHintType - tells use whether or not the monster cares
+// about the type of Hint Node given
 //=========================================================
 BOOL CBaseMonster ::FValidateHintType( short sHint )
 {
 	return FALSE;
-}
-
-//=========================================================
-// Look - Base class monster function to find enemies or
-// food by sight. iDistance is distance ( in units ) that the
-// monster can see.
-//
-// Sets the sight bits of the m_afConditions mask to indicate
-// which types of entities were sighted.
-// Function also sets the Looker's m_pLink
-// to the head of a link list that contains all visible ents.
-// (linked via each ent's m_pLink field)
-//
-//=========================================================
-		pSound = CSoundEnt::SoundPointerForIndex( iThisSound );
-
-		if ( pSound && pSound->FIsSound() )
-		{
-			flDist = ( pSound->m_vecOrigin - EarPosition() ).Length();
-
-			if ( flDist < flBestDist )
-			{
-				iBestSound = iThisSound;
-				flBestDist = flDist;
-			}
-		}
-
-		iThisSound = pSound->m_iNextAudible;
-	}
-	if ( iBestSound >= 0 )
-	{
-		pSound = CSoundEnt::SoundPointerForIndex( iBestSound );
-		return pSound;
-	}
-#if _DEBUG
-	ALERT( at_error, "NULL Return from PBestSound\n" );
-#endif
-	return NULL;
-}
-
-//=========================================================
-// PBestScent - returns a pointer to the scent the monster
-// should react to. Right now responds only to nearest scent
-//=========================================================
-		pSound = CSoundEnt::SoundPointerForIndex( iThisScent );
-
-		if ( pSound->FIsScent() )
-		{
-			flDist = ( pSound->m_vecOrigin - pev->origin ).Length();
-
-			if ( flDist < flBestDist )
-			{
-				iBestScent = iThisScent;
-				flBestDist = flDist;
-			}
-		}
-
-		iThisScent = pSound->m_iNextAudible;
-	}
-	if ( iBestScent >= 0 )
-	{
-		pSound = CSoundEnt::SoundPointerForIndex( iBestScent );
-
-		return pSound;
-	}
-#if _DEBUG
-	ALERT( at_error, "NULL Return from PBestScent\n" );
-#endif
-	return NULL;
 }
 
 //=========================================================
@@ -411,7 +282,7 @@ int CBaseMonster ::IgnoreConditions( void )
 }
 
 //=========================================================
-// 	RouteClear - zeroes out the monster's route array and goal
+// SetActivity
 //=========================================================
 void CBaseMonster ::SetActivity( Activity NewActivity )
 {
@@ -632,96 +503,13 @@ float CBaseMonster ::OpenDoorAndWait( entvars_t *pevDoor )
 }
 
 //=========================================================
-// AdvanceRoute - poorly named function that advances the
-// m_iRouteIndex. If it goes beyond ROUTE_SIZE, the route
-// is refreshed.
+// MonsterInit - after a monster is spawned, it needs to
+// be dropped into the world, checked for mobility problems,
+// and put on the proper path, if any. This function does
+// all of those things after the monster spawns. Any
+// initialization that should take place for all monsters
+// goes here.
 //=========================================================
-		pBlocker = CBaseEntity::Instance( gpGlobals->trace_ent );
-		if ( pBlocker )
-		{
-			DispatchBlocked( edict(), pBlocker->edict() );
-		}
-
-		if ( pBlocker && m_moveWaitTime > 0 && pBlocker->IsMoving() && !pBlocker->IsPlayer() && ( gpGlobals->time - m_flMoveWaitFinished ) > 3.0 )
-		{
-			// Can we still move toward our target?
-			if ( flDist < m_flGroundSpeed )
-			{
-				// No, Wait for a second
-				m_flMoveWaitFinished = gpGlobals->time + m_moveWaitTime;
-				return;
-			}
-			// Ok, still enough room to take a step
-		}
-		else
-		{
-			// try to triangulate around whatever is in the way.
-			if ( FTriangulate( pev->origin, m_Route[m_iRouteIndex].vecLocation, flDist, pTargetEnt, &vecApex ) )
-			{
-				InsertWaypoint( vecApex, bits_MF_TO_DETOUR );
-				RouteSimplify( pTargetEnt );
-			}
-			else
-			{
-				//				ALERT ( at_aiconsole, "Couldn't Triangulate\n" );
-				Stop();
-				// Only do this once until your route is cleared
-				if ( m_moveWaitTime > 0 && !( m_afMemory & bits_MEMORY_MOVE_FAILED ) )
-				{
-					FRefreshRoute();
-					if ( FRouteClear() )
-					{
-						TaskFail();
-					}
-					else
-					{
-						// Don't get stuck
-						if ( ( gpGlobals->time - m_flMoveWaitFinished ) < 0.2 )
-							Remember( bits_MEMORY_MOVE_FAILED );
-
-						m_flMoveWaitFinished = gpGlobals->time + 0.1;
-					}
-				}
-				else
-				{
-					TaskFail();
-					ALERT( at_aiconsole, "%s Failed to move (%d)!\n", STRING( pev->classname ), HasMemory( bits_MEMORY_MOVE_FAILED ) );
-					// ALERT( at_aiconsole, "%f, %f, %f\n", pev->origin.z, (pev->origin + (vecDir * flCheckDist)).z, m_Route[m_iRouteIndex].vecLocation.z );
-				}
-				return;
-			}
-		}
-	}
-
-	// close enough to the target, now advance to the next target. This is done before actually reaching
-	// the target so that we get a nice natural turn while moving.
-	if ( ShouldAdvanceRoute( flWaypointDist ) ) ///!!!BUGBUG- magic number
-	{
-		AdvanceRoute( flWaypointDist );
-	}
-
-	// Might be waiting for a door
-	if ( m_flMoveWaitFinished > gpGlobals->time )
-	{
-		Stop();
-		return;
-	}
-
-	// UNDONE: this is a hack to quit moving farther than it has looked ahead.
-	if ( flCheckDist < m_flGroundSpeed * flInterval )
-	{
-		flInterval = flCheckDist / m_flGroundSpeed;
-		// ALERT( at_console, "%.02f\n", flInterval );
-	}
-	MoveExecute( pTargetEnt, vecDir, flInterval );
-
-	if ( MovementIsComplete() )
-	{
-		Stop();
-		RouteClear();
-	}
-}
-
 void CBaseMonster ::MonsterInit( void )
 {
 	if ( !g_pGameRules->FAllowMonsters() )
@@ -875,6 +663,10 @@ void CBaseMonster ::StartMonster( void )
 	}
 }
 
+//=========================================================
+// IRelationship - returns an integer that describes the
+// relationship between two types of monster.
+//=========================================================
 int CBaseMonster::IRelationship( CBaseEntity *pTarget )
 {
 	static int iEnemy[14][14] =
@@ -898,18 +690,10 @@ int CBaseMonster::IRelationship( CBaseEntity *pTarget )
 }
 
 //=========================================================
-// FindCover - tries to find a nearby node that will hide
-// the caller from its enemy.
-//
-// If supplied, search will return a node at least as far
-// away as MinDist, but no farther than MaxDist.
-// if MaxDist isn't supplied, it defaults to a reasonable
-// value
+// MakeIdealYaw - gets a yaw value for the caller that would
+// face the supplied vector. Value is stuffed into the monster's
+// ideal_yaw
 //=========================================================
-// UNDONE: Should this find the nearest node?
-
-// float CGraph::PathLength( int iStart, int iDest, int iHull, int afCapMask )
-
 void CBaseMonster ::MakeIdealYaw( Vector vecTarget )
 {
 	Vector vecProjection;
@@ -1299,6 +1083,13 @@ int CBaseMonster ::CanPlaySequence( BOOL fDisregardMonsterState, int interruptLe
 #define COVER_CHECKS 5 // how many checks are made
 #define COVER_DELTA 48 // distance between checks
 
+//=========================================================
+// FacingIdeal - tells us if a monster is facing its ideal
+// yaw. Created this function because many spots in the
+// code were checking the yawdiff against this magic
+// number. Nicer to have it in one place if we're gonna
+// be stuck with it.
+//=========================================================
 BOOL CBaseMonster ::FacingIdeal( void )
 {
 	if ( fabs( FlYawDiff() ) <= 0.006 ) //!!!BUGBUG - no magic numbers!!!
@@ -1419,7 +1210,7 @@ BOOL CBaseMonster ::BBoxFlat( void )
 }
 
 //=========================================================
-// Get Enemy - tries to find the best suitable enemy for the monster.
+// DropItem - dead monster drops named item
 //=========================================================
 CBaseEntity *CBaseMonster ::DropItem( char *pszItemName, const Vector &vecPos, const Vector &vecAng )
 {

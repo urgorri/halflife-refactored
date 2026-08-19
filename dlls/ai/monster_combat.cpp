@@ -1,6 +1,17 @@
-/*** 
- * monster_combat.cpp - Monster Attacks & Damage routines
- ***/
+/***
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   This source code contains proprietary and confidential information of
+ *   Valve LLC and its suppliers.  Access to this code is restricted to
+ *   persons who have executed a written SDK license with Valve.  Any access,
+ *   use or distribution of this code by or to any unlicensed person is illegal.
+ *
+ ****/
 
 #include "core/extdll.h"
 #include "core/util.h"
@@ -20,6 +31,12 @@
 #include "ai/defaultai.h"
 #include "ai/schedule.h"
 
+
+//=========================================================
+// FBecomeProne - tries to send a monster into PRONE state.
+// right now only used when a barnacle snatches someone, so
+// may have some special case stuff for that.
+//=========================================================
 BOOL CBaseMonster ::FBecomeProne( void )
 {
 	if ( FBitSet( pev->flags, FL_ONGROUND ) )
@@ -139,11 +156,6 @@ BOOL CBaseMonster ::FCanCheckAttacks( void )
 	return FALSE;
 }
 
-//=========================================================
-// CheckEnemy - part of the Condition collection process,
-// gets and stores data and conditions pertaining to a monster's
-// enemy. Returns TRUE if Enemy LKP was updated.
-//=========================================================
 void CBaseMonster ::HandleAnimEvent( MonsterEvent_t *pEvent )
 {
 	switch ( pEvent->event )
@@ -263,18 +275,6 @@ Vector CBaseMonster ::GetGunPosition()
 	return vecSrc;
 }
 
-//=========================================================
-// NODE GRAPH
-//=========================================================
-
-//=========================================================
-// FGetNodeRoute - tries to build an entire node path from
-// the callers origin to the passed vector. If this is
-// possible, ROUTE_SIZE waypoints will be copied into the
-// callers m_Route. TRUE is returned if the operation
-// succeeds (path is valid) or FALSE if failed (no path
-// exists )
-//=========================================================
 Vector CBaseMonster ::ShootAtEnemy( const Vector &shootOrigin )
 {
 	CBaseEntity *pEnemy = m_hEnemy;
@@ -286,11 +286,3 @@ Vector CBaseMonster ::ShootAtEnemy( const Vector &shootOrigin )
 	else
 		return gpGlobals->v_forward;
 }
-
-//=========================================================
-// FacingIdeal - tells us if a monster is facing its ideal
-// yaw. Created this function because many spots in the
-// code were checking the yawdiff against this magic
-// number. Nicer to have it in one place if we're gonna
-// be stuck with it.
-//=========================================================

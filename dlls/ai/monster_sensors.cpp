@@ -1,6 +1,17 @@
-/*** 
- * monster_sensors.cpp - Monster Sensing, Vision & Hearing routines
- ***/
+/***
+ *
+ *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   This source code contains proprietary and confidential information of
+ *   Valve LLC and its suppliers.  Access to this code is restricted to
+ *   persons who have executed a written SDK license with Valve.  Any access,
+ *   use or distribution of this code by or to any unlicensed person is illegal.
+ *
+ ****/
 
 #include "core/extdll.h"
 #include "core/util.h"
@@ -19,6 +30,11 @@
 #include "ai/defaultai.h"
 #include "ai/schedule.h"
 
+
+//=========================================================
+// Listen - monsters dig through the active sound list for
+// any sounds that may interest them. (smells, too!)
+//=========================================================
 void CBaseMonster ::Listen( void )
 {
 	int iSound;
@@ -39,14 +55,82 @@ void CBaseMonster ::Listen( void )
 		iMySounds &= m_pSchedule->iSoundMask;
 	}
 
+	iSound = CSoundEnt::ActiveList();
+
+	// UNDONE: Clear these here?
+	ClearConditions( bits_COND_HEAR_SOUND | bits_COND_SMELL_FOOD | bits_COND_SMELL );
+	hearingSensitivity = HearingSensitivity();
+
+	while ( iSound != SOUNDLIST_EMPTY )
+	{
+		pCurrentSound = CSoundEnt::SoundPointerForIndex( iSound );
+
+		if ( pCurrentSound &&
+		     ( pCurrentSound->m_iType & iMySounds ) &&
+		     ( pCurrentSound->m_vecOrigin - EarPosition() ).Length() <= pCurrentSound->m_iVolume * hearingSensitivity )
+
+		// if ( ( g_pSoundEnt->m_SoundPool[ iSound ].m_iType & iMySounds ) && ( g_pSoundEnt->m_SoundPool[ iSound ].m_vecOrigin - EarPosition()).Length () <= g_pSoundEnt->m_SoundPool[ iSound ].m_iVolume * hearingSensitivity )
+		{
+			// the monster cares about this sound, and it's close enough to hear.
+			// g_pSoundEnt->m_SoundPool[ iSound ].m_iNextAudible = m_iAudibleList;
+			pCurrentSound->m_iNextAudible = m_iAudibleList;
+
+			if ( pCurrentSound->FIsSound() )
+			{
+				// this is an audible sound.
+				SetConditions( bits_COND_HEAR_SOUND );
+			}
+			else
+			{
+				// if not a sound, must be a smell - determine if it's just a scent, or if it's a food scent
+				//				if ( g_pSoundEnt->m_SoundPool[ iSound ].m_iType & ( bits_SOUND_MEAT | bits_SOUND_CARCASS ) )
+				if ( pCurrentSound->m_iType & ( bits_SOUND_MEAT | bits_SOUND_CARCASS ) )
+				{
+					// the detected scent is a food item, so set both conditions.
+					// !!!BUGBUG - maybe a virtual function to determine whether or not the scent is food?
+					SetConditions( bits_COND_SMELL_FOOD );
+					SetConditions( bits_COND_SMELL );
+				}
+				else
+				{
+					// just a normal scent.
+					SetConditions( bits_COND_SMELL );
+				}
+			}
+
+			//			m_afSoundTypes |= g_pSoundEnt->m_SoundPool[ iSound ].m_iType;
+			m_afSoundTypes |= pCurrentSound->m_iType;
+
+			m_iAudibleList = iSound;
+		}
+
+		//		iSound = g_pSoundEnt->m_SoundPool[ iSound ].m_iNext;
+		iSound = pCurrentSound->m_iNext;
+	}
+}
+
+//=========================================================
+// FLSoundVolume - subtracts the volume of the given sound
+// from the distance the sound source is from the caller,
+// and returns that value, which is considered to be the 'local'
+// volume of the sound.
+//=========================================================
 float CBaseMonster ::FLSoundVolume( CSound *pSound )
 {
 	return ( pSound->m_iVolume - ( ( pSound->m_vecOrigin - pev->origin ).Length() ) );
 }
 
 //=========================================================
-// FValidateHintType - tells use whether or not the monster cares
-// about the type of Hint Node given
+// Look - Base class monster function to find enemies or
+// food by sight. iDistance is distance ( in units ) that the
+// monster can see.
+//
+// Sets the sight bits of the m_afConditions mask to indicate
+// which types of entities were sighted.
+// Function also sets the Looker's m_pLink
+// to the head of a link list that contains all visible ents.
+// (linked via each ent's m_pLink field)
+//
 //=========================================================
 void CBaseMonster ::Look( int iDistance )
 {
@@ -180,6 +264,36 @@ CSound *CBaseMonster ::PBestSound( void )
 
 	while ( iThisSound != SOUNDLIST_EMPTY )
 	{
+		pSound = CSoundEnt::SoundPointerForIndex( iThisSound );
+
+		if ( pSound && pSound->FIsSound() )
+		{
+			flDist = ( pSound->m_vecOrigin - EarPosition() ).Length();
+
+			if ( flDist < flBestDist )
+			{
+				iBestSound = iThisSound;
+				flBestDist = flDist;
+			}
+		}
+
+		iThisSound = pSound->m_iNextAudible;
+	}
+	if ( iBestSound >= 0 )
+	{
+		pSound = CSoundEnt::SoundPointerForIndex( iBestSound );
+		return pSound;
+	}
+#if _DEBUG
+	ALERT( at_error, "NULL Return from PBestSound\n" );
+#endif
+	return NULL;
+}
+
+//=========================================================
+// PBestScent - returns a pointer to the scent the monster
+// should react to. Right now responds only to nearest scent
+//=========================================================
 CSound *CBaseMonster ::PBestScent( void )
 {
 	int iThisScent;
@@ -201,6 +315,38 @@ CSound *CBaseMonster ::PBestScent( void )
 
 	while ( iThisScent != SOUNDLIST_EMPTY )
 	{
+		pSound = CSoundEnt::SoundPointerForIndex( iThisScent );
+
+		if ( pSound->FIsScent() )
+		{
+			flDist = ( pSound->m_vecOrigin - pev->origin ).Length();
+
+			if ( flDist < flBestDist )
+			{
+				iBestScent = iThisScent;
+				flBestDist = flDist;
+			}
+		}
+
+		iThisScent = pSound->m_iNextAudible;
+	}
+	if ( iBestScent >= 0 )
+	{
+		pSound = CSoundEnt::SoundPointerForIndex( iBestScent );
+
+		return pSound;
+	}
+#if _DEBUG
+	ALERT( at_error, "NULL Return from PBestScent\n" );
+#endif
+	return NULL;
+}
+
+//=========================================================
+// CheckEnemy - part of the Condition collection process,
+// gets and stores data and conditions pertaining to a monster's
+// enemy. Returns TRUE if Enemy LKP was updated.
+//=========================================================
 int CBaseMonster ::CheckEnemy( CBaseEntity *pEnemy )
 {
 	float flDistToEnemy;
@@ -364,7 +510,13 @@ BOOL CBaseMonster ::PopEnemy()
 }
 
 //=========================================================
-// SetActivity
+// BestVisibleEnemy - this functions searches the link
+// list whose head is the caller's m_pLink field, and returns
+// a pointer to the enemy entity in that list that is nearest the
+// caller.
+//
+// !!!UNDONE - currently, this only returns the closest enemy.
+// we'll want to consider distance, relationship, attack types, back turned, etc.
 //=========================================================
 CBaseEntity *CBaseMonster ::BestVisibleEnemy( void )
 {
@@ -415,9 +567,7 @@ CBaseEntity *CBaseMonster ::BestVisibleEnemy( void )
 }
 
 //=========================================================
-// MakeIdealYaw - gets a yaw value for the caller that would
-// face the supplied vector. Value is stuffed into the monster's
-// ideal_yaw
+// Get Enemy - tries to find the best suitable enemy for the monster.
 //=========================================================
 BOOL CBaseMonster ::GetEnemy( void )
 {
@@ -473,7 +623,3 @@ BOOL CBaseMonster ::GetEnemy( void )
 
 	return FALSE; // monster has no enemy
 }
-
-//=========================================================
-// DropItem - dead monster drops named item
-//=========================================================
