@@ -157,7 +157,7 @@
     <ClCompile Include="..\..\cl_dll\demo.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\entity.cpp">
+    <ClCompile Include="..\..\cl_dll\entities\entity.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\ev_common.cpp">
@@ -211,7 +211,10 @@
     <ClCompile Include="..\..\cl_dll\input\inputw32.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\interpolation.cpp">
+    <ClCompile Include="..\..\cl_dll\render\interpolation.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\render\overview.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\menu.cpp">
@@ -253,7 +256,7 @@
     <ClCompile Include="..\..\cl_dll\hud\train.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\tri.cpp">
+    <ClCompile Include="..\..\cl_dll\render\tri.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game_shared\vgui_checkbutton2.cpp">
@@ -301,7 +304,7 @@
     <ClCompile Include="..\..\game_shared\vgui_slider2.cpp">
       <Filter>Source Files\game_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\view.cpp">
+    <ClCompile Include="..\..\cl_dll\render\view.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ServerBrowser.cpp">
@@ -375,7 +378,10 @@
     <ClInclude Include="..\..\cl_dll\input\in_defs.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\interpolation.h">
+    <ClInclude Include="..\..\cl_dll\render\interpolation.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\render\overview.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\parsemsg.h">
@@ -405,7 +411,7 @@
     <ClInclude Include="..\..\cl_dll\studio\StudioModelRenderer.h">
       <Filter>Header Files\studio</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\tri.h">
+    <ClInclude Include="..\..\cl_dll\render\tri.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\core\util_vector.h">
@@ -441,7 +447,7 @@
     <ClInclude Include="..\..\cl_dll\vgui\vgui_SpectatorPanel.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\view.h">
+    <ClInclude Include="..\..\cl_dll\render\view.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,7 +16,7 @@ extern "C"
 #include "const.h"
 #include "camera.h"
 #include "in_defs.h"
-#include "../view.h"
+#include "../render/view.h"
 #include "bench.h"
 #include <string.h>
 #include <ctype.h>

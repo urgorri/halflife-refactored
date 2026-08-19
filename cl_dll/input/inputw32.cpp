@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
+//========= Copyright ï¿½ 1996-2002, Valve LLC, All rights reserved. ============
 //
 // Purpose:
 //
@@ -20,7 +20,7 @@
 #include "camera.h"
 #include "in_defs.h"
 #include "../../public/keydefs.h"
-#include "../view.h"
+#include "../render/view.h"
 #include "Exports.h"
 
 #include <SDL2/SDL_events.h>
