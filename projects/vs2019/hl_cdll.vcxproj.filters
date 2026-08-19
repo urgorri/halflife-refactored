@@ -145,7 +145,7 @@
     <ClCompile Include="..\..\cl_dll\hud\battery.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\cdll_int.cpp">
+    <ClCompile Include="..\..\cl_dll\core\cdll_int.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\com_weapons.cpp">
@@ -229,7 +229,7 @@
     <ClCompile Include="..\..\pm_shared\pm_math.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\util.cpp">
+    <ClCompile Include="..\..\cl_dll\core\util.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\saytext.cpp">
@@ -324,7 +324,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\cl_dll\kbutton.h">
+    <ClInclude Include="..\..\cl_dll\input\kbutton.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\hud\ammo.h">
@@ -333,13 +333,13 @@
     <ClInclude Include="..\..\cl_dll\hud\ammohistory.h">
       <Filter>Header Files\cl_dll\hud</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\camera.h">
+    <ClInclude Include="..\..\cl_dll\core\camera.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\cl_dll.h">
+    <ClInclude Include="..\..\cl_dll\core\cl_dll.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\cl_util.h">
+    <ClInclude Include="..\..\cl_dll\core\cl_util.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\com_weapons.h">
@@ -372,7 +372,7 @@
     <ClInclude Include="..\..\cl_dll\hud\hud_spectator.h">
       <Filter>Header Files\cl_dll\hud</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\in_defs.h">
+    <ClInclude Include="..\..\cl_dll\input\in_defs.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\interpolation.h">
@@ -408,7 +408,7 @@
     <ClInclude Include="..\..\cl_dll\tri.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\util_vector.h">
+    <ClInclude Include="..\..\cl_dll\core\util_vector.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.h">
@@ -432,7 +432,7 @@
     <ClInclude Include="..\..\game_shared\voice_banmgr.h">
       <Filter>Header Files\game_shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\wrect.h">
+    <ClInclude Include="..\..\cl_dll\core\wrect.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\vgui\vgui_ServerBrowser.h">

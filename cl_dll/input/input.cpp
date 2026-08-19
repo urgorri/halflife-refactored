@@ -9,18 +9,18 @@
 #include "camera.h"
 extern "C"
 {
-#include "../kbutton.h"
+#include "kbutton.h"
 }
 #include "cvardef.h"
 #include "usercmd.h"
 #include "const.h"
-#include "../camera.h"
-#include "../in_defs.h"
+#include "camera.h"
+#include "in_defs.h"
 #include "../view.h"
-#include "../bench.h"
+#include "bench.h"
 #include <string.h>
 #include <ctype.h>
-#include "../Exports.h"
+#include "Exports.h"
 
 #include "vgui/vgui_TeamFortressViewport.h"
 

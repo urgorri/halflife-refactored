@@ -16,7 +16,7 @@
 #include "hud.h"
 #endif
 
-#include "../cl_util.h"
+#include "cl_util.h"
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>

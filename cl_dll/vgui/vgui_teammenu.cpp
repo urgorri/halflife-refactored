@@ -22,7 +22,7 @@
 #include "VGUI_TextImage.h"
 
 #include "../hud/hud.h"
-#include "../cl_util.h"
+#include "cl_util.h"
 #include "vgui_TeamFortressViewport.h"
 
 // Team Menu Dimensions

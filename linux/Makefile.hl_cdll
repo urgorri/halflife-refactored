@@ -18,7 +18,7 @@ HL_OUTPUT_DIR=$(SOURCE_DIR)/../game/valve
 
 CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS) -DCLIENT_DLL -DCLIENT_WEAPONS -DHL_DLL -I/usr/include/malloc -D_snwprintf=swprintf \
 		 -DDISABLE_JUMP_ORIGIN -DDISABLE_VEC_ORIGIN
-INCLUDEDIRS=-I$(HL_SRC_DIR) -I$(HL_SRC_DIR)/hud -I$(HL_SRC_DIR)/studio -I$(HL_SRC_DIR)/input -I../dlls -I../dlls/core -I../tfc -I$(COMMON_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I../pm_shared -I../engine -I../utils/vgui/include -I ../game_shared -I../external
+INCLUDEDIRS=-I$(HL_SRC_DIR) -I$(HL_SRC_DIR)/hud -I$(HL_SRC_DIR)/studio -I$(HL_SRC_DIR)/input -I$(HL_SRC_DIR)/core -I../dlls -I../dlls/core -I../tfc -I$(COMMON_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I../pm_shared -I../engine -I../utils/vgui/include -I ../game_shared -I../external
 ifeq ($(OS),Darwin)
 LDFLAGS=$(SHLIBLDFLAGS) $(CPP_LIB) -framework Carbon $(CFG)/vgui.dylib -L. -lSDL2-2.0.0
 else
@@ -44,7 +44,7 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/hud/ammo_secondary.o \
 	$(HL1_OBJ_DIR)/hud/ammohistory.o \
 	$(HL1_OBJ_DIR)/hud/battery.o \
-	$(HL1_OBJ_DIR)/cdll_int.o \
+	$(HL1_OBJ_DIR)/core/cdll_int.o \
 	$(HL1_OBJ_DIR)/com_weapons.o \
 	$(HL1_OBJ_DIR)/hud/death.o \
 	$(HL1_OBJ_DIR)/demo.o \
@@ -74,7 +74,7 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/studio/studio_util.o \
 	$(HL1_OBJ_DIR)/studio/StudioModelRenderer.o \
 	$(HL1_OBJ_DIR)/tri.o \
-	$(HL1_OBJ_DIR)/util.o \
+	$(HL1_OBJ_DIR)/core/util.o \
 	$(HL1_OBJ_DIR)/view.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_int.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ClassMenu.o \
@@ -149,6 +149,7 @@ $(HL1_OBJ_DIR):
 	mkdir -p $(HL1_OBJ_DIR)/hl
 	mkdir -p $(HL1_OBJ_DIR)/studio
 	mkdir -p $(HL1_OBJ_DIR)/input
+	mkdir -p $(HL1_OBJ_DIR)/core
 	mkdir -p $(HL1_OBJ_DIR)/dlls/wpn_shared
 	mkdir -p $(HL1_OBJ_DIR)/VGUI
 
@@ -216,3 +217,5 @@ clean:
 $(HL1_OBJ_DIR)/VGUI/%.o: $(HL_SRC_DIR)/vgui/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
 	$(DO_CC)
 
+$(HL1_OBJ_DIR)/core/%.o: $(HL_SRC_DIR)/core/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
+	$(DO_CC)
