@@ -17,6 +17,10 @@
 
 #pragma once
 
+#define MONSTER_CUT_CORNER_DIST 8
+#define COVER_CHECKS 5
+#define COVER_DELTA 48
+
 class CBaseMonster;
 
 #endif // MONSTER_SCHEDULER_H

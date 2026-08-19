@@ -17,7 +17,8 @@
 
 #pragma once
 
+#include "ai/monsterevent.h"
+
 class CBaseMonster;
-struct MonsterEvent_t;
 
 #endif // MONSTER_COMBAT_H
