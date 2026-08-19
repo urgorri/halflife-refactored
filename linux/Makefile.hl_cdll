@@ -18,7 +18,7 @@ HL_OUTPUT_DIR=$(SOURCE_DIR)/../game/valve
 
 CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS) -DCLIENT_DLL -DCLIENT_WEAPONS -DHL_DLL -I/usr/include/malloc -D_snwprintf=swprintf \
 		 -DDISABLE_JUMP_ORIGIN -DDISABLE_VEC_ORIGIN
-INCLUDEDIRS=-I$(HL_SRC_DIR) -I$(HL_SRC_DIR)/hud -I$(HL_SRC_DIR)/studio -I$(HL_SRC_DIR)/input -I../dlls -I../dlls/core -I../tfc -I$(COMMON_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I../pm_shared -I../engine -I../utils/vgui/include -I ../game_shared -I../external
+INCLUDEDIRS=-I$(HL_SRC_DIR) -I$(HL_SRC_DIR)/hud -I$(HL_SRC_DIR)/studio -I$(HL_SRC_DIR)/input -I$(HL_SRC_DIR)/core -I$(HL_SRC_DIR)/render -I$(HL_SRC_DIR)/entities -I$(HL_SRC_DIR)/hl -I$(HL_SRC_DIR)/systems -I$(HL_SRC_DIR)/events -I../dlls -I../dlls/core -I../dlls/weapons -I../tfc -I$(COMMON_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I../pm_shared -I../engine -I../utils/vgui/include -I ../game_shared -I../external
 ifeq ($(OS),Darwin)
 LDFLAGS=$(SHLIBLDFLAGS) $(CPP_LIB) -framework Carbon $(CFG)/vgui.dylib -L. -lSDL2-2.0.0
 else
@@ -34,7 +34,7 @@ DO_PM_SHARED_CC=$(CC) $(INCLUDEDIRS)  $(CFLAGS) $(SHLIBCFLAGS) -o $@ -c $<
 
 HL1_OBJS = \
 	$(HL1_OBJ_DIR)/hud/hud_spectator.o \
-	$(HL1_OBJ_DIR)/ev_hldm.o \
+	$(HL1_OBJ_DIR)/events/ev_hldm.o \
 	$(HL1_OBJ_DIR)/hl/hl_baseentity.o \
 	$(HL1_OBJ_DIR)/hl/hl_events.o \
 	$(HL1_OBJ_DIR)/hl/hl_objects.o \
@@ -44,13 +44,13 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/hud/ammo_secondary.o \
 	$(HL1_OBJ_DIR)/hud/ammohistory.o \
 	$(HL1_OBJ_DIR)/hud/battery.o \
-	$(HL1_OBJ_DIR)/cdll_int.o \
-	$(HL1_OBJ_DIR)/com_weapons.o \
+	$(HL1_OBJ_DIR)/core/cdll_int.o \
+	$(HL1_OBJ_DIR)/hl/com_weapons.o \
 	$(HL1_OBJ_DIR)/hud/death.o \
-	$(HL1_OBJ_DIR)/demo.o \
-	$(HL1_OBJ_DIR)/entity.o \
-	$(HL1_OBJ_DIR)/ev_common.o \
-	$(HL1_OBJ_DIR)/events.o \
+	$(HL1_OBJ_DIR)/systems/demo.o \
+	$(HL1_OBJ_DIR)/entities/entity.o \
+	$(HL1_OBJ_DIR)/events/ev_common.o \
+	$(HL1_OBJ_DIR)/events/events.o \
 	$(HL1_OBJ_DIR)/hud/flashlight.o \
 	$(HL1_OBJ_DIR)/hud/geiger.o \
 	$(HL1_OBJ_DIR)/hud/health.o \
@@ -59,7 +59,7 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/hud/hud_msg.o \
 	$(HL1_OBJ_DIR)/hud/hud_redraw.o \
 	$(HL1_OBJ_DIR)/hud/hud_update.o \
-	$(HL1_OBJ_DIR)/interpolation.o \
+	$(HL1_OBJ_DIR)/render/interpolation.o \
 	$(HL1_OBJ_DIR)/hud/menu.o \
 	$(HL1_OBJ_DIR)/hud/message.o \
 	$(HL1_OBJ_DIR)/hud/saytext.o \
@@ -73,9 +73,9 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/input/inputw32.o \
 	$(HL1_OBJ_DIR)/studio/studio_util.o \
 	$(HL1_OBJ_DIR)/studio/StudioModelRenderer.o \
-	$(HL1_OBJ_DIR)/tri.o \
-	$(HL1_OBJ_DIR)/util.o \
-	$(HL1_OBJ_DIR)/view.o \
+	$(HL1_OBJ_DIR)/render/tri.o \
+	$(HL1_OBJ_DIR)/core/util.o \
+	$(HL1_OBJ_DIR)/render/view.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_int.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ClassMenu.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ConsolePanel.o \
@@ -93,7 +93,7 @@ HL1_OBJS = \
 
 
 DLL_OBJS = \
-	$(HL1_SERVER_OBJ_DIR)/crossbow.o \
+	$(HL1_SERVER_OBJ_DIR)/weapons/crossbow.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_egon.o \
 	$(HL1_SERVER_OBJ_DIR)/weapons/weapon_gauss.o \
@@ -149,12 +149,20 @@ $(HL1_OBJ_DIR):
 	mkdir -p $(HL1_OBJ_DIR)/hl
 	mkdir -p $(HL1_OBJ_DIR)/studio
 	mkdir -p $(HL1_OBJ_DIR)/input
+	mkdir -p $(HL1_OBJ_DIR)/core
+	mkdir -p $(HL1_OBJ_DIR)/render
+	mkdir -p $(HL1_OBJ_DIR)/entities
 	mkdir -p $(HL1_OBJ_DIR)/dlls/wpn_shared
 	mkdir -p $(HL1_OBJ_DIR)/VGUI
+	mkdir -p $(HL1_OBJ_DIR)/systems
+	mkdir -p $(HL1_OBJ_DIR)/events
 
 $(HL1_SERVER_OBJ_DIR):
 	mkdir -p $(HL1_SERVER_OBJ_DIR)
 	mkdir -p $(HL1_SERVER_OBJ_DIR)/wpn_shared
+	mkdir -p $(HL1_SERVER_OBJ_DIR)/weapons
+
+$(HL1_SERVER_OBJ_DIR)/weapons:
 	mkdir -p $(HL1_SERVER_OBJ_DIR)/weapons
 
 $(PUBLIC_OBJ_DIR):
@@ -180,14 +188,20 @@ $(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR))
 $(HL1_SERVER_OBJ_DIR)/%.o: $(HL_SERVER_SRC_DIR)/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)),  $(HL1_SERVER_OBJ_DIR))
 	$(DO_CC)
 
-$(HL1_SERVER_OBJ_DIR)/weapons/%.o: $(HL_SERVER_SRC_DIR)/weapons/%.cpp
+$(HL1_SERVER_OBJ_DIR)/weapons/%.o: $(HL_SERVER_SRC_DIR)/weapons/%.cpp $(filter-out $(wildcard  $(HL1_SERVER_OBJ_DIR)/weapons),  $(HL1_SERVER_OBJ_DIR)/weapons)
 	$(DO_CC)
 
-$(HL1_OBJ_DIR)/%.o: $(HL_SRC_DIR)/hl/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
+$(HL1_OBJ_DIR)/hl/%.o: $(HL_SRC_DIR)/hl/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)/hl),  $(HL1_OBJ_DIR)/hl)
 	$(DO_CC)
 
 
 $(HL1_OBJ_DIR)/studio/%.o: $(HL_SRC_DIR)/studio/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
+	$(DO_CC)
+
+$(HL1_OBJ_DIR)/render/%.o: $(HL_SRC_DIR)/render/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
+	$(DO_CC)
+
+$(HL1_OBJ_DIR)/entities/%.o: $(HL_SRC_DIR)/entities/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
 	$(DO_CC)
 
 $(HL1_OBJ_DIR)/input/%.o: $(HL_SRC_DIR)/input/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
@@ -216,3 +230,11 @@ clean:
 $(HL1_OBJ_DIR)/VGUI/%.o: $(HL_SRC_DIR)/vgui/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
 	$(DO_CC)
 
+$(HL1_OBJ_DIR)/core/%.o: $(HL_SRC_DIR)/core/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)),  $(HL1_OBJ_DIR))
+	$(DO_CC)
+
+$(HL1_OBJ_DIR)/systems/%.o: $(HL_SRC_DIR)/systems/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)/systems),  $(HL1_OBJ_DIR)/systems)
+	$(DO_CC)
+
+$(HL1_OBJ_DIR)/events/%.o: $(HL_SRC_DIR)/events/%.cpp $(filter-out $(wildcard  $(HL1_OBJ_DIR)/events),  $(HL1_OBJ_DIR)/events)
+	$(DO_CC)

@@ -4,7 +4,7 @@
 #define BENCH_TIME 10.0
 
 #include "hud.h"
-#include "../cl_util.h"
+#include "cl_util.h"
 
 #include "const.h"
 #include "entity_state.h"
@@ -13,7 +13,7 @@
 #include "pm_defs.h"
 #include "event_api.h"
 
-#include "../bench.h"
+#include "bench.h"
 
 #include <string.h>
 #include <stdio.h>

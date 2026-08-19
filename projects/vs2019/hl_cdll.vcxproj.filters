@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -73,7 +73,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\dlls\crossbow.cpp">
+    <ClCompile Include="..\..\dlls\weapons\crossbow.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp">
@@ -82,8 +82,8 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\ev_hldm.cpp">
-      <Filter>Source Files\_hl\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\events\ev_hldm.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
@@ -145,26 +145,26 @@
     <ClCompile Include="..\..\cl_dll\hud\battery.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\cdll_int.cpp">
+    <ClCompile Include="..\..\cl_dll\core\cdll_int.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\com_weapons.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\hl\com_weapons.cpp">
+      <Filter>Source Files\cl_dll\hl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\message.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\demo.cpp">
+    <ClCompile Include="..\..\cl_dll\systems\demo.cpp">
+      <Filter>Source Files\cl_dll\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\entities\entity.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\entity.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\events\ev_common.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\ev_common.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\events.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\events\events.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\flashlight.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
@@ -211,7 +211,7 @@
     <ClCompile Include="..\..\cl_dll\input\inputw32.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\interpolation.cpp">
+    <ClCompile Include="..\..\cl_dll\render\interpolation.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\menu.cpp">
@@ -229,7 +229,7 @@
     <ClCompile Include="..\..\pm_shared\pm_math.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\util.cpp">
+    <ClCompile Include="..\..\cl_dll\core\util.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\saytext.cpp">
@@ -253,7 +253,7 @@
     <ClCompile Include="..\..\cl_dll\hud\train.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\tri.cpp">
+    <ClCompile Include="..\..\cl_dll\render\tri.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\game_shared\vgui_checkbutton2.cpp">
@@ -301,7 +301,7 @@
     <ClCompile Include="..\..\game_shared\vgui_slider2.cpp">
       <Filter>Source Files\game_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\view.cpp">
+    <ClCompile Include="..\..\cl_dll\render\view.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ServerBrowser.cpp">
@@ -324,7 +324,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\cl_dll\kbutton.h">
+    <ClInclude Include="..\..\cl_dll\input\kbutton.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\hud\ammo.h">
@@ -333,26 +333,26 @@
     <ClInclude Include="..\..\cl_dll\hud\ammohistory.h">
       <Filter>Header Files\cl_dll\hud</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\camera.h">
+    <ClInclude Include="..\..\cl_dll\core\camera.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\cl_dll.h">
+    <ClInclude Include="..\..\cl_dll\core\cl_dll.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\cl_util.h">
+    <ClInclude Include="..\..\cl_dll\core\cl_util.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\com_weapons.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\hl\com_weapons.h">
+      <Filter>Header Files\cl_dll\hl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\demo.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\systems\demo.h">
+      <Filter>Header Files\cl_dll\systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\ev_hldm.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\events\ev_hldm.h">
+      <Filter>Header Files\cl_dll\events</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\eventscripts.h">
-      <Filter>Header Files\cl_dll</Filter>
+    <ClInclude Include="..\..\cl_dll\events\eventscripts.h">
+      <Filter>Header Files\cl_dll\events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\studio\GameStudioModelRenderer.h">
       <Filter>Header Files\studio</Filter>
@@ -372,10 +372,13 @@
     <ClInclude Include="..\..\cl_dll\hud\hud_spectator.h">
       <Filter>Header Files\cl_dll\hud</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\in_defs.h">
+    <ClInclude Include="..\..\cl_dll\input\in_defs.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\interpolation.h">
+    <ClInclude Include="..\..\cl_dll\render\interpolation.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\render\overview.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\parsemsg.h">
@@ -405,10 +408,10 @@
     <ClInclude Include="..\..\cl_dll\studio\StudioModelRenderer.h">
       <Filter>Header Files\studio</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\tri.h">
+    <ClInclude Include="..\..\cl_dll\render\tri.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\util_vector.h">
+    <ClInclude Include="..\..\cl_dll\core\util_vector.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.h">
@@ -432,7 +435,7 @@
     <ClInclude Include="..\..\game_shared\voice_banmgr.h">
       <Filter>Header Files\game_shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\wrect.h">
+    <ClInclude Include="..\..\cl_dll\core\wrect.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\vgui\vgui_ServerBrowser.h">
@@ -441,7 +444,7 @@
     <ClInclude Include="..\..\cl_dll\vgui\vgui_SpectatorPanel.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\view.h">
+    <ClInclude Include="..\..\cl_dll\render\view.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
   </ItemGroup>

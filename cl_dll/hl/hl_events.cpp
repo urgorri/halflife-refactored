@@ -13,7 +13,7 @@
  *
  ****/
 #include "../hud/hud.h"
-#include "../cl_util.h"
+#include "cl_util.h"
 #include "event_api.h"
 
 extern "C"

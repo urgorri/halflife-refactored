@@ -19,10 +19,10 @@ HL_OUTPUT_DIR=$(SOURCE_DIR)/../game/valve
 CFLAGS=$(BASE_CFLAGS)  $(ARCH_CFLAGS)  -DCLIENT_WEAPONS
 #-O3 -ffast-math -fno-strength-reduce
 
-HLDLL_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(GAME_SHARED_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
-HLWPN_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
+HLDLL_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(HLDLL_SRC_DIR)/weapons -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(GAME_SHARED_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
+HLWPN_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(HLDLL_SRC_DIR)/weapons -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
 PM_INCLUDEDIRS=-I$(COMMON_SRC_DIR)  -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
-GAME_SHARED_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
+GAME_SHARED_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(HLDLL_SRC_DIR)/weapons -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
 
 LDFLAGS= -lm -lstdc++
 
@@ -51,7 +51,7 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/combat.o \
 	$(HLCORE_OBJ_DIR)/client.o \
 	$(HLDLL_OBJ_DIR)/monsters/controller.o \
-	$(HLDLL_OBJ_DIR)/crossbow.o \
+	$(HLDLL_OBJ_DIR)/weapons/crossbow.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
 	$(HLDLL_OBJ_DIR)/systems/doors.o \
@@ -180,7 +180,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/turret_base.o \
 	$(HLCORE_OBJ_DIR)/util.o \
 	$(HLDLL_OBJ_DIR)/systems/vehicle.o \
-	$(HLDLL_OBJ_DIR)/weapons.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapons.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
 	$(HLDLL_OBJ_DIR)/world/world.o \
 	$(HLDLL_OBJ_DIR)/world/xen.o \

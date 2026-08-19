@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "../hud/hud.h"
-#include "../cl_util.h"
+#include "cl_util.h"
 #include "const.h"
 #include "entity_state.h"
 #include "cl_entity.h"
@@ -12,7 +12,7 @@
 #include "vgui_SpectatorPanel.h"
 #include "vgui_ScorePanel.h"
 
-#include "../Exports.h"
+#include "Exports.h"
 
 /*
 ==========================

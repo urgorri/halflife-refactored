@@ -19,7 +19,7 @@
 //
 
 #include "hud.h"
-#include "../cl_util.h"
+#include "cl_util.h"
 #include <string.h>
 #include <stdio.h>
 #include "parsemsg.h"
@@ -27,7 +27,7 @@
 #include "vgui/vgui_int.h"
 #include "vgui/vgui_TeamFortressViewport.h"
 
-#include "../demo.h"
+#include "demo.h"
 #include "demo_api.h"
 #include "vgui/vgui_ScorePanel.h"
 

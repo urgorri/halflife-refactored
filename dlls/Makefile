@@ -41,7 +41,7 @@ CFLAGS=$(BASE_CFLAGS) -w -O1
 #use these when debugging
 #CFLAGS=$(BASE_CFLAGS) -g
 
-INCLUDEDIRS=-I. -I$(CORE_SRCDIR) -I$(ENGINE_SRCDIR) -I../public -I$(COMMON_SRCDIR) -I$(PM_SHARED_SRCDIR) -I$(GAME_SHARED_SRCDIR)
+INCLUDEDIRS=-I. -I$(CORE_SRCDIR) -I./weapons -I$(ENGINE_SRCDIR) -I../public -I$(COMMON_SRCDIR) -I$(PM_SHARED_SRCDIR) -I$(GAME_SHARED_SRCDIR)
 
 LDFLAGS=
 
@@ -95,7 +95,7 @@ OBJ = \
 	$(CORE_OBJDIR)/combat.o \
 	$(CORE_OBJDIR)/client.o \
 	$(DLL_OBJDIR)/monsters/controller.o \
-	$(DLL_OBJDIR)/crossbow.o \
+	$(DLL_OBJDIR)/weapons/crossbow.o \
 	$(DLL_OBJDIR)/weapons/weapon_crowbar.o \
 	$(DLL_OBJDIR)/ai/defaultai.o \
 	$(DLL_OBJDIR)/systems/doors.o \
@@ -223,7 +223,7 @@ OBJ = \
 	$(SYSTEMS_OBJDIR)/miniturret.o \
 	$(SYSTEMS_OBJDIR)/sentry.o \
 	$(CORE_OBJDIR)/util.o \
-	$(DLL_OBJDIR)/weapons.o \
+	$(DLL_OBJDIR)/weapons/weapons.o \
 	$(DLL_OBJDIR)/weapons/weapon_base.o \
 	$(DLL_OBJDIR)/world/world.o \
 	$(DLL_OBJDIR)/world/xen.o \

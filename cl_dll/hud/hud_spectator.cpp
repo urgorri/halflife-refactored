@@ -6,7 +6,7 @@
 //=============================================================================
 
 #include "hud.h"
-#include "../cl_util.h"
+#include "cl_util.h"
 #include "cl_entity.h"
 #include "triangleapi.h"
 #include "vgui/vgui_TeamFortressViewport.h"

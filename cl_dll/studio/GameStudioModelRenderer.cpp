@@ -26,7 +26,7 @@
 
 #include "StudioModelRenderer.h"
 #include "GameStudioModelRenderer.h"
-#include "../Exports.h"
+#include "Exports.h"
 
 //
 // Override the StudioModelRender virtual member functions here to implement custom bone

@@ -42,9 +42,9 @@
 #include "event_api.h"
 #include "r_efx.h"
 
-#include "../hud_iface.h"
-#include "../com_weapons.h"
-#include "../demo.h"
+#include "hud_iface.h"
+#include "com_weapons.h"
+#include "demo.h"
 
 extern globalvars_t *gpGlobals;
 extern int g_iUser1;
