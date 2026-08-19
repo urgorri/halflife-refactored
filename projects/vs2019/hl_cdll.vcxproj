@@ -60,7 +60,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CLIENT_DLL;CLIENT_WEAPONS;HL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input;..\..\cl_dll\core</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -88,7 +88,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;CLIENT_DLL;CLIENT_WEAPONS;HL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dlls;..\..\dlls\core;..\..\cl_dll;..\..\public;..\..\common;..\..\pm_shared;..\..\engine;..\..\utils\vgui\include;..\..\game_shared;..\..\external;%(AdditionalIncludeDirectories);..\..\cl_dll\studio;..\..\cl_dll\input;..\..\cl_dll\core</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -113,7 +113,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\hud\ammohistory.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\ammo_secondary.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\battery.cpp" />
-    <ClCompile Include="..\..\cl_dll\cdll_int.cpp" />
+    <ClCompile Include="..\..\cl_dll\core\cdll_int.cpp" />
     <ClCompile Include="..\..\cl_dll\com_weapons.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\death.cpp" />
     <ClCompile Include="..\..\cl_dll\demo.cpp" />
@@ -152,7 +152,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\studio\studio_util.cpp" />
 
     <ClCompile Include="..\..\cl_dll\tri.cpp" />
-    <ClCompile Include="..\..\cl_dll\util.cpp" />
+    <ClCompile Include="..\..\cl_dll\core\util.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ClassMenu.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_CustomObjects.cpp" />
@@ -197,9 +197,9 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
   <ItemGroup>
     <ClInclude Include="..\..\cl_dll\hud\ammo.h" />
     <ClInclude Include="..\..\cl_dll\hud\ammohistory.h" />
-    <ClInclude Include="..\..\cl_dll\camera.h" />
-    <ClInclude Include="..\..\cl_dll\cl_dll.h" />
-    <ClInclude Include="..\..\cl_dll\cl_util.h" />
+    <ClInclude Include="..\..\cl_dll\core\camera.h" />
+    <ClInclude Include="..\..\cl_dll\core\cl_dll.h" />
+    <ClInclude Include="..\..\cl_dll\core\cl_util.h" />
     <ClInclude Include="..\..\cl_dll\com_weapons.h" />
     <ClInclude Include="..\..\cl_dll\demo.h" />
     <ClInclude Include="..\..\cl_dll\eventscripts.h" />
@@ -212,11 +212,11 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClInclude Include="..\..\cl_dll\studio\GameStudioModelRenderer.h" />
 
     <ClInclude Include="..\..\cl_dll\interpolation.h" />
-    <ClInclude Include="..\..\cl_dll\in_defs.h" />
-    <ClInclude Include="..\..\cl_dll\kbutton.h" />
+    <ClInclude Include="..\..\cl_dll\input\in_defs.h" />
+    <ClInclude Include="..\..\cl_dll\input\kbutton.h" />
     <ClInclude Include="..\..\cl_dll\studio\StudioModelRenderer.h" />
     <ClInclude Include="..\..\cl_dll\tri.h" />
-    <ClInclude Include="..\..\cl_dll\util_vector.h" />
+    <ClInclude Include="..\..\cl_dll\core\util_vector.h" />
     <ClInclude Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.h" />
     <ClInclude Include="..\..\cl_dll\vgui\vgui_int.h" />
     <ClInclude Include="..\..\cl_dll\vgui\vgui_SchemeManager.h" />
@@ -224,7 +224,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClInclude Include="..\..\cl_dll\vgui\vgui_ServerBrowser.h" />
     <ClInclude Include="..\..\cl_dll\vgui\vgui_SpectatorPanel.h" />
     <ClInclude Include="..\..\cl_dll\view.h" />
-    <ClInclude Include="..\..\cl_dll\wrect.h" />
+    <ClInclude Include="..\..\cl_dll\core\wrect.h" />
     <ClInclude Include="..\..\common\parsemsg.h" />
     <ClInclude Include="..\..\game_shared\vgui_scrollbar2.h" />
     <ClInclude Include="..\..\game_shared\vgui_slider2.h" />

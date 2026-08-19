@@ -13,7 +13,7 @@
 #include <VGUI_ActionSignal.h>
 
 #include "../hud/hud.h"
-#include "../cl_util.h"
+#include "cl_util.h"
 #include "../hud/hud_servers.h"
 #include "net_api.h"
 

@@ -18,7 +18,7 @@
 
 #include <math.h>
 #include "hud.h"
-#include "../cl_util.h"
+#include "cl_util.h"
 #include <stdlib.h>
 #include <memory.h>
 
