@@ -181,6 +181,9 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\gameplay\game_player_team.cpp" />
     <ClCompile Include="..\..\dlls\ai\monstermaker.cpp" />
     <ClCompile Include="..\..\dlls\ai\monsters.cpp" />
+    <ClCompile Include="..\..\dlls\ai\monster_combat.cpp" />
+    <ClCompile Include="..\..\dlls\ai\monster_scheduler.cpp" />
+    <ClCompile Include="..\..\dlls\ai\monster_sensors.cpp" />
     <ClCompile Include="..\..\dlls\ai\monsterstate.cpp" />
     <ClCompile Include="..\..\dlls\systems\mortar.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_mp5.cpp" />
@@ -284,6 +287,9 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\weapons\weapon_hornetgun.h" />
     <ClInclude Include="..\..\dlls\items\item_base.h" />
     <ClInclude Include="..\..\dlls\ai\monsterevent.h" />
+    <ClInclude Include="..\..\dlls\ai\monster_combat.h" />
+    <ClInclude Include="..\..\dlls\ai\monster_scheduler.h" />
+    <ClInclude Include="..\..\dlls\ai\monster_sensors.h" />
     <ClInclude Include="..\..\dlls\ai\squad.h" />
     <ClInclude Include="..\..\dlls\monsters.h" />
     <ClInclude Include="..\..\dlls\nodes.h" />

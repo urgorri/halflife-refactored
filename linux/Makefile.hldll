@@ -110,6 +110,9 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/game_player_team.o \
 	$(HLDLL_OBJ_DIR)/ai/monstermaker.o \
 	$(HLDLL_OBJ_DIR)/ai/monsters.o \
+	$(HLDLL_OBJ_DIR)/ai/monster_combat.o \
+	$(HLDLL_OBJ_DIR)/ai/monster_scheduler.o \
+	$(HLDLL_OBJ_DIR)/ai/monster_sensors.o \
 	$(HLDLL_OBJ_DIR)/ai/monsterstate.o \
 	$(HLDLL_OBJ_DIR)/systems/mortar.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_mp5.o \
