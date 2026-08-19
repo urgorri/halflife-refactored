@@ -42,7 +42,6 @@
 
 extern DLL_GLOBAL ULONG g_ulModelIndexPlayer;
 extern DLL_GLOBAL BOOL g_fGameOver;
-#define AIRTIME 12
 #include "core/player_physics.h"
 
 void CBasePlayer::WaterMove()

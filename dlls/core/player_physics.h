@@ -20,6 +20,8 @@ void FixPlayerCrouchStuck( edict_t *pPlayer );
 int TrainSpeed( int iSpeed, int iMax );
 void CheckPowerups( entvars_t *pev );
 
+#define AIRTIME 12 // lung full of air lasts this many seconds
+
 #define TRAIN_ACTIVE 0x80
 #define TRAIN_NEW 0xc0
 #define TRAIN_OFF 0x00

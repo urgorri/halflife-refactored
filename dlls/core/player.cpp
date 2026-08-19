@@ -2159,8 +2159,7 @@ Check for turning off powerups
 GLOBALS ASSUMED SET:  g_ulModelIndexPlayer
 ================
 */
-static void
-    CheckPowerups( entvars_t *pev )
+void CheckPowerups( entvars_t *pev )
 {
 	if ( pev->health <= 0 )
 		return;
