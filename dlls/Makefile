@@ -167,7 +167,6 @@ OBJ = \
 	$(DLL_OBJDIR)/world/plats.o \
 	$(CORE_OBJDIR)/player.o \
 	$(CORE_OBJDIR)/player_input.o \
-	$(CORE_OBJDIR)/player_physics.o \
 	$(CORE_OBJDIR)/player_inventory.o \
 	$(CORE_OBJDIR)/player_physics.o \
 	$(CORE_OBJDIR)/player_network.o \
