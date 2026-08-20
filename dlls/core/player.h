@@ -325,6 +325,11 @@ class CBasePlayer : public CBaseMonster
 	int m_iAutoWepSwitch;
 };
 
+
+#define TRAIN_NEW 0xc0
+#define FLASH_DRAIN_TIME 1.2
+#define FLASH_CHARGE_TIME 0.2
+
 #define AUTOAIM_2DEGREES 0.0348994967025
 #define AUTOAIM_5DEGREES 0.08715574274766
 #define AUTOAIM_8DEGREES 0.1391731009601
