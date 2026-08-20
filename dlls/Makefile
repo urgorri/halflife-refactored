@@ -167,6 +167,7 @@ OBJ = \
 	$(DLL_OBJDIR)/world/plats.o \
 	$(CORE_OBJDIR)/player.o \
 	$(CORE_OBJDIR)/player_input.o \
+	$(CORE_OBJDIR)/player_physics.o \
 	$(DLL_OBJDIR)/weapons/weapon_spraycan.o \
 	$(DLL_OBJDIR)/monsters/monster_deadhev.o \
 	$(DLL_OBJDIR)/gameplay/stripweapons.o \
