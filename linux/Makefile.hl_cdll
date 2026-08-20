@@ -77,7 +77,7 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/core/util.o \
 	$(HL1_OBJ_DIR)/render/view.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_int.o \
-	$(HL1_OBJ_DIR)/VGUI/vgui_ClassMenu.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_ClassMenuPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ConsolePanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ControlConfigPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_CustomObjects.o \

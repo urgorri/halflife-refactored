@@ -153,7 +153,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
 
     <ClCompile Include="..\..\cl_dll\render\tri.cpp" />
     <ClCompile Include="..\..\cl_dll\core\util.cpp" />
-    <ClCompile Include="..\..\cl_dll\vgui\vgui_ClassMenu.cpp" />
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_ClassMenuPanel.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_CustomObjects.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_int.cpp" />
