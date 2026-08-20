@@ -72,7 +72,7 @@ jobs:
       - name: Install dependencies
         timeout-minutes: 10
         run: |
-          sudo sed -i 's/azure\.archive\.ubuntu\.com/archive.ubuntu.com/g' /etc/apt/sources.list /etc/apt/sources.list.d/* || true
+          sudo sed -i 's/azure\.archive\.ubuntu\.com/archive.ubuntu.com/g' /etc/apt/sources.list /etc/apt/sources.list.d/* /etc/apt/sources.list.d/ubuntu.sources || true
           sudo dpkg --add-architecture i386
           sudo apt-get -o Acquire::http::Timeout="15" -o Acquire::https::Timeout="15" -o Acquire::Retries="3" update && \
           sudo apt-get -o Acquire::http::Timeout="15" -o Acquire::https::Timeout="15" -o Acquire::Retries="3" install -y \
