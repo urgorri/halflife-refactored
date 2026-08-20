@@ -1,10 +1,12 @@
-#include "hud.h"
+#include "../hud/hud.h"
 #include "cl_util.h"
 #include "vgui_TeamFortressViewport.h"
 #include "vgui_CommandMenuPanel.h"
 #include <VGUI_Button.h>
 
 using namespace vgui;
+
+class CException;
 
 void CCommandMenu::AddButton( CommandButton *pButton )
 {

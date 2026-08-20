@@ -25,6 +25,7 @@
 #include "cl_entity.h"
 #include "vgui_TeamFortressViewport.h"
 #include "vgui_ScorePanel.h"
+#include "vgui_CommandMenuPanel.h"
 #include "vgui_helpers.h"
 #include "vgui_loadtga.h"
 #include "../hud/voice_status.h"
