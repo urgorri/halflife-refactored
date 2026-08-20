@@ -185,6 +185,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/turret_base.o \
 	$(HLCORE_OBJ_DIR)/util.o \
 	$(HLCORE_OBJ_DIR)/util_math.o \
+	$(HLCORE_OBJ_DIR)/util_entity.o \
 	$(HLDLL_OBJ_DIR)/systems/vehicle.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapons.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \

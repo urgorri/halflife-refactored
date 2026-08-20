@@ -226,6 +226,7 @@ OBJ = \
 	$(SYSTEMS_OBJDIR)/sentry.o \
 	$(CORE_OBJDIR)/util.o \
 	$(CORE_OBJDIR)/util_math.o \
+	$(CORE_OBJDIR)/util_entity.o \
 	$(DLL_OBJDIR)/weapons/weapons.o \
 	$(DLL_OBJDIR)/weapons/weapon_base.o \
 	$(DLL_OBJDIR)/world/world.o \
