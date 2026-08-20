@@ -31,6 +31,7 @@
 
 #include "vgui_int.h"
 #include "vgui_TeamFortressViewport.h"
+#include "vgui_CommandMenuPanel.h"
 #include "vgui_ServerBrowser.h"
 #include "vgui_loadtga.h"
 
@@ -409,17 +410,7 @@ void CImageLabel::LoadImage( const char *pImageName )
 
 //===========================================================
 // Various overloaded paint functions for Custom VGUI objects
-void CCommandMenu::paintBackground()
-{
-	// Transparent black background
 
-	if ( m_iSpectCmdMenu )
-		drawSetColor( 0, 0, 0, 64 );
-	else
-		drawSetColor( Scheme::sc_primary3 );
-
-	drawFilledRect( 0, 0, _size[0], _size[1] );
-}
 
 //=================================================================================
 // CUSTOM SCROLLPANEL
@@ -536,16 +527,4 @@ void CHandler_MenuButtonOver::cursorEntered( Panel *panel )
 	}
 }
 
-void CMenuHandler_StringCommandClassSelect::actionPerformed( Panel *panel )
-{
-	CMenuHandler_StringCommand::actionPerformed( panel );
 
-	// THIS IS NOW BEING DONE ON THE TFC SERVER TO AVOID KILLING SOMEONE THEN
-	// HAVE THE SERVER SAY "SORRY...YOU CAN'T BE THAT CLASS".
-
-#if !defined _TFC
-	bool bAutoKill = CVAR_GET_FLOAT( "hud_classautokill" ) != 0;
-	if ( bAutoKill && g_iPlayerClass != 0 )
-		gEngfuncs.pfnClientCmd( "kill" );
-#endif
-}
