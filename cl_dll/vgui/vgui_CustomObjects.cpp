@@ -31,6 +31,9 @@
 
 #include "vgui_int.h"
 #include "vgui_TeamFortressViewport.h"
+#include "vgui_TeamMenuPanel.h"
+#include "vgui_ClassMenuPanel.h"
+#include "vgui_CommandMenuPanel.h"
 #include "vgui_ServerBrowser.h"
 #include "vgui_loadtga.h"
 

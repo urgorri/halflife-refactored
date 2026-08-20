@@ -262,9 +262,7 @@
     <ClCompile Include="..\..\cl_dll\vgui\vgui_CustomObjects.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui\vgui_ClassMenu.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
+
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ControlConfigPanel.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
@@ -313,9 +311,16 @@
     <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamFortressViewport.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui\vgui_teammenu.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamMenuPanel.cpp">
+      <Filter>Source Files\vgui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_ClassMenuPanel.cpp">
+      <Filter>Source Files\vgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_CommandMenuPanel.cpp">
+      <Filter>Source Files\vgui</Filter>
+    </ClCompile>
+
     <ClCompile Include="..\..\cl_dll\hud\voice_status.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>

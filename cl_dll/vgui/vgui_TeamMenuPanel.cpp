@@ -24,6 +24,9 @@
 #include "../hud/hud.h"
 #include "cl_util.h"
 #include "vgui_TeamFortressViewport.h"
+#include "vgui_TeamMenuPanel.h"
+#include "vgui_ClassMenuPanel.h"
+#include "vgui_CommandMenuPanel.h"
 
 // Team Menu Dimensions
 #define TEAMMENU_TITLE_X XRES( 40 )

@@ -357,65 +357,6 @@ class SpectButton : public CommandButton
 		Button::paint();
 	}
 };
-//============================================================
-// Command Menus
-class CCommandMenu : public Panel
-{
-  private:
-	CCommandMenu *m_pParentMenu;
-	int m_iXOffset;
-	int m_iYOffset;
-
-	// Buttons in this menu
-	CommandButton *m_aButtons[MAX_BUTTONS];
-	int m_iButtons;
-
-	// opens menu from top to bottom (0 = default), or from bottom to top (1)?
-	int m_iDirection;
-
-  public:
-	CCommandMenu( CCommandMenu *pParentMenu, int x, int y, int wide, int tall )
-	    : Panel( x, y, wide, tall )
-	{
-		m_pParentMenu = pParentMenu;
-		m_iXOffset    = x;
-		m_iYOffset    = y;
-		m_iButtons    = 0;
-		m_iDirection  = 0;
-	}
-
-	CCommandMenu( CCommandMenu *pParentMenu, int direction, int x, int y, int wide, int tall )
-	    : Panel( x, y, wide, tall )
-	{
-		m_pParentMenu = pParentMenu;
-		m_iXOffset    = x;
-		m_iYOffset    = y;
-		m_iButtons    = 0;
-		m_iDirection  = direction;
-	}
-
-	float m_flButtonSizeY;
-	int m_iSpectCmdMenu;
-	void AddButton( CommandButton *pButton );
-	bool RecalculateVisibles( int iNewYPos, bool bHideAll );
-	void RecalculatePositions( int iYOffset );
-	void MakeVisible( CCommandMenu *pChildMenu );
-
-	CCommandMenu *GetParentMenu() { return m_pParentMenu; };
-	int GetXOffset() { return m_iXOffset; };
-	int GetYOffset() { return m_iYOffset; };
-	int GetDirection() { return m_iDirection; };
-	int GetNumButtons() { return m_iButtons; };
-	CommandButton *FindButtonWithSubmenu( CCommandMenu *pSubMenu );
-
-	void ClearButtonsOfArmedState( void );
-
-	void RemoveAllButtons( void );
-
-	bool KeyInput( int keyNum );
-
-	virtual void paintBackground();
-};
 
 //==============================================================================
 // Command menu root button (drop down box style)
@@ -478,6 +419,10 @@ class CImageButton : public ColorButton
 };
 
 //==============================================================================
+class CTeamMenuPanel;
+class CClassMenuPanel;
+class CCommandMenu;
+
 class TeamFortressViewport : public Panel
 {
   private:
@@ -1689,73 +1634,7 @@ class CTFScrollPanel : public ScrollPanel
 //================================================================
 // Menu Panels that take key input
 //============================================================
-class CClassMenuPanel : public CMenuPanel
-{
-  private:
-	CTransparentPanel *m_pClassInfoPanel[PC_LASTCLASS];
-	Label *m_pPlayers[PC_LASTCLASS];
-	ClassButton *m_pButtons[PC_LASTCLASS];
-	CommandButton *m_pCancelButton;
-	ScrollPanel *m_pScrollPanel;
 
-	CImageLabel *m_pClassImages[MAX_TEAMS][PC_LASTCLASS];
-
-	int m_iCurrentInfo;
-
-	enum
-	{
-		STRLENMAX_PLAYERSONTEAM = 128
-	};
-	char m_sPlayersOnTeamString[STRLENMAX_PLAYERSONTEAM];
-
-  public:
-	CClassMenuPanel( int iTrans, int iRemoveMe, int x, int y, int wide, int tall );
-
-	virtual bool SlotInput( int iSlot );
-	virtual void Open( void );
-	virtual void Update( void );
-	virtual void SetActiveInfo( int iInput );
-	virtual void Initialize( void );
-
-	virtual void Reset( void )
-	{
-		CMenuPanel::Reset();
-		m_iCurrentInfo = 0;
-	}
-};
-
-class CTeamMenuPanel : public CMenuPanel
-{
-  public:
-	ScrollPanel *m_pScrollPanel;
-	CTransparentPanel *m_pTeamWindow;
-	Label *m_pMapTitle;
-	TextPanel *m_pBriefing;
-	TextPanel *m_pTeamInfoPanel[6];
-	CommandButton *m_pButtons[6];
-	bool m_bUpdatedMapName;
-	CommandButton *m_pCancelButton;
-	CommandButton *m_pSpectateButton;
-
-	int m_iCurrentInfo;
-
-  public:
-	CTeamMenuPanel( int iTrans, int iRemoveMe, int x, int y, int wide, int tall );
-
-	virtual bool SlotInput( int iSlot );
-	virtual void Open( void );
-	virtual void Update( void );
-	virtual void SetActiveInfo( int iInput );
-	virtual void paintBackground( void );
-
-	virtual void Initialize( void );
-
-	virtual void Reset( void )
-	{
-		CMenuPanel::Reset();
-		m_iCurrentInfo = 0;
-	}
-};
 
 //=========================================================
 // Specific Menus to handle old HUD sections
