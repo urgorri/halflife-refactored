@@ -163,6 +163,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ServerBrowser.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_SpectatorPanel.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamFortressViewport.cpp" />
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_CommandMenuPanel.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_teammenu.cpp" />
     <ClCompile Include="..\..\cl_dll\render\view.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\voice_status.cpp" />
