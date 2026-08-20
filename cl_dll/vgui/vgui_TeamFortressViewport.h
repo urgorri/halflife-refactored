@@ -422,6 +422,10 @@ class CImageButton : public ColorButton
 };
 
 //==============================================================================
+class CTeamMenuPanel;
+class CClassMenuPanel;
+class CCommandMenu;
+
 class TeamFortressViewport : public Panel
 {
   private:

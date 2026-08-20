@@ -1,60 +1,18 @@
-//=========== (C) Copyright 1996-2002 Valve, L.L.C. All rights reserved. ===========
-//
-// The copyright to the contents herein is the property of Valve, L.L.C.
-// The contents may be used and/or copied only with the written permission of
-// Valve, L.L.C., or in accordance with the terms and conditions stipulated in
-// the agreement/contract under which the contents have been supplied.
-//
-// Purpose: TFC Class Menu
-//
-//=============================================================================
-
 #ifndef VGUI_CLASSMENUPANEL_H
 #define VGUI_CLASSMENUPANEL_H
 
-#ifdef _WIN32
-#pragma once
-#endif
-
 #include "vgui_TeamFortressViewport.h"
-
-using namespace vgui;
-
-class CClassMenuDescriptionPanel : public CTransparentPanel
-{
-  private:
-	Label *m_pPlayers;
-	CImageLabel *m_pClassImages[MAX_TEAMS];
-	int m_iClass;
-
-  public:
-	CClassMenuDescriptionPanel( int iClass, int x, int y, int wide, int tall, int clientWide );
-
-	void UpdatePlayerCount( int iTotal, const char *szPlayersOnTeamString, int r, int g, int b );
-	void SetActiveTeamGraphic( int team );
-};
-
-class CClassMenuSelectionPanel : public CTransparentPanel
-{
-  private:
-	ClassButton *m_pButtons[PC_LASTCLASS];
-	CommandButton *m_pCancelButton;
-
-  public:
-	CClassMenuSelectionPanel( int x, int y, int wide, int tall );
-
-	void InitializeButtons( Panel *pParent );
-	void UpdateButtons( int &iYPos, int &iCurrentInfo );
-	bool SlotInput( int iSlot );
-	void SetActiveButton( int iInput );
-};
 
 class CClassMenuPanel : public CMenuPanel
 {
   private:
-	CClassMenuDescriptionPanel *m_pClassInfoPanel[PC_LASTCLASS];
-	CClassMenuSelectionPanel *m_pSelectionPanel;
+	CTransparentPanel *m_pClassInfoPanel[PC_LASTCLASS];
+	Label *m_pPlayers[PC_LASTCLASS];
+	ClassButton *m_pButtons[PC_LASTCLASS];
+	CommandButton *m_pCancelButton;
 	ScrollPanel *m_pScrollPanel;
+
+	CImageLabel *m_pClassImages[MAX_TEAMS][PC_LASTCLASS];
 
 	int m_iCurrentInfo;
 
