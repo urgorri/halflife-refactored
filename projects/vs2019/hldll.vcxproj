@@ -255,6 +255,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\turret.cpp" />
     <ClCompile Include="..\..\dlls\systems\turret_base.cpp" />
     <ClCompile Include="..\..\dlls\core\util.cpp" />
+    <ClCompile Include="..\..\dlls\core\util_math.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapons.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_base.cpp" />
     <ClCompile Include="..\..\dlls\world\world.cpp" />

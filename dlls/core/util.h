@@ -14,6 +14,7 @@
  *
  ****/
 #include "archtypes.h" // DAL
+#include "util_math.h"
 
 //
 // Misc utility code
@@ -253,10 +254,6 @@ class CBaseEntity;
 
 // Misc. Prototypes
 extern void UTIL_SetSize( entvars_t *pev, const Vector &vecMin, const Vector &vecMax );
-extern float UTIL_VecToYaw( const Vector &vec );
-extern Vector UTIL_VecToAngles( const Vector &vec );
-extern float UTIL_AngleMod( float a );
-extern float UTIL_AngleDiff( float destAngle, float srcAngle );
 
 extern CBaseEntity *UTIL_FindEntityInSphere( CBaseEntity *pStartEntity, const Vector &vecCenter, float flRadius );
 extern CBaseEntity *UTIL_FindEntityByString( CBaseEntity *pStartEntity, const char *szKeyword, const char *szValue );
@@ -333,18 +330,12 @@ extern void UTIL_Sparks( const Vector &position );
 extern void UTIL_Ricochet( const Vector &position, float scale );
 extern void UTIL_StringToVector( float *pVector, const char *pString );
 extern void UTIL_StringToIntArray( int *pVector, int count, const char *pString );
-extern Vector UTIL_ClampVectorToBox( const Vector &input, const Vector &clampSize );
-extern float UTIL_Approach( float target, float value, float speed );
-extern float UTIL_ApproachAngle( float target, float value, float speed );
-extern float UTIL_AngleDistance( float next, float cur );
 
 extern char *UTIL_VarArgs( char *format, ... );
 extern void UTIL_Remove( CBaseEntity *pEntity );
 extern BOOL UTIL_IsValidEntity( edict_t *pent );
 extern BOOL UTIL_TeamsMatch( const char *pTeamName1, const char *pTeamName2 );
 
-// Use for ease-in, ease-out style interpolation (accel/decel)
-extern float UTIL_SplineFraction( float value, float scale );
 
 // Search for water transition along a vertical line
 extern float UTIL_WaterLevel( const Vector &position, float minz, float maxz );
@@ -400,7 +391,6 @@ extern char *UTIL_dtos4( int d );
 extern void UTIL_LogPrintf( char *fmt, ... );
 
 // Sorta like FInViewCone, but for nonmonsters.
-extern float UTIL_DotPoints( const Vector &vecSrc, const Vector &vecCheck, const Vector &vecDir );
 
 extern void UTIL_StripToken( const char *pKey, char *pDest, int nLen ); // for redundant keynames
 
@@ -598,7 +588,5 @@ class UTIL_GroupTrace
 void UTIL_SetGroupTrace( int groupmask, int op );
 void UTIL_UnsetGroupTrace( void );
 
-int UTIL_SharedRandomLong( unsigned int seed, int low, int high );
-float UTIL_SharedRandomFloat( unsigned int seed, float low, float high );
 
 float UTIL_WeaponTimeBase( void );
