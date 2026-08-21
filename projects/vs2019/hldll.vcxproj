@@ -319,6 +319,9 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\world\trains.h" />
     <ClInclude Include="..\..\dlls\systems\turret.h" />
     <ClInclude Include="..\..\dlls\core\util.h" />
+    <ClInclude Include="..\..\dlls\core\util_math.h" />
+    <ClInclude Include="..\..\dlls\core\util_entity.h" />
+    <ClInclude Include="..\..\dlls\core\util_debug.h" />
     <ClInclude Include="..\..\dlls\core\vector.h" />
     <ClInclude Include="..\..\dlls\weapons\weapons.h" />
     <ClInclude Include="..\..\dlls\weapons\projectile_grenade.h" />
