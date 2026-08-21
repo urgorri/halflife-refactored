@@ -710,6 +710,15 @@
     <ClInclude Include="..\..\dlls\core\util.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\dlls\core\util_math.h">
+      <Filter>Header Files\dlls\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\core\util_entity.h">
+      <Filter>Header Files\dlls\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\core\util_debug.h">
+      <Filter>Header Files\dlls\core</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\dlls\core\vector.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
