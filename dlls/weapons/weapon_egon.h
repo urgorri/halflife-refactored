@@ -17,10 +17,8 @@
 
 #include "weapons/weapon_base.h"
 
-#ifndef CLIENT_DLL
 class CBeam;
 class CSprite;
-#endif
 
 class CEgon : public CBasePlayerWeapon
 {
@@ -68,11 +66,9 @@ class CEgon : public CBasePlayerWeapon
 		FIRE_WIDE
 	};
 
-#ifndef CLIENT_DLL
 	CBeam *m_pBeam;
 	CBeam *m_pNoise;
 	CSprite *m_pSprite;
-#endif
 
 	virtual BOOL UseDecrement( void )
 	{
