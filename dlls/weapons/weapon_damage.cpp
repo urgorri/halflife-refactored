@@ -19,6 +19,8 @@
 #include "core/decals.h"
 #include "weapons/weapon_damage.h"
 
+extern DLL_GLOBAL Vector g_vecAttackDir;
+
 MULTIDAMAGE gMultiDamage;
 
 //

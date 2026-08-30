@@ -105,9 +105,6 @@
     <ClCompile Include="..\..\dlls\monsters\controller.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\weapons\crossbow.cpp">
-      <Filter>Source Files\dlls\weapons</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>

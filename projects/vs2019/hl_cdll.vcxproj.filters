@@ -73,9 +73,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\dlls\weapons\crossbow.cpp">
-      <Filter>Source Files\_hl\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>

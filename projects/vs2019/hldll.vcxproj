@@ -122,7 +122,6 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\core\combat.cpp" />
     <ClCompile Include="..\..\dlls\core\client.cpp" />
     <ClCompile Include="..\..\dlls\monsters\controller.cpp" />
-    <ClCompile Include="..\..\dlls\weapons\crossbow.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp" />
     <ClCompile Include="..\..\dlls\ai\defaultai.cpp" />
     <ClCompile Include="..\..\dlls\systems\doors.cpp" />
