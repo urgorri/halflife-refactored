@@ -332,21 +332,6 @@
     <ClCompile Include="..\..\cl_dll\hud\voice_status.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hud\scoreboard.cpp">
-      <Filter>Source Files\cl_dll\hud</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\render\overview.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\systems\soundsystem.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui\MOTD.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\vgui\vgui_ConsolePanel.cpp">
-      <Filter>Source Files\cl_dll</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_crossbow.cpp">
       <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>

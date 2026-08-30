@@ -67,11 +67,4 @@ class CCrossbow : public CBasePlayerWeapon
 	unsigned short m_usCrossbow2;
 };
 
-class CCrossbowAmmo : public CBasePlayerAmmo
-{
-	void Spawn( void );
-	void Precache( void );
-	BOOL AddAmmo( CBaseEntity *pOther );
-};
-
 #endif // WEAPON_CROSSBOW_H

@@ -62,11 +62,4 @@ class CRpg : public CBasePlayerWeapon
 	unsigned short m_usRpg;
 };
 
-class CRpgAmmo : public CBasePlayerAmmo
-{
-	void Spawn( void );
-	void Precache( void );
-	BOOL AddAmmo( CBaseEntity *pOther );
-};
-
 #endif // WEAPON_RPG_H
