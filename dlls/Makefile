@@ -103,7 +103,6 @@ OBJ = \
 	$(DLL_OBJDIR)/weapons/projectile_snark.o \
 	$(DLL_OBJDIR)/weapons/projectile_tripmine.o \
 	$(SYSTEMS_OBJDIR)/vehicle.o \
-	$(CORE_OBJDIR)/wxdebug.o \
 	$(DLL_OBJDIR)/weapons/weapon_crowbar.o \
 	$(DLL_OBJDIR)/ai/defaultai.o \
 	$(DLL_OBJDIR)/systems/doors.o \

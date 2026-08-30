@@ -58,7 +58,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/projectile_satchel.o \
 	$(HLDLL_OBJ_DIR)/weapons/projectile_snark.o \
 	$(HLDLL_OBJ_DIR)/weapons/projectile_tripmine.o \
-	$(HLCORE_OBJ_DIR)/wxdebug.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
 	$(HLDLL_OBJ_DIR)/systems/doors.o \
