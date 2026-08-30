@@ -525,11 +525,35 @@
     <ClCompile Include="..\..\dlls\monsters\zombie.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\weapons\weapons.cpp">
+    <ClCompile Include="..\..\dlls\weapons\projectile_bolt.cpp">
       <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons\projectile_rocket.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons\projectile_satchel.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons\projectile_snark.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons\projectile_tripmine.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons\weapon_crossbow.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons\weapon_damage.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\vehicle.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\wxdebug.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_base.cpp">
-      <Filter>Source Files\dlls</Filter>
+      <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\world\world.cpp">
       <Filter>Source Files\dlls\world</Filter>
@@ -659,17 +683,80 @@
     <ClInclude Include="..\..\pm_shared\pm_movevars.h">
       <Filter>Header Files\pm_shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\weapons\weapons.h">
+    <ClInclude Include="..\..\dlls\weapons\projectile_bolt.h">
       <Filter>Header Files\dlls\weapons</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\weapons\projectile_grenade.h" />
-    <ClInclude Include="..\..\dlls\weapons\weapon_base.h" />
-    <ClInclude Include="..\..\dlls\weapons\weapon_rpg.h" />
-    <ClInclude Include="..\..\dlls\weapons\weapon_shotgun.h" />
-    <ClInclude Include="..\..\dlls\weapons\weapon_gauss.h" />
-    <ClInclude Include="..\..\dlls\weapons\weapon_egon.h" />
+    <ClInclude Include="..\..\dlls\weapons\projectile_grenade.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\projectile_hornet.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\projectile_rocket.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\projectile_satchel.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\projectile_snark.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\projectile_tripmine.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_base.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_crossbow.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_crowbar.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_damage.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_defs.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_egon.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_gauss.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_glock.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_handgrenade.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_hornetgun.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_mp5.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_python.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_rpg.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\dlls\weapons\weapon_satchel.h">
-      <Filter>Header Files\dlls</Filter>
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_shotgun.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_snark.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_spraycan.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_tripmine.h">
+      <Filter>Header Files\dlls\weapons</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\saverestore.h">
       <Filter>Header Files\dlls</Filter>

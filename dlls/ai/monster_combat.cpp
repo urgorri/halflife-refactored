@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -22,7 +22,7 @@
 #include "ai/monsterevent.h"
 #include "core/animation.h"
 #include "core/saverestore.h"
-#include "weapons/weapons.h"
+#include "weapons/weapon_base.h"
 #include "gameplay/scripted.h"
 #include "ai/squadmonster.h"
 #include "core/decals.h"

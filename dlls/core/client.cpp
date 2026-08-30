@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -34,7 +34,7 @@
 #include "gameplay/gamerules.h"
 #include "core/game.h"
 #include "customentity.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "weapons/weapon_rpg.h"
 #include "weaponinfo.h"
 #include "usercmd.h"

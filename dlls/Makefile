@@ -95,7 +95,15 @@ OBJ = \
 	$(CORE_OBJDIR)/combat.o \
 	$(CORE_OBJDIR)/client.o \
 	$(DLL_OBJDIR)/monsters/controller.o \
-	$(DLL_OBJDIR)/weapons/crossbow.o \
+	$(DLL_OBJDIR)/weapons/weapon_crossbow.o \
+	$(DLL_OBJDIR)/weapons/weapon_damage.o \
+	$(DLL_OBJDIR)/weapons/projectile_bolt.o \
+	$(DLL_OBJDIR)/weapons/projectile_rocket.o \
+	$(DLL_OBJDIR)/weapons/projectile_satchel.o \
+	$(DLL_OBJDIR)/weapons/projectile_snark.o \
+	$(DLL_OBJDIR)/weapons/projectile_tripmine.o \
+	$(SYSTEMS_OBJDIR)/vehicle.o \
+	$(CORE_OBJDIR)/wxdebug.o \
 	$(DLL_OBJDIR)/weapons/weapon_crowbar.o \
 	$(DLL_OBJDIR)/ai/defaultai.o \
 	$(DLL_OBJDIR)/systems/doors.o \
@@ -230,7 +238,6 @@ OBJ = \
 	$(CORE_OBJDIR)/util_math.o \
 	$(CORE_OBJDIR)/util_entity.o \
 	$(CORE_OBJDIR)/util_debug.o \
-	$(DLL_OBJDIR)/weapons/weapons.o \
 	$(DLL_OBJDIR)/weapons/weapon_base.o \
 	$(DLL_OBJDIR)/world/world.o \
 	$(DLL_OBJDIR)/world/xen.o \

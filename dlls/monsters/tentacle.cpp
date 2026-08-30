@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -24,7 +24,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "ai/soundent.h"
 
 #define ACT_T_IDLE 1010

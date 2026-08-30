@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
+ï»¿//========= Copyright ï¿½ 1996-2002, Valve LLC, All rights reserved. ============
 //
 // Purpose:
 //
@@ -10,7 +10,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "soundent.h"
 #include "gamerules.h"
 #include "core/player.h"

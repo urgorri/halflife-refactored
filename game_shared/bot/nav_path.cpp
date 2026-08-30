@@ -1,11 +1,11 @@
-// nav_path.cpp
+﻿// nav_path.cpp
 // Encapsulation of a path through space
 // Author: Michael S. Booth (mike@turtlerockstudios.com), November 2003
 
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "soundent.h"
 #include "gamerules.h"
 #include "core/player.h"

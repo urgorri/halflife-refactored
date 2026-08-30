@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -24,7 +24,7 @@
 #include "ai/monsters.h"
 #include "systems/effects.h"
 #include "ai/schedule.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "ai/squadmonster.h"
 
 //=========================================================

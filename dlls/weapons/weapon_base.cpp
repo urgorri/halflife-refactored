@@ -3,7 +3,7 @@
 #include "core/cbase.h"
 #include "core/player.h"
 #include "ai/monsters.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "ai/nodes.h"
 #include "ai/soundent.h"
 #include "core/decals.h"
@@ -13,7 +13,18 @@ extern int gEvilImpulse101;
 extern int gmsgCurWeapon;
 extern bool IsBustingGame();
 extern bool IsPlayerBusting( CBaseEntity *pPlayer );
-extern int MaxAmmoCarry( int iszName );
+
+DLL_GLOBAL short g_sModelIndexLaser;
+DLL_GLOBAL const char *g_pModelNameLaser = "sprites/laserbeam.spr";
+DLL_GLOBAL short g_sModelIndexLaserDot;
+DLL_GLOBAL short g_sModelIndexFireball;
+DLL_GLOBAL short g_sModelIndexSmoke;
+DLL_GLOBAL short g_sModelIndexWExplosion;
+DLL_GLOBAL short g_sModelIndexBubbles;
+DLL_GLOBAL short g_sModelIndexBloodDrop;
+DLL_GLOBAL short g_sModelIndexBloodSpray;
+
+int giAmmoIndex = 0;
 
 ItemInfo CBasePlayerItem::ItemInfoArray[MAX_WEAPONS];
 AmmoInfo CBasePlayerItem::AmmoInfoArray[MAX_AMMO_SLOTS];
@@ -1169,4 +1180,219 @@ void CBasePlayerWeapon::PrintState( void )
 	//	ALERT( at_console, "m_finsr:  %i\n", m_fInSpecialReload );
 
 	ALERT( at_console, "m_iclip:  %i\n", m_iClip );
+}
+
+//=========================================================
+// MaxAmmoCarry - pass in a name and this function will tell
+// you the maximum amount of that type of ammunition that a
+// player can carry.
+//=========================================================
+int MaxAmmoCarry( int iszName )
+{
+	for ( int i = 0; i < MAX_WEAPONS; i++ )
+	{
+		if ( CBasePlayerItem::ItemInfoArray[i].pszAmmo1 && !strcmp( STRING( iszName ), CBasePlayerItem::ItemInfoArray[i].pszAmmo1 ) )
+			return CBasePlayerItem::ItemInfoArray[i].iMaxAmmo1;
+		if ( CBasePlayerItem::ItemInfoArray[i].pszAmmo2 && !strcmp( STRING( iszName ), CBasePlayerItem::ItemInfoArray[i].pszAmmo2 ) )
+			return CBasePlayerItem::ItemInfoArray[i].iMaxAmmo2;
+	}
+
+	ALERT( at_console, "MaxAmmoCarry() doesn't recognize '%s'!\n", STRING( iszName ) );
+	return -1;
+}
+
+//
+// EjectBrass - tosses a brass shell from passed origin at passed velocity
+//
+void EjectBrass( const Vector &vecOrigin, const Vector &vecVelocity, float rotation, int model, int soundtype )
+{
+	MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecOrigin );
+	WRITE_BYTE( TE_MODEL );
+	WRITE_COORD( vecOrigin.x );
+	WRITE_COORD( vecOrigin.y );
+	WRITE_COORD( vecOrigin.z );
+	WRITE_COORD( vecVelocity.x );
+	WRITE_COORD( vecVelocity.y );
+	WRITE_COORD( vecVelocity.z );
+	WRITE_ANGLE( rotation );
+	WRITE_SHORT( model );
+	WRITE_BYTE( soundtype );
+	WRITE_BYTE( 25 ); // 2.5 seconds
+	MESSAGE_END();
+}
+
+// Precaches the ammo and queues the ammo info for sending to clients
+void AddAmmoNameToAmmoRegistry( const char *szAmmoname )
+{
+	for ( int i = 0; i < MAX_AMMO_SLOTS; i++ )
+	{
+		if ( !CBasePlayerItem::AmmoInfoArray[i].pszName )
+			continue;
+
+		if ( stricmp( CBasePlayerItem::AmmoInfoArray[i].pszName, szAmmoname ) == 0 )
+			return;
+	}
+
+	giAmmoIndex++;
+	ASSERT( giAmmoIndex < MAX_AMMO_SLOTS );
+	if ( giAmmoIndex >= MAX_AMMO_SLOTS )
+		giAmmoIndex = 0;
+
+	CBasePlayerItem::AmmoInfoArray[giAmmoIndex].pszName = szAmmoname;
+	CBasePlayerItem::AmmoInfoArray[giAmmoIndex].iId     = giAmmoIndex;
+}
+
+// Precaches the weapon and queues the weapon info for sending to clients
+void UTIL_PrecacheOtherWeapon( const char *szClassname )
+{
+	edict_t *pent;
+
+	pent = CREATE_NAMED_ENTITY( MAKE_STRING( szClassname ) );
+	if ( FNullEnt( pent ) )
+	{
+		ALERT( at_console, "NULL Ent in UTIL_PrecacheOtherWeapon\n" );
+		return;
+	}
+
+	CBaseEntity *pEntity = CBaseEntity::Instance( VARS( pent ) );
+
+	if ( pEntity )
+	{
+		ItemInfo II;
+		pEntity->Precache();
+		memset( &II, 0, sizeof II );
+		if ( ( (CBasePlayerItem *)pEntity )->GetItemInfo( &II ) )
+		{
+			CBasePlayerItem::ItemInfoArray[II.iId] = II;
+
+			if ( II.pszAmmo1 && *II.pszAmmo1 )
+			{
+				AddAmmoNameToAmmoRegistry( II.pszAmmo1 );
+			}
+
+			if ( II.pszAmmo2 && *II.pszAmmo2 )
+			{
+				AddAmmoNameToAmmoRegistry( II.pszAmmo2 );
+			}
+
+			memset( &II, 0, sizeof II );
+		}
+	}
+
+	REMOVE_ENTITY( pent );
+}
+
+// called by worldspawn
+void W_Precache( void )
+{
+	memset( CBasePlayerItem::ItemInfoArray, 0, sizeof( CBasePlayerItem::ItemInfoArray ) );
+	memset( CBasePlayerItem::AmmoInfoArray, 0, sizeof( CBasePlayerItem::AmmoInfoArray ) );
+	giAmmoIndex = 0;
+
+	// common world objects
+	UTIL_PrecacheOther( "item_suit" );
+	UTIL_PrecacheOther( "item_battery" );
+	UTIL_PrecacheOther( "item_antidote" );
+	UTIL_PrecacheOther( "item_security" );
+	UTIL_PrecacheOther( "item_longjump" );
+
+	// shotgun
+	UTIL_PrecacheOtherWeapon( "weapon_shotgun" );
+	UTIL_PrecacheOther( "ammo_buckshot" );
+
+	// crowbar
+	UTIL_PrecacheOtherWeapon( "weapon_crowbar" );
+
+	// glock
+	UTIL_PrecacheOtherWeapon( "weapon_9mmhandgun" );
+	UTIL_PrecacheOther( "ammo_9mmclip" );
+
+	// mp5
+	UTIL_PrecacheOtherWeapon( "weapon_9mmAR" );
+	UTIL_PrecacheOther( "ammo_9mmAR" );
+	UTIL_PrecacheOther( "ammo_ARgrenades" );
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	// python
+	UTIL_PrecacheOtherWeapon( "weapon_357" );
+	UTIL_PrecacheOther( "ammo_357" );
+#endif
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	// gauss
+	UTIL_PrecacheOtherWeapon( "weapon_gauss" );
+	UTIL_PrecacheOther( "ammo_gaussclip" );
+#endif
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	// rpg
+	UTIL_PrecacheOtherWeapon( "weapon_rpg" );
+	UTIL_PrecacheOther( "ammo_rpgclip" );
+#endif
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	// crossbow
+	UTIL_PrecacheOtherWeapon( "weapon_crossbow" );
+	UTIL_PrecacheOther( "ammo_crossbow" );
+#endif
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	// egon
+	UTIL_PrecacheOtherWeapon( "weapon_egon" );
+#endif
+
+	// tripmine
+	UTIL_PrecacheOtherWeapon( "weapon_tripmine" );
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	// satchel charge
+	UTIL_PrecacheOtherWeapon( "weapon_satchel" );
+#endif
+
+	// hand grenade
+	UTIL_PrecacheOtherWeapon( "weapon_handgrenade" );
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	// squeak grenade
+	UTIL_PrecacheOtherWeapon( "weapon_snark" );
+#endif
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	// hornetgun
+	UTIL_PrecacheOtherWeapon( "weapon_hornetgun" );
+#endif
+
+#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
+	if ( g_pGameRules->IsDeathmatch() )
+	{
+		UTIL_PrecacheOther( "weaponbox" ); // container for dropped deathmatch weapons
+	}
+#endif
+
+	g_sModelIndexFireball   = PRECACHE_MODEL( "sprites/zerogxplode.spr" ); // fireball
+	g_sModelIndexWExplosion = PRECACHE_MODEL( "sprites/WXplo1.spr" );      // underwater fireball
+	g_sModelIndexSmoke      = PRECACHE_MODEL( "sprites/steam1.spr" );      // smoke
+	g_sModelIndexBubbles    = PRECACHE_MODEL( "sprites/bubble.spr" );      // bubbles
+	g_sModelIndexBloodSpray = PRECACHE_MODEL( "sprites/bloodspray.spr" );  // initial blood
+	g_sModelIndexBloodDrop  = PRECACHE_MODEL( "sprites/blood.spr" );       // splattered blood
+
+	g_sModelIndexLaser    = PRECACHE_MODEL( (char *)g_pModelNameLaser );
+	g_sModelIndexLaserDot = PRECACHE_MODEL( "sprites/laserdot.spr" );
+
+	// used by explosions
+	PRECACHE_MODEL( "models/grenade.mdl" );
+	PRECACHE_MODEL( "sprites/explode1.spr" );
+
+	PRECACHE_SOUND( "weapons/debris1.wav" ); // explosion aftermaths
+	PRECACHE_SOUND( "weapons/debris2.wav" ); // explosion aftermaths
+	PRECACHE_SOUND( "weapons/debris3.wav" ); // explosion aftermaths
+
+	PRECACHE_SOUND( "weapons/grenade_hit1.wav" ); // grenade
+	PRECACHE_SOUND( "weapons/grenade_hit2.wav" ); // grenade
+	PRECACHE_SOUND( "weapons/grenade_hit3.wav" ); // grenade
+
+	PRECACHE_SOUND( "weapons/bullet_hit1.wav" ); // hit by bullet
+	PRECACHE_SOUND( "weapons/bullet_hit2.wav" ); // hit by bullet
+
+	PRECACHE_SOUND( "items/weapondrop1.wav" ); // weapon falls to the ground
 }

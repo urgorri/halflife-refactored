@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -28,7 +28,7 @@
 #include "ai/soundent.h"
 #include "core/animation.h"
 #include "systems/effects.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 
 #define SEARCH_RETRY 16
 

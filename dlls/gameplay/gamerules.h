@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -16,7 +16,7 @@
 // GameRules
 //=========================================================
 
-// #include "weapons.h"
+// #include "weapons/weapon_base.h"
 // #include "items/item_base.h"
 class CBasePlayerItem;
 class CBasePlayer;

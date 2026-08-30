@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -23,7 +23,7 @@
 #include "ai/squadmonster.h"
 #include "ai/schedule.h"
 #include "systems/effects.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "ai/soundent.h"
 
 extern DLL_GLOBAL int g_iSkillLevel;

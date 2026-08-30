@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
  *
@@ -25,7 +25,7 @@ This file contains "stubs" of class member implementations so that we can predic
 #include "util.h"
 #include "cbase.h"
 #include "core/player.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "ai/nodes.h"
 #include "ai/soundent.h"
 #include "skill.h"
