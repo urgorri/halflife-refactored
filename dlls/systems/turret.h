@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef TURRET_H
 #define TURRET_H
 
@@ -7,7 +7,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "systems/effects.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 
 #define TURRET_SHOTS 2
 #define TURRET_RANGE ( 100 * 12 )

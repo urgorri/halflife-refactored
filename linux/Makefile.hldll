@@ -51,7 +51,13 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/combat.o \
 	$(HLCORE_OBJ_DIR)/client.o \
 	$(HLDLL_OBJ_DIR)/monsters/controller.o \
-	$(HLDLL_OBJ_DIR)/weapons/crossbow.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_crossbow.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_damage.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_bolt.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_rocket.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_satchel.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_snark.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_tripmine.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
 	$(HLDLL_OBJ_DIR)/systems/doors.o \
@@ -190,7 +196,6 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/util_entity.o \
 	$(HLCORE_OBJ_DIR)/util_debug.o \
 	$(HLDLL_OBJ_DIR)/systems/vehicle.o \
-	$(HLDLL_OBJ_DIR)/weapons/weapons.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
 	$(HLDLL_OBJ_DIR)/world/world.o \
 	$(HLDLL_OBJ_DIR)/world/xen.o \

@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -23,7 +23,7 @@
 #include "ai/monsters.h"
 #include "ai/schedule.h"
 #include "core/decals.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "core/game.h"
 
 #define SF_INFOBM_RUN 0x0001

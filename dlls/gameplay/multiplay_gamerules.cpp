@@ -19,7 +19,8 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "core/player.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
+#include "weapons/projectile_satchel.h"
 #include "gameplay/gamerules.h"
 
 #include "core/skill.h"

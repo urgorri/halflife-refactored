@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -16,7 +16,7 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "systems/effects.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "systems/explode.h"
 
 #include "core/player.h"

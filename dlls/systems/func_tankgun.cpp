@@ -1,7 +1,7 @@
-#include "core/extdll.h"
+﻿#include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 
 #include "systems/func_tank.h"
 

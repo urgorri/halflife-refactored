@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -20,7 +20,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "ai/schedule.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 
 //=========================================================
 // Monster's Anim Events Go Here

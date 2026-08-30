@@ -2,6 +2,7 @@
 #define WEAPON_SNARK_H
 
 #include "weapons/weapon_base.h"
+#include "weapons/projectile_snark.h"
 
 class CSqueak : public CBasePlayerWeapon
 {

@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
+﻿//========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
 // Purpose:
 //
@@ -34,7 +34,7 @@ void Career_Printf( const char *fmt, ... );
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "soundent.h"
 #include "gamerules.h"
 #include "core/player.h"

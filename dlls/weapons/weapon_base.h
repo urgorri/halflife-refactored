@@ -1,6 +1,8 @@
 #ifndef WEAPON_BASE_H
 #define WEAPON_BASE_H
 
+#include "weapons/weapon_defs.h"
+#include "weapons/weapon_damage.h"
 #include "weapons/projectile_grenade.h"
 
 class CBasePlayer;
@@ -190,5 +192,29 @@ class CWeaponBox : public CBaseEntity
 
 	int m_cAmmoTypes; // how many ammo types packed into this box (if packed by a level designer)
 };
+
+extern int gmsgWeapPickup;
+
+extern DLL_GLOBAL short g_sModelIndexLaser; // holds the index for the laser beam
+extern DLL_GLOBAL const char *g_pModelNameLaser;
+
+extern DLL_GLOBAL short g_sModelIndexLaserDot;   // holds the index for the laser beam dot
+extern DLL_GLOBAL short g_sModelIndexFireball;   // holds the index for the fireball
+extern DLL_GLOBAL short g_sModelIndexSmoke;      // holds the index for the smoke cloud
+extern DLL_GLOBAL short g_sModelIndexWExplosion; // holds the index for the underwater explosion
+extern DLL_GLOBAL short g_sModelIndexBubbles;    // holds the index for the bubbles model
+extern DLL_GLOBAL short g_sModelIndexBloodDrop;  // holds the sprite index for blood drops
+extern DLL_GLOBAL short g_sModelIndexBloodSpray; // holds the sprite index for blood spray (bigger)
+
+int MaxAmmoCarry( int iszName );
+void EjectBrass( const Vector &vecOrigin, const Vector &vecVelocity, float rotation, int model, int soundtype );
+void AddAmmoNameToAmmoRegistry( const char *szAmmoname );
+void UTIL_PrecacheOtherWeapon( const char *szClassname );
+void W_Precache( void );
+
+#ifdef CLIENT_DLL
+bool bIsMultiplayer( void );
+void LoadVModel( char *szViewModel, CBasePlayer *m_pPlayer );
+#endif
 
 #endif // WEAPON_BASE_H

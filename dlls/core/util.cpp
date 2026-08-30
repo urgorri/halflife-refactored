@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -29,7 +29,7 @@
 #include "shake.h"
 #include "core/decals.h"
 #include "core/player.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "gameplay/gamerules.h"
 #include <cstring>
 
