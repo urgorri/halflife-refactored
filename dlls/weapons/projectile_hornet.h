@@ -11,7 +11,9 @@
  *   Valve LLC.  All other use, distribution, or modification is prohibited
  *   without written permission from Valve LLC.
  *
- #ifndef PROJECTILE_HORNET_H
+ ****/
+
+#ifndef PROJECTILE_HORNET_H
 #define PROJECTILE_HORNET_H
 
 #include "core/cbase.h"

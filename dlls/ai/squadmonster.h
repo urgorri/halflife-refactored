@@ -11,7 +11,9 @@
  *   persons who have executed a written SDK license with Valve.  Any access,
  *   use or distribution of this code by or to any unlicensed person is illegal.
  *
- #ifndef SQUADMONSTER_H
+ ****/
+
+#ifndef SQUADMONSTER_H
 #define SQUADMONSTER_H
 
 #include "ai/basemonster.h"
