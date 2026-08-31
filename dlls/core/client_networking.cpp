@@ -30,6 +30,24 @@
 extern DLL_GLOBAL ULONG g_ulModelIndexPlayer;
 extern DLL_GLOBAL ULONG g_ulFrameCount;
 
+////////////////////////////////////////////////////////
+// PAS and PVS routines for client messaging
+//
+
+/*
+================
+SetupVisibility
+
+A client can have a separate "view entity" indicating that his/her view should depend on the origin of that
+view entity.  If that's the case, then pViewEntity will be non-NULL and will be used.  Otherwise, the current
+entity's origin is used.  Either is offset by the view_ofs to get the eye position.
+
+From the eye position, we set up the PAS and PVS to use for filtering network messages to the client.  At this point, we could
+ override the actual PAS or PVS values, or use a different origin.
+
+NOTE:  Do not cache the values of pas and pvs, as they depend on reusable memory in the engine, they are only good for this one frame
+================
+*/
 void SetupVisibility( edict_t *pViewEntity, edict_t *pClient, unsigned char **pvs, unsigned char **pas )
 {
 	Vector org;
@@ -72,9 +90,7 @@ host is the player's edict of the player whom we are sending the update to
 player is 1 if the ent/e is a player and 0 otherwise
 pSet is either the PAS or PVS that we previous set up.  We can use it to ask the engine to filter the entity against the PAS or PVS.
 we could also use the pas/ pvs that we set in SetupVisibility, if we wanted to.  Caching the value is valid in that case, but still only for the current frame
-
-
-
+*/
 int AddToFullPack( struct entity_state_s *state, int e, edict_t *ent, edict_t *host, int hostflags, int player, unsigned char *pSet )
 {
 	int i;
@@ -268,9 +284,7 @@ CreateBaseline
 
 Creates baselines used for network encoding, especially for player data since players are not spawned until connect time.
 ===================
-
-
-
+*/
 void CreateBaseline( int player, int eindex, struct entity_state_s *baseline, struct edict_s *entity, int playermodelindex, vec3_t player_mins, vec3_t player_maxs )
 {
 	baseline->origin = entity->v.origin;
@@ -339,8 +353,6 @@ static entity_field_alias_t entity_field_alias[] =
         { "angles[1]", 0 },
         { "angles[2]", 0 },
 };
-
-
 
 void Entity_FieldInit( struct delta_s *pFields )
 {
@@ -416,8 +428,6 @@ static entity_field_alias_t player_field_alias[] =
         { "origin[1]", 0 },
         { "origin[2]", 0 },
 };
-
-
 
 void Player_FieldInit( struct delta_s *pFields )
 {
@@ -495,8 +505,6 @@ entity_field_alias_t custom_entity_field_alias[] =
         { "animtime", 0 },
 };
 
-
-
 void Custom_Entity_FieldInit( struct delta_s *pFields )
 {
 	custom_entity_field_alias[CUSTOMFIELD_ORIGIN0].field  = DELTA_FINDFIELD( pFields, custom_entity_field_alias[CUSTOMFIELD_ORIGIN0].name );
@@ -569,17 +577,13 @@ RegisterEncoders
 
 Allows game .dll to override network encoding of certain types of entities and tweak values, etc.
 =================
-
-
-
+*/
 void RegisterEncoders( void )
 {
 	DELTA_ADDENCODER( "Entity_Encode", Entity_Encode );
 	DELTA_ADDENCODER( "Custom_Encode", Custom_Encode );
 	DELTA_ADDENCODER( "Player_Encode", Player_Encode );
 }
-
-
 
 int GetWeaponData( struct edict_s *player, struct weapon_data_s *info )
 {
@@ -653,9 +657,7 @@ UpdateClientData
 Data sent to current client only
 engine sets cd to 0 before calling.
 =================
-
-
-
+*/
 void UpdateClientData( const edict_t *ent, int sendweapons, struct clientdata_s *cd )
 {
 	if ( !ent || !ent->pvPrivateData )
@@ -770,9 +772,7 @@ CmdStart
 We're about to run this usercmd for the specified player.  We can set up groupinfo and masking here, etc.
 This is the time to examine the usercmd for anything extra.  This call happens even if think does not.
 =================
-
-
-
+*/
 void CmdStart( const edict_t *player, const struct usercmd_s *cmd, unsigned int random_seed )
 {
 	entvars_t *pev  = (entvars_t *)&player->v;
@@ -795,9 +795,7 @@ CmdEnd
 
 Each cmdstart is exactly matched with a cmd end, clean up any group trace flags, etc. here
 =================
-
-
-
+*/
 void CmdEnd( const edict_t *player )
 {
 	entvars_t *pev  = (entvars_t *)&player->v;
@@ -818,9 +816,7 @@ ConnectionlessPacket
  Return 1 if the packet is valid.  Set response_buffer_size if you want to send a response packet.  Incoming, it holds the max
   size of the response_buffer, so you must zero it out if you choose not to respond.
 ================================
-
-
-
+*/
 int ConnectionlessPacket( const struct netadr_s *net_from, const char *args, char *response_buffer, int *response_buffer_size )
 {
 	// Parse stuff from args
@@ -841,9 +837,7 @@ GetHullBounds
 
   Engine calls this to enumerate player collision hulls, for prediction.  Return 0 if the hullnumber doesn't exist.
 ================================
-
-
-
+*/
 int GetHullBounds( int hullnumber, float *mins, float *maxs )
 {
 	int iret = 0;
@@ -877,9 +871,7 @@ CreateInstancedBaselines
 Create pseudo-baselines for items that aren't placed in the map at spawn time, but which are likely
 to be created during play ( e.g., grenades, ammo packs, projectiles, corpses, etc. )
 ================================
-
-
-
+*/
 void CreateInstancedBaselines( void )
 {
 	int iret = 0;
@@ -903,7 +895,17 @@ One of the ENGINE_FORCE_UNMODIFIED files failed the consistency check for the sp
 ================================
 
 
+/*
+================================
+AllowLagCompensation
 
+ The game .dll should return 1 if lag compensation should be allowed ( could also just set
+  the sv_unlag cvar.
+ Most games right now should return 0, until client-side weapon prediction code is written
+  and tested for them ( note you can predict weapons, but not do lag compensation, too,
+  if you want.
+================================
+*/
 int AllowLagCompensation( void )
 {
 	return 1;

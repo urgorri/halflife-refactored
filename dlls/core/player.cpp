@@ -69,9 +69,7 @@ extern CGraph WorldGraph;
 #define TRAIN_BACK 0x05
 
 
-
-
-
+// Global Savedata for player
 TYPEDESCRIPTION CBasePlayer::m_playerSaveData[] =
     {
         DEFINE_FIELD( CBasePlayer, m_flFlashLightTime, FIELD_TIME ),
@@ -152,7 +150,6 @@ TYPEDESCRIPTION CBasePlayer::m_playerSaveData[] =
 
 
 
-
 Vector CBasePlayer ::GetGunPosition()
 {
 	//	UTIL_MakeVectors(pev->v_angle);
@@ -164,11 +161,7 @@ Vector CBasePlayer ::GetGunPosition()
 	return origin;
 }
 
-//=========================================================
-// TraceAttack
-
-
-
+// Set the activity based on an event or current state
 void CBasePlayer::SetAnimation( PLAYER_ANIM playerAnim )
 {
 	int animDesired;
@@ -358,15 +351,11 @@ WaterMove
 #define AIRTIME 12 // lung full of air lasts this many seconds
 
 
-
-
-
+// TRUE if the player is attached to a ladder
 BOOL CBasePlayer::IsOnLadder( void )
 {
 	return ( pev->movetype == MOVETYPE_FLY );
 }
-
-
 
 void CBasePlayer::PlayerDeathThink( void )
 {
@@ -466,9 +455,7 @@ void CBasePlayer::PlayerDeathThink( void )
 //=========================================================
 // StartDeathCam - find an intermission spot and send the
 // player off into observer mode
-
-
-
+//=========================================================
 void CBasePlayer::StartDeathCam( void )
 {
 	edict_t *pSpot, *pNewSpot;
@@ -525,8 +512,6 @@ void CBasePlayer::StartDeathCam( void )
 	pev->movetype   = MOVETYPE_NONE;
 	pev->modelindex = 0;
 }
-
-
 
 void CBasePlayer::StartObserver( Vector vecPosition, Vector vecViewAngle )
 {
@@ -605,15 +590,11 @@ void CBasePlayer::StartObserver( Vector vecPosition, Vector vecViewAngle )
 
 //
 // ID's player as such.
-
-
-
+//
 int CBasePlayer::Classify( void )
 {
 	return CLASS_PLAYER;
 }
-
-
 
 void CBasePlayer::AddPoints( int score, BOOL bAllowNegativeScore )
 {
@@ -643,8 +624,6 @@ void CBasePlayer::AddPoints( int score, BOOL bAllowNegativeScore )
 	MESSAGE_END();
 }
 
-
-
 void CBasePlayer::AddPointsToTeam( int score, BOOL bAllowNegativeScore )
 {
 	int index = entindex();
@@ -663,16 +642,12 @@ void CBasePlayer::AddPointsToTeam( int score, BOOL bAllowNegativeScore )
 	}
 }
 
-
-
-
+// Player ID
 void CBasePlayer::InitStatusBar()
 {
 	m_flStatusBarDisappearDelay = 0;
 	m_SbarString1[0] = m_SbarString0[0] = 0;
 }
-
-
 
 void CBasePlayer::UpdateStatusBar()
 {
@@ -845,10 +820,10 @@ void CBasePlayer::UpdateStatusBar()
 // #define SLOWFREEZE_DURATION	1.0
 // #define SLOWFREEZE_DAMAGE	3.0
 
-/* */
 
 
 
+// checks if the spot is clear of players
 BOOL IsSpawnPointValid( CBaseEntity *pPlayer, CBaseEntity *pSpot )
 {
 	CBaseEntity *ent = NULL;
@@ -867,8 +842,6 @@ BOOL IsSpawnPointValid( CBaseEntity *pPlayer, CBaseEntity *pSpot )
 
 	return TRUE;
 }
-
-
 
 DLL_GLOBAL CBaseEntity *g_pLastSpawn;
 inline int FNullEnt( CBaseEntity *ent )
@@ -987,8 +960,6 @@ ReturnSpot:
 	return pSpot->edict();
 }
 
-
-
 void CBasePlayer::Spawn( void )
 {
 	m_flStartCharge = gpGlobals->time;
@@ -1084,8 +1055,6 @@ void CBasePlayer::Spawn( void )
 	g_pGameRules->PlayerSpawn( this );
 }
 
-
-
 void CBasePlayer ::Precache( void )
 {
 	// in the event that the player JUST spawned, and the level node graph
@@ -1129,8 +1098,6 @@ void CBasePlayer ::Precache( void )
 		m_fInitHUD = TRUE;
 }
 
-
-
 int CBasePlayer::Save( CSave &save )
 {
 	if ( !CBaseMonster::Save( save ) )
@@ -1138,8 +1105,6 @@ int CBasePlayer::Save( CSave &save )
 
 	return save.WriteFields( "PLAYER", this, m_playerSaveData, ARRAYSIZE( m_playerSaveData ) );
 }
-
-
 
 
 int CBasePlayer::Restore( CRestore &restore )
@@ -1213,8 +1178,6 @@ int CBasePlayer::Restore( CRestore &restore )
 
 
 
-
-
 const char *CBasePlayer::TeamID( void )
 {
 	if ( pev == NULL ) // Not fully connected yet
@@ -1240,7 +1203,15 @@ CBaseEntity *FindEntityForward( CBaseEntity *pMe )
 }
 
 
+/*
+===============
+ForceClientDllUpdate
 
+When recording a demo, we need to have the server tell us the entire client state
+so that the client side .dll can behave correctly.
+Reset stuff so that the state is transmitted.
+===============
+*/
 void CBasePlayer ::ForceClientDllUpdate( void )
 {
 	m_iClientHealth  = -1;
@@ -1285,8 +1256,6 @@ ItemPostFrame
 Called every frame by the player PostThink
 ============
 */
-
-
 
 void CBasePlayer ::SetPrefsFromUserinfo( char *infobuffer )
 {

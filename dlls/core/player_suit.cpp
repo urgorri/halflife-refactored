@@ -22,6 +22,78 @@
 #include "core/game.h"
 #include "core/player_network.h"
 
+
+/*
+THE POWER SUIT
+
+The Suit provides 3 main functions: Protection, Notification and Augmentation.
+Some functions are automatic, some require power.
+The player gets the suit shortly after getting off the train in C1A0 and it stays
+with him for the entire game.
+
+Protection
+
+    Heat/Cold
+        When the player enters a hot/cold area, the heating/cooling indicator on the suit
+        will come on and the battery will drain while the player stays in the area.
+        After the battery is dead, the player starts to take damage.
+        This feature is built into the suit and is automatically engaged.
+    Radiation Syringe
+        This will cause the player to be immune from the effects of radiation for N seconds. Single use item.
+    Anti-Toxin Syringe
+        This will cure the player from being poisoned. Single use item.
+    Health
+        Small (1st aid kits, food, etc.)
+        Large (boxes on walls)
+    Armor
+        The armor works using energy to create a protective field that deflects a
+        percentage of damage projectile and explosive attacks. After the armor has been deployed,
+        it will attempt to recharge itself to full capacity with the energy reserves from the battery.
+        It takes the armor N seconds to fully charge.
+
+Notification (via the HUD)
+
+x	Health
+x	Ammo
+x	Automatic Health Care
+        Notifies the player when automatic healing has been engaged.
+x	Geiger counter
+        Classic Geiger counter sound and status bar at top of HUD
+        alerts player to dangerous levels of radiation. This is not visible when radiation levels are normal.
+x	Poison
+    Armor
+        Displays the current level of armor.
+
+Augmentation
+
+    Reanimation (w/adrenaline)
+        Causes the player to come back to life after he has been dead for 3 seconds.
+        Will not work if player was gibbed. Single use.
+    Long Jump
+        Used by hitting the ??? key(s). Caused the player to further than normal.
+    SCUBA
+        Used automatically after picked up and after player enters the water.
+        Works for N seconds. Single use.
+
+Things powered by the battery
+
+    Armor
+        Uses N watts for every M units of damage.
+    Heat/Cool
+        Uses N watts for every second in hot/cold area.
+    Long Jump
+        Uses N watts for every jump.
+    Alien Cloak
+        Uses N watts for each use. Each use lasts M seconds.
+    Alien Shield
+        Augments armor. Reduces Armor drain by one half
+
+*/
+
+// if in range of radiation source, ping geiger counter
+
+#define GEIGERDELAY 0.25
+
 void CBasePlayer ::UpdateGeigerCounter( void )
 {
 	BYTE range;
@@ -60,8 +132,6 @@ Play suit update if it's time
 
 #define SUITUPDATETIME 3.5
 #define SUITFIRSTUPDATETIME 0.1
-
-
 
 void CBasePlayer::CheckSuitUpdate()
 {
@@ -124,8 +194,6 @@ void CBasePlayer::CheckSuitUpdate()
 // sentence name ie: !HEV_AA0.  If iNoRepeat is specified in
 // seconds, then we won't repeat playback of this word or sentence
 // for at least that number of seconds.
-
-
 
 void CBasePlayer::SetSuitUpdate( char *name, int fgroup, int iNoRepeatTime )
 {
@@ -226,9 +294,7 @@ Check for turning off powerups
 
 GLOBALS ASSUMED SET:  g_ulModelIndexPlayer
 ================
-
-
-
+*/
 void CheckPowerups( entvars_t *pev )
 {
 	if ( pev->health <= 0 )
@@ -240,9 +306,7 @@ void CheckPowerups( entvars_t *pev )
 //=========================================================
 // UpdatePlayerSound - updates the position of the player's
 // reserved sound slot in the sound list.
-
-
-
+//=========================================================
 void CBasePlayer ::UpdatePlayerSound( void )
 {
 	int iBodyVolume;
@@ -358,13 +422,10 @@ void CBasePlayer ::UpdatePlayerSound( void )
 }
 
 
-
 BOOL CBasePlayer ::FlashlightIsOn( void )
 {
 	return FBitSet( pev->effects, EF_DIMLIGHT );
 }
-
-
 
 void CBasePlayer ::FlashlightTurnOn( void )
 {
@@ -386,8 +447,6 @@ void CBasePlayer ::FlashlightTurnOn( void )
 	}
 }
 
-
-
 void CBasePlayer ::FlashlightTurnOff( void )
 {
 	EMIT_SOUND_DYN( ENT( pev ), CHAN_WEAPON, SOUND_FLASHLIGHT_OFF, 1.0, ATTN_NORM, 0, PITCH_NORM );
@@ -399,12 +458,3 @@ void CBasePlayer ::FlashlightTurnOff( void )
 
 	m_flFlashLightTime = FLASH_CHARGE_TIME + gpGlobals->time;
 }
-
-/*
-===============
-ForceClientDllUpdate
-
-When recording a demo, we need to have the server tell us the entire client state
-so that the client side .dll can behave correctly.
-Reset stuff so that the state is transmitted.
-===============

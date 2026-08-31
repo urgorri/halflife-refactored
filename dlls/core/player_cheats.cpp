@@ -29,6 +29,7 @@
 #define TRAIN_FAST 0x04
 #define TRAIN_BACK 0x05
 
+
 int TrainSpeed( int iSpeed, int iMax )
 {
 	float fSpeed, fMax;
@@ -53,8 +54,7 @@ int TrainSpeed( int iSpeed, int iMax )
 	return iRet;
 }
 
-
-
+//=========================================================
 BOOL CBasePlayer ::FBecomeProne( void )
 {
 	m_afPhysicsFlags |= PFLAG_ONBARNACLE;
@@ -65,9 +65,7 @@ BOOL CBasePlayer ::FBecomeProne( void )
 // BarnacleVictimBitten - bad name for a function that is called
 // by Barnacle victims when the barnacle pulls their head
 // into its mouth. For the player, just die.
-
-
-
+//=========================================================
 void CBasePlayer ::BarnacleVictimBitten( entvars_t *pevBarnacle )
 {
 	TakeDamage( pevBarnacle, pevBarnacle, pev->health + pev->armorvalue, DMG_SLASH | DMG_ALWAYSGIB );
@@ -76,9 +74,7 @@ void CBasePlayer ::BarnacleVictimBitten( entvars_t *pevBarnacle )
 //=========================================================
 // BarnacleVictimReleased - overridden for player who has
 // physics flags concerns.
-
-
-
+//=========================================================
 void CBasePlayer ::BarnacleVictimReleased( void )
 {
 	m_afPhysicsFlags &= ~PFLAG_ONBARNACLE;
@@ -87,9 +83,7 @@ void CBasePlayer ::BarnacleVictimReleased( void )
 //=========================================================
 // Illumination
 // return player light level plus virtual muzzle flash
-
-
-
+//=========================================================
 int CBasePlayer ::Illumination( void )
 {
 	int iIllum = CBaseEntity::Illumination();
@@ -99,8 +93,6 @@ int CBasePlayer ::Illumination( void )
 		return 255;
 	return iIllum;
 }
-
-
 
 void CBasePlayer ::EnableControl( BOOL fControl )
 {
@@ -129,7 +121,14 @@ void CBasePlayer ::EnableControl( BOOL fControl )
 // set crosshair position to point to enemey
 
 
+/*
+=============
+SetCustomDecalFrames
 
+  UNDONE:  Determine real frame limit, 8 is a placeholder.
+  Note:  -1 means no custom frames present.
+=============
+*/
 void CBasePlayer ::SetCustomDecalFrames( int nFrames )
 {
 	if ( nFrames > 0 &&
@@ -145,9 +144,7 @@ GetCustomDecalFrames
 
   Returns the # of custom frames this player's custom clan logo contains.
 =============
-
-
-
+*/
 int CBasePlayer ::GetCustomDecalFrames( void )
 {
 	return m_nCustomSprayFrames;

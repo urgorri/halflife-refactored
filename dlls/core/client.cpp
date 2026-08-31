@@ -64,9 +64,6 @@ void LinkUserMessages( void );
  * used by kill command and disconnect command
  * ROBIN: Moved here from player.cpp, to allow multiple player models
  */
-
-
-
 void set_suicide_frame( entvars_t *pev )
 {
 	if ( !FStrEq( STRING( pev->model ), "models/player.mdl" ) )
@@ -79,9 +76,7 @@ void set_suicide_frame( entvars_t *pev )
 	pev->nextthink = -1;
 }
 
-
-
-
+/*
 ===========
 ClientConnect
 
@@ -138,9 +133,7 @@ void ClientDisconnect( edict_t *pEntity )
 	g_pGameRules->ClientDisconnected( pEntity );
 }
 
-
-
-
+// called by ClientKill and DeadThink
 void respawn( entvars_t *pev, BOOL fCopyCorpse )
 {
 	if ( gpGlobals->coop || gpGlobals->deathmatch )
@@ -168,9 +161,7 @@ Player entered the suicide command
 
 GLOBALS ASSUMED SET:  g_ulModelIndexPlayer
 ============
-
-
-
+*/
 void ClientKill( edict_t *pEntity )
 {
 	entvars_t *pev = &pEntity->v;
@@ -197,9 +188,7 @@ ClientPutInServer
 
 called each time a player is spawned
 ============
-
-
-
+*/
 void ClientPutInServer( edict_t *pEntity )
 {
 	CBasePlayer *pPlayer;
@@ -230,20 +219,16 @@ typedef unsigned short uchar16;
 typedef wchar_t uchar32;
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose: determine if a uchar32 represents a valid Unicode code point
-//-----------------------------------------------------------------------------
-bool Q_IsValidUChar32( uchar32 uVal )
-{
-	// Values > 0x10FFFF are explicitly invalid; ditto for UTF-16 surrogate halves,
-	// values ending in FFFE or FFFF, or values in the 0x00FDD0-0x00FDEF reserved range
-	return ( uVal < 0x110000u ) && ( ( uVal - 0x00D800u ) > 0x7FFu ) && ( ( uVal & 0xFFFFu ) < 0xFFFEu ) && ( ( uVal - 0x00FDD0u ) > 0x1Fu );
-}
 
-// Decode one character from a UTF-8 encoded string. Treats 6-byte CESU-8 sequences
+/*
+========================
+ClientUserInfoChanged
 
-
-
+called after the player changes
+userinfo - gives dll a chance to modify it before
+it gets sent into the rest of the engine.
+========================
+*/
 void ClientUserInfoChanged( edict_t *pEntity, char *infobuffer )
 {
 	// Is the client spawned yet?
@@ -305,8 +290,6 @@ void ClientUserInfoChanged( edict_t *pEntity, char *infobuffer )
 
 static int g_serveractive = 0;
 
-
-
 void ServerDeactivate( void )
 {
 	// It's possible that the engine will call this function more times than is necessary
@@ -321,8 +304,6 @@ void ServerDeactivate( void )
 	// Peform any shutdown operations here...
 	//
 }
-
-
 
 void ServerActivate( edict_t *pEdictList, int edictCount, int clientMax )
 {
@@ -364,9 +345,7 @@ PlayerPreThink
 
 Called every frame before physics are run
 ================
-
-
-
+*/
 void PlayerPreThink( edict_t *pEntity )
 {
 	entvars_t *pev       = &pEntity->v;
@@ -382,9 +361,7 @@ PlayerPostThink
 
 Called every frame after physics are run
 ================
-
-
-
+*/
 void PlayerPostThink( edict_t *pEntity )
 {
 	entvars_t *pev       = &pEntity->v;
@@ -394,13 +371,9 @@ void PlayerPostThink( edict_t *pEntity )
 		pPlayer->PostThink();
 }
 
-
-
 void ParmsNewLevel( void )
 {
 }
-
-
 
 void ParmsChangeLevel( void )
 {
@@ -413,9 +386,7 @@ void ParmsChangeLevel( void )
 
 //
 // GLOBALS ASSUMED SET:  g_ulFrameCount
-
-
-
+//
 void StartFrame( void )
 {
 	if ( g_pGameRules )
@@ -427,8 +398,6 @@ void StartFrame( void )
 	gpGlobals->teamplay = teamplay.value;
 	g_ulFrameCount++;
 }
-
-
 
 void ClientPrecache( void )
 {
@@ -566,9 +535,7 @@ Sys_Error
 
 Engine is going to shut down, allows setting a breakpoint in game .dll to catch that occasion
 ================
-
-
-
+*/
 void Sys_Error( const char *error_string )
 {
 	// Default case, do nothing.  MOD AUTHORS:  Add code ( e.g., _asm { int 3 }; here to cause a breakpoint for debugging your game .dlls
@@ -582,9 +549,7 @@ A new player customization has been registered on the server
 UNDONE:  This only sets the # of frames of the spray can logo
 animation right now.
 ================
-
-
-
+*/
 void PlayerCustomization( edict_t *pEntity, customization_t *pCust )
 {
 	entvars_t *pev       = &pEntity->v;
@@ -625,8 +590,7 @@ SpectatorConnect
 A spectator has joined the game
 ================
 
-
-
+*/
 int InconsistentFile( const edict_t *player, const char *filename, char *disconnect_message )
 {
 	// Server doesn't care?
@@ -639,14 +603,3 @@ int InconsistentFile( const edict_t *player, const char *filename, char *disconn
 	// Kick now with specified disconnect message.
 	return 1;
 }
-
-/*
-================================
-AllowLagCompensation
-
- The game .dll should return 1 if lag compensation should be allowed ( could also just set
-  the sv_unlag cvar.
- Most games right now should return 0, until client-side weapon prediction code is written
-  and tested for them ( note you can predict weapons, but not do lag compensation, too,
-  if you want.
-================================

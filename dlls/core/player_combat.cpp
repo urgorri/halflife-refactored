@@ -18,8 +18,10 @@
 #include "core/player.h"
 #include "ai/basemonster.h"
 #include "ai/monsters.h"
+#include "ai/soundent.h"
 #include "weapons/weapon_base.h"
 #include "gameplay/gamerules.h"
+#include "gameplay/spectator.h"
 #include "core/game.h"
 #include "core/decals.h"
 #include "shake.h"
@@ -27,6 +29,8 @@
 
 extern void CopyToBodyQue( entvars_t *pev );
 extern DLL_GLOBAL int g_iSkillLevel;
+extern DLL_GLOBAL ULONG g_ulModelIndexPlayer;
+
 
 void CBasePlayer ::Pain( void )
 {
@@ -44,9 +48,7 @@ void CBasePlayer ::Pain( void )
 
 /*
  *
-
-
-
+ */
 Vector VecVelocityForDamage( float flDamage )
 {
 	Vector vec( RANDOM_FLOAT( -100, 100 ), RANDOM_FLOAT( -100, 100 ), RANDOM_FLOAT( 200, 300 ) );
@@ -106,7 +108,6 @@ static void ThrowHead(entvars_t *pev, char *szGibModel, floatflDamage)   \
 #endif
 
 
-
 void CBasePlayer ::DeathSound( void )
 {
 	// water death sounds
@@ -139,15 +140,15 @@ void CBasePlayer ::DeathSound( void )
 // override takehealth
 // bitsDamageType indicates type of damage healed.
 
-
-
 int CBasePlayer ::TakeHealth( float flHealth, int bitsDamageType )
 {
 	return CBaseMonster ::TakeHealth( flHealth, bitsDamageType );
 }
 
 
-
+//=========================================================
+// TraceAttack
+//=========================================================
 void CBasePlayer ::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType )
 {
 	if ( pev->takedamage )
@@ -194,8 +195,6 @@ void CBasePlayer ::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector v
 
 #define ARMOR_RATIO 0.2 // Armor Takes 80% of the damage
 #define ARMOR_BONUS 0.5 // Each Point of Armor is work 1/x points of health
-
-
 
 int CBasePlayer ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType )
 {
@@ -435,8 +434,6 @@ int CBasePlayer ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, f
 entvars_t *g_pevLastInflictor; // Set in combat.cpp.  Used to pass the damage inflictor for death messages.
                                // Better solution:  Add as parameter to all Killed() functions.
 
-
-
 void CBasePlayer::Killed( entvars_t *pevAttacker, int iGib )
 {
 	CSound *pSound;
@@ -525,7 +522,7 @@ void CBasePlayer::Killed( entvars_t *pevAttacker, int iGib )
 }
 
 
-
+/* */
 
 void CBasePlayer::CheckTimeBasedDamage()
 {
@@ -623,79 +620,7 @@ void CBasePlayer::CheckTimeBasedDamage()
 	}
 }
 
-/*
-THE POWER SUIT
-
-The Suit provides 3 main functions: Protection, Notification and Augmentation.
-Some functions are automatic, some require power.
-The player gets the suit shortly after getting off the train in C1A0 and it stays
-with him for the entire game.
-
-Protection
-
-    Heat/Cold
-        When the player enters a hot/cold area, the heating/cooling indicator on the suit
-        will come on and the battery will drain while the player stays in the area.
-        After the battery is dead, the player starts to take damage.
-        This feature is built into the suit and is automatically engaged.
-    Radiation Syringe
-        This will cause the player to be immune from the effects of radiation for N seconds. Single use item.
-    Anti-Toxin Syringe
-        This will cure the player from being poisoned. Single use item.
-    Health
-        Small (1st aid kits, food, etc.)
-        Large (boxes on walls)
-    Armor
-        The armor works using energy to create a protective field that deflects a
-        percentage of damage projectile and explosive attacks. After the armor has been deployed,
-        it will attempt to recharge itself to full capacity with the energy reserves from the battery.
-        It takes the armor N seconds to fully charge.
-
-Notification (via the HUD)
-
-x	Health
-x	Ammo
-x	Automatic Health Care
-        Notifies the player when automatic healing has been engaged.
-x	Geiger counter
-        Classic Geiger counter sound and status bar at top of HUD
-        alerts player to dangerous levels of radiation. This is not visible when radiation levels are normal.
-x	Poison
-    Armor
-        Displays the current level of armor.
-
-Augmentation
-
-    Reanimation (w/adrenaline)
-        Causes the player to come back to life after he has been dead for 3 seconds.
-        Will not work if player was gibbed. Single use.
-    Long Jump
-        Used by hitting the ??? key(s). Caused the player to further than normal.
-    SCUBA
-        Used automatically after picked up and after player enters the water.
-        Works for N seconds. Single use.
-
-Things powered by the battery
-
-    Armor
-        Uses N watts for every M units of damage.
-    Heat/Cool
-        Uses N watts for every second in hot/cold area.
-    Long Jump
-        Uses N watts for every jump.
-    Alien Cloak
-        Uses N watts for each use. Each use lasts M seconds.
-    Alien Shield
-        Augments armor. Reduces Armor drain by one half
-
-*/
-
-// if in range of radiation source, ping geiger counter
-
-#define GEIGERDELAY 0.25
-
-
-
+//=========================================================
 Vector CBasePlayer ::GetAutoaimVector( float flDelta )
 {
 	if ( g_iSkillLevel == SKILL_HARD )
@@ -775,8 +700,6 @@ Vector CBasePlayer ::GetAutoaimVector( float flDelta )
 	UTIL_MakeVectors( pev->v_angle + pev->punchangle + m_vecAutoAim );
 	return gpGlobals->v_forward;
 }
-
-
 
 Vector CBasePlayer ::AutoaimDeflection( Vector &vecSrc, float flDist, float flDelta )
 {
@@ -897,8 +820,6 @@ Vector CBasePlayer ::AutoaimDeflection( Vector &vecSrc, float flDist, float flDe
 	return Vector( 0, 0, 0 );
 }
 
-
-
 void CBasePlayer ::ResetAutoaim()
 {
 	if ( m_vecAutoAim.x != 0 || m_vecAutoAim.y != 0 )
@@ -908,11 +829,3 @@ void CBasePlayer ::ResetAutoaim()
 	}
 	m_fOnTarget = FALSE;
 }
-
-/*
-=============
-SetCustomDecalFrames
-
-  UNDONE:  Determine real frame limit, 8 is a placeholder.
-  Note:  -1 means no custom frames present.
-=============

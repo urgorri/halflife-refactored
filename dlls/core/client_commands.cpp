@@ -25,6 +25,19 @@
 #include <ctype.h>
 #endif
 
+
+//-----------------------------------------------------------------------------
+// Purpose: determine if a uchar32 represents a valid Unicode code point
+//-----------------------------------------------------------------------------
+bool Q_IsValidUChar32( uchar32 uVal )
+{
+	// Values > 0x10FFFF are explicitly invalid; ditto for UTF-16 surrogate halves,
+	// values ending in FFFE or FFFF, or values in the 0x00FDD0-0x00FDEF reserved range
+	return ( uVal < 0x110000u ) && ( ( uVal - 0x00D800u ) > 0x7FFu ) && ( ( uVal & 0xFFFFu ) < 0xFFFEu ) && ( ( uVal - 0x00FDD0u ) > 0x1Fu );
+}
+
+// Decode one character from a UTF-8 encoded string. Treats 6-byte CESU-8 sequences
+// as a single character, as if they were a correctly-encoded 4-byte UTF-8 sequence.
 int Q_UTF8ToUChar32( const char *pUTF8_, uchar32 &uValueOut, bool &bErrorOut )
 {
 	const uint8 *pUTF8 = (const uint8 *)pUTF8_;
@@ -120,9 +133,7 @@ bool Q_UnicodeValidate( const char *pUTF8 )
 // say blah blah blah
 // or as
 // blah blah blah
-
-
-
+//
 void Host_Say( edict_t *pEntity, int teamonly )
 {
 	CBasePlayer *client;
@@ -280,9 +291,7 @@ ClientCommand
 called each time a player uses a "cmd" command
 ============
 */
-
-
-
+// Use CMD_ARGV,  CMD_ARGV, and CMD_ARGC to get pointers the character string command.
 void ClientCommand( edict_t *pEntity )
 {
 	const char *pcmd = CMD_ARGV( 0 );
@@ -402,12 +411,3 @@ void ClientCommand( edict_t *pEntity )
 		ClientPrint( &pEntity->v, HUD_PRINTCONSOLE, UTIL_VarArgs( "Unknown command: %s\n", command ) );
 	}
 }
-
-/*
-========================
-ClientUserInfoChanged
-
-called after the player changes
-userinfo - gives dll a chance to modify it before
-it gets sent into the rest of the engine.
-========================
