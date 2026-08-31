@@ -19,6 +19,14 @@
 #include "world/bmodels.h"
 
 //
+// BModelOrigin - calculates origin of a bmodel from absmin/size because all bmodel origins are 0 0 0
+//
+Vector VecBModelOrigin( entvars_t *pevBModel )
+{
+	return pevBModel->absmin + ( pevBModel->size * 0.5 );
+}
+
+//
 // CFuncWall
 //
 LINK_ENTITY_TO_CLASS( func_wall, CFuncWall );

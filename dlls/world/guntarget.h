@@ -34,7 +34,6 @@ class CGunTarget : public CBaseMonster
 	int Classify( void ) { return CLASS_MACHINE; }
 	int TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType );
 	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	void KeyValue( KeyValueData *pkvd );
 
 	virtual int Save( CSave &save );
 	virtual int Restore( CRestore &restore );
