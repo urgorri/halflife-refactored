@@ -16,6 +16,13 @@
 #ifndef BASEMONSTER_H
 #define BASEMONSTER_H
 
+#include "core/cbase.h"
+#include "ai/schedule.h"
+#include "ai/monsterevent.h"
+
+class CCineMonster;
+class CSound;
+
 //
 // generic Monster
 //

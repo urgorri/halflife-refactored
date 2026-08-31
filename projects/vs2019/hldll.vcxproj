@@ -121,6 +121,13 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\core\cbase.cpp" />
     <ClCompile Include="..\..\dlls\core\combat.cpp" />
     <ClCompile Include="..\..\dlls\core\client.cpp" />
+    <ClCompile Include="..\..\dlls\core\player_suit.cpp" />
+    <ClCompile Include="..\..\dlls\core\player_combat.cpp" />
+    <ClCompile Include="..\..\dlls\core\player_cheats.cpp" />
+    <ClCompile Include="..\..\dlls\core\client_usermsg.cpp" />
+    <ClCompile Include="..\..\dlls\core\client_spectator.cpp" />
+    <ClCompile Include="..\..\dlls\core\client_networking.cpp" />
+    <ClCompile Include="..\..\dlls\core\client_commands.cpp" />
     <ClCompile Include="..\..\dlls\monsters\controller.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp" />
     <ClCompile Include="..\..\dlls\ai\defaultai.cpp" />
@@ -306,6 +313,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\core\cdll_dll.h" />
     <ClInclude Include="..\..\dlls\core\decals.h" />
     <ClInclude Include="..\..\dlls\core\client.h" />
+    <ClInclude Include="..\..\dlls\world\world.h" />
+    <ClInclude Include="..\..\dlls\systems\locksound.h" />
     <ClInclude Include="..\..\dlls\defaultai.h" />
     <ClInclude Include="..\..\dlls\systems\doors.h" />
     <ClInclude Include="..\..\dlls\systems\effects.h" />

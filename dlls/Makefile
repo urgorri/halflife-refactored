@@ -114,6 +114,13 @@ OBJ = \
 	$(CORE_OBJDIR)/cbase.o \
 	$(CORE_OBJDIR)/combat.o \
 	$(CORE_OBJDIR)/client.o \
+	$(CORE_OBJDIR)/player_suit.o \
+	$(CORE_OBJDIR)/player_combat.o \
+	$(CORE_OBJDIR)/player_cheats.o \
+	$(CORE_OBJDIR)/client_usermsg.o \
+	$(CORE_OBJDIR)/client_spectator.o \
+	$(CORE_OBJDIR)/client_networking.o \
+	$(CORE_OBJDIR)/client_commands.o \
 	$(DLL_OBJDIR)/monsters/controller.o \
 	$(DLL_OBJDIR)/weapons/weapon_crossbow.o \
 	$(DLL_OBJDIR)/weapons/weapon_damage.o \

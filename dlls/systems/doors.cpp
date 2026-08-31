@@ -23,6 +23,7 @@
 #include "core/cbase.h"
 #include "core/saverestore.h"
 #include "systems/doors.h"
+#include "systems/buttons.h"
 
 extern void SetMovedir( entvars_t *ev );
 

@@ -16,6 +16,7 @@
 #define DOORS_H
 
 #include "core/cbase.h"
+#include "systems/locksound.h"
 
 // doors
 #define SF_DOOR_ROTATE_Y 0
