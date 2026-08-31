@@ -13,8 +13,10 @@
  *
  ****/
 #ifndef MONSTERS_H
-#include "core/skill.h"
 #define MONSTERS_H
+
+#include "core/skill.h"
+#include "ai/basemonster.h"
 
 /*
 

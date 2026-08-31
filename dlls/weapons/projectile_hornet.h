@@ -11,7 +11,12 @@
  *   Valve LLC.  All other use, distribution, or modification is prohibited
  *   without written permission from Valve LLC.
  *
- ****/
+ #ifndef PROJECTILE_HORNET_H
+#define PROJECTILE_HORNET_H
+
+#include "core/cbase.h"
+#include "ai/basemonster.h"
+
 //=========================================================
 // Hornets
 //=========================================================
@@ -55,3 +60,5 @@ class CHornet : public CBaseMonster
 	int m_iHornetType;
 	float m_flFlySpeed;
 };
+
+#endif // PROJECTILE_HORNET_H
