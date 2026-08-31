@@ -648,12 +648,6 @@ void CBaseButton::ButtonBackHome( void )
 //
 // Rotating button (aka "lever")
 //
-class CRotButton : public CBaseButton
-{
-  public:
-	void Spawn( void );
-};
-
 LINK_ENTITY_TO_CLASS( func_rot_button, CRotButton );
 
 void CRotButton::Spawn( void )
@@ -706,10 +700,10 @@ void CRotButton::Spawn( void )
 	if ( !FBitSet( pev->spawnflags, SF_BUTTON_TOUCH_ONLY ) )
 	{
 		SetTouch( NULL );
-		SetUse( &CRotButton::ButtonUse );
+		SetUse( &CBaseButton::ButtonUse );
 	}
 	else // touchable button
-		SetTouch( &CRotButton::ButtonTouch );
+		SetTouch( &CBaseButton::ButtonTouch );
 
 	// SetTouch( ButtonTouch );
 }
