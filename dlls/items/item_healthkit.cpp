@@ -11,6 +11,7 @@
  *   Valve LLC.  All other use, distribution, or modification is prohibited
  *   without written permission from Valve LLC.
  *
+ ****/
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"

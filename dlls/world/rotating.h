@@ -17,13 +17,22 @@
 
 #include "core/cbase.h"
 
+#define noiseMovement noise
+#define noiseStopMoving noise1
+#define noiseRunning noise3
+
+#define FANPITCHMIN 30
+#define FANPITCHMAX 100
+
 // Spawn flags for func_rotating
 #define SF_BRUSH_ROTATE_START_ON 1
 #define SF_BRUSH_ROTATE_BACKWARDS 2
 #define SF_BRUSH_ROTATE_Z_AXIS 4
 #define SF_BRUSH_ROTATE_X_AXIS 8
 #define SF_BRUSH_ACCELLERATION 16
+#define SF_BRUSH_ACCDCC 16
 #define SF_BRUSH_ROTATE_TOUCH 32
+#define SF_BRUSH_ROTATE_INSTANT 32
 #define SF_BRUSH_ROTATE_NOT_SOLID 64
 #define SF_BRUSH_ROTATE_SMALLRADIUS 128
 #define SF_BRUSH_ROTATE_MEDIUMRADIUS 256
@@ -59,6 +68,7 @@ class CFuncRotating : public CBaseEntity
 #define SF_PENDULUM_START_ON 1
 #define SF_PENDULUM_SWING 2
 #define SF_PENDULUM_PASSABLE 8
+#define SF_DOOR_PASSABLE 8
 #define SF_PENDULUM_AUTO_RETURN 16
 
 class CPendulum : public CBaseEntity
