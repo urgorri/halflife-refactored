@@ -15,6 +15,39 @@
 #ifndef TRAINS_H
 #define TRAINS_H
 
+#include "world/plats.h"
+
+class CFuncTrain : public CBasePlatTrain
+{
+  public:
+	void Spawn( void );
+	void Precache( void );
+	void Activate( void );
+	void OverrideReset( void );
+
+	void Blocked( CBaseEntity *pOther );
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void KeyValue( KeyValueData *pkvd );
+
+	void EXPORT Wait( void );
+	void EXPORT Next( void );
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
+
+	entvars_t *m_pevCurrentTarget;
+	int m_sounds;
+	BOOL m_activated;
+};
+
+class CFuncTrainControls : public CBaseEntity
+{
+  public:
+	virtual int ObjectCaps( void ) { return CBaseEntity::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
+	void Spawn( void );
+	void EXPORT Find( void );
+};
+
 // Tracktrain spawn flags
 #define SF_TRACKTRAIN_NOPITCH 0x0001
 #define SF_TRACKTRAIN_NOCONTROL 0x0002
