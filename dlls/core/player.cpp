@@ -149,6 +149,8 @@ TYPEDESCRIPTION CBasePlayer::m_playerSaveData[] =
 };
 
 
+#include "core/player_network.h"
+
 
 Vector CBasePlayer ::GetGunPosition()
 {

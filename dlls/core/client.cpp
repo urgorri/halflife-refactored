@@ -208,17 +208,6 @@ void ClientPutInServer( edict_t *pEntity )
 	pPlayer->pev->iuser2 = 0;
 }
 
-#include "voice_gamemgr.h"
-extern CVoiceGameMgr g_VoiceGameMgr;
-
-#if defined( _MSC_VER ) || defined( WIN32 )
-typedef wchar_t uchar16;
-typedef unsigned int uchar32;
-#else
-typedef unsigned short uchar16;
-typedef wchar_t uchar32;
-#endif
-
 
 /*
 ========================
@@ -582,13 +571,6 @@ void PlayerCustomization( edict_t *pEntity, customization_t *pCust )
 		break;
 	}
 }
-
-/*
-================
-SpectatorConnect
-
-A spectator has joined the game
-================
 
 */
 int InconsistentFile( const edict_t *player, const char *filename, char *disconnect_message )

@@ -22,6 +22,12 @@
 
 extern cvar_t allow_spectators;
 
+/*
+================
+SpectatorConnect
+
+A spectator has joined the game
+================
 */
 void SpectatorConnect( edict_t *pEntity )
 {

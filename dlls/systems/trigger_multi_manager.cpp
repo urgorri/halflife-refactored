@@ -27,6 +27,7 @@
 #include "core/saverestore.h"
 #include "world/trains.h" // trigger_camera has train functionality
 #include "gameplay/gamerules.h"
+#include "systems/multisource.h"
 
 #define SF_MULTIMAN_CLONE 0x80000000
 #define SF_MULTIMAN_THREAD 0x00000001

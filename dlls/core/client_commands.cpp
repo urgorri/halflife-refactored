@@ -26,7 +26,18 @@
 #endif
 
 extern cvar_t allow_spectators;
+extern int g_teamplay;
 
+#include "voice_gamemgr.h"
+extern CVoiceGameMgr g_VoiceGameMgr;
+
+#if defined( _MSC_VER ) || defined( WIN32 )
+typedef wchar_t uchar16;
+typedef unsigned int uchar32;
+#else
+typedef unsigned short uchar16;
+typedef wchar_t uchar32;
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: determine if a uchar32 represents a valid Unicode code point
