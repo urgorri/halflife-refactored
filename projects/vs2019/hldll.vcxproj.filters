@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -171,10 +171,7 @@
     <ClCompile Include="..\..\dlls\ai\h_ai.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\h_battery.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\gameplay\h_cine.cpp">
+        <ClCompile Include="..\..\dlls\gameplay\h_cine.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\systems\h_cycler.cpp">
@@ -192,10 +189,7 @@
     <ClCompile Include="..\..\dlls\monsters\headcrab.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\healthkit.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp">
+        <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_glock.cpp">
@@ -558,6 +552,66 @@
     <ClCompile Include="..\..\dlls\world\xen.cpp">
       <Filter>Source Files\dlls\world</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\effects_shooters.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\world\trackchange.cpp">
+      <Filter>Source Files\dlls\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\env_global.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\effects_screen.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\world\trains.cpp">
+      <Filter>Source Files\dlls\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\world\xen_tree.cpp">
+      <Filter>Source Files\dlls\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\world\guntarget.cpp">
+      <Filter>Source Files\dlls\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\multisource.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\world\conveyor.cpp">
+      <Filter>Source Files\dlls\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\charger_suit.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\env_spark.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\effects_env.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\effects_beverage.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\door_rotating.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\items\item_healthkit.cpp">
+      <Filter>Source Files\dlls\items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\world\rotating.cpp">
+      <Filter>Source Files\dlls\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\charger_health.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\door_momentary.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\world\xen_spores.cpp">
+      <Filter>Source Files\dlls\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\charger_base.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\systems\doors.h">
@@ -796,6 +850,75 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\vector.h">
       <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\guntarget.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\multisource.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\trackchange.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\env_spark.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\xen_tree.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\bmodels.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\plats.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\charger_health.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\door_rotating.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\door_momentary.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\rotating.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\effects_env.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\items\item_healthkit.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\xen.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\buttons.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\charger_suit.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\conveyor.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\effects_shooters.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\charger_base.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\effects_screen.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\xen_spores.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\env_global.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\effects_beverage.h">
+      <Filter>Header Files\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

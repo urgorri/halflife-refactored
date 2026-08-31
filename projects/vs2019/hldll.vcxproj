@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -146,14 +146,12 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\weapons\weapon_handgrenade.cpp" />
     <ClCompile Include="..\..\dlls\monsters\hassassin.cpp" />
     <ClCompile Include="..\..\dlls\monsters\headcrab.cpp" />
-    <ClCompile Include="..\..\dlls\systems\healthkit.cpp" />
-    <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp" />
+        <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp" />
     <ClCompile Include="..\..\dlls\weapons\projectile_hornet.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_hornetgun.cpp" />
     <ClCompile Include="..\..\dlls\monsters\houndeye.cpp" />
     <ClCompile Include="..\..\dlls\ai\h_ai.cpp" />
-    <ClCompile Include="..\..\dlls\systems\h_battery.cpp" />
-    <ClCompile Include="..\..\dlls\gameplay\h_cine.cpp" />
+        <ClCompile Include="..\..\dlls\gameplay\h_cine.cpp" />
     <ClCompile Include="..\..\dlls\systems\h_cycler.cpp" />
     <ClCompile Include="..\..\dlls\core\h_export.cpp" />
     <ClCompile Include="..\..\dlls\monsters\ichthyosaur.cpp" />
@@ -278,6 +276,26 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\pm_shared\pm_debug.c" />
     <ClCompile Include="..\..\pm_shared\pm_math.c" />
     <ClCompile Include="..\..\pm_shared\pm_shared.c" />
+    <ClCompile Include="..\..\dlls\systems\charger_base.cpp" />
+    <ClCompile Include="..\..\dlls\systems\charger_health.cpp" />
+    <ClCompile Include="..\..\dlls\systems\charger_suit.cpp" />
+    <ClCompile Include="..\..\dlls\items\item_healthkit.cpp" />
+    <ClCompile Include="..\..\dlls\systems\effects_shooters.cpp" />
+    <ClCompile Include="..\..\dlls\systems\effects_screen.cpp" />
+    <ClCompile Include="..\..\dlls\systems\effects_env.cpp" />
+    <ClCompile Include="..\..\dlls\systems\effects_beverage.cpp" />
+    <ClCompile Include="..\..\dlls\systems\multisource.cpp" />
+    <ClCompile Include="..\..\dlls\systems\env_global.cpp" />
+    <ClCompile Include="..\..\dlls\systems\env_spark.cpp" />
+    <ClCompile Include="..\..\dlls\world\trains.cpp" />
+    <ClCompile Include="..\..\dlls\world\trackchange.cpp" />
+    <ClCompile Include="..\..\dlls\world\guntarget.cpp" />
+    <ClCompile Include="..\..\dlls\world\conveyor.cpp" />
+    <ClCompile Include="..\..\dlls\world\rotating.cpp" />
+    <ClCompile Include="..\..\dlls\world\xen_tree.cpp" />
+    <ClCompile Include="..\..\dlls\world\xen_spores.cpp" />
+    <ClCompile Include="..\..\dlls\systems\door_rotating.cpp" />
+    <ClCompile Include="..\..\dlls\systems\door_momentary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\ai\activity.h" />
@@ -359,6 +377,29 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\pm_shared\pm_materials.h" />
     <ClInclude Include="..\..\pm_shared\pm_movevars.h" />
     <ClInclude Include="..\..\pm_shared\pm_shared.h" />
+    <ClInclude Include="..\..\dlls\systems\charger_base.h" />
+    <ClInclude Include="..\..\dlls\systems\charger_health.h" />
+    <ClInclude Include="..\..\dlls\systems\charger_suit.h" />
+    <ClInclude Include="..\..\dlls\items\item_healthkit.h" />
+    <ClInclude Include="..\..\dlls\systems\effects_shooters.h" />
+    <ClInclude Include="..\..\dlls\systems\effects_screen.h" />
+    <ClInclude Include="..\..\dlls\systems\effects_env.h" />
+    <ClInclude Include="..\..\dlls\systems\effects_beverage.h" />
+    <ClInclude Include="..\..\dlls\systems\buttons.h" />
+    <ClInclude Include="..\..\dlls\systems\multisource.h" />
+    <ClInclude Include="..\..\dlls\systems\env_global.h" />
+    <ClInclude Include="..\..\dlls\systems\env_spark.h" />
+    <ClInclude Include="..\..\dlls\world\plats.h" />
+    <ClInclude Include="..\..\dlls\world\trackchange.h" />
+    <ClInclude Include="..\..\dlls\world\guntarget.h" />
+    <ClInclude Include="..\..\dlls\world\bmodels.h" />
+    <ClInclude Include="..\..\dlls\world\conveyor.h" />
+    <ClInclude Include="..\..\dlls\world\rotating.h" />
+    <ClInclude Include="..\..\dlls\world\xen.h" />
+    <ClInclude Include="..\..\dlls\world\xen_tree.h" />
+    <ClInclude Include="..\..\dlls\world\xen_spores.h" />
+    <ClInclude Include="..\..\dlls\systems\door_rotating.h" />
+    <ClInclude Include="..\..\dlls\systems\door_momentary.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
