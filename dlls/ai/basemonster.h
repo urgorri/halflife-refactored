@@ -20,6 +20,9 @@
 #include "ai/schedule.h"
 #include "ai/monsterevent.h"
 
+class CCineMonster;
+class CSound;
+
 //
 // generic Monster
 //

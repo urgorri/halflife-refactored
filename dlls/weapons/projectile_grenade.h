@@ -2,6 +2,7 @@
 #define PROJECTILE_GRENADE_H
 
 #include "core/cbase.h"
+#include "ai/basemonster.h"
 
 class CGrenade : public CBaseMonster
 {
