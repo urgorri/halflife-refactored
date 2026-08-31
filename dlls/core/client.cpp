@@ -572,6 +572,13 @@ void PlayerCustomization( edict_t *pEntity, customization_t *pCust )
 	}
 }
 
+/*
+================================
+InconsistentFile
+
+One of the ENGINE_FORCE_UNMODIFIED files failed the consistency check for the specified player
+ Return 0 to allow the client to continue, 1 to force immediate disconnection ( with an optional disconnect message of up to 256 characters )
+================================
 */
 int InconsistentFile( const edict_t *player, const char *filename, char *disconnect_message )
 {
