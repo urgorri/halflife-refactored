@@ -18,6 +18,11 @@
 #include "core/saverestore.h"
 #include "systems/door_momentary.h"
 
+extern void SetMovedir( entvars_t *ev );
+
+#define noiseMoving noise1
+#define noiseArrived noise2
+
 LINK_ENTITY_TO_CLASS( momentary_door, CMomentaryDoor );
 
 TYPEDESCRIPTION CMomentaryDoor::m_SaveData[] =

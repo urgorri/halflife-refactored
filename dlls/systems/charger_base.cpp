@@ -24,7 +24,7 @@ TYPEDESCRIPTION CBaseWallCharger::m_SaveData[] =
         DEFINE_FIELD( CBaseWallCharger, m_flSoundTime, FIELD_TIME ),
 };
 
-IMPLEMENT_SAVERESTORE( CBaseWallCharger, CBaseEntity );
+IMPLEMENT_SAVERESTORE( CBaseWallCharger, CBaseToggle );
 
 void CBaseWallCharger::KeyValue( KeyValueData *pkvd )
 {

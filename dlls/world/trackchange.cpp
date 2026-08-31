@@ -18,13 +18,6 @@
 #include "core/saverestore.h"
 #include "world/trackchange.h"
 
-	int m_trackTopName;
-	int m_trackBottomName;
-	int m_trainName;
-	TRAIN_CODE m_code;
-	int m_targetState;
-	int m_use;
-};
 LINK_ENTITY_TO_CLASS( func_trackchange, CFuncTrackChange );
 
 TYPEDESCRIPTION CFuncTrackChange::m_SaveData[] =

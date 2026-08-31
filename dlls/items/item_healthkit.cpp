@@ -11,9 +11,12 @@
  *   Valve LLC.  All other use, distribution, or modification is prohibited
  *   without written permission from Valve LLC.
  *
- ****/
+#include "core/extdll.h"
+#include "core/util.h"
+#include "core/cbase.h"
+#include "core/saverestore.h"
 #include "items/item_healthkit.h"
-#include "core/player.h"
+#include "player/player.h"
 #include "core/skill.h"
 #include "gameplay/gamerules.h"
 

@@ -18,11 +18,6 @@
 #include "core/saverestore.h"
 #include "world/guntarget.h"
 
-
-  private:
-	BOOL m_on;
-};
-
 LINK_ENTITY_TO_CLASS( func_guntarget, CGunTarget );
 
 TYPEDESCRIPTION CGunTarget::m_SaveData[] =
