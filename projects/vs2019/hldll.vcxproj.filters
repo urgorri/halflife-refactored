@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -67,6 +67,27 @@
       <Filter>Source Files\dlls\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\animation.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\client_commands.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\client_networking.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\client_spectator.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\client_usermsg.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\player_cheats.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\player_combat.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\player_suit.cpp">
       <Filter>Source Files\dlls\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\apache.cpp">
@@ -634,6 +655,12 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\cdll_dll.h">
       <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\systems\locksound.h">
+      <Filter>Header Files\dlls\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\world\world.h">
+      <Filter>Header Files\dlls\world</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\client.h">
       <Filter>Header Files\dlls</Filter>
