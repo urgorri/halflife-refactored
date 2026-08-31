@@ -47,9 +47,16 @@ class CFuncTrackChange : public CFuncPlatRot
 	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 	void EXPORT Find( void );
 	TRAIN_CODE EvaluateTrain( CPathTrack *pcurrent );
-	void EXPORT UpdateTrain( void );
-	void EXPORT Touch( CBaseEntity *pOther );
-	virtual void Blocked( CBaseEntity *pOther );
+	void UpdateTrain( Vector &dest );
+	virtual void HitBottom( void );
+	virtual void HitTop( void );
+	void Touch( CBaseEntity *pOther );
+	virtual void UpdateAutoTargets( int toggleState );
+	virtual BOOL IsTogglePlat( void ) { return TRUE; }
+
+	void DisableUse( void ) { m_use = 0; }
+	void EnableUse( void ) { m_use = 1; }
+	int UseEnabled( void ) { return m_use; }
 
 	virtual int Save( CSave &save );
 	virtual int Restore( CRestore &restore );
@@ -61,10 +68,11 @@ class CFuncTrackChange : public CFuncPlatRot
 	CPathTrack *m_trackBottom;
 
 	CFuncTrackTrain *m_train;
-	string_t m_trackTopName;
-	string_t m_trackBottomName;
-	string_t m_trainName;
-	int m_code;
+
+	int m_trackTopName;
+	int m_trackBottomName;
+	int m_trainName;
+	TRAIN_CODE m_code;
 	int m_targetState;
 	int m_use;
 };
@@ -73,9 +81,7 @@ class CFuncTrackAuto : public CFuncTrackChange
 {
   public:
 	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	void UpdateAutoTargets( int toggleState );
-	void TriggerTrackChange( USE_TYPE useType, float value );
-	void EXPORT UpdateThink( void );
+	virtual void UpdateAutoTargets( int toggleState );
 };
 
 #endif // TRACKCHANGE_H

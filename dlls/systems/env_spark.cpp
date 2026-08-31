@@ -17,6 +17,7 @@
 #include "core/cbase.h"
 #include "core/saverestore.h"
 #include "systems/env_spark.h"
+#include "systems/buttons.h"
 
 TYPEDESCRIPTION CEnvSpark::m_SaveData[] =
     {

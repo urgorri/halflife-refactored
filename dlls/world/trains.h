@@ -17,6 +17,9 @@
 
 #include "world/plats.h"
 
+#define noiseMovement noise
+#define noiseStopMoving noise1
+
 class CFuncTrain : public CBasePlatTrain
 {
   public:
