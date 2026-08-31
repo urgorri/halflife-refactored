@@ -22,6 +22,8 @@
 #include "core/game.h"
 #include "core/player_network.h"
 
+extern DLL_GLOBAL ULONG g_ulModelIndexPlayer;
+
 
 /*
 THE POWER SUIT

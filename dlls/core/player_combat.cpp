@@ -25,6 +25,7 @@
 #include "core/game.h"
 #include "core/decals.h"
 #include "shake.h"
+#include "hltv.h"
 #include "core/player_network.h"
 
 extern void CopyToBodyQue( entvars_t *pev );

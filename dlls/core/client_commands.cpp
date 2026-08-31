@@ -25,6 +25,8 @@
 #include <ctype.h>
 #endif
 
+extern cvar_t allow_spectators;
+
 
 //-----------------------------------------------------------------------------
 // Purpose: determine if a uchar32 represents a valid Unicode code point
