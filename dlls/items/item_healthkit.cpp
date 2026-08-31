@@ -17,7 +17,7 @@
 #include "core/cbase.h"
 #include "core/saverestore.h"
 #include "items/item_healthkit.h"
-#include "player/player.h"
+#include "core/player.h"
 #include "core/skill.h"
 #include "gameplay/gamerules.h"
 
