@@ -52,6 +52,9 @@ class CFade : public CPointEntity
 };
 
 // HUD / Audio message
+#define SF_MESSAGE_ONCE 0x0001
+#define SF_MESSAGE_ALL 0x0002
+
 class CMessage : public CPointEntity
 {
   public:

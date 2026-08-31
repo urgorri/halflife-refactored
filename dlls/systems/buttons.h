@@ -23,6 +23,8 @@
 #define SF_BUTTON_SPARK_IF_OFF 64 // button sparks in OFF state
 #define SF_BUTTON_TOUCH_ONLY 256  // button only fires as a result of USE key.
 
+#define SF_MOMENTARY_DOOR 0x0001
+
 class CRotButton : public CBaseButton
 {
   public:
@@ -36,16 +38,22 @@ class CMomentaryRotButton : public CBaseToggle
 	void KeyValue( KeyValueData *pkvd );
 	virtual int ObjectCaps( void )
 	{
-		int flags = CBaseToggle::ObjectCaps();
-		if ( pev->spawnflags & SF_MOMENTARY_ROT_BUTTON_AUTO_RETURN )
-			return ( flags | FCAP_CONTINUOUS_USE ) & ~FCAP_ACROSS_TRANSITION;
-		return ( flags | FCAP_IMPULSE_USE ) & ~FCAP_ACROSS_TRANSITION;
+		int flags = CBaseToggle::ObjectCaps() & ( ~FCAP_ACROSS_TRANSITION );
+		if ( pev->spawnflags & SF_MOMENTARY_DOOR )
+			return flags;
+		return flags | FCAP_CONTINUOUS_USE;
 	}
 	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 	void EXPORT Off( void );
-	void EXPORT UpdateSelf( void );
-	void EXPORT UpdateSelfMove( void );
+	void EXPORT Return( void );
+	void UpdateSelf( float value );
+	void UpdateSelfReturn( float value );
+	void UpdateAllButtons( float value, int start );
 
+	void PlaySound( void );
+	void UpdateTarget( float value );
+
+	static CMomentaryRotButton *Instance( edict_t *pent ) { return (CMomentaryRotButton *)GET_PRIVATE( pent ); };
 	virtual int Save( CSave &save );
 	virtual int Restore( CRestore &restore );
 
@@ -56,7 +64,7 @@ class CMomentaryRotButton : public CBaseToggle
 	float m_returnSpeed;
 	vec3_t m_start;
 	vec3_t m_end;
-	vec3_t m_ideal;
+	int m_sounds;
 };
 
 #define SF_BTARGET_USE 0x0001
@@ -70,5 +78,7 @@ class CButtonTarget : public CBaseEntity
 	int TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType );
 	int ObjectCaps( void );
 };
+
+void DoSpark( entvars_t *pev, const Vector &location );
 
 #endif // BUTTONS_H

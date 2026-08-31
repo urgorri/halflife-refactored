@@ -17,6 +17,7 @@
 #include "core/cbase.h"
 #include "core/saverestore.h"
 #include "world/guntarget.h"
+#include "world/trains.h"
 
 LINK_ENTITY_TO_CLASS( func_guntarget, CGunTarget );
 

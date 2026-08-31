@@ -718,43 +718,6 @@ void CRotButton::Spawn( void )
 // This will disable use and make the button solid
 // rotating buttons were made SOLID_NOT by default since their were some
 // collision problems with them...
-#define SF_MOMENTARY_DOOR 0x0001
-
-class CMomentaryRotButton : public CBaseToggle
-{
-  public:
-	void Spawn( void );
-	void KeyValue( KeyValueData *pkvd );
-	virtual int ObjectCaps( void )
-	{
-		int flags = CBaseToggle ::ObjectCaps() & ( ~FCAP_ACROSS_TRANSITION );
-		if ( pev->spawnflags & SF_MOMENTARY_DOOR )
-			return flags;
-		return flags | FCAP_CONTINUOUS_USE;
-	}
-	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	void EXPORT Off( void );
-	void EXPORT Return( void );
-	void UpdateSelf( float value );
-	void UpdateSelfReturn( float value );
-	void UpdateAllButtons( float value, int start );
-
-	void PlaySound( void );
-	void UpdateTarget( float value );
-
-	static CMomentaryRotButton *Instance( edict_t *pent ) { return (CMomentaryRotButton *)GET_PRIVATE( pent ); };
-	virtual int Save( CSave &save );
-	virtual int Restore( CRestore &restore );
-
-	static TYPEDESCRIPTION m_SaveData[];
-
-	int m_lastUsed;
-	int m_direction;
-	float m_returnSpeed;
-	vec3_t m_start;
-	vec3_t m_end;
-	int m_sounds;
-};
 TYPEDESCRIPTION CMomentaryRotButton::m_SaveData[] =
     {
         DEFINE_FIELD( CMomentaryRotButton, m_lastUsed, FIELD_INTEGER ),

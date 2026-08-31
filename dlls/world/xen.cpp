@@ -15,6 +15,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
+#include "core/animation.h"
 #include "world/xen.h"
 
 //

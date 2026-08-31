@@ -15,6 +15,8 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
+#include "core/saverestore.h"
+#include "systems/doors.h"
 #include "systems/door_rotating.h"
 
 LINK_ENTITY_TO_CLASS( func_door_rotating, CRotDoor );
