@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
+//========= Copyright ? 1996-2002, Valve LLC, All rights reserved. ============
 //
 // Purpose:
 //
@@ -15,6 +15,10 @@
 #define M_PI 3.14159265358979323846 // matches value in gcc v2 math.h
 #endif
 
+#ifndef Q_PI
+#define Q_PI 3.14159265358979323846f
+#endif
+
 #ifndef PITCH
 // MOVEMENT INFO
 // up / down
@@ -23,6 +27,12 @@
 #define YAW 1
 // fall over
 #define ROLL 2
+#endif
+
+#ifndef VEC4_T
+typedef float vec_t;
+typedef vec_t vec4_t[4];
+#define VEC4_T
 #endif
 
 #define FDotProduct( a, b ) ( fabs( ( a[0] ) * ( b[0] ) ) + fabs( ( a[1] ) * ( b[1] ) ) + fabs( ( a[2] ) * ( b[2] ) ) )

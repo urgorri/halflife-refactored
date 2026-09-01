@@ -1,76 +1,73 @@
 # Implementation Plan - Phase 5: Client and Bot Navigation Modularization
 
-- [ ] 1. StudioModelRenderer Modularization
-  - [ ] 1.1 Extract `cl_dll/studio/studio_render_bones.cpp`
+- [x] 1. StudioModelRenderer Modularization
+  - [x] 1.1 Extract `cl_dll/studio/studio_render_bones.cpp`
     - Extract bone transform matrix setup, quaternion interpolation, and motion blending.
     - _Requirements: REQ-5.1_
-  - [ ] 1.2 Extract `cl_dll/studio/studio_render_lighting.cpp`
-    - Extract dynamic light sampling, normal transformations, Lambertian shading, and chrome reflections.
-    - _Requirements: REQ-5.1_
-  - [ ] 1.3 Extract `cl_dll/studio/studio_render_attachments.cpp`
+  - [x] 1.2 Extract `cl_dll/studio/studio_render_attachments.cpp`
     - Extract submodel attachments, bodypart index computations, and hitboxes.
     - _Requirements: REQ-5.1_
-  - [ ] 1.4 Refactor `cl_dll/studio/StudioModelRenderer.cpp`
+  - [x] 1.3 Refactor `cl_dll/studio/StudioModelRenderer.cpp`
     - Trim file to main entry point loop, precaching, and high-level render pipeline.
     - _Requirements: REQ-5.1_
 
-- [ ] 2. HUD Spectator Modularization
-  - [ ] 2.1 Extract `cl_dll/hud/hud_spectator_director.cpp`
+- [x] 2. HUD Spectator Modularization
+  - [x] 2.1 Extract `cl_dll/hud/hud_spectator_director.cpp`
     - Extract director message parser (`DRC_CMD_EVENT`), target selection, and camera positioning.
     - _Requirements: REQ-5.2_
-  - [ ] 2.2 Extract `cl_dll/hud/hud_spectator_overview.cpp`
+  - [x] 2.2 Extract `cl_dll/hud/hud_spectator_overview.cpp`
     - Extract overview map file parser, radar projection, player blips, and minimap rendering.
     - _Requirements: REQ-5.2_
-  - [ ] 2.3 Extract `cl_dll/hud/hud_spectator_menu.cpp`
+  - [x] 2.3 Extract `cl_dll/hud/hud_spectator_menu.cpp`
     - Extract spectator bottom bar, dropdown player list, and camera selection controls.
     - _Requirements: REQ-5.2_
-  - [ ] 2.4 Refactor `cl_dll/hud/hud_spectator.cpp`
+  - [x] 2.4 Refactor `cl_dll/hud/hud_spectator.cpp`
     - Retain core `CHudSpectator` drawing coordinator and engine registration.
     - _Requirements: REQ-5.2_
 
-- [ ] 3. HUD Ammo & Weapon Selection Modularization
-  - [ ] 3.1 Extract `cl_dll/hud/hud_weapon_selection.cpp`
+- [x] 3. HUD Ammo & Weapon Selection Modularization
+  - [x] 3.1 Extract `cl_dll/hud/hud_weapon_selection.cpp`
     - Extract weapon selection slot navigation, mouse cursor selection, and fast weapon switch.
     - _Requirements: REQ-5.3_
-  - [ ] 3.2 Refactor `cl_dll/hud/ammo.cpp`
+  - [x] 3.2 Refactor `cl_dll/hud/ammo.cpp`
     - Retain primary/secondary ammo display digits, `WeaponsResource` methods, and user message listeners.
     - _Requirements: REQ-5.3_
 
-- [ ] 4. Weapon Events (ev_hldm.cpp) Modularization
-  - [ ] 4.1 Extract `cl_dll/events/ev_bullets.cpp`
+- [x] 4. Weapon Events (ev_hldm.cpp) Modularization
+  - [x] 4.1 Extract `cl_dll/events/ev_bullets.cpp`
     - Extract bullet traces, muzzle flash sprites, shell ejection, and audio for Glock, Shotgun, MP5, Python.
     - _Requirements: REQ-5.4_
-  - [ ] 4.2 Extract `cl_dll/events/ev_energy.cpp`
+  - [x] 4.2 Extract `cl_dll/events/ev_energy.cpp`
     - Extract beam effects, glow sprites, dynamic lights, and sound loops for Gauss, Egon, Hornet.
     - _Requirements: REQ-5.4_
-  - [ ] 4.3 Extract `cl_dll/events/ev_explosives.cpp`
+  - [x] 4.3 Extract `cl_dll/events/ev_explosives.cpp`
     - Extract projectile trajectories, explosion sprites, and screen kick for Crossbow, RPG, Tripmine, Satchel, Snark, Crowbar.
     - _Requirements: REQ-5.4_
-  - [ ] 4.4 Refactor `cl_dll/events/ev_hldm.cpp`
+  - [x] 4.4 Refactor `cl_dll/events/ev_hldm.cpp`
     - Retain event initialization dispatch table (`EV_HLDM_Init`) and shared helper functions.
     - _Requirements: REQ-5.4_
 
-- [ ] 5. Bot Navigation Area (nav_area.cpp) Modularization
-  - [ ] 5.1 Extract `game_shared/bot/nav_area_geometry.cpp`
+- [x] 5. Bot Navigation Area (nav_area.cpp) Modularization
+  - [x] 5.1 Extract `game_shared/bot/nav_area_geometry.cpp`
     - Extract polygon quad calculations, boundary boxes, Z-height elevation, and surface normals.
     - _Requirements: REQ-5.5_
-  - [ ] 5.2 Extract `game_shared/bot/nav_area_connect.cpp`
+  - [x] 5.2 Extract `game_shared/bot/nav_area_connect.cpp`
     - Extract directional connection lists, ladder links, and mesh splitting/merging algorithms.
     - _Requirements: REQ-5.5_
-  - [ ] 5.3 Extract `game_shared/bot/nav_area_tactical.cpp`
+  - [x] 5.3 Extract `game_shared/bot/nav_area_tactical.cpp`
     - Extract tactical evaluation, hiding spots, sniper vantage spots, and approach encounter points.
     - _Requirements: REQ-5.5_
-  - [ ] 5.4 Refactor `game_shared/bot/nav_area.cpp`
+  - [x] 5.4 Refactor `game_shared/bot/nav_area.cpp`
     - Retain `CNavArea` constructor, destructor, and serialization (`Save`, `Load`).
     - _Requirements: REQ-5.5_
 
-- [ ] 6. Build Systems Synchronization & Cross-Platform Validation
-  - [ ] 6.1 Update Client project files (`projects/vs2019/hl_cdll.vcxproj`, `projects/vs2019/hl_cdll.vcxproj.filters`)
+- [x] 6. Build Systems Synchronization & Cross-Platform Validation
+  - [x] 6.1 Update Client project files (`projects/vs2019/hl_cdll.vcxproj`, `projects/vs2019/hl_cdll.vcxproj.filters`)
     - _Requirements: REQ-5.6_
-  - [ ] 6.2 Update Server project files (`projects/vs2019/hldll.vcxproj`, `projects/vs2019/hldll.vcxproj.filters`)
+  - [x] 6.2 Update Server project files (`projects/vs2019/hldll.vcxproj`, `projects/vs2019/hldll.vcxproj.filters`)
     - _Requirements: REQ-5.6_
-  - [ ] 6.3 Update Linux makefiles (`linux/Makefile.hl_cdll`, `dlls/Makefile`, `linux/Makefile.hldll`)
+  - [x] 6.3 Update Linux makefiles (`linux/Makefile.hl_cdll`, `dlls/Makefile`, `linux/Makefile.hldll`)
     - _Requirements: REQ-5.6_
-  - [ ] 6.4 Verify cross-platform builds
+  - [x] 6.4 Verify cross-platform builds
     - Ensure both solution targets (`client.dll`, `hldll.dll`) compile cleanly with zero errors.
     - _Requirements: REQ-5.6_

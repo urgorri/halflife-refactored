@@ -120,6 +120,9 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\entities\entity.cpp" />
     <ClCompile Include="..\..\cl_dll\events\events.cpp" />
     <ClCompile Include="..\..\cl_dll\events\ev_common.cpp" />
+    <ClCompile Include="..\..\cl_dll\events\ev_bullets.cpp" />
+    <ClCompile Include="..\..\cl_dll\events\ev_energy.cpp" />
+    <ClCompile Include="..\..\cl_dll\events\ev_explosives.cpp" />
     <ClCompile Include="..\..\cl_dll\events\ev_hldm.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\flashlight.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\geiger.cpp" />
@@ -136,7 +139,11 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\hud\hud_redraw.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_servers.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_spectator.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_director.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_overview.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_menu.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_update.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud\hud_weapon_selection.cpp" />
     <ClCompile Include="..\..\cl_dll\render\interpolation.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\menu.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\message.cpp" />
@@ -149,6 +156,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\input\inputw32.cpp" />
     <ClCompile Include="..\..\cl_dll\input\in_camera.cpp" />
     <ClCompile Include="..\..\cl_dll\studio\StudioModelRenderer.cpp" />
+    <ClCompile Include="..\..\cl_dll\studio\studio_render_bones.cpp" />
+    <ClCompile Include="..\..\cl_dll\studio\studio_render_attachments.cpp" />
     <ClCompile Include="..\..\cl_dll\studio\studio_util.cpp" />
     <ClCompile Include="..\..\cl_dll\render\tri.cpp" />
     <ClCompile Include="..\..\cl_dll\core\util.cpp" />

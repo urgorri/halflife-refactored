@@ -82,6 +82,15 @@
     <ClCompile Include="..\..\cl_dll\events\ev_hldm.cpp">
       <Filter>Source Files\cl_dll\events</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cl_dll\events\ev_bullets.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\events\ev_energy.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\events\ev_explosives.cpp">
+      <Filter>Source Files\cl_dll\events</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
@@ -196,7 +205,19 @@
     <ClCompile Include="..\..\cl_dll\hud\hud_spectator.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_director.cpp">
+      <Filter>Source Files\cl_dll\hud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_overview.cpp">
+      <Filter>Source Files\cl_dll\hud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_menu.cpp">
+      <Filter>Source Files\cl_dll\hud</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\hud_update.cpp">
+      <Filter>Source Files\cl_dll\hud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hud\hud_weapon_selection.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\input\in_camera.cpp">
@@ -242,6 +263,12 @@
       <Filter>Source Files\studio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\studio\StudioModelRenderer.cpp">
+      <Filter>Source Files\studio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\studio\studio_render_bones.cpp">
+      <Filter>Source Files\studio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\studio\studio_render_attachments.cpp">
       <Filter>Source Files\studio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\text_message.cpp">
