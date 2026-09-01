@@ -46,7 +46,6 @@ CBaseEntity
 
 #include "archtypes.h" // DAL
 #include "core/saverestore.h"
-#include "ai/schedule.h"
 
 #ifndef MONSTEREVENT_H
 #include "ai/monsterevent.h"
@@ -417,52 +416,6 @@ class CPointEntity : public CBaseEntity
   private:
 };
 
-typedef struct locksounds // sounds that doors and buttons make when locked/unlocked
-{
-	string_t sLockedSound;      // sound a door makes when it's locked
-	string_t sLockedSentence;   // sentence group played when door is locked
-	string_t sUnlockedSound;    // sound a door makes when it's unlocked
-	string_t sUnlockedSentence; // sentence group played when door is unlocked
-
-	int iLockedSentence;   // which sentence in sentence group to play next
-	int iUnlockedSentence; // which sentence in sentence group to play next
-
-	float flwaitSound;    // time delay between playing consecutive 'locked/unlocked' sounds
-	float flwaitSentence; // time delay between playing consecutive sentences
-	BYTE bEOFLocked;      // true if hit end of list of locked sentences
-	BYTE bEOFUnlocked;    // true if hit end of list of unlocked sentences
-} locksound_t;
-
-void PlayLockSounds( entvars_t *pev, locksound_t *pls, int flocked, int fbutton );
-
-//
-// MultiSouce
-//
-
-#define MAX_MULTI_TARGETS 16 // maximum number of targets a single multi_manager entity may be assigned.
-#define MS_MAX_TARGETS 32
-
-class CMultiSource : public CPointEntity
-{
-  public:
-	void Spawn();
-	void KeyValue( KeyValueData *pkvd );
-	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	int ObjectCaps( void ) { return ( CPointEntity::ObjectCaps() | FCAP_MASTER ); }
-	BOOL IsTriggered( CBaseEntity *pActivator );
-	void EXPORT Register( void );
-	virtual int Save( CSave &save );
-	virtual int Restore( CRestore &restore );
-
-	static TYPEDESCRIPTION m_SaveData[];
-
-	EHANDLE m_rgEntities[MS_MAX_TARGETS];
-	int m_rgTriggered[MS_MAX_TARGETS];
-
-	int m_iTotal;
-	string_t m_globalstate;
-};
-
 //
 // generic Delay entity.
 //
@@ -690,68 +643,6 @@ class CBaseToggle : public CBaseAnimating
 #define GIB_NEVER 1  // never gib, no matter how much death damage is done ( freezing, etc )
 #define GIB_ALWAYS 2 // always gib ( Houndeye Shock, Barnacle Bite )
 
-class CBaseMonster;
-class CCineMonster;
-class CSound;
-
-#include "ai/basemonster.h"
-
-char *ButtonSound( int sound ); // get string of button sound number
-
-//
-// Generic Button
-//
-class CBaseButton : public CBaseToggle
-{
-  public:
-	void Spawn( void );
-	virtual void Precache( void );
-	void RotSpawn( void );
-	virtual void KeyValue( KeyValueData *pkvd );
-
-	void ButtonActivate();
-	void SparkSoundCache( void );
-
-	void EXPORT ButtonShot( void );
-	void EXPORT ButtonTouch( CBaseEntity *pOther );
-	void EXPORT ButtonSpark( void );
-	void EXPORT TriggerAndWait( void );
-	void EXPORT ButtonReturn( void );
-	void EXPORT ButtonBackHome( void );
-	void EXPORT ButtonUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
-	virtual int TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType );
-	virtual int Save( CSave &save );
-	virtual int Restore( CRestore &restore );
-
-	enum BUTTON_CODE
-	{
-		BUTTON_NOTHING,
-		BUTTON_ACTIVATE,
-		BUTTON_RETURN
-	};
-	BUTTON_CODE ButtonResponseToTouch( void );
-
-	static TYPEDESCRIPTION m_SaveData[];
-	// Buttons that don't take damage can be IMPULSE used
-	virtual int ObjectCaps( void ) { return ( CBaseToggle::ObjectCaps() & ~FCAP_ACROSS_TRANSITION ) | ( pev->takedamage ? 0 : FCAP_IMPULSE_USE ); }
-	virtual BOOL IsAllowedToSpeak() { return TRUE; }
-
-	BOOL m_fStayPushed; // button stays pushed in until touched again?
-	BOOL m_fRotating;   // a rotating button?  default is a sliding button.
-
-	string_t m_strChangeTarget; // if this field is not null, this is an index into the engine string array.
-	                            // when this button is touched, it's target entity's TARGET field will be set
-	                            // to the button's ChangeTarget. This allows you to make a func_train switch paths, etc.
-
-	locksound_t m_ls; // door lock sounds
-
-	BYTE m_bLockedSound; // ordinals from entity selection
-	BYTE m_bLockedSentence;
-	BYTE m_bUnlockedSound;
-	BYTE m_bUnlockedSentence;
-	int m_sounds;
-};
-
 //
 // Weapons
 //
@@ -815,19 +706,5 @@ typedef struct _SelAmmo
 	BYTE Ammo2Type;
 	BYTE Ammo2;
 } SelAmmo;
-
-// this moved here from world.cpp, to allow classes to be derived from it
-//=======================
-// CWorld
-//
-// This spawns first when each level begins.
-//=======================
-class CWorld : public CBaseEntity
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	void KeyValue( KeyValueData *pkvd );
-};
 
 #endif // CBASE_H

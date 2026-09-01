@@ -12,24 +12,18 @@
  *   without written permission from Valve LLC.
  *
  ****/
-#ifndef WEAPONS_H
-#define WEAPONS_H
+#ifndef WEAPON_DEFS_H
+#define WEAPON_DEFS_H
 
-#include "systems/effects.h"
+#include "core/vector.h"
 
-class CBasePlayer;
-extern int gmsgWeapPickup;
-
-void DeactivateSatchels( CBasePlayer *pOwner );
-
-// Contact Grenade / Timed grenade / Satchel Charge
-
-// constant items
+// Constant items
 #define ITEM_HEALTHKIT 1
 #define ITEM_ANTIDOTE 2
 #define ITEM_SECURITY 3
 #define ITEM_BATTERY 4
 
+// Weapon IDs
 #define WEAPON_NONE 0
 #define WEAPON_CROWBAR 1
 #define WEAPON_GLOCK 2
@@ -48,14 +42,11 @@ void DeactivateSatchels( CBasePlayer *pOwner );
 #define WEAPON_SNARK 15
 
 #define WEAPON_ALLWEAPONS ( ~( 1 << WEAPON_SUIT ) )
-
-#define WEAPON_SUIT 31 // ?????
-
+#define WEAPON_SUIT 31
 #define MAX_WEAPONS 32
-
 #define MAX_NORMAL_BATTERY 100
 
-// weapon weight factors (for auto-switching)   (-1 = noswitch)
+// Weapon weight factors (for auto-switching) (-1 = noswitch)
 #define CROWBAR_WEIGHT 0
 #define GLOCK_WEIGHT 10
 #define PYTHON_WEIGHT 15
@@ -71,7 +62,7 @@ void DeactivateSatchels( CBasePlayer *pOwner );
 #define SATCHEL_WEIGHT -10
 #define TRIPMINE_WEIGHT -10
 
-// weapon clip/carry ammo capacities
+// Weapon clip/carry ammo capacities
 #define URANIUM_MAX_CARRY 100
 #define _9MM_MAX_CARRY 250
 #define _357_MAX_CARRY 36
@@ -85,10 +76,9 @@ void DeactivateSatchels( CBasePlayer *pOwner );
 #define HORNET_MAX_CARRY 8
 #define M203_GRENADE_MAX_CARRY 10
 
-// the maximum amount of ammo each weapon's clip can hold
+// The maximum amount of ammo each weapon's clip can hold
 #define WEAPON_NOCLIP -1
 
-// #define CROWBAR_MAX_CLIP		WEAPON_NOCLIP
 #define GLOCK_MAX_CLIP 17
 #define PYTHON_MAX_CLIP 6
 #define MP5_MAX_CLIP 50
@@ -104,11 +94,10 @@ void DeactivateSatchels( CBasePlayer *pOwner );
 #define TRIPMINE_MAX_CLIP WEAPON_NOCLIP
 #define SNARK_MAX_CLIP WEAPON_NOCLIP
 
-// the default amount of ammo that comes with each gun when it spawns
+// Default ammo given with each weapon when it spawns
 #define GLOCK_DEFAULT_GIVE 17
 #define PYTHON_DEFAULT_GIVE 6
 #define MP5_DEFAULT_GIVE 25
-#define MP5_DEFAULT_AMMO 25
 #define MP5_M203_DEFAULT_GIVE 0
 #define SHOTGUN_DEFAULT_GIVE 12
 #define CROSSBOW_DEFAULT_GIVE 5
@@ -121,7 +110,7 @@ void DeactivateSatchels( CBasePlayer *pOwner );
 #define SNARK_DEFAULT_GIVE 5
 #define HIVEHAND_DEFAULT_GIVE 8
 
-// The amount of ammo given to a player by an ammo item.
+// Ammo given to player by ammo pickup items
 #define AMMO_URANIUMBOX_GIVE 20
 #define AMMO_GLOCKCLIP_GIVE GLOCK_MAX_CLIP
 #define AMMO_357BOX_GIVE PYTHON_MAX_CLIP
@@ -131,10 +120,9 @@ void DeactivateSatchels( CBasePlayer *pOwner );
 #define AMMO_BUCKSHOTBOX_GIVE 12
 #define AMMO_CROSSBOWCLIP_GIVE CROSSBOW_MAX_CLIP
 #define AMMO_RPGCLIP_GIVE RPG_MAX_CLIP
-#define AMMO_URANIUMBOX_GIVE 20
 #define AMMO_SNARKBOX_GIVE 5
 
-// bullet types
+// Bullet types
 typedef enum
 {
 	BULLET_NONE = 0,
@@ -149,6 +137,7 @@ typedef enum
 	BULLET_MONSTER_12MM,
 } Bullet;
 
+// Item flags
 #define ITEM_FLAG_SELECTONEMPTY 1
 #define ITEM_FLAG_NOAUTORELOAD 2
 #define ITEM_FLAG_NOAUTOSWITCHEMPTY 4
@@ -170,7 +159,7 @@ typedef struct
 	int iMaxClip;
 	int iId;
 	int iFlags;
-	int iWeight; // this value used to determine this weapon's importance in autoselection.
+	int iWeight; // value used to determine this weapon's importance in autoselection
 } ItemInfo;
 
 typedef struct
@@ -179,41 +168,7 @@ typedef struct
 	int iId;
 } AmmoInfo;
 
-#include "weapons/weapon_base.h"
-
-// Items that the player has in their inventory that they can use
-
-// inventory items that
-
-extern DLL_GLOBAL short g_sModelIndexLaser; // holds the index for the laser beam
-extern DLL_GLOBAL const char *g_pModelNameLaser;
-
-extern DLL_GLOBAL short g_sModelIndexLaserDot;   // holds the index for the laser beam dot
-extern DLL_GLOBAL short g_sModelIndexFireball;   // holds the index for the fireball
-extern DLL_GLOBAL short g_sModelIndexSmoke;      // holds the index for the smoke cloud
-extern DLL_GLOBAL short g_sModelIndexWExplosion; // holds the index for the underwater explosion
-extern DLL_GLOBAL short g_sModelIndexBubbles;    // holds the index for the bubbles model
-extern DLL_GLOBAL short g_sModelIndexBloodDrop;  // holds the sprite index for blood drops
-extern DLL_GLOBAL short g_sModelIndexBloodSpray; // holds the sprite index for blood spray (bigger)
-
-extern void ClearMultiDamage( void );
-extern void ApplyMultiDamage( entvars_t *pevInflictor, entvars_t *pevAttacker );
-extern void AddMultiDamage( entvars_t *pevInflictor, CBaseEntity *pEntity, float flDamage, int bitsDamageType );
-
-extern void DecalGunshot( TraceResult *pTrace, int iBulletType );
-extern void SpawnBlood( Vector vecSpot, int bloodColor, float flDamage );
-extern int DamageDecal( CBaseEntity *pEntity, int bitsDamageType );
-extern void RadiusDamage( Vector vecSrc, entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, float flRadius, int iClassIgnore, int bitsDamageType );
-
-typedef struct
-{
-	CBaseEntity *pEntity;
-	float amount;
-	int type;
-} MULTIDAMAGE;
-
-extern MULTIDAMAGE gMultiDamage;
-
+// Sound volume and flash constants
 #define LOUD_GUN_VOLUME 1000
 #define NORMAL_GUN_VOLUME 600
 #define QUIET_GUN_VOLUME 200
@@ -228,6 +183,7 @@ extern MULTIDAMAGE gMultiDamage;
 
 #define WEAPON_ACTIVITY_VOLUME 64
 
+// Vector dispersion cones
 #define VECTOR_CONE_1DEGREES Vector( 0.00873, 0.00873, 0.00873 )
 #define VECTOR_CONE_2DEGREES Vector( 0.01745, 0.01745, 0.01745 )
 #define VECTOR_CONE_3DEGREES Vector( 0.02618, 0.02618, 0.02618 )
@@ -241,48 +197,4 @@ extern MULTIDAMAGE gMultiDamage;
 #define VECTOR_CONE_15DEGREES Vector( 0.13053, 0.13053, 0.13053 )
 #define VECTOR_CONE_20DEGREES Vector( 0.17365, 0.17365, 0.17365 )
 
-//=========================================================
-// CWeaponBox - a single entity that can store weapons
-// and ammo.
-//=========================================================
-
-#ifdef CLIENT_DLL
-bool bIsMultiplayer( void );
-void LoadVModel( char *szViewModel, CBasePlayer *m_pPlayer );
-#endif
-
-class CCrossbow : public CBasePlayerWeapon
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	int iItemSlot() { return 3; }
-	int GetItemInfo( ItemInfo *p );
-
-	void FireBolt( void );
-	void FireSniperBolt( void );
-	void PrimaryAttack( void );
-	void SecondaryAttack( void );
-	int AddToPlayer( CBasePlayer *pPlayer );
-	BOOL Deploy();
-	void Holster( int skiplocal = 0 );
-	void Reload( void );
-	void WeaponIdle( void );
-
-	int m_fInZoom; // don't save this
-
-	virtual BOOL UseDecrement( void )
-	{
-#if defined( CLIENT_WEAPONS )
-		return TRUE;
-#else
-		return FALSE;
-#endif
-	}
-
-  private:
-	unsigned short m_usCrossbow;
-	unsigned short m_usCrossbow2;
-};
-
-#endif // WEAPONS_H
+#endif // WEAPON_DEFS_H

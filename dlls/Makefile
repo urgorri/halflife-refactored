@@ -1,4 +1,4 @@
-#
+﻿#
 # Half-Life Full SDK 2.3 hl_i386.so Makefile for x86 Linux
 #
 # October 2002 by Leon Hartwig (hartwig@valvesoftware.com)
@@ -89,13 +89,47 @@ OBJ = \
 	$(DLL_OBJDIR)/monsters/bigmomma.o \
 	$(DLL_OBJDIR)/monsters/bloater.o \
 	$(DLL_OBJDIR)/world/bmodels.o \
+	$(DLL_OBJDIR)/systems/charger_base.o \
+	$(DLL_OBJDIR)/systems/charger_health.o \
+	$(DLL_OBJDIR)/systems/charger_suit.o \
+	$(DLL_OBJDIR)/items/item_healthkit.o \
+	$(DLL_OBJDIR)/systems/effects_shooters.o \
+	$(DLL_OBJDIR)/systems/effects_screen.o \
+	$(DLL_OBJDIR)/systems/effects_env.o \
+	$(DLL_OBJDIR)/systems/effects_beverage.o \
+	$(DLL_OBJDIR)/systems/multisource.o \
+	$(DLL_OBJDIR)/systems/env_global.o \
+	$(DLL_OBJDIR)/systems/env_spark.o \
+	$(DLL_OBJDIR)/world/trains.o \
+	$(DLL_OBJDIR)/world/trackchange.o \
+	$(DLL_OBJDIR)/world/guntarget.o \
+	$(DLL_OBJDIR)/world/conveyor.o \
+	$(DLL_OBJDIR)/world/rotating.o \
+	$(DLL_OBJDIR)/world/xen_tree.o \
+	$(DLL_OBJDIR)/world/xen_spores.o \
+	$(DLL_OBJDIR)/systems/door_rotating.o \
+	$(DLL_OBJDIR)/systems/door_momentary.o \
 	$(DLL_OBJDIR)/monsters/bullsquid.o \
 	$(DLL_OBJDIR)/systems/buttons.o \
 	$(CORE_OBJDIR)/cbase.o \
 	$(CORE_OBJDIR)/combat.o \
 	$(CORE_OBJDIR)/client.o \
+	$(CORE_OBJDIR)/player_suit.o \
+	$(CORE_OBJDIR)/player_combat.o \
+	$(CORE_OBJDIR)/player_cheats.o \
+	$(CORE_OBJDIR)/client_usermsg.o \
+	$(CORE_OBJDIR)/client_spectator.o \
+	$(CORE_OBJDIR)/client_networking.o \
+	$(CORE_OBJDIR)/client_commands.o \
 	$(DLL_OBJDIR)/monsters/controller.o \
-	$(DLL_OBJDIR)/weapons/crossbow.o \
+	$(DLL_OBJDIR)/weapons/weapon_crossbow.o \
+	$(DLL_OBJDIR)/weapons/weapon_damage.o \
+	$(DLL_OBJDIR)/weapons/projectile_bolt.o \
+	$(DLL_OBJDIR)/weapons/projectile_rocket.o \
+	$(DLL_OBJDIR)/weapons/projectile_satchel.o \
+	$(DLL_OBJDIR)/weapons/projectile_snark.o \
+	$(DLL_OBJDIR)/weapons/projectile_tripmine.o \
+	$(SYSTEMS_OBJDIR)/vehicle.o \
 	$(DLL_OBJDIR)/weapons/weapon_crowbar.o \
 	$(DLL_OBJDIR)/ai/defaultai.o \
 	$(DLL_OBJDIR)/systems/doors.o \
@@ -118,14 +152,12 @@ OBJ = \
 	$(CORE_OBJDIR)/globals.o \
 	$(DLL_OBJDIR)/monsters/gman.o \
 	$(DLL_OBJDIR)/ai/h_ai.o \
-	$(DLL_OBJDIR)/systems/h_battery.o \
 	$(DLL_OBJDIR)/gameplay/h_cine.o \
 	$(DLL_OBJDIR)/systems/h_cycler.o \
 	$(CORE_OBJDIR)/h_export.o \
 	$(DLL_OBJDIR)/weapons/weapon_handgrenade.o \
 	$(DLL_OBJDIR)/monsters/hassassin.o \
 	$(DLL_OBJDIR)/monsters/headcrab.o \
-	$(DLL_OBJDIR)/systems/healthkit.o \
 	$(DLL_OBJDIR)/monsters/hgrunt.o \
 	$(DLL_OBJDIR)/weapons/projectile_hornet.o \
 	$(DLL_OBJDIR)/weapons/weapon_hornetgun.o \
@@ -230,7 +262,6 @@ OBJ = \
 	$(CORE_OBJDIR)/util_math.o \
 	$(CORE_OBJDIR)/util_entity.o \
 	$(CORE_OBJDIR)/util_debug.o \
-	$(DLL_OBJDIR)/weapons/weapons.o \
 	$(DLL_OBJDIR)/weapons/weapon_base.o \
 	$(DLL_OBJDIR)/world/world.o \
 	$(DLL_OBJDIR)/world/xen.o \

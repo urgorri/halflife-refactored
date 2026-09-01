@@ -1,9 +1,9 @@
-#include "core/extdll.h"
+﻿#include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
 #include "world/trains.h"
 #include "core/saverestore.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "minmax.h"
 
 static float Fix2( float angle )

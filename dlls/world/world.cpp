@@ -23,6 +23,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
+#include "world/world.h"
 #include "ai/nodes.h"
 #include "ai/soundent.h"
 #include "core/skill.h"
@@ -30,7 +31,7 @@
 #include "core/client.h"
 #include "systems/effects.h"
 #include "core/player.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "gameplay/gamerules.h"
 #include "gameplay/teamplay_gamerules.h"
 

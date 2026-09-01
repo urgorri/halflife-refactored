@@ -1,4 +1,4 @@
-#
+﻿#
 # HL game library Makefile for x86 Linux
 #
 # Feb 2001 by Leon Hartwig (hartwig@valvesoftware.com)
@@ -45,13 +45,46 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/bigmomma.o \
 	$(HLDLL_OBJ_DIR)/monsters/bloater.o \
 	$(HLDLL_OBJ_DIR)/world/bmodels.o \
+	$(HLDLL_OBJ_DIR)/systems/charger_base.o \
+	$(HLDLL_OBJ_DIR)/systems/charger_health.o \
+	$(HLDLL_OBJ_DIR)/systems/charger_suit.o \
+	$(HLDLL_OBJ_DIR)/items/item_healthkit.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_shooters.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_screen.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_env.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_beverage.o \
+	$(HLDLL_OBJ_DIR)/systems/multisource.o \
+	$(HLDLL_OBJ_DIR)/systems/env_global.o \
+	$(HLDLL_OBJ_DIR)/systems/env_spark.o \
+	$(HLDLL_OBJ_DIR)/world/trains.o \
+	$(HLDLL_OBJ_DIR)/world/trackchange.o \
+	$(HLDLL_OBJ_DIR)/world/guntarget.o \
+	$(HLDLL_OBJ_DIR)/world/conveyor.o \
+	$(HLDLL_OBJ_DIR)/world/rotating.o \
+	$(HLDLL_OBJ_DIR)/world/xen_tree.o \
+	$(HLDLL_OBJ_DIR)/world/xen_spores.o \
+	$(HLDLL_OBJ_DIR)/systems/door_rotating.o \
+	$(HLDLL_OBJ_DIR)/systems/door_momentary.o \
 	$(HLDLL_OBJ_DIR)/monsters/bullsquid.o \
 	$(HLDLL_OBJ_DIR)/systems/buttons.o \
 	$(HLCORE_OBJ_DIR)/cbase.o \
 	$(HLCORE_OBJ_DIR)/combat.o \
 	$(HLCORE_OBJ_DIR)/client.o \
+	$(HLCORE_OBJ_DIR)/player_suit.o \
+	$(HLCORE_OBJ_DIR)/player_combat.o \
+	$(HLCORE_OBJ_DIR)/player_cheats.o \
+	$(HLCORE_OBJ_DIR)/client_usermsg.o \
+	$(HLCORE_OBJ_DIR)/client_spectator.o \
+	$(HLCORE_OBJ_DIR)/client_networking.o \
+	$(HLCORE_OBJ_DIR)/client_commands.o \
 	$(HLDLL_OBJ_DIR)/monsters/controller.o \
-	$(HLDLL_OBJ_DIR)/weapons/crossbow.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_crossbow.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_damage.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_bolt.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_rocket.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_satchel.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_snark.o \
+	$(HLDLL_OBJ_DIR)/weapons/projectile_tripmine.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
 	$(HLDLL_OBJ_DIR)/systems/doors.o \
@@ -74,14 +107,12 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/globals.o \
 	$(HLDLL_OBJ_DIR)/monsters/gman.o \
 	$(HLDLL_OBJ_DIR)/ai/h_ai.o \
-	$(HLDLL_OBJ_DIR)/systems/h_battery.o \
 	$(HLDLL_OBJ_DIR)/gameplay/h_cine.o \
 	$(HLDLL_OBJ_DIR)/systems/h_cycler.o \
 	$(HLDLL_OBJ_DIR)/core/h_export.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_handgrenade.o \
 	$(HLDLL_OBJ_DIR)/monsters/hassassin.o \
 	$(HLDLL_OBJ_DIR)/monsters/headcrab.o \
-	$(HLDLL_OBJ_DIR)/systems/healthkit.o \
 	$(HLDLL_OBJ_DIR)/monsters/hgrunt.o \
 	$(HLDLL_OBJ_DIR)/weapons/projectile_hornet.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_hornetgun.o \
@@ -190,7 +221,6 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/util_entity.o \
 	$(HLCORE_OBJ_DIR)/util_debug.o \
 	$(HLDLL_OBJ_DIR)/systems/vehicle.o \
-	$(HLDLL_OBJ_DIR)/weapons/weapons.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
 	$(HLDLL_OBJ_DIR)/world/world.o \
 	$(HLDLL_OBJ_DIR)/world/xen.o \

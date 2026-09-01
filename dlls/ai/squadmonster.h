@@ -12,6 +12,12 @@
  *   use or distribution of this code by or to any unlicensed person is illegal.
  *
  ****/
+
+#ifndef SQUADMONSTER_H
+#define SQUADMONSTER_H
+
+#include "ai/basemonster.h"
+
 //=========================================================
 // CSquadMonster - all the extra data for monsters that
 // form squads.
@@ -116,3 +122,5 @@ class CSquadMonster : public CBaseMonster
 	MONSTERSTATE GetIdealState( void );
 	Schedule_t *GetScheduleOfType( int iType );
 };
+
+#endif // SQUADMONSTER_H

@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
 #include "core/cbase.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 
 class CMP5 : public CBasePlayerWeapon
 {

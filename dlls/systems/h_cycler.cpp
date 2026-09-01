@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -25,7 +25,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "core/animation.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "core/player.h"
 
 #define TEMP_FOR_SCREEN_SHOTS

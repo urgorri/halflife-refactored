@@ -1,4 +1,4 @@
-/***
+﻿/***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
 *
@@ -19,7 +19,7 @@
 #include "saverestore.h"
 
 #include "player.h"
-#include "weapons/weapons.h"
+#include "weapons/weapon_base.h"
 
 #include "decals.h"
 

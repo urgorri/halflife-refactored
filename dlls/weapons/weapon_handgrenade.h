@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 
 class CHandGrenade : public CBasePlayerWeapon
 {

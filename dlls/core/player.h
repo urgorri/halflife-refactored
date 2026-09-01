@@ -15,6 +15,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "core/cbase.h"
+#include "ai/basemonster.h"
 #include "pm_materials.h"
 
 #define PLAYER_FATAL_FALL_SPEED 1024                                                                // approx 60 feet

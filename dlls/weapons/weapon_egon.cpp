@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -19,7 +19,7 @@
 #include "core/cbase.h"
 #include "core/player.h"
 #include "ai/monsters.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "weapons/weapon_egon.h"
 #include "ai/nodes.h"
 #include "systems/effects.h"

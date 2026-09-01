@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -27,7 +27,7 @@
 #include "ai/soundent.h"
 #include "core/animation.h"
 #include "core/decals.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "systems/func_break.h"
 
 extern DLL_GLOBAL Vector g_vecAttackDir;

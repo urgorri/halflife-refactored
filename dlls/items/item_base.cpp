@@ -1,4 +1,4 @@
-/***
+﻿/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -23,7 +23,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
-#include "weapons.h"
+#include "weapons/weapon_base.h"
 #include "core/skill.h"
 #include "core/player.h"
 #include "items/item_base.h"

@@ -15,6 +15,8 @@
 #ifndef SCRIPTED_H
 #define SCRIPTED_H
 
+#include "ai/basemonster.h"
+
 #ifndef SCRIPTEVENT_H
 #include "scriptevent.h"
 #endif

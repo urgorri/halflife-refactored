@@ -167,7 +167,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\render\view.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\voice_status.cpp" />
     <ClCompile Include="..\..\common\parsemsg.cpp" />
-    <ClCompile Include="..\..\dlls\weapons\crossbow.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_crossbow.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_gauss.cpp" />

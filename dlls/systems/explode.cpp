@@ -22,6 +22,7 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
+#include "ai/basemonster.h"
 #include "core/decals.h"
 #include "systems/explode.h"
 
