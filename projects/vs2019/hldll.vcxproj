@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -193,7 +193,18 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\weapons\weapon_mp5.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\multiplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\monsters\nihilanth.cpp" />
-    <ClCompile Include="..\..\dlls\ai\nodes.cpp" />
+    <ClCompile Include="..\..\dlls\ai\nodes_graph.cpp" />
+    <ClCompile Include="..\..\dlls\ai\nodes_routing.cpp" />
+    <ClCompile Include="..\..\dlls\ai\nodes_links.cpp" />
+    <ClCompile Include="..\..\dlls\ai\nodes_debug.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\apache_hvr.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\bigmomma_mortar.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\bullsquid_spit.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\controller_energy.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\gargantua_effects.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\baby_headcrab.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\nihilanth_energy.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\tentacle_maw.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\observer.cpp" />
     <ClCompile Include="..\..\dlls\monsters\osprey.cpp" />
     <ClCompile Include="..\..\dlls\ai\pathcorner.cpp" />
@@ -409,6 +420,41 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\world\xen_spores.h" />
     <ClInclude Include="..\..\dlls\systems\door_rotating.h" />
     <ClInclude Include="..\..\dlls\systems\door_momentary.h" />
+    <ClInclude Include="..\..\dlls\monsters\barney.h" />
+    <ClInclude Include="..\..\dlls\monsters\scientist.h" />
+    <ClInclude Include="..\..\dlls\monsters\hgrunt.h" />
+    <ClInclude Include="..\..\dlls\monsters\hassassin.h" />
+    <ClInclude Include="..\..\dlls\monsters\gman.h" />
+    <ClInclude Include="..\..\dlls\monsters\genericmonster.h" />
+    <ClInclude Include="..\..\dlls\monsters\monster_deadhev.h" />
+    <ClInclude Include="..\..\dlls\monsters\aflock.h" />
+    <ClInclude Include="..\..\dlls\monsters\agrunt.h" />
+    <ClInclude Include="..\..\dlls\monsters\apache.h" />
+    <ClInclude Include="..\..\dlls\monsters\barnacle.h" />
+    <ClInclude Include="..\..\dlls\monsters\bigmomma.h" />
+    <ClInclude Include="..\..\dlls\monsters\bloater.h" />
+    <ClInclude Include="..\..\dlls\monsters\bullsquid.h" />
+    <ClInclude Include="..\..\dlls\monsters\controller.h" />
+    <ClInclude Include="..\..\dlls\monsters\gargantua.h" />
+    <ClInclude Include="..\..\dlls\monsters\headcrab.h" />
+    <ClInclude Include="..\..\dlls\monsters\houndeye.h" />
+    <ClInclude Include="..\..\dlls\monsters\ichthyosaur.h" />
+    <ClInclude Include="..\..\dlls\monsters\islave.h" />
+    <ClInclude Include="..\..\dlls\monsters\leech.h" />
+    <ClInclude Include="..\..\dlls\monsters\nihilanth.h" />
+    <ClInclude Include="..\..\dlls\monsters\osprey.h" />
+    <ClInclude Include="..\..\dlls\monsters\rat.h" />
+    <ClInclude Include="..\..\dlls\monsters\roach.h" />
+    <ClInclude Include="..\..\dlls\monsters\tentacle.h" />
+    <ClInclude Include="..\..\dlls\monsters\zombie.h" />
+    <ClInclude Include="..\..\dlls\monsters\apache_hvr.h" />
+    <ClInclude Include="..\..\dlls\monsters\bigmomma_mortar.h" />
+    <ClInclude Include="..\..\dlls\monsters\bullsquid_spit.h" />
+    <ClInclude Include="..\..\dlls\monsters\controller_energy.h" />
+    <ClInclude Include="..\..\dlls\monsters\gargantua_effects.h" />
+    <ClInclude Include="..\..\dlls\monsters\baby_headcrab.h" />
+    <ClInclude Include="..\..\dlls\monsters\nihilanth_energy.h" />
+    <ClInclude Include="..\..\dlls\monsters\tentacle_maw.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

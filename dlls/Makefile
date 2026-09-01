@@ -1,4 +1,4 @@
-﻿#
+#
 # Half-Life Full SDK 2.3 hl_i386.so Makefile for x86 Linux
 #
 # October 2002 by Leon Hartwig (hartwig@valvesoftware.com)
@@ -191,9 +191,20 @@ OBJ = \
 	$(DLL_OBJDIR)/weapons/weapon_mp5.o \
 	$(DLL_OBJDIR)/gameplay/multiplay_gamerules.o \
 	$(DLL_OBJDIR)/monsters/nihilanth.o \
+	$(DLL_OBJDIR)/monsters/nihilanth_energy.o \
+	$(DLL_OBJDIR)/monsters/apache_hvr.o \
+	$(DLL_OBJDIR)/monsters/bigmomma_mortar.o \
+	$(DLL_OBJDIR)/monsters/bullsquid_spit.o \
+	$(DLL_OBJDIR)/monsters/controller_energy.o \
+	$(DLL_OBJDIR)/monsters/gargantua_effects.o \
+	$(DLL_OBJDIR)/monsters/baby_headcrab.o \
+	$(DLL_OBJDIR)/monsters/tentacle_maw.o \
 	$(DLL_OBJDIR)/gameplay/observer.o \
 	$(DLL_OBJDIR)/monsters/osprey.o \
-	$(DLL_OBJDIR)/ai/nodes.o \
+	$(DLL_OBJDIR)/ai/nodes_graph.o \
+	$(DLL_OBJDIR)/ai/nodes_routing.o \
+	$(DLL_OBJDIR)/ai/nodes_links.o \
+	$(DLL_OBJDIR)/ai/nodes_debug.o \
 	$(DLL_OBJDIR)/ai/pathcorner.o \
 	$(CORE_OBJDIR)/plane.o \
 	$(DLL_OBJDIR)/world/plats.o \

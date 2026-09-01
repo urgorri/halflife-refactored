@@ -15,6 +15,13 @@
 //=========================================================
 // nodes.h
 //=========================================================
+#ifndef NODES_H
+#define NODES_H
+
+#include "core/extdll.h"
+#include "core/util.h"
+#include "core/cbase.h"
+#include "ai/monsters.h"
 
 //=========================================================
 // DEFINE
@@ -22,6 +29,13 @@
 #define MAX_STACK_NODES 100
 #define NO_NODE -1
 #define MAX_NODE_HULLS 4
+#define HULL_STEP_SIZE 16 // how far the test hull moves on each step
+#define NODE_HEIGHT 8     // how high to lift nodes off the ground after we drop them all (make stair/ramp mapping easier)
+
+// to help eliminate node clutter by level designers, this is used to cap how many other nodes
+// any given node is allowed to 'see' in the first stage of graph creation "LinkVisibleNodes()".
+#define MAX_NODE_INITIAL_LINKS 128
+#define MAX_NODES 1024
 
 #define bits_NODE_LAND ( 1 << 0 )  // Land node, so nudge if necessary.
 #define bits_NODE_AIR ( 1 << 1 )   // Air node, don't nudge.
@@ -235,23 +249,55 @@ class CGraph
 	{
 		return NodeLink( iNode, iLink ).m_iDestNode;
 	}
+};
 
-#if 0
-	inline CNode &SourceNode( int iNode, int iLink )
-	{
-		return Node( NodeLink( iNode, iLink ).m_iSrcNode );
-	}
+// Convert from [-8192,8192] to [0, 255]
+inline int CALC_RANGE( int x, int lower, int upper )
+{
+	return NUM_RANGES * ( x - lower ) / ( ( upper - lower + 1 ) );
+}
 
-	inline CNode &DestNode( int iNode, int iLink )
+void inline CalcBounds( int &Lower, int &Upper, int Goal, int Best )
+{
+	int Temp = 2 * Goal - Best;
+	if ( Best > Goal )
 	{
-		return Node( NodeLink( iNode, iLink ).m_iDestNode );
+		Lower = max( 0, Temp );
+		Upper = Best;
 	}
+	else
+	{
+		Upper = min( 255, Temp );
+		Lower = Best;
+	}
+}
 
-	inline	CNode *PNodeLink ( int iNode, int iLink ) 
-	{
-		return &DestNode( iNode, iLink );
-	}
-#endif
+void inline UpdateRange( int &minValue, int &maxValue, int Goal, int Best )
+{
+	int Lower, Upper;
+	CalcBounds( Lower, Upper, Goal, Best );
+	if ( Upper < maxValue )
+		maxValue = Upper;
+	if ( minValue < Lower )
+		minValue = Lower;
+}
+
+//=========================================================
+// TestHull is a modelless clip hull that verifies reachable
+// nodes by walking from every node to each of it's connections
+//=========================================================
+class CTestHull : public CBaseMonster
+{
+  public:
+	void Spawn( entvars_t *pevMasterNode );
+	virtual int ObjectCaps( void ) { return CBaseMonster ::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
+	void EXPORT CallBuildNodeGraph( void );
+	void BuildNodeGraph( void );
+	void EXPORT ShowBadNode( void );
+	void EXPORT DropDelay( void );
+	void EXPORT PathFind( void );
+
+	Vector vecBadNodeOrigin;
 };
 
 //=========================================================
@@ -260,6 +306,7 @@ class CGraph
 //=========================================================
 class CNodeEnt : public CBaseEntity
 {
+  public:
 	void Spawn( void );
 	void KeyValue( KeyValueData *pkvd );
 	virtual int ObjectCaps( void ) { return CBaseEntity ::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
@@ -296,7 +343,6 @@ class CQueue
 	CQueue( void ); // constructor
 	inline int Full( void ) { return ( m_cSize == MAX_STACK_NODES ); }
 	inline int Empty( void ) { return ( m_cSize == 0 ); }
-	// inline int Tail ( void ) { return ( m_queue[ m_tail ] ); }
 	inline int Size( void ) { return ( m_cSize ); }
 	void Insert( int, float );
 	int Remove( float & );
@@ -322,7 +368,6 @@ class CQueuePriority
 	CQueuePriority( void ); // constructor
 	inline int Full( void ) { return ( m_cSize == MAX_STACK_NODES ); }
 	inline int Empty( void ) { return ( m_cSize == 0 ); }
-	// inline int Tail ( float & ) { return ( m_queue[ m_tail ].Id ); }
 	inline int Size( void ) { return ( m_cSize ); }
 	void Insert( int, float );
 	int Remove( float & );
@@ -366,3 +411,6 @@ enum
 };
 
 extern CGraph WorldGraph;
+Vector VecBModelOrigin( entvars_t *pevBModel );
+
+#endif // NODES_H
