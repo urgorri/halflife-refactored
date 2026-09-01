@@ -2,21 +2,10 @@
 #include "core/util.h"
 #include "core/cbase.h"
 #include "ai/monsters.h"
+#include "monsters/monster_deadhev.h"
 
 // Dead HEV suit prop
 //=========================================================
-class CDeadHEV : public CBaseMonster
-{
-  public:
-	void Spawn( void );
-	int Classify( void ) { return CLASS_HUMAN_MILITARY; }
-
-	void KeyValue( KeyValueData *pkvd );
-
-	int m_iPose; // which sequence to display	-- temporary, don't need to save
-	static char *m_szPoses[4];
-};
-
 char *CDeadHEV::m_szPoses[] = { "deadback", "deadsitting", "deadstomach", "deadtable" };
 
 void CDeadHEV::KeyValue( KeyValueData *pkvd )

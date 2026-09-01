@@ -1,4 +1,4 @@
-﻿#
+#
 # HL game library Makefile for x86 Linux
 #
 # Feb 2001 by Leon Hartwig (hartwig@valvesoftware.com)
@@ -148,7 +148,18 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/mortar.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_mp5.o \
 	$(HLDLL_OBJ_DIR)/monsters/nihilanth.o \
-	$(HLDLL_OBJ_DIR)/ai/nodes.o \
+	$(HLDLL_OBJ_DIR)/monsters/nihilanth_energy.o \
+	$(HLDLL_OBJ_DIR)/monsters/apache_hvr.o \
+	$(HLDLL_OBJ_DIR)/monsters/bigmomma_mortar.o \
+	$(HLDLL_OBJ_DIR)/monsters/bullsquid_spit.o \
+	$(HLDLL_OBJ_DIR)/monsters/controller_energy.o \
+	$(HLDLL_OBJ_DIR)/monsters/gargantua_effects.o \
+	$(HLDLL_OBJ_DIR)/monsters/baby_headcrab.o \
+	$(HLDLL_OBJ_DIR)/monsters/tentacle_maw.o \
+	$(HLDLL_OBJ_DIR)/ai/nodes_graph.o \
+	$(HLDLL_OBJ_DIR)/ai/nodes_routing.o \
+	$(HLDLL_OBJ_DIR)/ai/nodes_links.o \
+	$(HLDLL_OBJ_DIR)/ai/nodes_debug.o \
 	$(HLDLL_OBJ_DIR)/gameplay/observer.o \
 	$(HLDLL_OBJ_DIR)/monsters/osprey.o \
 	$(HLDLL_OBJ_DIR)/ai/pathcorner.o \

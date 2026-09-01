@@ -66,42 +66,8 @@ Schedule_t slHCRangeAttack1Fast[] =
           "HCRAFast" },
 };
 
-class CHeadCrab : public CBaseMonster
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	void RunTask( Task_t *pTask );
-	void StartTask( Task_t *pTask );
-	void SetYawSpeed( void );
-	void EXPORT LeapTouch( CBaseEntity *pOther );
-	Vector Center( void );
-	Vector BodyTarget( const Vector &posSrc );
-	void PainSound( void );
-	void DeathSound( void );
-	void IdleSound( void );
-	void AlertSound( void );
-	void PrescheduleThink( void );
-	int Classify( void );
-	void HandleAnimEvent( MonsterEvent_t *pEvent );
-	BOOL CheckRangeAttack1( float flDot, float flDist );
-	BOOL CheckRangeAttack2( float flDot, float flDist );
-	int TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType );
+#include "monsters/headcrab.h"
 
-	virtual float GetDamageAmount( void ) { return gSkillData.headcrabDmgBite; }
-	virtual int GetVoicePitch( void ) { return 100; }
-	virtual float GetSoundVolue( void ) { return 1.0; }
-	Schedule_t *GetScheduleOfType( int Type );
-
-	CUSTOM_SCHEDULES;
-
-	static const char *pIdleSounds[];
-	static const char *pAlertSounds[];
-	static const char *pPainSounds[];
-	static const char *pAttackSounds[];
-	static const char *pDeathSounds[];
-	static const char *pBiteSounds[];
-};
 LINK_ENTITY_TO_CLASS( monster_headcrab, CHeadCrab );
 
 DEFINE_CUSTOM_SCHEDULES( CHeadCrab ){
@@ -472,72 +438,3 @@ Schedule_t *CHeadCrab ::GetScheduleOfType( int Type )
 	return CBaseMonster::GetScheduleOfType( Type );
 }
 
-class CBabyCrab : public CHeadCrab
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	void SetYawSpeed( void );
-	float GetDamageAmount( void ) { return gSkillData.headcrabDmgBite * 0.3; }
-	BOOL CheckRangeAttack1( float flDot, float flDist );
-	Schedule_t *GetScheduleOfType( int Type );
-	virtual int GetVoicePitch( void ) { return PITCH_NORM + RANDOM_LONG( 40, 50 ); }
-	virtual float GetSoundVolue( void ) { return 0.8; }
-};
-LINK_ENTITY_TO_CLASS( monster_babycrab, CBabyCrab );
-
-void CBabyCrab ::Spawn( void )
-{
-	CHeadCrab::Spawn();
-	SET_MODEL( ENT( pev ), "models/baby_headcrab.mdl" );
-	pev->rendermode = kRenderTransTexture;
-	pev->renderamt  = 192;
-	UTIL_SetSize( pev, Vector( -12, -12, 0 ), Vector( 12, 12, 24 ) );
-
-	pev->health = gSkillData.headcrabHealth * 0.25; // less health than full grown
-}
-
-void CBabyCrab ::Precache( void )
-{
-	PRECACHE_MODEL( "models/baby_headcrab.mdl" );
-	CHeadCrab::Precache();
-}
-
-void CBabyCrab ::SetYawSpeed( void )
-{
-	pev->yaw_speed = 120;
-}
-
-BOOL CBabyCrab ::CheckRangeAttack1( float flDot, float flDist )
-{
-	if ( pev->flags & FL_ONGROUND )
-	{
-		if ( pev->groundentity && ( pev->groundentity->v.flags & ( FL_CLIENT | FL_MONSTER ) ) )
-			return TRUE;
-
-		// A little less accurate, but jump from closer
-		if ( flDist <= 180 && flDot >= 0.55 )
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-Schedule_t *CBabyCrab ::GetScheduleOfType( int Type )
-{
-	switch ( Type )
-	{
-	case SCHED_FAIL: // If you fail, try to jump!
-		if ( m_hEnemy != NULL )
-			return slHCRangeAttack1Fast;
-		break;
-
-	case SCHED_RANGE_ATTACK1:
-	{
-		return slHCRangeAttack1Fast;
-	}
-	break;
-	}
-
-	return CHeadCrab::GetScheduleOfType( Type );
-}
