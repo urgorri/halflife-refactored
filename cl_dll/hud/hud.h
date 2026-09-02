@@ -30,7 +30,6 @@
 
 #include "wrect.h"
 #include "cl_dll.h"
-#include "ammo.h"
 
 #define DHN_DRAWZERO 1
 #define DHN_2DIGITS 2
@@ -45,6 +44,7 @@ typedef struct
 } POSITION;
 
 #include "global_consts.h"
+#include "hud_ammo.h"
 
 typedef struct
 {

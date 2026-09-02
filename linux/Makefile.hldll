@@ -84,11 +84,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
 	$(HLDLL_OBJ_DIR)/systems/doors.o \
-	$(HLDLL_OBJ_DIR)/systems/effects_beam.o \
-	$(HLDLL_OBJ_DIR)/systems/effects_lightning.o \
-	$(HLDLL_OBJ_DIR)/systems/effects_laser.o \
-	$(HLDLL_OBJ_DIR)/systems/effects_glow.o \
-	$(HLDLL_OBJ_DIR)/systems/effects_sprite.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_beams.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_egon.o \
 	$(HLDLL_OBJ_DIR)/systems/explode.o \
 	$(HLDLL_OBJ_DIR)/ai/flyingmonster.o \
@@ -180,10 +176,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/triggers_point.o \
 	$(HLDLL_OBJ_DIR)/monsters/tentacle.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_tripmine.o \
-	$(HLDLL_OBJ_DIR)/systems/miniturret.o \
-	$(HLDLL_OBJ_DIR)/systems/sentry.o \
-	$(HLDLL_OBJ_DIR)/systems/turret.o \
-	$(HLDLL_OBJ_DIR)/systems/turret_base.o \
+	$(HLDLL_OBJ_DIR)/systems/turrets.o \
 	$(HLCORE_OBJ_DIR)/util.o \
 	$(HLCORE_OBJ_DIR)/util_trace.o \
 	$(HLCORE_OBJ_DIR)/util_saverestore.o \

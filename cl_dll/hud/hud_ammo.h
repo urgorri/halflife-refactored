@@ -12,9 +12,52 @@
  *   without written permission from Valve LLC.
  *
  ****/
-//
-// ammohistory.h
-//
+
+#ifndef HUD_AMMO_H
+#define HUD_AMMO_H
+
+#include "wrect.h"
+#include "global_consts.h"
+#include <string.h>
+
+#define MAX_WEAPON_NAME 128
+#define WEAPON_FLAGS_SELECTONEMPTY 1
+#define WEAPON_IS_ONTARGET 0x40
+
+struct WEAPON
+{
+	char szName[MAX_WEAPON_NAME];
+	int iAmmoType;
+	int iAmmo2Type;
+	int iMax1;
+	int iMax2;
+	int iSlot;
+	int iSlotPos;
+	int iFlags;
+	int iId;
+	int iClip;
+
+	int iCount; // # of items in plist
+
+	HSPRITE hActive;
+	wrect_t rcActive;
+	HSPRITE hInactive;
+	wrect_t rcInactive;
+	HSPRITE hAmmo;
+	wrect_t rcAmmo;
+	HSPRITE hAmmo2;
+	wrect_t rcAmmo2;
+	HSPRITE hCrosshair;
+	wrect_t rcCrosshair;
+	HSPRITE hAutoaim;
+	wrect_t rcAutoaim;
+	HSPRITE hZoomedCrosshair;
+	wrect_t rcZoomedCrosshair;
+	HSPRITE hZoomedAutoaim;
+	wrect_t rcZoomedAutoaim;
+};
+
+typedef int AMMO;
 
 // this is the max number of items in each bucket
 #define MAX_WEAPON_POSITIONS MAX_WEAPON_SLOTS
@@ -22,12 +65,9 @@
 class WeaponsResource
 {
   private:
-	// Information about weapons & ammo
-	WEAPON rgWeapons[MAX_WEAPONS]; // Weapons Array
-
-	// counts of weapons * ammo
-	WEAPON *rgSlots[MAX_WEAPON_SLOTS + 1][MAX_WEAPON_POSITIONS + 1]; // The slots currently in use by weapons.  The value is a pointer to the weapon;  if it's NULL, no weapon is there
-	int riAmmo[MAX_AMMO_TYPES];                                      // count of each ammo type
+	WEAPON rgWeapons[MAX_WEAPONS];
+	WEAPON *rgSlots[MAX_WEAPON_SLOTS + 1][MAX_WEAPON_POSITIONS + 1];
+	int riAmmo[MAX_AMMO_TYPES];
 
   public:
 	void Init( void )
@@ -43,7 +83,6 @@ class WeaponsResource
 		memset( riAmmo, 0, sizeof riAmmo );
 	}
 
-	///// WEAPON /////
 	int iOldWeaponBits;
 
 	WEAPON *GetWeapon( int iId ) { return &rgWeapons[iId]; }
@@ -82,13 +121,9 @@ class WeaponsResource
 
 	int HasAmmo( WEAPON *p );
 
-	///// AMMO /////
 	AMMO GetAmmo( int iId ) { return iId; }
-
 	void SetAmmo( int iId, int iCount ) { riAmmo[iId] = iCount; }
-
 	int CountAmmo( int iId );
-
 	HSPRITE *GetAmmoPicFromWeapon( int iAmmoId, wrect_t &rect );
 };
 
@@ -109,7 +144,7 @@ class HistoryResource
 	struct HIST_ITEM
 	{
 		int type;
-		float DisplayTime; // the time at which this item should be removed from the history
+		float DisplayTime;
 		int iCount;
 		int iId;
 	};
@@ -138,3 +173,8 @@ class HistoryResource
 };
 
 extern HistoryResource gHR;
+extern WEAPON *gpActiveSel;
+extern WEAPON *gpLastSel;
+extern int g_weaponselect;
+
+#endif // HUD_AMMO_H

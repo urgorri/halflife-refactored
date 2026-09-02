@@ -109,9 +109,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\cl_dll\hud\ammo.cpp" />
-    <ClCompile Include="..\..\cl_dll\hud\ammohistory.cpp" />
-    <ClCompile Include="..\..\cl_dll\hud\ammo_secondary.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud\hud_ammo.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\battery.cpp" />
     <ClCompile Include="..\..\cl_dll\core\cdll_int.cpp" />
     <ClCompile Include="..\..\cl_dll\hl\com_weapons.cpp" />
@@ -139,9 +137,6 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\hud\hud_redraw.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_servers.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_spectator.cpp" />
-    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_director.cpp" />
-    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_overview.cpp" />
-    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_menu.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_update.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_weapon_selection.cpp" />
     <ClCompile Include="..\..\cl_dll\render\interpolation.cpp" />
@@ -216,8 +211,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\public\interface.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\cl_dll\hud\ammo.h" />
-    <ClInclude Include="..\..\cl_dll\hud\ammohistory.h" />
+    <ClInclude Include="..\..\cl_dll\hud\hud_ammo.h" />
     <ClInclude Include="..\..\cl_dll\core\camera.h" />
     <ClInclude Include="..\..\cl_dll\core\cl_dll.h" />
     <ClInclude Include="..\..\cl_dll\core\cl_util.h" />

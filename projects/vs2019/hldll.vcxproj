@@ -134,11 +134,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\weapons\weapon_crowbar.cpp" />
     <ClCompile Include="..\..\dlls\ai\defaultai.cpp" />
     <ClCompile Include="..\..\dlls\systems\doors.cpp" />
-    <ClCompile Include="..\..\dlls\systems\effects_beam.cpp" />
-    <ClCompile Include="..\..\dlls\systems\effects_lightning.cpp" />
-    <ClCompile Include="..\..\dlls\systems\effects_laser.cpp" />
-    <ClCompile Include="..\..\dlls\systems\effects_glow.cpp" />
-    <ClCompile Include="..\..\dlls\systems\effects_sprite.cpp" />
+    <ClCompile Include="..\..\dlls\systems\effects_beams.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp" />
     <ClCompile Include="..\..\dlls\systems\explode.cpp" />
     <ClCompile Include="..\..\dlls\ai\flyingmonster.cpp" />
@@ -231,10 +227,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\triggers_point.cpp" />
     <ClCompile Include="..\..\dlls\monsters\tentacle.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_tripmine.cpp" />
-    <ClCompile Include="..\..\dlls\systems\miniturret.cpp" />
-    <ClCompile Include="..\..\dlls\systems\sentry.cpp" />
-    <ClCompile Include="..\..\dlls\systems\turret.cpp" />
-    <ClCompile Include="..\..\dlls\systems\turret_base.cpp" />
+    <ClCompile Include="..\..\dlls\systems\turrets.cpp" />
     <ClCompile Include="..\..\dlls\core\util.cpp" />
     <ClCompile Include="..\..\dlls\core\util_trace.cpp" />
     <ClCompile Include="..\..\dlls\core\util_saverestore.cpp" />
@@ -332,7 +325,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\ai\talkmonster.h" />
     <ClInclude Include="..\..\dlls\gameplay\teamplay_gamerules.h" />
     <ClInclude Include="..\..\dlls\world\trains.h" />
-    <ClInclude Include="..\..\dlls\systems\turret.h" />
+    <ClInclude Include="..\..\dlls\systems\turrets.h" />
     <ClInclude Include="..\..\dlls\core\util.h" />
     <ClInclude Include="..\..\dlls\core\vector.h" />
     <ClInclude Include="..\..\dlls\weapons\projectile_bolt.h" />

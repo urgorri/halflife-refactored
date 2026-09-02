@@ -34,9 +34,6 @@ DO_PM_SHARED_CC=$(CC) $(INCLUDEDIRS)  $(CFLAGS) $(SHLIBCFLAGS) -o $@ -c $<
 
 HL1_OBJS = \
 	$(HL1_OBJ_DIR)/hud/hud_spectator.o \
-	$(HL1_OBJ_DIR)/hud/hud_spectator_director.o \
-	$(HL1_OBJ_DIR)/hud/hud_spectator_overview.o \
-	$(HL1_OBJ_DIR)/hud/hud_spectator_menu.o \
 	$(HL1_OBJ_DIR)/hud/hud_weapon_selection.o \
 	$(HL1_OBJ_DIR)/events/ev_hldm.o \
 	$(HL1_OBJ_DIR)/events/ev_bullets.o \
@@ -47,9 +44,7 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/hl/hl_objects.o \
 	$(HL1_OBJ_DIR)/hl/hl_weapons.o \
 	$(HL1_OBJ_DIR)/hud/hud.o \
-	$(HL1_OBJ_DIR)/hud/ammo.o \
-	$(HL1_OBJ_DIR)/hud/ammo_secondary.o \
-	$(HL1_OBJ_DIR)/hud/ammohistory.o \
+	$(HL1_OBJ_DIR)/hud/hud_ammo.o \
 	$(HL1_OBJ_DIR)/hud/battery.o \
 	$(HL1_OBJ_DIR)/core/cdll_int.o \
 	$(HL1_OBJ_DIR)/hl/com_weapons.o \

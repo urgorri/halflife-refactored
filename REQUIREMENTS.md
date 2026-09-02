@@ -2,88 +2,64 @@
 
 ## Introduction
 
-This document specifies the architectural, maintainability, and compilation optimization requirements for the Half-Life 1 GoldSrc DLL codebase refactoring effort. The objective is to eliminate redundant boilerplate across world items and weapon ground pickups, consolidate over-fragmented domain entities (monsters, chargers, doors, xen flora, tanks, map rules, triggers), remove unreferenced dead code, and drastically reduce compilation times while preserving 100% of the original game behavior.
+This document specifies the requirements for the consolidation and defragmentation of tightly coupled domain subsystems in the Half-Life GoldSrc refactored repository (`halflife-refactored`). The target is to unify fragmented class hierarchies (turrets, beam/sprite rendering effects, and client-side spectator/ammo HUD components) into cohesive, maintainable translation units while strictly preserving 100% binary-compatible gameplay and networking behaviors.
 
 ## Glossary
 
-- **GoldSrc**: The game engine powering Half-Life 1.
-- **Translation Unit (TU)**: A source file (`.cpp`) along with all included headers compiled by the compiler into an object file (`.obj` / `.o`).
-- **Brush Entity**: An entity whose volume and physics bounds are defined by a BSP model brush (e.g., `trigger_multiple`, `func_door`).
-- **Point Entity**: An entity positioned at a single point coordinate with no BSP volume (e.g., `trigger_relay`, `info_target`).
-- **Ground Pickup**: An item or weapon entity residing in the physical world waiting to be collected by a player.
-- **Dead Code**: Source files or symbols that are neither referenced nor compiled in any configuration.
-
----
+- **CBaseTurret**: Base class for all stationary automated defensive gun entities in Half-Life.
+- **CTurret / CMiniTurret / CSentry**: Subclasses of `CBaseTurret` with specialized animations, firing rates, and models.
+- **CBeam / CLaser / CLightning / CSprite / CGlow**: Rendering entity hierarchy managing dynamic sprite/beam visual effects and network synchronizations.
+- **CHudSpectator**: Client HUD module handling camera modes, director triggers, overview maps, and spectator menu panels.
+- **CHudAmmo / CHudAmmoHistory**: Client HUD module rendering primary/secondary ammunition counts and weapon pickup history animations.
 
 ## Requirements
 
-### Requirement 1: Monster Auxiliary Component Reintegration (Locality & Ergonomics)
+### Requirement 1: Turret Subsystem Consolidation
 
-**User Story:** As a developer maintaining monster AI, I want monster-specific projectiles, effects, and auxiliary routines to reside in the parent monster file, so that related code is easily navigable without artificial header indirection.
-
-#### Acceptance Criteria
-1. THE monster subsystem SHALL consolidate `CBabyCrab` into `dlls/monsters/headcrab.cpp`.
-2. THE monster subsystem SHALL consolidate `CSquidSpit` into `dlls/monsters/bullsquid.cpp`.
-3. THE monster subsystem SHALL consolidate `CBigMommaMortar` into `dlls/monsters/bigmomma.cpp`.
-4. THE monster subsystem SHALL consolidate `CControllerHeadBall` and `CControllerZapBall` into `dlls/monsters/controller.cpp`.
-5. THE monster subsystem SHALL consolidate `CGargantuaFlame` and effects into `dlls/monsters/gargantua.cpp`.
-6. THE monster subsystem SHALL consolidate `CNihilanthEnergyOrb` into `dlls/monsters/nihilanth.cpp`.
-7. THE monster subsystem SHALL consolidate `CTentacleMaw` into `dlls/monsters/tentacle.cpp`.
-8. THE monster subsystem SHALL consolidate `CApacheHVR` into `dlls/monsters/apache.cpp`.
-9. IF auxiliary monster files and headers are consolidated, THEN all 8 obsolete `.h` and `.cpp` files SHALL be removed from the project.
-
----
-
-### Requirement 2: Domain Entity Consolidation (Chargers, Doors, Flora, Tanks)
-
-**User Story:** As a developer working with world and system entities, I want tightly related entity subclasses to be grouped into cohesive domain modules, so that the number of redundant translation units is minimized.
+**User Story:** As an engine maintainer, I want all turret variants and their base class consolidated into a single translation unit, so that turret behaviors are easy to navigate, modify, and maintain without cross-file boilerplate.
 
 #### Acceptance Criteria
-1. THE chargers subsystem SHALL consolidate `CWallHealth` and `CWallRecharge` into `dlls/systems/chargers.cpp`.
-2. THE doors subsystem SHALL consolidate `CRotDoor` and `CMomentaryDoor` into `dlls/systems/doors.cpp`.
-3. THE xen flora subsystem SHALL consolidate `CXenTree`, `CXenTreeTrigger`, and `CXenSpore` into `dlls/world/xen.cpp`.
-4. THE tanks subsystem SHALL consolidate `CFuncTankGun`, `CFuncTankLaser`, `CFuncTankMortar`, and `CFuncTankRocket` into `dlls/systems/func_tank.cpp`.
 
----
+1. THE Server DLL SHALL implement `CBaseTurret`, `CTurret` (`monster_turret`), `CMiniTurret` (`monster_miniturret`), and `CSentry` (`monster_sentry`) within a single unified source file `dlls/systems/turrets.cpp` and header `dlls/systems/turrets.h`.
+2. WHEN `monster_turret`, `monster_miniturret`, or `monster_sentry` is spawned in a map, THE Server DLL SHALL initialize and execute identical AI thinking, deploy/retract animation cycles, sound emissions, and projectile/bullet attacks as the original implementation.
+3. THE Server DLL SHALL delete the redundant split files `turret_base.cpp`, `turret.cpp`, `miniturret.cpp`, `sentry.cpp`, and `turret.h`.
 
-### Requirement 3: Map Rules & Triggers Architectural Separation
+### Requirement 2: Visual Effects and Beam Hierarchy Consolidation
 
-**User Story:** As a developer maintaining gameplay logic and triggers, I want map rules consolidated and triggers strictly partitioned between brush and point entities, so that entity boundaries are obvious and clean.
+**User Story:** As an engine maintainer, I want sprite and beam visual rendering entities consolidated into a cohesive translation unit, so that render entity declarations and implementations are unified and build faster.
 
 #### Acceptance Criteria
-1. THE map rules subsystem SHALL consolidate all 11 `game_*` point rule entities into `dlls/gameplay/maprules.cpp`.
-2. THE triggers subsystem SHALL place all BSP volumetric touch triggers into `dlls/systems/triggers_brush.cpp`.
-3. THE triggers subsystem SHALL place all logical, non-brush point triggers into `dlls/systems/triggers_point.cpp`.
-4. WHEN compiling triggers, THE build system SHALL compile exactly 2 translation units for all 24 trigger entities.
 
----
+1. THE Server DLL SHALL consolidate `CBeam`, `CLaser` (`env_laser`), `CLightning` (`env_beam`, `env_lightning`), `CGlow` (`env_glow`), and `CSprite` (`env_sprite`) into `dlls/systems/effects_beams.cpp` and `dlls/systems/effects.h`.
+2. WHEN an `env_laser`, `env_beam`, `env_lightning`, `env_glow`, or `env_sprite` entity is activated, triggered, or animated, THE Server DLL SHALL produce identical entity state updates, sound effects, and network user messages.
+3. THE Server DLL SHALL delete the redundant micro-files `effects_beam.cpp`, `effects_laser.cpp`, `effects_lightning.cpp`, `effects_glow.cpp`, and `effects_sprite.cpp`.
 
-### Requirement 4: World Item and Ground Weapon Pickup Deduplication
+### Requirement 3: Client Spectator HUD Subsystem Consolidation
 
-**User Story:** As a developer adding or modifying world pickups, I want reusable declarative macros/templates for items and ground weapons, so that repetitive `Spawn()`, `Precache()`, and `FallInit()` boilerplate is eliminated.
+**User Story:** As a client developer, I want all spectator interface logic consolidated into a single cohesive translation unit, so that spectator camera tracking, director mode, overview radar, and menu controls are unified.
 
 #### Acceptance Criteria
-1. THE item subsystem SHALL provide an `IMPLEMENT_WORLD_ITEM` macro/template in `dlls/items/item_base.h`.
-2. THE item subsystem SHALL declare standard world pickups (`item_battery`, `item_suit`, `item_antidote`, `item_security`, `item_longjump`, `item_healthkit`) in `dlls/items/items.cpp`.
-3. THE weapon subsystem SHALL provide an `INITIALIZE_WORLD_WEAPON` macro/helper in `dlls/weapons/weapon_base.h` for consistent entity naming, model binding, and `FallInit()` ground setup.
 
----
+1. THE Client DLL SHALL consolidate `CHudSpectator` camera directors, overview mapping, and UI menu interactions into `cl_dll/hud/hud_spectator.cpp` and `cl_dll/hud/hud_spectator.h`.
+2. WHEN the local client or demo enters spectator mode, THE Client DLL SHALL render identical director views, overview insets, player tracking lists, and command menus.
+3. THE Client DLL SHALL delete the redundant micro-files `hud_spectator_director.cpp`, `hud_spectator_overview.cpp`, and `hud_spectator_menu.cpp`.
 
-### Requirement 5: Dead Code Removal & Policy Documentation
+### Requirement 4: Client Ammo HUD Subsystem Consolidation
 
-**User Story:** As a developer auditing the codebase, I want unreferenced legacy stubs and obsolete UI files removed, so that there is zero confusion regarding active codebase components.
-
-#### Acceptance Criteria
-1. THE build system and repository SHALL remove unreferenced legacy files: `dlls/core/mpstubb.cpp`, `cl_dll/hud/scoreboard.cpp`, `cl_dll/vgui/MOTD.cpp`, `cl_dll/vgui/vgui_ConsolePanel.cpp` (and header), and `cl_dll/systems/soundsystem.cpp`.
-2. THE `README.md` and `AGENTS.md` SHALL explicitly document the removal of unreferenced legacy files.
-
----
-
-### Requirement 6: Build Synchronization & Multi-Platform Verification
-
-**User Story:** As a contributor, I want Visual Studio project files and Linux makefiles fully synchronized and tested, so that builds succeed with 0 errors across Windows and Linux.
+**User Story:** As a client developer, I want the ammunition counter, secondary ammo bar, and pickup history HUD elements consolidated, so that weapon inventory HUD logic resides in a single clear module.
 
 #### Acceptance Criteria
-1. THE Visual Studio solution files (`hldll.vcxproj`, `hl_cdll.vcxproj`, and filters) SHALL contain all updated and consolidated files with zero missing references.
-2. THE Linux makefiles (`Makefile.hldll`, `Makefile.hl_cdll`) SHALL compile all object files without missing symbols.
-3. THE codebase SHALL compile with 0 errors on MSBuild Win32 Release and GitHub Actions CI for Linux and Windows.
+
+1. THE Client DLL SHALL consolidate `CHudAmmo`, `CHudAmmoSecondary`, and `CHudAmmoHistory` into `cl_dll/hud/hud_ammo.cpp` and `cl_dll/hud/hud_ammo.h`.
+2. WHEN the player fires, reloads, or picks up weapons/ammunition, THE Client DLL SHALL render identical HUD icons, animation timers, fade transitions, and digit counters.
+3. THE Client DLL SHALL delete the redundant micro-files `ammo.cpp`, `ammo_secondary.cpp`, `ammohistory.cpp`, `ammo.h`, and `ammohistory.h`.
+
+### Requirement 5: Build Systems Synchronization & Clean Compilation
+
+**User Story:** As a developer and CI pipeline, I want project files and Makefiles synchronized across all configurations, so that both Windows MSBuild and Linux GCC build cleanly with zero errors.
+
+#### Acceptance Criteria
+
+1. THE build system SHALL synchronize `projects/vs2019/hldll.vcxproj`, `projects/vs2019/hldll.vcxproj.filters`, `projects/vs2019/hl_cdll.vcxproj`, and `projects/vs2019/hl_cdll.vcxproj.filters`.
+2. THE build system SHALL synchronize `linux/Makefile.hldll` and `linux/Makefile.hl_cdll`.
+3. THE Server and Client DLLs SHALL compile cleanly on Win32 Release MSBuild and Linux x86 GCC with 0 errors.
