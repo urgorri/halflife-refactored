@@ -185,6 +185,7 @@ qboolean PM_CheckWater( void );
 void PM_WaterJump( void );
 void PM_CheckWaterJump( void );
 
+physent_t *PM_Ladder( void );
 void PM_LadderMove( physent_t *pLadder );
 
 float PM_SplineFraction( float value, float scale );
@@ -201,7 +202,7 @@ void PM_CreateStuckTable( void );
 pmtrace_t PM_PushEntity( vec3_t push );
 
 float PM_CalcRoll( vec3_t angles, vec3_t velocity, float rollangle, float rollspeed );
-void PM_DropPunchAngle( float frametime, vec3_t punchangle );
+void PM_DropPunchAngle( vec3_t punchangle );
 void PM_CheckParamters( void );
 void PM_ReduceTimers( void );
 
