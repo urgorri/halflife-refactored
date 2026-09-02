@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -18,6 +18,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
+#include "weapons/ammo_base.h"
 #include "weapons/weapon_shotgun.h"
 #include "ai/nodes.h"
 #include "core/player.h"
@@ -365,30 +366,8 @@ void CShotgun::ItemPostFrame( void )
 	CBasePlayerWeapon::ItemPostFrame();
 }
 
-class CShotgunAmmo : public CBasePlayerAmmo
-{
-	void Spawn( void )
-	{
-		Precache();
-		SET_MODEL( ENT( pev ), "models/w_shotbox.mdl" );
-		CBasePlayerAmmo::Spawn();
-	}
-	void Precache( void )
-	{
-		PRECACHE_MODEL( "models/w_shotbox.mdl" );
-		PRECACHE_SOUND( "items/9mmclip1.wav" );
-	}
-	BOOL AddAmmo( CBaseEntity *pOther )
-	{
-		if ( pOther->GiveAmmo( AMMO_BUCKSHOTBOX_GIVE, "buckshot", BUCKSHOT_MAX_CARRY ) != -1 )
-		{
-			EMIT_SOUND( ENT( pev ), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM );
-			return TRUE;
-		}
-		return FALSE;
-	}
-};
-LINK_ENTITY_TO_CLASS( ammo_buckshot, CShotgunAmmo );
+IMPLEMENT_SIMPLE_AMMO( CShotgunAmmo, ammo_buckshot, "models/w_shotbox.mdl", "buckshot", AMMO_BUCKSHOTBOX_GIVE, BUCKSHOT_MAX_CARRY, "items/9mmclip1.wav" )
+
 
 #ifndef CLIENT_DLL
 

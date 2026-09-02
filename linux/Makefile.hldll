@@ -90,7 +90,11 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_crowbar.o \
 	$(HLDLL_OBJ_DIR)/ai/defaultai.o \
 	$(HLDLL_OBJ_DIR)/systems/doors.o \
-	$(HLDLL_OBJ_DIR)/systems/effects.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_beam.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_lightning.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_laser.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_glow.o \
+	$(HLDLL_OBJ_DIR)/systems/effects_sprite.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_egon.o \
 	$(HLDLL_OBJ_DIR)/systems/explode.o \
 	$(HLDLL_OBJ_DIR)/ai/flyingmonster.o \
@@ -116,8 +120,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/hassassin.o \
 	$(HLDLL_OBJ_DIR)/monsters/headcrab.o \
 	$(HLDLL_OBJ_DIR)/monsters/hgrunt.o \
-	$(HLDLL_OBJ_DIR)/monsters/hgrunt_combat.o \
-	$(HLDLL_OBJ_DIR)/monsters/hgrunt_squad.o \
 	$(HLDLL_OBJ_DIR)/monsters/hgrunt_repel.o \
 	$(HLDLL_OBJ_DIR)/weapons/projectile_hornet.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_hornetgun.o \
@@ -188,7 +190,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/ai/schedule.o \
 	$(HLDLL_OBJ_DIR)/gameplay/scripted.o \
 	$(HLDLL_OBJ_DIR)/monsters/scientist.o \
-	$(HLDLL_OBJ_DIR)/monsters/scientist_heal.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HLCORE_OBJ_DIR)/skill.o \
 	$(HLDLL_OBJ_DIR)/systems/sound.o \
@@ -202,7 +203,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_snark.o \
 	$(HLCORE_OBJ_DIR)/subs.o \
 	$(HLDLL_OBJ_DIR)/ai/talkmonster.o \
-	$(HLDLL_OBJ_DIR)/ai/talkmonster_speech.o \
 	$(HLDLL_OBJ_DIR)/gameplay/teamplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/multiplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/gamerules_scoring.o \
@@ -249,6 +249,8 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/util_debug.o \
 	$(HLDLL_OBJ_DIR)/systems/vehicle.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_box.o \
+	$(HLDLL_OBJ_DIR)/weapons/player_item_base.o \
 	$(HLDLL_OBJ_DIR)/world/world.o \
 	$(HLDLL_OBJ_DIR)/world/xen.o \
 	$(HLDLL_OBJ_DIR)/monsters/zombie.o

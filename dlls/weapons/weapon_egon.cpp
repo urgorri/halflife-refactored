@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -20,6 +20,7 @@
 #include "core/player.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
+#include "weapons/ammo_base.h"
 #include "weapons/weapon_egon.h"
 #include "ai/nodes.h"
 #include "systems/effects.h"
@@ -548,30 +549,7 @@ void CEgon::EndAttack( void )
 	DestroyEffect();
 }
 
-class CEgonAmmo : public CBasePlayerAmmo
-{
-	void Spawn( void )
-	{
-		Precache();
-		SET_MODEL( ENT( pev ), "models/w_chainammo.mdl" );
-		CBasePlayerAmmo::Spawn();
-	}
-	void Precache( void )
-	{
-		PRECACHE_MODEL( "models/w_chainammo.mdl" );
-		PRECACHE_SOUND( "items/9mmclip1.wav" );
-	}
-	BOOL AddAmmo( CBaseEntity *pOther )
-	{
-		if ( pOther->GiveAmmo( AMMO_URANIUMBOX_GIVE, "uranium", URANIUM_MAX_CARRY ) != -1 )
-		{
-			EMIT_SOUND( ENT( pev ), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM );
-			return TRUE;
-		}
-		return FALSE;
-	}
-};
-LINK_ENTITY_TO_CLASS( ammo_egonclip, CEgonAmmo );
+IMPLEMENT_SIMPLE_AMMO( CEgonAmmo, ammo_egonclip, "models/w_chainammo.mdl", "uranium", AMMO_URANIUMBOX_GIVE, URANIUM_MAX_CARRY, "items/9mmclip1.wav" )
 
 #endif
 #ifndef CLIENT_DLL

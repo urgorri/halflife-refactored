@@ -33,11 +33,4 @@ class CPython : public CBasePlayerWeapon
 	unsigned short m_usFirePython;
 };
 
-class CPythonAmmo : public CBasePlayerAmmo
-{
-	void Spawn( void );
-	void Precache( void );
-	BOOL AddAmmo( CBaseEntity *pOther );
-};
-
 #endif // WEAPON_PYTHON_H
