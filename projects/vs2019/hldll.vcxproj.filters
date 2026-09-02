@@ -57,6 +57,21 @@
     <ClCompile Include="..\..\dlls\monsters\aflock.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound_ambient.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound_dsp.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound_sentences.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound_speaker.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\agrunt.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>

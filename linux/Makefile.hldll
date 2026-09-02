@@ -186,6 +186,10 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HLCORE_OBJ_DIR)/skill.o \
 	$(HLDLL_OBJ_DIR)/systems/sound.o \
+	$(HLDLL_OBJ_DIR)/systems/sound_ambient.o \
+	$(HLDLL_OBJ_DIR)/systems/sound_dsp.o \
+	$(HLDLL_OBJ_DIR)/systems/sound_sentences.o \
+	$(HLDLL_OBJ_DIR)/systems/sound_speaker.o \
 	$(HLDLL_OBJ_DIR)/ai/soundent.o \
 	$(HLDLL_OBJ_DIR)/gameplay/spectator.o \
 	$(HLDLL_OBJ_DIR)/ai/squadmonster.o \

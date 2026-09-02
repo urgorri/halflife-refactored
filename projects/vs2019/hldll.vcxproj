@@ -237,6 +237,10 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\gameplay\stats.cpp" />
     <ClCompile Include="..\..\dlls\core\skill.cpp" />
     <ClCompile Include="..\..\dlls\systems\sound.cpp" />
+    <ClCompile Include="..\..\dlls\systems\sound_ambient.cpp" />
+    <ClCompile Include="..\..\dlls\systems\sound_dsp.cpp" />
+    <ClCompile Include="..\..\dlls\systems\sound_sentences.cpp" />
+    <ClCompile Include="..\..\dlls\systems\sound_speaker.cpp" />
     <ClCompile Include="..\..\dlls\ai\soundent.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\spectator.cpp" />
     <ClCompile Include="..\..\dlls\ai\squadmonster.cpp" />
