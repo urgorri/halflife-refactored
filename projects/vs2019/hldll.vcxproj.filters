@@ -159,19 +159,7 @@
     <ClCompile Include="..\..\dlls\systems\doors.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\effects_beam.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\effects_lightning.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\effects_laser.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\effects_glow.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\effects_sprite.cpp">
+    <ClCompile Include="..\..\dlls\systems\effects_beams.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp">
@@ -606,16 +594,7 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_tripmine.cpp">
       <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\miniturret.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\sentry.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\turret.cpp">
-      <Filter>Source Files\dlls\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dlls\systems\turret_base.cpp">
+    <ClCompile Include="..\..\dlls\systems\turrets.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\util.cpp">
@@ -986,7 +965,7 @@
     <ClInclude Include="..\..\dlls\world\trains.h">
       <Filter>Header Files\dlls\world</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dlls\systems\turret.h">
+    <ClInclude Include="..\..\dlls\systems\turrets.h">
       <Filter>Header Files\dlls\systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\core\util.h">

@@ -21,7 +21,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "ammohistory.h"
+#include "hud_ammo.h"
 #include "vgui/vgui_TeamFortressViewport.h"
 
 extern WEAPON *gpActiveSel;

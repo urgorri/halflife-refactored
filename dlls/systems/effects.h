@@ -104,6 +104,20 @@ class CSprite : public CPointEntity
 	float m_maxFrame;
 };
 
+class CGlow : public CPointEntity
+{
+  public:
+	void Spawn( void );
+	void Think( void );
+	void Animate( float frames );
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
+
+	float m_lastTime;
+	float m_maxFrame;
+};
+
 class CBeam : public CBaseEntity
 {
   public:
@@ -119,8 +133,6 @@ class CBeam : public CBaseEntity
 
 	void EXPORT TriggerTouch( CBaseEntity *pOther );
 
-	// These functions are here to show the way beams are encoded as entities.
-	// Encoding beams as entities simplifies their management in the client/server architecture
 	inline void SetType( int type ) { pev->rendermode = ( pev->rendermode & 0xF0 ) | ( type & 0x0F ); }
 	inline void SetFlags( int flags ) { pev->rendermode = ( pev->rendermode & 0x0F ) | ( flags & 0xF0 ); }
 	inline void SetStartPos( const Vector &pos ) { pev->origin = pos; }
@@ -152,24 +164,20 @@ class CBeam : public CBaseEntity
 	const Vector &GetStartPos( void );
 	const Vector &GetEndPos( void );
 
-	Vector Center( void ) { return ( GetStartPos() + GetEndPos() ) * 0.5; }; // center point of beam
+	Vector Center( void ) { return ( GetStartPos() + GetEndPos() ) * 0.5; };
 
 	inline int GetTexture( void ) { return pev->modelindex; }
 	inline int GetWidth( void ) { return pev->scale; }
 	inline int GetNoise( void ) { return pev->body; }
-	// inline void GetColor( int r, int g, int b ) { pev->rendercolor.x = r; pev->rendercolor.y = g; pev->rendercolor.z = b; }
 	inline int GetBrightness( void ) { return pev->renderamt; }
 	inline int GetFrame( void ) { return pev->frame; }
 	inline int GetScrollRate( void ) { return pev->animtime; }
 
-	// Call after you change start/end positions
 	void RelinkBeam( void );
-	//	void		SetObjectCollisionBox( void );
 
 	void DoSparks( const Vector &start, const Vector &end );
 	CBaseEntity *RandomTargetname( const char *szName );
 	void BeamDamage( TraceResult *ptr );
-	// Init after BeamCreate()
 	void BeamInit( const char *pSpriteName, int width );
 	void PointsInit( const Vector &start, const Vector &end );
 	void PointEntInit( const Vector &start, int endIndex );
@@ -191,8 +199,8 @@ class CBeam : public CBaseEntity
 	}
 };
 
-#define SF_MESSAGE_ONCE 0x0001 // Fade in, not out
-#define SF_MESSAGE_ALL 0x0002  // Send to all clients
+#define SF_MESSAGE_ONCE 0x0001
+#define SF_MESSAGE_ALL 0x0002
 
 class CLaser : public CBeam
 {
@@ -216,6 +224,51 @@ class CLaser : public CBeam
 	CSprite *m_pSprite;
 	int m_iszSpriteName;
 	Vector m_firePosition;
+};
+
+class CLightning : public CBeam
+{
+  public:
+	void Spawn( void );
+	void Precache( void );
+	void KeyValue( KeyValueData *pkvd );
+	void Activate( void );
+
+	void EXPORT StrikeThink( void );
+	void EXPORT DamageThink( void );
+	void RandomArea( void );
+	void RandomPoint( Vector &vecSrc );
+	void Zap( const Vector &vecSrc, const Vector &vecDest );
+	void EXPORT StrikeUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void EXPORT ToggleUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+
+	inline BOOL ServerSide( void )
+	{
+		if ( m_life == 0 && !( pev->spawnflags & SF_BEAM_RING ) )
+			return TRUE;
+		return FALSE;
+	}
+
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
+
+	void BeamUpdateVars( void );
+
+	int m_active;
+	int m_iszStartEntity;
+	int m_iszEndEntity;
+	float m_life;
+	int m_boltWidth;
+	int m_noiseAmplitude;
+	int m_brightness;
+	int m_speed;
+	float m_restrike;
+	int m_spriteTexture;
+	int m_iszSpriteName;
+	int m_frameStart;
+
+	float m_radius;
 };
 
 #endif // EFFECTS_H

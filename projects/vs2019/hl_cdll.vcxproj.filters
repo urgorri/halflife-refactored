@@ -139,13 +139,7 @@
     <ClCompile Include="..\..\cl_dll\hud\death.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hud\ammo.cpp">
-      <Filter>Source Files\cl_dll\hud</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hud\ammo_secondary.cpp">
-      <Filter>Source Files\cl_dll\hud</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hud\ammohistory.cpp">
+    <ClCompile Include="..\..\cl_dll\hud\hud_ammo.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\battery.cpp">
@@ -203,15 +197,6 @@
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\hud_spectator.cpp">
-      <Filter>Source Files\cl_dll\hud</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_director.cpp">
-      <Filter>Source Files\cl_dll\hud</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_overview.cpp">
-      <Filter>Source Files\cl_dll\hud</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\hud\hud_spectator_menu.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\hud_update.cpp">
@@ -442,10 +427,7 @@
     <ClInclude Include="..\..\cl_dll\input\kbutton.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl_dll\hud\ammo.h">
-      <Filter>Header Files\cl_dll\hud</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cl_dll\hud\ammohistory.h">
+    <ClInclude Include="..\..\cl_dll\hud\hud_ammo.h">
       <Filter>Header Files\cl_dll\hud</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\core\camera.h">

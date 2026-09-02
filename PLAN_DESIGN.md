@@ -1,99 +1,98 @@
-# Design Document
+# System Design Document: Subsystem Defragmentation & HUD Consolidation
 
 ## Overview
 
-This design outlines the refactoring and consolidation strategy for Half-Life GoldSrc DLL codebase. By eliminating redundant translation units, extracting reusable pickup macros for world items and ground weapons, partitioning triggers cleanly into brush vs point categories, and removing unreferenced dead legacy files, the codebase achieves optimal locality, maintainability, and significantly faster compilation speeds without altering any game behavior.
+This design outlines the defragmentation and structural consolidation of tightly coupled subsystems across the Half-Life server and client engines. By co-locating tightly coupled class hierarchies (`CBaseTurret` subclasses, `CBeam`/`CSprite` visual entities, and client HUD modules) into unified, cohesive translation units, we reduce compilation overhead, improve code readability, and eliminate unnecessary file dispersion without changing any runtime behavior or public interfaces.
 
 ## System Architecture
 
 ### Component Map
 
-| Component ID | Name | Type | Responsibility | Interfaces With |
-|-------------|------|------|----------------|-----------------|
-| COMP-AI | Monster AI & Satellites | Server | NPC behaviors, animations, attacks, projectiles | Core Game Engine |
-| COMP-SYS | Systems & Environmental Entities | Server | Chargers, Doors, Bmodels, Tanks, Effects | Game Rules, Core |
-| COMP-WORLD | World & Xen Fauna | Server | World geometry interactions, Xen plants | Physics, Core |
-| COMP-RULES | Map Rules Subsystem | Server | BSP level logic, scoring, team routing | Game Rules, Client |
-| COMP-TRIG | Triggers (Brush & Point) | Server | Touch volumes, changelevels, relays, counters | Dispatcher, Core |
-| COMP-ITEMS | Items & World Pickups | Server | Healthkits, batteries, suit, ground weapons | Player Inventory, HUD |
-| COMP-CL | Client HUD & VGUI | Client | HUD rendering, VGUI menus, View models | Engine Client API |
+| Component ID | Name | Subsystem | Responsibility | Interfaces With |
+| :--- | :--- | :--- | :--- | :--- |
+| **COMP-TURRET** | `dlls/systems/turrets.*` | Server Systems | Automated turret AI, deployment mechanics, targeting, and bullet attacks for standard, mini, and sentry turrets | `CBaseMonster`, `util_entity`, `sound`, `weapon_base` |
+| **COMP-BEAMS** | `dlls/systems/effects_beams.*` | Server Systems | Entity-based beam generation, laser aiming, lightning effects, and glowing sprite management | `CBaseEntity`, `effects.h`, `util`, network messages |
+| **COMP-HUD-SPEC** | `cl_dll/hud/hud_spectator.*` | Client HUD | Spectator camera tracking, director mode transitions, overview map radar, and spectator command menu UI | `CHudBase`, `vgui`, engine callbacks, spectator network messages |
+| **COMP-HUD-AMMO** | `cl_dll/hud/hud_ammo.*` | Client HUD | Ammunition counting, secondary weapon indicators, and pickup history HUD notifications | `CHudBase`, `cl_util`, weapon network user messages |
 
----
-
-## Data Flow Specifications
-
-### 1. World Item Pickup Flow (`IMPLEMENT_WORLD_ITEM`)
+### High-Level Architecture Diagram
 
 ```
-1. Map/Monster Spawns Item → Precache model/sound → Drop to Floor (FallInit)
-2. Player touches item bounding box → Item::MyTouch(pPlayer)
-3. Resource granted to player (Armor, Health, HEV Suit, Ammo)
-4. EMIT_SOUND (pickup audio) + Send Net Message (gmsgItemPickup) → Destroy or Respawn Item
++-----------------------------------------------------------------------------------+
+|                              HALF-LIFE GAME ENGINE                                |
++-----------------------------------------+-----------------------------------------+
+|               SERVER DLL                |               CLIENT DLL                |
++--------------------+--------------------+--------------------+--------------------+
+|  Turret Subsystem  |    Beam & Sprite   |   Spectator HUD    |      Ammo HUD      |
+|  (turrets.cpp/.h)  |  (effects_beams)   | (hud_spectator.*)  |   (hud_ammo.*)     |
+|                    |                    |                    |                    |
+| - CBaseTurret      | - CBeam            | - CHudSpectator    | - CHudAmmo         |
+| - CTurret          | - CLaser           | - Director Mode    | - CHudAmmoSecondary|
+| - CMiniTurret      | - CLightning       | - Overview Radar   | - CHudAmmoHistory  |
+| - CSentry          | - CGlow            | - Spectator Menu   |                    |
+|                    | - CSprite          |                    |                    |
++--------------------+--------------------+--------------------+--------------------+
+|          Core Entity Framework          |          HUD Rendering Pipeline         |
++-----------------------------------------+-----------------------------------------+
 ```
 
-### 2. Triggers Partitioning Flow
+## Subsystem Details & Refactoring Architecture
 
-```
-[Brush Triggers - triggers_brush.cpp]
-Player/Monster enters BSP Volume → Touch() → Evaluate Filter/Flags → Fire Target(Activator)
+### 1. Turret Subsystem Consolidation (`dlls/systems/turrets.cpp` / `turrets.h`)
+- **Current Layout**:
+  - `turret_base.cpp` (`CBaseTurret`)
+  - `turret.cpp` (`CTurret`)
+  - `miniturret.cpp` (`CMiniTurret`)
+  - `sentry.cpp` (`CSentry`)
+  - `turret.h`
+- **Target Layout**:
+  - `dlls/systems/turrets.h`: Clean class declarations for `CBaseTurret`, `CTurret`, `CMiniTurret`, and `CSentry`.
+  - `dlls/systems/turrets.cpp`: Unified implementation of base state machines and specialized derived methods (`Shoot`, `Spawn`, `Precache`, `SpinUpCall`, `SpinDownCall`, `SentryDeath`).
+- **Files Deleted**: `turret_base.cpp`, `turret.cpp`, `miniturret.cpp`, `sentry.cpp`, `turret.h`.
 
-[Point Triggers - triggers_point.cpp]
-Trigger/Logic receives Use() → Evaluate Counter/Condition → Dispatch UseTargets()
-```
+### 2. Beam & Sprite Visual Effects (`dlls/systems/effects_beams.cpp`)
+- **Current Layout**:
+  - `effects_beam.cpp` (`CBeam`)
+  - `effects_laser.cpp` (`CLaser`)
+  - `effects_lightning.cpp` (`CLightning`)
+  - `effects_glow.cpp` (`CGlow`)
+  - `effects_sprite.cpp` (`CSprite`)
+- **Target Layout**:
+  - `dlls/systems/effects_beams.cpp`: Unified implementation of beam vector calculation, laser tracing, lightning arc creation, glow fading, and sprite animators.
+  - `dlls/systems/effects.h`: Streamlined header declarations.
+- **Files Deleted**: `effects_beam.cpp`, `effects_laser.cpp`, `effects_lightning.cpp`, `effects_glow.cpp`, `effects_sprite.cpp`.
 
----
+### 3. Client Spectator HUD (`cl_dll/hud/hud_spectator.cpp` / `hud_spectator.h`)
+- **Current Layout**:
+  - `hud_spectator.cpp`
+  - `hud_spectator_director.cpp`
+  - `hud_spectator_overview.cpp`
+  - `hud_spectator_menu.cpp`
+  - `hud_spectator.h`
+- **Target Layout**:
+  - `cl_dll/hud/hud_spectator.h`: Unified header with `CHudSpectator` declaration and spectator sub-structures.
+  - `cl_dll/hud/hud_spectator.cpp`: Unified implementation of camera modes, overview map rendering, director decision logic, and in-game spectator menus.
+- **Files Deleted**: `hud_spectator_director.cpp`, `hud_spectator_overview.cpp`, `hud_spectator_menu.cpp`.
 
-## Detailed Components Refactoring
+### 4. Client Ammo HUD (`cl_dll/hud/hud_ammo.cpp` / `hud_ammo.h`)
+- **Current Layout**:
+  - `ammo.cpp` (`CHudAmmo`)
+  - `ammo_secondary.cpp` (`CHudAmmoSecondary`)
+  - `ammohistory.cpp` (`CHudAmmoHistory`)
+  - `ammo.h`, `ammohistory.h`
+- **Target Layout**:
+  - `cl_dll/hud/hud_ammo.h`: Consolidated header declaring `CHudAmmo`, `CHudAmmoSecondary`, and `CHudAmmoHistory`.
+  - `cl_dll/hud/hud_ammo.cpp`: Consolidated implementation of ammo counter rendering, secondary bars, and icon history animation fading.
+- **Files Deleted**: `ammo.cpp`, `ammo_secondary.cpp`, `ammohistory.cpp`, `ammo.h`, `ammohistory.h`.
 
-### 1. Monster Subsystem Locality
-- Reintegrate satellite projectiles and effect entities back into primary monster source files:
-  - `CBabyCrab` in `headcrab.cpp`
-  - `CSquidSpit` in `bullsquid.cpp`
-  - `CBigMommaMortar` in `bigmomma.cpp`
-  - `CControllerHeadBall` / `CControllerZapBall` in `controller.cpp`
-  - `CGargantuaFlame` in `gargantua.cpp`
-  - `CNihilanthEnergyOrb` in `nihilanth.cpp`
-  - `CTentacleMaw` in `tentacle.cpp`
-  - `CApacheHVR` in `apache.cpp`
-- Remove all 8 satellite `.cpp` and `.h` files.
+## Behavioral Preservation Strategy
 
-### 2. Chargers, Doors, Xen Flora, and Tanks Consolidation
-- **Chargers**: Consolidate `CBaseWallCharger`, `CWallHealth`, `CWallRecharge` in `dlls/systems/chargers.cpp` (and `chargers.h`).
-- **Doors**: Reintegrate `CRotDoor` and `CMomentaryDoor` into `dlls/systems/doors.cpp`.
-- **Xen Flora**: Reintegrate `CXenTree`, `CXenTreeTrigger`, and `CXenSpore` into `dlls/world/xen.cpp`.
-- **Tanks**: Consolidate `CFuncTank`, `CFuncTankGun`, `CFuncTankLaser`, `CFuncTankMortar`, `CFuncTankRocket` into `dlls/systems/func_tank.cpp`.
+1. **Class Names and Linkage**: All `LINK_ENTITY_TO_CLASS` declarations (`monster_turret`, `monster_miniturret`, `monster_sentry`, `env_laser`, `env_beam`, `env_lightning`, `env_glow`, `env_sprite`) remain verbatim.
+2. **Network Protocol**: User messages and entity pev fields remain strictly identical.
+3. **Save/Restore**: All `TYPEDESCRIPTION` tables and `IMPLEMENT_SAVERESTORE` declarations are preserved exactly.
 
-### 3. Triggers & Map Rules Architecture
-- Consolidate all 11 `game_*` map rule entities into `dlls/gameplay/maprules.cpp`.
-- Partition triggers into:
-  - `dlls/systems/triggers_brush.cpp` (Brush entities with BSP models & volume touch)
-  - `dlls/systems/triggers_point.cpp` (Point entities with logic & relay dispatch)
-- Remove 24 fragmented micro-files.
+## Build and Verification Strategy
 
-### 4. Items & Ground Weapon Deduplication Engine
-- Macro engine in `dlls/items/item_base.h`:
-  ```cpp
-  #define IMPLEMENT_WORLD_ITEM(className, entityName, modelName, soundName) \
-      ...
-  ```
-- Ground weapon initializer in `dlls/weapons/weapon_base.h`:
-  ```cpp
-  #define INITIALIZE_WORLD_WEAPON(entityName, weaponId, worldModel, defaultAmmo) \
-      ...
-  ```
-
-### 5. Dead Code Cleanup & Documentation
-- Delete 5 verified uncompiled legacy files (`dlls/core/mpstubb.cpp`, `cl_dll/hud/scoreboard.cpp`, `cl_dll/vgui/MOTD.cpp`, `cl_dll/vgui/vgui_ConsolePanel.cpp` + header, `cl_dll/systems/soundsystem.cpp`).
-- Document explicit legacy code exclusion in `README.md` and `AGENTS.md`.
-
----
-
-## Testing Strategy
-
-1. **Static Build Verification**:
-   - Visual Studio 2019 Win32 Release build: 0 errors, 0 warnings.
-   - GCC/Clang Linux build verification.
-2. **Behavior Preservation Verification**:
-   - Ensure all class names registered via `LINK_ENTITY_TO_CLASS` are 100% identical.
-   - Verify save/restore `TYPEDESCRIPTION` tables match original layouts.
-   - Verify map entity dispatch, touch physics, and damage calculation logic match verbatim.
+1. Sychronize Visual Studio project files (`projects/vs2019/hldll.vcxproj`, `projects/vs2019/hl_cdll.vcxproj` and `.filters`).
+2. Synchronize Linux Makefiles (`linux/Makefile.hldll`, `linux/Makefile.hl_cdll`).
+3. Compile with MSBuild Win32 Release locally and verify 0 errors.
