@@ -347,7 +347,13 @@
       <Filter>Source Files\game_shared</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\render\view.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\render\view_camera.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\render\view_bob.cpp">
+      <Filter>Source Files\render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ServerBrowser.cpp">
       <Filter>Source Files\cl_dll</Filter>

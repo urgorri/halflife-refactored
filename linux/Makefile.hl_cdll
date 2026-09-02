@@ -85,6 +85,8 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/render/tri.o \
 	$(HL1_OBJ_DIR)/core/util.o \
 	$(HL1_OBJ_DIR)/render/view.o \
+	$(HL1_OBJ_DIR)/render/view_camera.o \
+	$(HL1_OBJ_DIR)/render/view_bob.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_int.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ClassMenuPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ConsolePanel.o \

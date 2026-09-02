@@ -174,6 +174,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamMenuPanel.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui\vgui_CommandMenuPanel.cpp" />
     <ClCompile Include="..\..\cl_dll\render\view.cpp" />
+    <ClCompile Include="..\..\cl_dll\render\view_camera.cpp" />
+    <ClCompile Include="..\..\cl_dll\render\view_bob.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\voice_status.cpp" />
     <ClCompile Include="..\..\common\parsemsg.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_crossbow.cpp" />
