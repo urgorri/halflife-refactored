@@ -154,6 +154,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\hud\train.cpp" />
     <ClCompile Include="..\..\cl_dll\input\input.cpp" />
     <ClCompile Include="..\..\cl_dll\input\inputw32.cpp" />
+    <ClCompile Include="..\..\cl_dll\input\input_hardware.cpp" />
     <ClCompile Include="..\..\cl_dll\input\in_camera.cpp" />
     <ClCompile Include="..\..\cl_dll\studio\StudioModelRenderer.cpp" />
     <ClCompile Include="..\..\cl_dll\studio\studio_render_bones.cpp" />
@@ -234,6 +235,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClInclude Include="..\..\cl_dll\render\interpolation.h" />
     <ClInclude Include="..\..\cl_dll\render\overview.h" />
     <ClInclude Include="..\..\cl_dll\input\in_defs.h" />
+    <ClInclude Include="..\..\cl_dll\input\input_hardware.h" />
     <ClInclude Include="..\..\cl_dll\input\kbutton.h" />
     <ClInclude Include="..\..\cl_dll\studio\StudioModelRenderer.h" />
     <ClInclude Include="..\..\cl_dll\render\tri.h" />

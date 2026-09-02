@@ -25,6 +25,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_mouse.h>
 #include <SDL2/SDL_gamecontroller.h>
+#include "input_hardware.h"
 
 #define MOUSE_BUTTON_COUNT 5
 
@@ -73,7 +74,7 @@ static cvar_t *m_customaccel_max;
 static cvar_t *m_customaccel_exponent;
 
 // if threaded mouse is enabled then the time to sleep between polls
-static cvar_t *m_mousethread_sleep;
+cvar_t *m_mousethread_sleep;
 
 static cvar_t *m_rawinput = nullptr;
 
@@ -156,13 +157,6 @@ cvar_t *joy_wwhack2;
 
 int joy_avail = 0, joy_advancedinit, joy_haspov;
 
-#ifdef _WIN32
-DWORD s_hMouseThreadId       = 0;
-HANDLE s_hMouseThread        = 0;
-HANDLE s_hMouseQuitEvent     = 0;
-HANDLE s_hMouseDoneQuitEvent = 0;
-#endif
-
 /*
 ===========
 Force_CenterView_f
@@ -179,49 +173,6 @@ void Force_CenterView_f( void )
 		gEngfuncs.SetViewAngles( (float *)viewangles );
 	}
 }
-
-#ifdef _WIN32
-long s_mouseDeltaX = 0;
-long s_mouseDeltaY = 0;
-POINT old_mouse_pos;
-
-long ThreadInterlockedExchange( long *pDest, long value )
-{
-	return InterlockedExchange( pDest, value );
-}
-
-DWORD WINAPI MousePos_ThreadFunction( LPVOID p )
-{
-	s_hMouseDoneQuitEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
-
-	while ( 1 )
-	{
-		if ( WaitForSingleObject( s_hMouseQuitEvent, (int)m_mousethread_sleep->value ) == WAIT_OBJECT_0 )
-		{
-			return 0;
-		}
-
-		if ( mouseactive )
-		{
-			POINT mouse_pos;
-			GetCursorPos( &mouse_pos );
-
-			volatile int mx = mouse_pos.x - old_mouse_pos.x + s_mouseDeltaX;
-			volatile int my = mouse_pos.y - old_mouse_pos.y + s_mouseDeltaY;
-
-			ThreadInterlockedExchange( &old_mouse_pos.x, mouse_pos.x );
-			ThreadInterlockedExchange( &old_mouse_pos.y, mouse_pos.y );
-
-			ThreadInterlockedExchange( &s_mouseDeltaX, mx );
-			ThreadInterlockedExchange( &s_mouseDeltaY, my );
-		}
-	}
-
-	SetEvent( s_hMouseDoneQuitEvent );
-
-	return 0;
-}
-#endif
 
 /*
 ===========
@@ -305,33 +256,7 @@ IN_Shutdown
 void IN_Shutdown( void )
 {
 	IN_DeactivateMouse();
-
-#ifdef _WIN32
-	if ( s_hMouseQuitEvent )
-	{
-		SetEvent( s_hMouseQuitEvent );
-		WaitForSingleObject( s_hMouseDoneQuitEvent, 100 );
-	}
-
-	if ( s_hMouseThread )
-	{
-		TerminateThread( s_hMouseThread, 0 );
-		CloseHandle( s_hMouseThread );
-		s_hMouseThread = (HANDLE)0;
-	}
-
-	if ( s_hMouseQuitEvent )
-	{
-		CloseHandle( s_hMouseQuitEvent );
-		s_hMouseQuitEvent = (HANDLE)0;
-	}
-
-	if ( s_hMouseDoneQuitEvent )
-	{
-		CloseHandle( s_hMouseDoneQuitEvent );
-		s_hMouseDoneQuitEvent = (HANDLE)0;
-	}
-#endif
+	Hardware_ShutdownMouseThread();
 }
 
 /*
@@ -381,10 +306,8 @@ void IN_ResetMouse( void )
 #ifdef _WIN32
 	if ( !IN_UseRawInput() && mouseactive && gEngfuncs.GetWindowCenterX && gEngfuncs.GetWindowCenterY )
 	{
-
 		SetCursorPos( gEngfuncs.GetWindowCenterX(), gEngfuncs.GetWindowCenterY() );
-		ThreadInterlockedExchange( &old_mouse_pos.x, gEngfuncs.GetWindowCenterX() );
-		ThreadInterlockedExchange( &old_mouse_pos.y, gEngfuncs.GetWindowCenterY() );
+		Hardware_ResetMousePos( gEngfuncs.GetWindowCenterX(), gEngfuncs.GetWindowCenterY() );
 	}
 #endif
 }
@@ -398,9 +321,7 @@ void IN_ResetRelativeMouseState( void )
 {
 	if ( IN_UseRawInput() )
 	{
-		SDL_PumpEvents();
-		int deltaX, deltaY;
-		SDL_GetRelativeMouseState( &deltaX, &deltaY );
+		Hardware_PumpRelativeMouse();
 	}
 }
 
@@ -505,52 +426,11 @@ void IN_MouseMove( float frametime, usercmd_t *cmd )
 	//       move the camera, or if the mouse cursor is visible or if we're in intermission
 	if ( !iMouseInUse && !gHUD.m_iIntermission && !g_iVisibleMouse )
 	{
-		int deltaX, deltaY;
-#ifdef _WIN32
-		if ( !IN_UseRawInput() )
-		{
-			if ( m_bMouseThread )
-			{
-				ThreadInterlockedExchange( &current_pos.x, s_mouseDeltaX );
-				ThreadInterlockedExchange( &current_pos.y, s_mouseDeltaY );
-				ThreadInterlockedExchange( &s_mouseDeltaX, 0 );
-				ThreadInterlockedExchange( &s_mouseDeltaY, 0 );
-			}
-			else
-			{
-				GetCursorPos( &current_pos );
-			}
-		}
-		else
-#endif
-		{
-			SDL_GetRelativeMouseState( &deltaX, &deltaY );
-#ifdef _WIN32
-			current_pos.x = deltaX;
-			current_pos.y = deltaY;
-#endif
-		}
+		int deltaX = 0, deltaY = 0;
+		Hardware_GetRawMouseDelta( &deltaX, &deltaY, IN_UseRawInput(), m_bMouseThread );
 
-#ifdef _WIN32
-		if ( !IN_UseRawInput() )
-		{
-			if ( m_bMouseThread )
-			{
-				mx = current_pos.x;
-				my = current_pos.y;
-			}
-			else
-			{
-				mx = current_pos.x - gEngfuncs.GetWindowCenterX() + mx_accum;
-				my = current_pos.y - gEngfuncs.GetWindowCenterY() + my_accum;
-			}
-		}
-		else
-#endif
-		{
-			mx = deltaX + mx_accum;
-			my = deltaY + my_accum;
-		}
+		mx = deltaX + mx_accum;
+		my = deltaY + my_accum;
 
 		mx_accum = 0;
 		my_accum = 0;
@@ -606,18 +486,6 @@ void IN_MouseMove( float frametime, usercmd_t *cmd )
 	}
 
 	gEngfuncs.SetViewAngles( (float *)viewangles );
-
-	/*
-	//#define TRACE_TEST
-	#if defined( TRACE_TEST )
-	    {
-	        int mx, my;
-	        void V_Move( int mx, int my );
-	        IN_GetMousePos( &mx, &my );
-	        V_Move( mx, my );
-	    }
-	#endif
-	*/
 }
 
 /*
@@ -632,25 +500,11 @@ void CL_DLLEXPORT IN_Accumulate( void )
 	{
 		if ( mouseactive )
 		{
-#ifdef _WIN32
-			if ( !IN_UseRawInput() )
-			{
-				if ( !m_bMouseThread )
-				{
-					GetCursorPos( &current_pos );
+			int deltaX = 0, deltaY = 0;
+			Hardware_GetRawMouseDelta( &deltaX, &deltaY, IN_UseRawInput(), m_bMouseThread );
+			mx_accum += deltaX;
+			my_accum += deltaY;
 
-					mx_accum += current_pos.x - gEngfuncs.GetWindowCenterX();
-					my_accum += current_pos.y - gEngfuncs.GetWindowCenterY();
-				}
-			}
-			else
-#endif
-			{
-				int deltaX, deltaY;
-				SDL_GetRelativeMouseState( &deltaX, &deltaY );
-				mx_accum += deltaX;
-				my_accum += deltaY;
-			}
 			// force the mouse to the center, so there's room to move
 			IN_ResetMouse();
 		}
@@ -679,75 +533,21 @@ IN_StartupJoystick
 */
 void IN_StartupJoystick( void )
 {
-	// abort startup if user requests no joystick
-	if ( gEngfuncs.CheckParm( "-nojoy", NULL ) )
-		return;
-
-	static float flLastCheck = 0.0f;
-	if ( flLastCheck > 0.0f && ( gEngfuncs.GetAbsoluteTime() - flLastCheck ) < 1.0f )
-		return;
-
-	// gEngfuncs.Con_Printf("IN_StartupJoystick, %f\n", flLastCheck);
-
-	flLastCheck = gEngfuncs.GetAbsoluteTime();
-
-	int nJoysticks = SDL_NumJoysticks();
-	if ( nJoysticks > 0 )
+	Hardware_InitJoystick();
+	joy_avail   = Hardware_IsJoystickAvailable() ? 1 : 0;
+	s_pJoystick = Hardware_GetJoystickHandle();
+	if ( joy_avail )
 	{
-		if ( s_pJoystick == NULL )
-		{
-			for ( int i = 0; i < nJoysticks; i++ )
-			{
-				if ( SDL_IsGameController( i ) )
-				{
-					s_pJoystick = SDL_GameControllerOpen( i );
-					if ( s_pJoystick )
-					{
-						// save the joystick's number of buttons and POV status
-						joy_numbuttons = SDL_CONTROLLER_BUTTON_MAX;
-						joy_haspov     = 0;
-
-						// old button and POV states default to no buttons pressed
-						joy_oldbuttonstate = joy_oldpovstate = 0;
-
-						// mark the joystick as available and advanced initialization not completed
-						// this is needed as cvars are not available during initialization
-						gEngfuncs.Con_Printf( "joystick found %s\n\n", SDL_GameControllerName( s_pJoystick ) );
-						joy_avail        = 1;
-						joy_advancedinit = 0;
-						break;
-					}
-				}
-			}
-		}
-	}
-	else
-	{
-		if ( s_pJoystick )
-			SDL_GameControllerClose( s_pJoystick );
-		s_pJoystick = NULL;
-		if ( joy_avail )
-		{
-			joy_avail = 0;
-			gEngfuncs.Con_DPrintf( "joystick not found -- driver not present\n\n" );
-		}
+		joy_numbuttons     = SDL_CONTROLLER_BUTTON_MAX;
+		joy_haspov         = 0;
+		joy_oldbuttonstate = joy_oldpovstate = 0;
+		joy_advancedinit   = 0;
 	}
 }
 
 int RawValuePointer( int axis )
 {
-	switch ( axis )
-	{
-	default:
-	case JOY_AXIS_X:
-		return SDL_GameControllerGetAxis( s_pJoystick, SDL_CONTROLLER_AXIS_LEFTX );
-	case JOY_AXIS_Y:
-		return SDL_GameControllerGetAxis( s_pJoystick, SDL_CONTROLLER_AXIS_LEFTY );
-	case JOY_AXIS_Z:
-		return SDL_GameControllerGetAxis( s_pJoystick, SDL_CONTROLLER_AXIS_RIGHTX );
-	case JOY_AXIS_R:
-		return SDL_GameControllerGetAxis( s_pJoystick, SDL_CONTROLLER_AXIS_RIGHTY );
-	}
+	return Hardware_GetJoystickAxis( axis );
 }
 
 /*
@@ -1142,13 +942,7 @@ void IN_Init( void )
 
 	if ( !IN_UseRawInput() && m_bMouseThread && m_mousethread_sleep )
 	{
-		s_mouseDeltaX = s_mouseDeltaY = 0;
-
-		s_hMouseQuitEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
-		if ( s_hMouseQuitEvent )
-		{
-			s_hMouseThread = CreateThread( NULL, 0, MousePos_ThreadFunction, NULL, 0, &s_hMouseThreadId );
-		}
+		Hardware_InitMouseThread();
 	}
 #endif
 

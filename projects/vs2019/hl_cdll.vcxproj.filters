@@ -229,6 +229,9 @@
     <ClCompile Include="..\..\cl_dll\input\inputw32.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cl_dll\input\input_hardware.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\cl_dll\render\interpolation.cpp">
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
@@ -485,6 +488,9 @@
       <Filter>Header Files\cl_dll\hud</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\input\in_defs.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\input\input_hardware.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\render\interpolation.h">

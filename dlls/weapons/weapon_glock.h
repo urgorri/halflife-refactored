@@ -32,12 +32,4 @@ class CGlock : public CBasePlayerWeapon
 	unsigned short m_usFireGlock2;
 };
 
-class CGlockAmmo : public CBasePlayerAmmo
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	BOOL AddAmmo( CBaseEntity *pOther );
-};
-
 #endif // WEAPON_GLOCK_H

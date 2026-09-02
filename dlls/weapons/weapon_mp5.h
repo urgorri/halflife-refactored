@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "core/cbase.h"
 #include "weapons/weapon_base.h"
@@ -35,26 +35,3 @@ class CMP5 : public CBasePlayerWeapon
 	unsigned short m_usMP52;
 };
 
-class CMP5AmmoClip : public CBasePlayerAmmo
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	BOOL AddAmmo( CBaseEntity *pOther );
-};
-
-class CMP5Chainammo : public CBasePlayerAmmo
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	BOOL AddAmmo( CBaseEntity *pOther );
-};
-
-class CMP5AmmoGrenade : public CBasePlayerAmmo
-{
-  public:
-	void Spawn( void );
-	void Precache( void );
-	BOOL AddAmmo( CBaseEntity *pOther );
-};

@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -19,6 +19,7 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
+#include "weapons/ammo_base.h"
 #include "weapons/weapon_gauss.h"
 #include "ai/nodes.h"
 #include "core/player.h"
@@ -605,32 +606,10 @@ void CGauss::WeaponIdle( void )
 	}
 }
 
-class CGaussAmmo : public CBasePlayerAmmo
-{
-	void Spawn( void )
-	{
-		Precache();
-		SET_MODEL( ENT( pev ), "models/w_gaussammo.mdl" );
-		CBasePlayerAmmo::Spawn();
-	}
-	void Precache( void )
-	{
-		PRECACHE_MODEL( "models/w_gaussammo.mdl" );
-		PRECACHE_SOUND( "items/9mmclip1.wav" );
-	}
-	BOOL AddAmmo( CBaseEntity *pOther )
-	{
-		if ( pOther->GiveAmmo( AMMO_URANIUMBOX_GIVE, "uranium", URANIUM_MAX_CARRY ) != -1 )
-		{
-			EMIT_SOUND( ENT( pev ), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM );
-			return TRUE;
-		}
-		return FALSE;
-	}
-};
-LINK_ENTITY_TO_CLASS( ammo_gaussclip, CGaussAmmo );
+IMPLEMENT_SIMPLE_AMMO( CGaussAmmo, ammo_gaussclip, "models/w_gaussammo.mdl", "uranium", AMMO_URANIUMBOX_GIVE, URANIUM_MAX_CARRY, "items/9mmclip1.wav" )
 
 #endif
+
 
 #ifndef CLIENT_DLL
 

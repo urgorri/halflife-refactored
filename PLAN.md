@@ -1,27 +1,27 @@
 # Implementation Plan: Pragmatic Modularization & Code Deduplication
 
-- [ ] 1. Consolidation of Over-Fragmented Monster Classes
-  - [ ] 1.1 Consolidate `CHGrunt` member functions back into `hgrunt.cpp`
+- [x] 1. Consolidation of Over-Fragmented Monster Classes
+  - [x] 1.1 Consolidate `CHGrunt` member functions back into `hgrunt.cpp`
     - Reintegrate `hgrunt_combat.cpp` methods (`CheckMeleeAttack1`, `CheckMeleeAttack2`, `CheckRangeAttack1`, `CheckRangeAttack2`, `Shotgun`, `MonsterThink`, etc.) into `dlls/monsters/hgrunt.cpp`
     - Reintegrate `hgrunt_squad.cpp` squad tables, leader selection, and schedule routines into `dlls/monsters/hgrunt.cpp`
     - Verify `dlls/monsters/hgrunt_repel.cpp` cleanly retains `CHGruntRepel` and `CDeadHGrunt`
     - Remove `dlls/monsters/hgrunt_combat.cpp` and `dlls/monsters/hgrunt_squad.cpp`
     - _Requirements: REQ-1.1, REQ-1.4_
-  - [ ] 1.2 Consolidate `CScientist` healing and prop logic into `scientist.cpp`
+  - [x] 1.2 Consolidate `CScientist` healing and prop logic into `scientist.cpp`
     - Reintegrate `scientist_heal.cpp` (`CanHeal`, `Heal`, `CDeadScientist`, `CSittingScientist`) into `dlls/monsters/scientist.cpp`
     - Remove `dlls/monsters/scientist_heal.cpp`
     - _Requirements: REQ-1.2, REQ-1.4_
-  - [ ] 1.3 Consolidate `CTalkMonster` speech routines into `talkmonster.cpp`
+  - [x] 1.3 Consolidate `CTalkMonster` speech routines into `talkmonster.cpp`
     - Reintegrate `talkmonster_speech.cpp` dialogue scheduling and friend reactions into `dlls/ai/talkmonster.cpp`
     - Remove `dlls/ai/talkmonster_speech.cpp`
     - Clean up unnatural `extern` schedule linkages
     - _Requirements: REQ-1.3, REQ-1.4_
 
-- [ ] 2. Reusable Ammo Deduplication Engine
-  - [ ] 2.1 Create centralized reusable ammo helper header `dlls/weapons/ammo_base.h`
+- [x] 2. Reusable Ammo Deduplication Engine
+  - [x] 2.1 Create centralized reusable ammo helper header `dlls/weapons/ammo_base.h`
     - Define `IMPLEMENT_SIMPLE_AMMO` macro and `CBasePlayerAmmo` helpers in `dlls/weapons/ammo_base.h`
     - _Requirements: REQ-2.1_
-  - [ ] 2.2 Refactor weapon ammo declarations across all 13 weapon source files
+  - [x] 2.2 Refactor weapon ammo declarations across all 13 weapon source files
     - Refactor `weapon_glock.cpp` (`ammo_glockclip`, `ammo_9mmclip`)
     - Refactor `weapon_mp5.cpp` (`ammo_mp5clip`, `ammo_9mmAR`, `ammo_9mmbox`, `ammo_mp5grenades`, `ammo_ARgrenades`)
     - Refactor `weapon_shotgun.cpp` (`ammo_buckshot`)
@@ -33,41 +33,41 @@
     - Verify identical give counts, carry limits, and sounds
     - _Requirements: REQ-2.2, REQ-2.3_
 
-- [ ] 3. Weapon Base Subsystem & Contained Entity Decoupling
-  - [ ] 3.1 Extract `CWeaponBox` to `dlls/weapons/weapon_box.cpp` and `weapon_box.h`
+- [x] 3. Weapon Base Subsystem & Contained Entity Decoupling
+  - [x] 3.1 Extract `CWeaponBox` to `dlls/weapons/weapon_box.cpp` and `weapon_box.h`
     - Move `CWeaponBox` class definition and methods (`Precache`, `Spawn`, `Touch`, `PackWeapon`, `PackAmmo`, `GiveAmmo`, `IsEmpty`)
     - _Requirements: REQ-3.1_
-  - [ ] 3.2 Extract `CBasePlayerItem` ground physics to `dlls/weapons/item_base.cpp`
+  - [x] 3.2 Extract `CBasePlayerItem` ground physics to `dlls/weapons/player_item_base.cpp`
     - Move `FallInit`, `FallThink`, `Materialize`, `AttemptToMaterialize`, `CheckRespawn`, `Respawn`, `DefaultTouch`, `AddToPlayer`, `Drop`
     - Retain core `CBasePlayerWeapon` state transitions in `dlls/weapons/weapon_base.cpp`
     - _Requirements: REQ-3.2, REQ-3.3_
 
-- [ ] 4. Environmental Effects Entity Decomposition
-  - [ ] 4.1 Extract `CBeam` to `dlls/systems/effects_beam.cpp`
+- [x] 4. Environmental Effects Entity Decomposition
+  - [x] 4.1 Extract `CBeam` to `dlls/systems/effects_beam.cpp`
     - Extract beam initialization and math routines
     - _Requirements: REQ-4.1_
-  - [ ] 4.2 Extract `CLightning` and `CTripBeam` to `dlls/systems/effects_lightning.cpp`
+  - [x] 4.2 Extract `CLightning` and `CTripBeam` to `dlls/systems/effects_lightning.cpp`
     - Extract lightning striking and trip-beam tripwire logic
     - _Requirements: REQ-4.2_
-  - [ ] 4.3 Extract `CLaser` to `dlls/systems/effects_laser.cpp`
+  - [x] 4.3 Extract `CLaser` to `dlls/systems/effects_laser.cpp`
     - Extract laser positioning and trace rendering
     - _Requirements: REQ-4.3_
-  - [ ] 4.4 Extract `CGlow` and `CSprite` to `dlls/systems/effects_glow.cpp` and `effects_sprite.cpp`
+  - [x] 4.4 Extract `CGlow` and `CSprite` to `dlls/systems/effects_glow.cpp` and `effects_sprite.cpp`
     - Extract sprite animating and glow scaling
     - Remove monolithic `dlls/systems/effects.cpp`
     - _Requirements: REQ-4.4_
 
-- [ ] 5. Client Input Subsystem Decoupling
-  - [ ] 5.1 Extract hardware polling from `cl_dll/input/inputw32.cpp` to `input_hardware.cpp`
+- [x] 5. Client Input Subsystem Decoupling
+  - [x] 5.1 Extract hardware polling from `cl_dll/input/inputw32.cpp` to `input_hardware.cpp`
     - Separate raw mouse/joystick polling from command generation in `input.cpp`
     - _Requirements: REQ-5.1, REQ-5.2_
 
-- [ ] 6. Build Systems Synchronization & Full Verification
-  - [ ] 6.1 Update project files and Makefiles
+- [x] 6. Build Systems Synchronization & Full Verification
+  - [x] 6.1 Update project files and Makefiles
     - Update `projects/vs2019/hldll.vcxproj`, `hldll.vcxproj.filters`
     - Update `projects/vs2019/hl_cdll.vcxproj`, `hl_cdll.vcxproj.filters`
     - Update `linux/Makefile.hldll`, `linux/Makefile.hl_cdll`
     - _Requirements: REQ-6.1_
-  - [ ] 6.2 Verify local Windows MSBuild compilation (0 errors)
+  - [x] 6.2 Verify local Windows MSBuild compilation (0 errors)
     - Compile `hl_cdll.vcxproj` and `hldll.vcxproj` on Win32 Release
     - _Requirements: REQ-6.1, REQ-6.2_
