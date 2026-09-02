@@ -97,6 +97,8 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ScorePanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ServerBrowser.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_TeamFortressViewport.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_viewport_menus.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_viewport_messages.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_CommandMenuPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_SpectatorPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_TeamMenuPanel.o \
