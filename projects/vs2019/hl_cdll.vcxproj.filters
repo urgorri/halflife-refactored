@@ -241,6 +241,27 @@
     <ClCompile Include="..\..\pm_shared\pm_shared.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_step.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_ground.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_air.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_water.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_ladders.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_duck.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_hull.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\pm_shared\pm_debug.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
@@ -326,7 +347,13 @@
       <Filter>Source Files\game_shared</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\render\view.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\render\view_camera.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\render\view_bob.cpp">
+      <Filter>Source Files\render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui\vgui_ServerBrowser.cpp">
       <Filter>Source Files\cl_dll</Filter>
@@ -335,7 +362,13 @@
       <Filter>Source Files\cl_dll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamFortressViewport.cpp">
-      <Filter>Source Files\cl_dll</Filter>
+      <Filter>Source Files\vgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_viewport_menus.cpp">
+      <Filter>Source Files\vgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\vgui\vgui_viewport_messages.cpp">
+      <Filter>Source Files\vgui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cl_dll\vgui\vgui_TeamMenuPanel.cpp">
       <Filter>Source Files\cl_dll</Filter>

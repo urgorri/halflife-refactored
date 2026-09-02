@@ -57,6 +57,21 @@
     <ClCompile Include="..\..\dlls\monsters\aflock.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound_ambient.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound_dsp.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound_sentences.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\sound_speaker.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\agrunt.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -121,7 +136,13 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\combat.cpp">
-      <Filter>Source Files\dlls</Filter>
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\combat_damage.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\combat_gib.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\controller.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -210,8 +231,17 @@
     <ClCompile Include="..\..\dlls\monsters\headcrab.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-        <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp">
+      <Filter>Source Files\monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\monsters\hgrunt_combat.cpp">
+      <Filter>Source Files\monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\monsters\hgrunt_squad.cpp">
+      <Filter>Source Files\monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\monsters\hgrunt_repel.cpp">
+      <Filter>Source Files\monsters</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_glock.cpp">
       <Filter>Source Files\dlls\weapons</Filter>
@@ -331,7 +361,16 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\multiplay_gamerules.cpp">
-      <Filter>Source Files\dlls</Filter>
+      <Filter>Source Files\gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_scoring.cpp">
+      <Filter>Source Files\gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_spawn.cpp">
+      <Filter>Source Files\gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_items.cpp">
+      <Filter>Source Files\gameplay</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\nihilanth.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -393,6 +432,27 @@
     <ClCompile Include="..\..\pm_shared\pm_shared.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_step.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_ground.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_air.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_water.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_ladders.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_duck.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_hull.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\pm_shared\pm_debug.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
@@ -418,13 +478,13 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\scientist.cpp">
-      <Filter>Source Files\dlls</Filter>
+      <Filter>Source Files\monsters</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\gameplay\scripted.cpp">
-      <Filter>Source Files\dlls</Filter>
+    <ClCompile Include="..\..\dlls\monsters\scientist_heal.cpp">
+      <Filter>Source Files\monsters</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_shotgun.cpp">
-      <Filter>Source Files\dlls</Filter>
+      <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\singleplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -448,13 +508,16 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_snark.cpp">
-      <Filter>Source Files\dlls</Filter>
+      <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\subs.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\ai\talkmonster.cpp">
-      <Filter>Source Files\dlls\ai</Filter>
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\ai\talkmonster_speech.cpp">
+      <Filter>Source Files\ai</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
@@ -553,7 +616,13 @@
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\util.cpp">
-      <Filter>Source Files\dlls</Filter>
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\util_trace.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\util_saverestore.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\util_math.cpp">
       <Filter>Source Files\dlls</Filter>

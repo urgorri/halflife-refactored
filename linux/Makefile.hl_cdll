@@ -85,6 +85,8 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/render/tri.o \
 	$(HL1_OBJ_DIR)/core/util.o \
 	$(HL1_OBJ_DIR)/render/view.o \
+	$(HL1_OBJ_DIR)/render/view_camera.o \
+	$(HL1_OBJ_DIR)/render/view_bob.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_int.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ClassMenuPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ConsolePanel.o \
@@ -95,6 +97,8 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ScorePanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ServerBrowser.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_TeamFortressViewport.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_viewport_menus.o \
+	$(HL1_OBJ_DIR)/VGUI/vgui_viewport_messages.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_CommandMenuPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_SpectatorPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_TeamMenuPanel.o \
@@ -138,6 +142,13 @@ GAME_SHARED_OBJS = \
 PM_SHARED_OBJS = \
 	$(PM_SHARED_OBJ_DIR)/pm_debug.o \
 	$(PM_SHARED_OBJ_DIR)/pm_shared.o \
+	$(PM_SHARED_OBJ_DIR)/pm_step.o \
+	$(PM_SHARED_OBJ_DIR)/pm_move_ground.o \
+	$(PM_SHARED_OBJ_DIR)/pm_move_air.o \
+	$(PM_SHARED_OBJ_DIR)/pm_move_water.o \
+	$(PM_SHARED_OBJ_DIR)/pm_ladders.o \
+	$(PM_SHARED_OBJ_DIR)/pm_duck.o \
+	$(PM_SHARED_OBJ_DIR)/pm_hull.o \
 	$(PM_SHARED_OBJ_DIR)/pm_math.o \
 
 
