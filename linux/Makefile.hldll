@@ -69,6 +69,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/buttons.o \
 	$(HLCORE_OBJ_DIR)/cbase.o \
 	$(HLCORE_OBJ_DIR)/combat.o \
+	$(HLCORE_OBJ_DIR)/combat_damage.o \
+	$(HLCORE_OBJ_DIR)/combat_gib.o \
 	$(HLCORE_OBJ_DIR)/client.o \
 	$(HLCORE_OBJ_DIR)/player_suit.o \
 	$(HLCORE_OBJ_DIR)/player_combat.o \
@@ -235,6 +237,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/turret.o \
 	$(HLDLL_OBJ_DIR)/systems/turret_base.o \
 	$(HLCORE_OBJ_DIR)/util.o \
+	$(HLCORE_OBJ_DIR)/util_trace.o \
+	$(HLCORE_OBJ_DIR)/util_saverestore.o \
 	$(HLCORE_OBJ_DIR)/util_math.o \
 	$(HLCORE_OBJ_DIR)/util_entity.o \
 	$(HLCORE_OBJ_DIR)/util_debug.o \

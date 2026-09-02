@@ -120,6 +120,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\buttons.cpp" />
     <ClCompile Include="..\..\dlls\core\cbase.cpp" />
     <ClCompile Include="..\..\dlls\core\combat.cpp" />
+    <ClCompile Include="..\..\dlls\core\combat_damage.cpp" />
+    <ClCompile Include="..\..\dlls\core\combat_gib.cpp" />
     <ClCompile Include="..\..\dlls\core\client.cpp" />
     <ClCompile Include="..\..\dlls\core\player_suit.cpp" />
     <ClCompile Include="..\..\dlls\core\player_combat.cpp" />
@@ -280,6 +282,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\turret.cpp" />
     <ClCompile Include="..\..\dlls\systems\turret_base.cpp" />
     <ClCompile Include="..\..\dlls\core\util.cpp" />
+    <ClCompile Include="..\..\dlls\core\util_trace.cpp" />
+    <ClCompile Include="..\..\dlls\core\util_saverestore.cpp" />
     <ClCompile Include="..\..\dlls\core\util_math.cpp" />
     <ClCompile Include="..\..\dlls\core\util_entity.cpp" />
     <ClCompile Include="..\..\dlls\core\util_debug.cpp" />
