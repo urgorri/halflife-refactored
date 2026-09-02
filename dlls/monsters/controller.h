@@ -92,4 +92,37 @@ class CController : public CSquadMonster
 	int m_fInCombat;
 };
 
+//=========================================================
+// Controller bouncy ball attack
+//=========================================================
+class CControllerHeadBall : public CBaseMonster
+{
+  public:
+	void Spawn( void );
+	void Precache( void );
+	void EXPORT HuntThink( void );
+	void EXPORT DieThink( void );
+	void EXPORT BounceTouch( CBaseEntity *pOther );
+	void MovetoTarget( Vector vecTarget );
+	void Crawl( void );
+	int m_iTrail;
+	int m_flNextAttack;
+	Vector m_vecIdeal;
+	EHANDLE m_hOwner;
+};
+
+//=========================================================
+// Controller direct zap energy ball
+//=========================================================
+class CControllerZapBall : public CBaseMonster
+{
+  public:
+	void Spawn( void );
+	void Precache( void );
+	void EXPORT AnimateThink( void );
+	void EXPORT ExplodeTouch( CBaseEntity *pOther );
+
+	EHANDLE m_hOwner;
+};
+
 #endif // MONSTERS_CONTROLLER_H

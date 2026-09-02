@@ -211,4 +211,24 @@ class CBigMomma : public CBaseMonster
 	int m_crabCount;
 };
 
+extern int gSpitSprite;
+extern int gSpitDebrisSprite;
+void MortarSpray( const Vector &position, const Vector &direction, int spriteModel, int count );
+
+class CBMortar : public CBaseEntity
+{
+  public:
+	void Spawn( void );
+
+	static CBMortar *Shoot( edict_t *pOwner, Vector vecStart, Vector vecVelocity );
+	void Touch( CBaseEntity *pOther );
+	void EXPORT Animate( void );
+
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
+
+	int m_maxFrame;
+};
+
 #endif // MONSTERS_BIGMOMMA_H

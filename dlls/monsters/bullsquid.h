@@ -90,4 +90,20 @@ class CBullsquid : public CBaseMonster
 	float m_flNextSpitTime; // last time the bullsquid used the spit attack.
 };
 
+class CSquidSpit : public CBaseEntity
+{
+  public:
+	void Spawn( void );
+
+	static void Shoot( entvars_t *pevOwner, Vector vecStart, Vector vecVelocity );
+	void Touch( CBaseEntity *pOther );
+	void EXPORT Animate( void );
+
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
+
+	int m_maxFrame;
+};
+
 #endif // MONSTERS_BULLSQUID_H

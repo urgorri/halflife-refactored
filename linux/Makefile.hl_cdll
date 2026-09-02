@@ -90,7 +90,6 @@ HL1_OBJS = \
 	$(HL1_OBJ_DIR)/render/view_bob.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_int.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ClassMenuPanel.o \
-	$(HL1_OBJ_DIR)/VGUI/vgui_ConsolePanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_ControlConfigPanel.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_CustomObjects.o \
 	$(HL1_OBJ_DIR)/VGUI/vgui_MOTDWindow.o \

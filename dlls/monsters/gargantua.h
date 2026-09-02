@@ -117,4 +117,33 @@ class CGargantua : public CBaseMonster
 	float m_flameY;
 };
 
+void StreakSplash( const Vector &origin, const Vector &direction, int color, int count, int speed, int velocityRange );
+
+// Spiral Effect
+class CSpiral : public CBaseEntity
+{
+  public:
+	void Spawn( void );
+	void Think( void );
+	int ObjectCaps( void ) { return FCAP_DONT_SAVE; }
+	static CSpiral *Create( const Vector &origin, float height, float radius, float duration );
+};
+
+// Stomp Effect
+class CStomp : public CBaseEntity
+{
+  public:
+	void Spawn( void );
+	void Think( void );
+	static CStomp *StompCreate( const Vector &origin, const Vector &end, float speed );
+};
+
+// Smoker Effect
+class CSmoker : public CBaseEntity
+{
+  public:
+	void Spawn( void );
+	void Think( void );
+};
+
 #endif // MONSTERS_GARGANTUA_H

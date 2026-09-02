@@ -1,76 +1,89 @@
-# Requirements Document: Pragmatic Modularization & Code Deduplication
+# Requirements Document
 
 ## Introduction
 
-This document specifies the requirements for consolidating over-modularized entity classes, eliminating cross-weapon ammo duplication, and decoupling multi-entity systems in the Half-Life GoldSrc DLL codebase, strictly adhering to the updated [AGENTS.md](file:///E:/Dev/urgorri/halflife-refactored/AGENTS.md) guidelines.
+This document specifies the architectural, maintainability, and compilation optimization requirements for the Half-Life 1 GoldSrc DLL codebase refactoring effort. The objective is to eliminate redundant boilerplate across world items and weapon ground pickups, consolidate over-fragmented domain entities (monsters, chargers, doors, xen flora, tanks, map rules, triggers), remove unreferenced dead code, and drastically reduce compilation times while preserving 100% of the original game behavior.
 
 ## Glossary
 
-- **Cohesive Entity**: A self-contained game entity whose member functions and state are private to itself and not shared across other game entities.
-- **Ammo Factory / Helper**: A reusable template or macro mechanism in `dlls/weapons/ammo_base.h` that eliminates repetitive boilerplate for `ammo_*` entity classes.
-- **Weapon Box**: Container entity (`CWeaponBox`) spawned when players drop weapons or die.
-- **Environmental Effects**: Visual entities (`beam`, `env_lightning`, `trip_beam`, `env_laser`, `env_glow`, `env_sprite`) currently coupled inside `effects.cpp`.
+- **GoldSrc**: The game engine powering Half-Life 1.
+- **Translation Unit (TU)**: A source file (`.cpp`) along with all included headers compiled by the compiler into an object file (`.obj` / `.o`).
+- **Brush Entity**: An entity whose volume and physics bounds are defined by a BSP model brush (e.g., `trigger_multiple`, `func_door`).
+- **Point Entity**: An entity positioned at a single point coordinate with no BSP volume (e.g., `trigger_relay`, `info_target`).
+- **Ground Pickup**: An item or weapon entity residing in the physical world waiting to be collected by a player.
+- **Dead Code**: Source files or symbols that are neither referenced nor compiled in any configuration.
 
 ---
 
 ## Requirements
 
-### Requirement 1: Consolidation of Over-Fragmented Monster Classes
+### Requirement 1: Monster Auxiliary Component Reintegration (Locality & Ergonomics)
 
-**User Story:** As an engine developer, I want monster member functions consolidated in their primary entity files so that navigating and maintaining monster behavior is intuitive and cohesive.
-
-#### Acceptance Criteria
-
-1. WHEN inspecting [`dlls/monsters/hgrunt.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/monsters/hgrunt.cpp), THE monster class `CHGrunt` SHALL contain all its member functions (`hgrunt_combat.cpp` and `hgrunt_squad.cpp` consolidated), while [`hgrunt_repel.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/monsters/hgrunt_repel.cpp) SHALL isolate `CHGruntRepel` and `CDeadHGrunt`.
-2. WHEN inspecting [`dlls/monsters/scientist.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/monsters/scientist.cpp), THE `CScientist` class SHALL contain its healing routines and prop variants (`scientist_heal.cpp` consolidated into `scientist.cpp`).
-3. WHEN inspecting [`dlls/ai/talkmonster.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/ai/talkmonster.cpp), THE `CTalkMonster` base class SHALL contain all speech and dialogue scheduling (`talkmonster_speech.cpp` consolidated into `talkmonster.cpp`).
-4. THE system SHALL eliminate forced `extern` schedule and helper linkage across fragmented monster files.
-
-### Requirement 2: Reusable Ammo Deduplication Engine
-
-**User Story:** As a developer, I want a reusable ammo entity definition mechanism so that duplicate `Spawn`, `Precache`, and `AddAmmo` boilerplate is eliminated across all 13 weapon source files.
+**User Story:** As a developer maintaining monster AI, I want monster-specific projectiles, effects, and auxiliary routines to reside in the parent monster file, so that related code is easily navigable without artificial header indirection.
 
 #### Acceptance Criteria
+1. THE monster subsystem SHALL consolidate `CBabyCrab` into `dlls/monsters/headcrab.cpp`.
+2. THE monster subsystem SHALL consolidate `CSquidSpit` into `dlls/monsters/bullsquid.cpp`.
+3. THE monster subsystem SHALL consolidate `CBigMommaMortar` into `dlls/monsters/bigmomma.cpp`.
+4. THE monster subsystem SHALL consolidate `CControllerHeadBall` and `CControllerZapBall` into `dlls/monsters/controller.cpp`.
+5. THE monster subsystem SHALL consolidate `CGargantuaFlame` and effects into `dlls/monsters/gargantua.cpp`.
+6. THE monster subsystem SHALL consolidate `CNihilanthEnergyOrb` into `dlls/monsters/nihilanth.cpp`.
+7. THE monster subsystem SHALL consolidate `CTentacleMaw` into `dlls/monsters/tentacle.cpp`.
+8. THE monster subsystem SHALL consolidate `CApacheHVR` into `dlls/monsters/apache.cpp`.
+9. IF auxiliary monster files and headers are consolidated, THEN all 8 obsolete `.h` and `.cpp` files SHALL be removed from the project.
 
-1. THE system SHALL provide a centralized header [`dlls/weapons/ammo_base.h`](file:///E:/Dev/urgorri/halflife-refactored/dlls/weapons/ammo_base.h) defining standard ammo registration macros and base helpers.
-2. WHEN an ammo entity (`ammo_glockclip`, `ammo_9mmAR`, `ammo_buckshot`, `ammo_357`, `ammo_crossbow`, `ammo_rpgclip`, etc.) is declared, IT SHALL utilize the shared base macro/helper without copy-pasted boilerplate.
-3. THE system SHALL preserve identical model paths, ammo give amounts, maximum carry limits, and pickup sound behavior for every ammo type.
+---
 
-### Requirement 3: Weapon Base Subsystem & Contained Entity Decoupling
+### Requirement 2: Domain Entity Consolidation (Chargers, Doors, Flora, Tanks)
 
-**User Story:** As a programmer, I want `CWeaponBox` and `CBasePlayerItem` decoupled from `weapon_base.cpp` so that the weapon state machine remains focused and clean.
-
-#### Acceptance Criteria
-
-1. THE `CWeaponBox` entity and its weapon/ammo packing methods SHALL be extracted to [`dlls/weapons/weapon_box.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/weapons/weapon_box.cpp) and [`dlls/weapons/weapon_box.h`](file:///E:/Dev/urgorri/halflife-refactored/dlls/weapons/weapon_box.h).
-2. THE `CBasePlayerItem` world physics, falling, and materialization routines SHALL be extracted to [`dlls/weapons/item_base.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/weapons/item_base.cpp).
-3. THE core file [`dlls/weapons/weapon_base.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/weapons/weapon_base.cpp) SHALL retain only `CBasePlayerWeapon` state transitions, deployment, animation, and prediction callbacks.
-
-### Requirement 4: Environmental Effects & Visual Entity Separation
-
-**User Story:** As a level designer and programmer, I want separate entity files for distinct environmental effects so that beams, lasers, sprites, and glows do not share a single 1,169-line monolithic file.
+**User Story:** As a developer working with world and system entities, I want tightly related entity subclasses to be grouped into cohesive domain modules, so that the number of redundant translation units is minimized.
 
 #### Acceptance Criteria
+1. THE chargers subsystem SHALL consolidate `CWallHealth` and `CWallRecharge` into `dlls/systems/chargers.cpp`.
+2. THE doors subsystem SHALL consolidate `CRotDoor` and `CMomentaryDoor` into `dlls/systems/doors.cpp`.
+3. THE xen flora subsystem SHALL consolidate `CXenTree`, `CXenTreeTrigger`, and `CXenSpore` into `dlls/world/xen.cpp`.
+4. THE tanks subsystem SHALL consolidate `CFuncTankGun`, `CFuncTankLaser`, `CFuncTankMortar`, and `CFuncTankRocket` into `dlls/systems/func_tank.cpp`.
 
-1. THE beam entities (`beam`, `CBeam`) SHALL reside in [`dlls/systems/effects_beam.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/systems/effects_beam.cpp).
-2. THE lightning and trip-beam entities (`env_lightning`, `env_beam`, `trip_beam`) SHALL reside in [`dlls/systems/effects_lightning.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/systems/effects_lightning.cpp).
-3. THE laser projector entity (`env_laser`, `CLaser`) SHALL reside in [`dlls/systems/effects_laser.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/systems/effects_laser.cpp).
-4. THE glow and sprite entities (`env_glow`, `CGlow`, `env_sprite`, `CSprite`) SHALL reside in [`dlls/systems/effects_glow.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/systems/effects_glow.cpp) and [`dlls/systems/effects_sprite.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/systems/effects_sprite.cpp).
+---
 
-### Requirement 5: Client Input & Hardware Polling Decoupling
+### Requirement 3: Map Rules & Triggers Architectural Separation
 
-**User Story:** As an engine developer, I want client hardware input separated from usercmd movement building so that mouse/joystick polling does not pollute view angle calculation.
-
-#### Acceptance Criteria
-
-1. THE Win32 and raw mouse/joystick polling routines SHALL reside in [`cl_dll/input/input_hardware.cpp`](file:///E:/Dev/urgorri/halflife-refactored/cl_dll/input/input_hardware.cpp).
-2. THE client movement calculation (`CL_CreateMove`) and button state processing SHALL reside in [`cl_dll/input/input.cpp`](file:///E:/Dev/urgorri/halflife-refactored/cl_dll/input/input.cpp).
-
-### Requirement 6: Build Verification & Cross-Platform Integrity
-
-**User Story:** As a maintainer, I want project files and Makefiles synchronized so that Windows and Linux CI checks pass with zero errors and zero regressions.
+**User Story:** As a developer maintaining gameplay logic and triggers, I want map rules consolidated and triggers strictly partitioned between brush and point entities, so that entity boundaries are obvious and clean.
 
 #### Acceptance Criteria
+1. THE map rules subsystem SHALL consolidate all 11 `game_*` point rule entities into `dlls/gameplay/maprules.cpp`.
+2. THE triggers subsystem SHALL place all BSP volumetric touch triggers into `dlls/systems/triggers_brush.cpp`.
+3. THE triggers subsystem SHALL place all logical, non-brush point triggers into `dlls/systems/triggers_point.cpp`.
+4. WHEN compiling triggers, THE build system SHALL compile exactly 2 translation units for all 24 trigger entities.
 
-1. THE build system SHALL compile both Client (`client.dll` / `client.so`) and Server (`hl.dll` / `hl.so`) with **0 errors**.
-2. ALL changes SHALL preserve exact GoldSrc entity names, network message formats, and gameplay behaviors.
+---
+
+### Requirement 4: World Item and Ground Weapon Pickup Deduplication
+
+**User Story:** As a developer adding or modifying world pickups, I want reusable declarative macros/templates for items and ground weapons, so that repetitive `Spawn()`, `Precache()`, and `FallInit()` boilerplate is eliminated.
+
+#### Acceptance Criteria
+1. THE item subsystem SHALL provide an `IMPLEMENT_WORLD_ITEM` macro/template in `dlls/items/item_base.h`.
+2. THE item subsystem SHALL declare standard world pickups (`item_battery`, `item_suit`, `item_antidote`, `item_security`, `item_longjump`, `item_healthkit`) in `dlls/items/items.cpp`.
+3. THE weapon subsystem SHALL provide an `INITIALIZE_WORLD_WEAPON` macro/helper in `dlls/weapons/weapon_base.h` for consistent entity naming, model binding, and `FallInit()` ground setup.
+
+---
+
+### Requirement 5: Dead Code Removal & Policy Documentation
+
+**User Story:** As a developer auditing the codebase, I want unreferenced legacy stubs and obsolete UI files removed, so that there is zero confusion regarding active codebase components.
+
+#### Acceptance Criteria
+1. THE build system and repository SHALL remove unreferenced legacy files: `dlls/core/mpstubb.cpp`, `cl_dll/hud/scoreboard.cpp`, `cl_dll/vgui/MOTD.cpp`, `cl_dll/vgui/vgui_ConsolePanel.cpp` (and header), and `cl_dll/systems/soundsystem.cpp`.
+2. THE `README.md` and `AGENTS.md` SHALL explicitly document the removal of unreferenced legacy files.
+
+---
+
+### Requirement 6: Build Synchronization & Multi-Platform Verification
+
+**User Story:** As a contributor, I want Visual Studio project files and Linux makefiles fully synchronized and tested, so that builds succeed with 0 errors across Windows and Linux.
+
+#### Acceptance Criteria
+1. THE Visual Studio solution files (`hldll.vcxproj`, `hl_cdll.vcxproj`, and filters) SHALL contain all updated and consolidated files with zero missing references.
+2. THE Linux makefiles (`Makefile.hldll`, `Makefile.hl_cdll`) SHALL compile all object files without missing symbols.
+3. THE codebase SHALL compile with 0 errors on MSBuild Win32 Release and GitHub Actions CI for Linux and Windows.

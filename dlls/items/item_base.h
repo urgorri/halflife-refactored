@@ -1,19 +1,7 @@
-/***
- *
- *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
- *
- *	This product contains software technology licensed from Id
- *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
- *	All Rights Reserved.
- *
- *   Use, distribution, and modification of this source code and/or resulting
- *   object code is restricted to non-commercial enhancements to products from
- *   Valve LLC.  All other use, distribution, or modification is prohibited
- *   without written permission from Valve LLC.
- *
- ****/
 #ifndef ITEM_BASE_H
 #define ITEM_BASE_H
+
+#include "core/cbase.h"
 
 class CItem : public CBaseEntity
 {
@@ -24,5 +12,27 @@ class CItem : public CBaseEntity
 	void EXPORT Materialize( void );
 	virtual BOOL MyTouch( CBasePlayer *pPlayer ) { return FALSE; };
 };
+
+#define IMPLEMENT_WORLD_ITEM( className, entityName, modelPath, precacheCode, touchBody ) \
+class className : public CItem                                                            \
+{                                                                                         \
+  public:                                                                                 \
+	void Spawn( void ) override                                                           \
+	{                                                                                     \
+		Precache();                                                                       \
+		SET_MODEL( ENT( pev ), modelPath );                                               \
+		CItem::Spawn();                                                                   \
+	}                                                                                     \
+	void Precache( void ) override                                                        \
+	{                                                                                     \
+		PRECACHE_MODEL( (char *)modelPath );                                              \
+		precacheCode                                                                      \
+	}                                                                                     \
+	BOOL MyTouch( CBasePlayer *pPlayer ) override                                         \
+	{                                                                                     \
+		touchBody                                                                         \
+	}                                                                                     \
+};                                                                                        \
+LINK_ENTITY_TO_CLASS( entityName, className );
 
 #endif // ITEM_BASE_H

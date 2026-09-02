@@ -16,6 +16,27 @@ This fork focuses exclusively on improving the **internal architecture, organiza
 
 This project is **not intended to add gameplay features or change how Half-Life works**.
 
+## Scope & Target Architecture
+
+This repository targets exclusively the **base Half-Life single-player and multiplayer experience** (`dlls/`, `cl_dll/`, `pm_shared/`, `game_shared/`).
+
+Unused legacy mod components (`ricochet/`, `dmc/`, etc.) and unreferenced source stubs are intentionally excluded from active maintenance.
+
+### Subsystem Architecture Highlights
+
+- **Monsters Subsystem (`dlls/monsters/`)**: Monster entities keep their tightly coupled projectile/satellite entities co-located (e.g. `headcrab.cpp` manages `babyheadcrab`, `nihilanth.cpp` manages `nihilanth_energy`, `apache.cpp` manages `apache_hvr`, etc.).
+- **Map Rules (`dlls/gameplay/maprules.cpp`, `maprules.h`)**: Consolidated all 11 `game_*` map rule entities into a single coherent rules manager.
+- **Triggers Subsystem (`dlls/systems/`)**: Triggers are logically partitioned into:
+  - `triggers_brush.cpp`/`.h`: Volumetric BSP touch triggers (`trigger_multiple`, `trigger_once`, `trigger_hurt`, `trigger_push`, `trigger_teleport`, `trigger_changelevel`, `func_ladder`, `func_friction`, etc.).
+  - `triggers_point.cpp`/`.h`: Point logic and relay triggers (`trigger_auto`, `trigger_relay`, `trigger_camera`, `multi_manager`, `env_render`, `target_cdaudio`, `fireanddie`).
+- **Entity Subsystems (`dlls/systems/`, `dlls/world/`)**:
+  - `chargers.cpp`/`.h`: Unified wall-mounted charging stations (`func_healthcharger`, `func_recharge`).
+  - `doors.cpp`/`.h`: Unified door controllers (`func_door`, `func_door_rotating`, `momentary_door`).
+  - `func_tank.cpp`/`.h`: Unified mounted weapons (`func_tank`, `func_tanklaser`, `func_tankrocket`, `func_tankmortar`).
+  - `xen.cpp`/`.h`: Unified Xen environmental entities (`xen_tree`, `xen_spore_*`).
+- **Items Subsystem (`dlls/items/`)**: Unified standard world pickup entities (`item_suit`, `item_battery`, `item_healthkit`, `item_antidote`, `item_security`, `item_longjump`) using declarative `IMPLEMENT_WORLD_ITEM` macros.
+- **Weapons Subsystem (`dlls/weapons/`)**: Deduplicated ground weapon pickups using `INITIALIZE_WORLD_WEAPON`.
+
 ## Development Philosophy
 
 The target is a cleaner internal implementation of the original GoldSrc DLL:
@@ -23,7 +44,6 @@ The target is a cleaner internal implementation of the original GoldSrc DLL:
 > **Same behavior. Better code.**
 
 Changes should provide a concrete architectural or maintenance benefit. Cosmetic refactoring and unnecessary abstractions should be avoided.
-
 
 ## Building
 

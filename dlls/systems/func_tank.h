@@ -116,4 +116,44 @@ class CFuncTank : public CBaseEntity
 	int m_iszMaster;      // Master entity (game_team_master or multisource)
 };
 
+class CFuncTankGun : public CFuncTank
+{
+  public:
+	void Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker );
+};
+
+class CLaser;
+
+class CFuncTankLaser : public CFuncTank
+{
+  public:
+	void Activate( void );
+	void KeyValue( KeyValueData *pkvd );
+	void Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker );
+	void Think( void );
+	CLaser *GetLaser( void );
+
+	virtual int Save( CSave &save );
+	virtual int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
+
+  private:
+	CLaser *m_pLaser;
+	float m_laserTime;
+};
+
+class CFuncTankMortar : public CFuncTank
+{
+  public:
+	void KeyValue( KeyValueData *pkvd );
+	void Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker );
+};
+
+class CFuncTankRocket : public CFuncTank
+{
+  public:
+	void Precache( void );
+	void Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker );
+};
+
 #endif // FUNC_TANK_H

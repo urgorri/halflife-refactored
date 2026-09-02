@@ -167,4 +167,11 @@ class CTentacle : public CBaseMonster
 	static const char *pHitWater[];
 };
 
+class CTentacleMaw : public CBaseMonster
+{
+  public:
+	void Spawn();
+	void Precache();
+};
+
 #endif // MONSTERS_TENTACLE_H

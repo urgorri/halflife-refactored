@@ -165,6 +165,16 @@ class CBasePlayerAmmo : public CBaseEntity
 	void EXPORT Materialize( void );
 };
 
+#define INITIALIZE_WORLD_WEAPON( weaponId, worldModel, defaultAmmo ) \
+	do                                                               \
+	{                                                                \
+		Precache();                                                  \
+		m_iId = ( weaponId );                                        \
+		SET_MODEL( ENT( pev ), ( worldModel ) );                     \
+		m_iDefaultAmmo = ( defaultAmmo );                            \
+		FallInit();                                                  \
+	} while ( 0 )
+
 #include "weapons/weapon_box.h"
 
 extern int gmsgWeapPickup;

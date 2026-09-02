@@ -438,3 +438,63 @@ Schedule_t *CHeadCrab ::GetScheduleOfType( int Type )
 	return CBaseMonster::GetScheduleOfType( Type );
 }
 
+//=========================================================
+// CBabyCrab implementation
+//=========================================================
+LINK_ENTITY_TO_CLASS( monster_babycrab, CBabyCrab );
+
+void CBabyCrab ::Spawn( void )
+{
+	CHeadCrab::Spawn();
+	SET_MODEL( ENT( pev ), "models/baby_headcrab.mdl" );
+	pev->rendermode = kRenderTransTexture;
+	pev->renderamt  = 192;
+	UTIL_SetSize( pev, Vector( -12, -12, 0 ), Vector( 12, 12, 24 ) );
+
+	pev->health = gSkillData.headcrabHealth * 0.25; // less health than full grown
+}
+
+void CBabyCrab ::Precache( void )
+{
+	PRECACHE_MODEL( "models/baby_headcrab.mdl" );
+	CHeadCrab::Precache();
+}
+
+void CBabyCrab ::SetYawSpeed( void )
+{
+	pev->yaw_speed = 120;
+}
+
+BOOL CBabyCrab ::CheckRangeAttack1( float flDot, float flDist )
+{
+	if ( pev->flags & FL_ONGROUND )
+	{
+		if ( pev->groundentity && ( pev->groundentity->v.flags & ( FL_CLIENT | FL_MONSTER ) ) )
+			return TRUE;
+
+		// A little less accurate, but jump from closer
+		if ( flDist <= 180 && flDot >= 0.55 )
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+Schedule_t *CBabyCrab ::GetScheduleOfType( int Type )
+{
+	switch ( Type )
+	{
+	case SCHED_FAIL: // If you fail, try to jump!
+		if ( m_hEnemy != NULL )
+			return slHCRangeAttack1Fast;
+		break;
+
+	case SCHED_RANGE_ATTACK1:
+	{
+		return slHCRangeAttack1Fast;
+	}
+	break;
+	}
+
+	return CHeadCrab::GetScheduleOfType( Type );
+}
