@@ -294,6 +294,13 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\pm_shared\pm_debug.c" />
     <ClCompile Include="..\..\pm_shared\pm_math.c" />
     <ClCompile Include="..\..\pm_shared\pm_shared.c" />
+    <ClCompile Include="..\..\pm_shared\pm_step.c" />
+    <ClCompile Include="..\..\pm_shared\pm_move_ground.c" />
+    <ClCompile Include="..\..\pm_shared\pm_move_air.c" />
+    <ClCompile Include="..\..\pm_shared\pm_move_water.c" />
+    <ClCompile Include="..\..\pm_shared\pm_ladders.c" />
+    <ClCompile Include="..\..\pm_shared\pm_duck.c" />
+    <ClCompile Include="..\..\pm_shared\pm_hull.c" />
     <ClCompile Include="..\..\dlls\systems\charger_base.cpp" />
     <ClCompile Include="..\..\dlls\systems\charger_health.cpp" />
     <ClCompile Include="..\..\dlls\systems\charger_suit.cpp" />

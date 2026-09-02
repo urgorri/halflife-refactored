@@ -393,6 +393,27 @@
     <ClCompile Include="..\..\pm_shared\pm_shared.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_step.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_ground.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_air.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_move_water.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_ladders.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_duck.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pm_shared\pm_hull.c">
+      <Filter>Source Files\pm_shared</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\pm_shared\pm_debug.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>

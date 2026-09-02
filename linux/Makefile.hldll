@@ -242,6 +242,13 @@ HLWPN_OBJS = \
 
 PM_OBJS = \
 	$(PM_OBJ_DIR)/pm_shared.o \
+	$(PM_OBJ_DIR)/pm_step.o \
+	$(PM_OBJ_DIR)/pm_move_ground.o \
+	$(PM_OBJ_DIR)/pm_move_air.o \
+	$(PM_OBJ_DIR)/pm_move_water.o \
+	$(PM_OBJ_DIR)/pm_ladders.o \
+	$(PM_OBJ_DIR)/pm_duck.o \
+	$(PM_OBJ_DIR)/pm_hull.o \
 	$(PM_OBJ_DIR)/pm_math.o \
 	$(PM_OBJ_DIR)/pm_debug.o
 
