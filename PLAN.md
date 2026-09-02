@@ -1,150 +1,150 @@
 # Master Implementation Plan - Full AGENTS.md Compliance
 
-- [ ] 1. Phase 6: Shared Movement & Physics Engine Modularization (`pm_shared/`)
-  - [ ] 1.1 Extract `pm_shared/pm_move_ground.c`
+- [x] 1. Phase 6: Shared Movement & Physics Engine Modularization (`pm_shared/`)
+  - [x] 1.1 Extract `pm_shared/pm_move_ground.c`
     - Extract ground acceleration, friction calculation, step-up/down logic, and walk animations.
     - _Requirements: REQ-1.1, REQ-1.2_
-  - [ ] 1.2 Extract `pm_shared/pm_move_air.c`
+  - [x] 1.2 Extract `pm_shared/pm_move_air.c`
     - Extract air acceleration, strafe physics, gravity handling, and bunnyhop limits.
     - _Requirements: REQ-1.1, REQ-1.3_
-  - [ ] 1.3 Extract `pm_shared/pm_move_water.c`
+  - [x] 1.3 Extract `pm_shared/pm_move_water.c`
     - Extract swimming mechanics, buoyancy, water friction, and surface exit velocity.
     - _Requirements: REQ-1.1, REQ-1.4_
-  - [ ] 1.4 Extract `pm_shared/pm_ladders.c`
+  - [x] 1.4 Extract `pm_shared/pm_ladders.c`
     - Extract ladder collision detection, mount/dismount math, and vertical climb velocity.
     - _Requirements: REQ-1.1, REQ-1.5_
-  - [ ] 1.5 Extract `pm_shared/pm_duck.c`
+  - [x] 1.5 Extract `pm_shared/pm_duck.c`
     - Extract duck transitions, un-ducking checks, hull size switches, and eye offset interpolation.
     - _Requirements: REQ-1.1, REQ-1.6_
-  - [ ] 1.6 Extract `pm_shared/pm_hull.c`
+  - [x] 1.6 Extract `pm_shared/pm_hull.c`
     - Extract player bounding hull traces, entity push resolutions, and unstick math.
     - _Requirements: REQ-1.1, REQ-1.7_
-  - [ ] 1.7 Refactor `pm_shared/pm_shared.c`
+  - [x] 1.7 Refactor `pm_shared/pm_shared.c`
     - Retain top-level `PM_PlayerMove` entry point, state dispatcher, and texture/sound mapping.
     - _Requirements: REQ-1.1, REQ-1.8_
-  - [ ] 1.8 Synchronize build systems and verify compilation (0 errors).
+  - [x] 1.8 Synchronize build systems and verify compilation (0 errors).
     - _Requirements: REQ-8.1, REQ-8.2, REQ-8.3_
 
-- [ ] 2. Phase 7: Client View & Rendering Pipeline Modularization (`cl_dll/render/`)
-  - [ ] 2.1 Extract `cl_dll/render/view_camera.cpp`
+- [x] 2. Phase 7: Client View & Rendering Pipeline Modularization (`cl_dll/render/`)
+  - [x] 2.1 Extract `cl_dll/render/view_camera.cpp`
     - Extract 1st-person view angles calculation, 3rd-person chase camera, and spectator interpolation.
     - _Requirements: REQ-2.1_
-  - [ ] 2.2 Extract `cl_dll/render/view_bob.cpp`
+  - [x] 2.2 Extract `cl_dll/render/view_bob.cpp`
     - Extract weapon viewmodel bobbing, walking sway, roll angles, and punch angle smoothing.
     - _Requirements: REQ-2.2_
-  - [ ] 2.3 Extract `cl_dll/render/view_effects.cpp`
+  - [x] 2.3 Extract `cl_dll/render/view_effects.cpp`
     - Extract screen blends, underwater distortion tints, flashbang whiteout, and damage flashes.
     - _Requirements: REQ-2.3_
-  - [ ] 2.4 Refactor `cl_dll/render/view.cpp`
+  - [x] 2.4 Refactor `cl_dll/render/view.cpp`
     - Retain projection matrix setup, crosshair drawing, and frame reference definition entry point (`V_CalcRefdef`).
     - _Requirements: REQ-2.4_
-  - [ ] 2.5 Clean up obsolete SDK sample renderer files (`GameStudioModelRenderer_Sample.*`).
+  - [x] 2.5 Clean up obsolete SDK sample renderer files (`GameStudioModelRenderer_Sample.*`).
     - _Requirements: REQ-2.5_
-  - [ ] 2.6 Synchronize build systems and verify compilation (0 errors).
+  - [x] 2.6 Synchronize build systems and verify compilation (0 errors).
     - _Requirements: REQ-8.1, REQ-8.3_
 
-- [ ] 3. Phase 8: Multiplayer GameRules & Session Management Modularization (`dlls/gameplay/`)
-  - [ ] 3.1 Extract `dlls/gameplay/gamerules_spawn.cpp`
+- [x] 3. Phase 8: Multiplayer GameRules & Session Management Modularization (`dlls/gameplay/`)
+  - [x] 3.1 Extract `dlls/gameplay/gamerules_spawn.cpp`
     - Extract player spawn point selection, team start positions, and telefrag avoidance checks.
     - _Requirements: REQ-3.1_
-  - [ ] 3.2 Extract `dlls/gameplay/gamerules_items.cpp`
+  - [x] 3.2 Extract `dlls/gameplay/gamerules_items.cpp`
     - Extract item respawn timers, weapon drop rules, ammo limits, and pack pickups.
     - _Requirements: REQ-3.2_
-  - [ ] 3.3 Extract `dlls/gameplay/gamerules_scoring.cpp`
+  - [x] 3.3 Extract `dlls/gameplay/gamerules_scoring.cpp`
     - Extract frag calculations, suicide/teamkill penalties, death notice broadcasting, and score tallies.
     - _Requirements: REQ-3.3_
-  - [ ] 3.4 Extract `dlls/gameplay/gamerules_teamplay.cpp`
+  - [x] 3.4 Extract `dlls/gameplay/gamerules_teamplay.cpp`
     - Extract team balancing, team model/name enforcement, team scoring, and teamplay overrides.
     - _Requirements: REQ-3.4_
-  - [ ] 3.5 Refactor `dlls/gameplay/multiplay_gamerules.cpp` and `teamplay_gamerules.cpp`
+  - [x] 3.5 Refactor `dlls/gameplay/multiplay_gamerules.cpp` and `teamplay_gamerules.cpp`
     - Retain core rule state machine, client query handlers, cvar listeners, and thinker callbacks.
     - _Requirements: REQ-3.5_
-  - [ ] 3.6 Synchronize build systems and verify compilation (0 errors).
+  - [x] 3.6 Synchronize build systems and verify compilation (0 errors).
     - _Requirements: REQ-8.2, REQ-8.3_
 
-- [ ] 4. Phase 9: Environmental Audio & Voice Sentence Engine Modularization (`dlls/systems/`)
-  - [ ] 4.1 Extract `dlls/systems/sound_ambient.cpp`
+- [x] 4. Phase 9: Environmental Audio & Voice Sentence Engine Modularization (`dlls/systems/`)
+  - [x] 4.1 Extract `dlls/systems/sound_ambient.cpp`
     - Extract `ambient_generic` playback, continuous loop management, and dynamic volume attenuation.
     - _Requirements: REQ-4.1_
-  - [ ] 4.2 Extract `dlls/systems/sound_ai_ent.cpp`
+  - [x] 4.2 Extract `dlls/systems/sound_ai_ent.cpp`
     - Extract `CSoundEnt` sensory pulse generation and routing for NPC auditory AI.
     - _Requirements: REQ-4.2_
-  - [ ] 4.3 Extract `dlls/systems/sound_sentences.cpp`
+  - [x] 4.3 Extract `dlls/systems/sound_sentences.cpp`
     - Extract `sentences.txt` parser, LRU sentence pool management, and phonetic group sequencing.
     - _Requirements: REQ-4.3_
-  - [ ] 4.4 Extract `dlls/systems/sound_dsp.cpp`
+  - [x] 4.4 Extract `dlls/systems/sound_dsp.cpp`
     - Extract room reverb presets, water sound muffling, and environmental audio DSP filters.
     - _Requirements: REQ-4.4_
-  - [ ] 4.5 Refactor `dlls/systems/sound.cpp`
+  - [x] 4.5 Refactor `dlls/systems/sound.cpp`
     - Retain top-level sound precaching, sound channel allocation, and sound dispatch entry points.
     - _Requirements: REQ-4.5_
-  - [ ] 4.6 Synchronize build systems and verify compilation (0 errors).
+  - [x] 4.6 Synchronize build systems and verify compilation (0 errors).
     - _Requirements: REQ-8.2, REQ-8.3_
 
-- [ ] 5. Phase 10: Server Core Combat & Utilities Modularization (`dlls/core/`)
-  - [ ] 5.1 Extract `dlls/core/combat_damage.cpp`
+- [x] 5. Phase 10: Server Core Combat & Utilities Modularization (`dlls/core/`)
+  - [x] 5.1 Extract `dlls/core/combat_damage.cpp`
     - Extract damage type classifications, armor absorption curves, and explosive radius damage falloff.
     - _Requirements: REQ-5.1_
-  - [ ] 5.2 Extract `dlls/core/combat_gib.cpp`
+  - [x] 5.2 Extract `dlls/core/combat_gib.cpp`
     - Extract decapitation, gib creation, body part disintegration, and blood particle spawning.
     - _Requirements: REQ-5.2_
-  - [ ] 5.3 Refactor `dlls/core/combat.cpp`
+  - [x] 5.3 Refactor `dlls/core/combat.cpp`
     - Retain trace attack dispatch, entity hurt callbacks, and death state transitions.
     - _Requirements: REQ-5.5_
-  - [ ] 5.4 Extract `dlls/core/util_math.cpp`
+  - [x] 5.4 Extract `dlls/core/util_math.cpp`
     - Extract angle vector computations, aim vectors, and matrix transformations.
     - _Requirements: REQ-5.3_
-  - [ ] 5.5 Extract `dlls/core/util_trace.cpp`
+  - [x] 5.5 Extract `dlls/core/util_trace.cpp`
     - Extract world tracelines, hull traces, point contents checks, and visibility raycasts.
     - _Requirements: REQ-5.4_
-  - [ ] 5.6 Refactor `dlls/core/util.cpp`
+  - [x] 5.6 Refactor `dlls/core/util.cpp`
     - Retain HUD message formatting, server printouts, and top-level utility helpers.
     - _Requirements: REQ-5.5_
-  - [ ] 5.7 Synchronize build systems and verify compilation (0 errors).
+  - [x] 5.7 Synchronize build systems and verify compilation (0 errors).
     - _Requirements: REQ-8.2, REQ-8.3_
 
-- [ ] 6. Phase 11: Tactical Monster AI & Speech Dialogue Modularization (`dlls/monsters/` & `dlls/ai/`)
-  - [ ] 6.1 Extract `dlls/monsters/hgrunt_combat.cpp`
+- [x] 6. Phase 11: Tactical Monster AI & Speech Dialogue Modularization (`dlls/monsters/` & `dlls/ai/`)
+  - [x] 6.1 Extract `dlls/monsters/hgrunt_combat.cpp`
     - Extract Human Grunt weapon selection schedules (MP5 vs Shotgun), fire patterns, and grenade trajectories.
     - _Requirements: REQ-6.1_
-  - [ ] 6.2 Extract `dlls/monsters/hgrunt_squad.cpp`
+  - [x] 6.2 Extract `dlls/monsters/hgrunt_squad.cpp`
     - Extract squad leader tactical commands, covering fire, fallback maneuvers, and radio chatter.
     - _Requirements: REQ-6.2_
-  - [ ] 6.3 Extract `dlls/monsters/hgrunt_repel.cpp`
+  - [x] 6.3 Extract `dlls/monsters/hgrunt_repel.cpp`
     - Extract `hgrunt_repel` rappelling spawn mechanics and `dead_grunt` entity logic.
     - _Requirements: REQ-6.3_
-  - [ ] 6.4 Refactor `dlls/monsters/hgrunt.cpp`
+  - [x] 6.4 Refactor `dlls/monsters/hgrunt.cpp`
     - Retain core schedule tables, relationships, sensory loops, and base animation events.
     - _Requirements: REQ-6.1, REQ-6.2_
-  - [ ] 6.5 Extract `dlls/ai/talkmonster_speech.cpp`
+  - [x] 6.5 Extract `dlls/ai/talkmonster_speech.cpp`
     - Extract TalkMonster dynamic greetings, follow requests, refusal lines, and fear vocalizations.
     - _Requirements: REQ-6.4_
-  - [ ] 6.6 Extract `dlls/monsters/scientist_heal.cpp`
+  - [x] 6.6 Extract `dlls/monsters/scientist_heal.cpp`
     - Extract Scientist player health diagnostics, syringe animation sequences, and heal cooldowns.
     - _Requirements: REQ-6.5_
-  - [ ] 6.7 Refactor `dlls/ai/talkmonster.cpp` and `dlls/monsters/scientist.cpp`
+  - [x] 6.7 Refactor `dlls/ai/talkmonster.cpp` and `dlls/monsters/scientist.cpp`
     - Retain base schedule dispatch, follow navigation, and entity state transitions.
     - _Requirements: REQ-6.4, REQ-6.5_
-  - [ ] 6.8 Synchronize build systems and verify compilation (0 errors).
+  - [x] 6.8 Synchronize build systems and verify compilation (0 errors).
     - _Requirements: REQ-8.2, REQ-8.3_
 
-- [ ] 7. Phase 12: Client VGUI Viewport Modernization (`cl_dll/vgui/`)
-  - [ ] 7.1 Extract `cl_dll/vgui/vgui_viewport_serverbrowser.cpp`
+- [x] 7. Phase 12: Client VGUI Viewport Modernization (`cl_dll/vgui/`)
+  - [x] 7.1 Extract `cl_dll/vgui/vgui_viewport_serverbrowser.cpp`
     - Extract server list queries, ping indicators, and server browser modal UI.
     - _Requirements: REQ-7.1_
-  - [ ] 7.2 Extract `cl_dll/vgui/vgui_viewport_menus.cpp`
+  - [x] 7.2 Extract `cl_dll/vgui/vgui_viewport_menus.cpp`
     - Extract command menus, team selection dialogs, and class picker panels.
     - _Requirements: REQ-7.2_
-  - [ ] 7.3 Refactor `cl_dll/vgui/vgui_TeamFortressViewport.cpp`
+  - [x] 7.3 Refactor `cl_dll/vgui/vgui_TeamFortressViewport.cpp`
     - Retain core viewport layout, resolution scaling, and message routing.
     - _Requirements: REQ-7.3_
-  - [ ] 7.4 Synchronize build systems and verify compilation (0 errors).
+  - [x] 7.4 Synchronize build systems and verify compilation (0 errors).
     - _Requirements: REQ-8.1, REQ-8.3_
 
-- [ ] 8. Final Repository Polish & Verification
-  - [ ] 8.1 Perform complete clean builds of Client and Server on Windows MSVC.
+- [x] 8. Final Repository Polish & Verification
+  - [x] 8.1 Perform complete clean builds of Client and Server on Windows MSVC.
     - _Requirements: REQ-8.3_
-  - [ ] 8.2 Verify zero orphaned headers or circular dependencies.
+  - [x] 8.2 Verify zero orphaned headers or circular dependencies.
     - _Requirements: REQ-8.3_
-  - [ ] 8.3 Update documentation and final repository status in README.
+  - [x] 8.3 Update documentation and final repository status in README.
     - _Requirements: REQ-8.3_
