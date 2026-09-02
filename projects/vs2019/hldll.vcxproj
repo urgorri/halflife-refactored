@@ -192,6 +192,9 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\mortar.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_mp5.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\multiplay_gamerules.cpp" />
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_scoring.cpp" />
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_spawn.cpp" />
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_items.cpp" />
     <ClCompile Include="..\..\dlls\monsters\nihilanth.cpp" />
     <ClCompile Include="..\..\dlls\ai\nodes_graph.cpp" />
     <ClCompile Include="..\..\dlls\ai\nodes_routing.cpp" />

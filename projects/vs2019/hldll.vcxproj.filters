@@ -331,7 +331,16 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\multiplay_gamerules.cpp">
-      <Filter>Source Files\dlls</Filter>
+      <Filter>Source Files\gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_scoring.cpp">
+      <Filter>Source Files\gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_spawn.cpp">
+      <Filter>Source Files\gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_items.cpp">
+      <Filter>Source Files\gameplay</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\nihilanth.cpp">
       <Filter>Source Files\dlls</Filter>

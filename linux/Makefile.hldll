@@ -194,6 +194,9 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/ai/talkmonster.o \
 	$(HLDLL_OBJ_DIR)/gameplay/teamplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/multiplay_gamerules.o \
+	$(HLDLL_OBJ_DIR)/gameplay/gamerules_scoring.o \
+	$(HLDLL_OBJ_DIR)/gameplay/gamerules_spawn.o \
+	$(HLDLL_OBJ_DIR)/gameplay/gamerules_items.o \
 	$(HLDLL_OBJ_DIR)/gameplay/singleplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/stats.o \
 	$(HLDLL_OBJ_DIR)/ai/tempmonster.o \
