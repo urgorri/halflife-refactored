@@ -156,6 +156,9 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\monsters\hassassin.cpp" />
     <ClCompile Include="..\..\dlls\monsters\headcrab.cpp" />
         <ClCompile Include="..\..\dlls\monsters\hgrunt.cpp" />
+        <ClCompile Include="..\..\dlls\monsters\hgrunt_combat.cpp" />
+        <ClCompile Include="..\..\dlls\monsters\hgrunt_squad.cpp" />
+        <ClCompile Include="..\..\dlls\monsters\hgrunt_repel.cpp" />
     <ClCompile Include="..\..\dlls\weapons\projectile_hornet.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_hornetgun.cpp" />
     <ClCompile Include="..\..\dlls\monsters\houndeye.cpp" />
@@ -233,6 +236,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\weapons\weapon_satchel.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\scripted.cpp" />
     <ClCompile Include="..\..\dlls\monsters\scientist.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\scientist_heal.cpp" />
     <ClCompile Include="..\..\dlls\ai\schedule.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_shotgun.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\singleplay_gamerules.cpp" />
@@ -249,6 +253,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\weapons\weapon_snark.cpp" />
     <ClCompile Include="..\..\dlls\core\subs.cpp" />
     <ClCompile Include="..\..\dlls\ai\talkmonster.cpp" />
+    <ClCompile Include="..\..\dlls\ai\talkmonster_speech.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp" />
     <ClCompile Include="..\..\dlls\ai\tempmonster.cpp" />
     <ClCompile Include="..\..\dlls\systems\trigger_auto.cpp" />
