@@ -13,6 +13,7 @@
  *
  ****/
 
+#include <stdint.h>
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
