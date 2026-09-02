@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -660,3 +660,221 @@ void CFuncTankControls::Spawn( void )
 
 	CBaseEntity::Spawn();
 }
+
+//=========================================================
+// CFuncTankGun implementation
+//=========================================================
+LINK_ENTITY_TO_CLASS( func_tank, CFuncTankGun );
+
+void CFuncTankGun::Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker )
+{
+	int i;
+
+	if ( m_fireLast != 0 )
+	{
+		// FireBullets needs gpGlobals->v_up, etc.
+		UTIL_MakeAimVectors( pev->angles );
+
+		int bulletCount = ( gpGlobals->time - m_fireLast ) * m_fireRate;
+		if ( bulletCount > 0 )
+		{
+			for ( i = 0; i < bulletCount; i++ )
+			{
+				switch ( m_bulletType )
+				{
+				case TANK_BULLET_9MM:
+					FireBullets( 1, barrelEnd, forward, gTankSpread[m_spread], 4096, BULLET_MONSTER_9MM, 1, m_iBulletDamage, pevAttacker );
+					break;
+
+				case TANK_BULLET_MP5:
+					FireBullets( 1, barrelEnd, forward, gTankSpread[m_spread], 4096, BULLET_MONSTER_MP5, 1, m_iBulletDamage, pevAttacker );
+					break;
+
+				case TANK_BULLET_12MM:
+					FireBullets( 1, barrelEnd, forward, gTankSpread[m_spread], 4096, BULLET_MONSTER_12MM, 1, m_iBulletDamage, pevAttacker );
+					break;
+
+				default:
+				case TANK_BULLET_NONE:
+					break;
+				}
+			}
+			CFuncTank::Fire( barrelEnd, forward, pevAttacker );
+		}
+	}
+	else
+		CFuncTank::Fire( barrelEnd, forward, pevAttacker );
+}
+
+//=========================================================
+// CFuncTankLaser implementation
+//=========================================================
+LINK_ENTITY_TO_CLASS( func_tanklaser, CFuncTankLaser );
+
+TYPEDESCRIPTION CFuncTankLaser::m_SaveData[] =
+    {
+        DEFINE_FIELD( CFuncTankLaser, m_pLaser, FIELD_CLASSPTR ),
+        DEFINE_FIELD( CFuncTankLaser, m_laserTime, FIELD_TIME ),
+};
+
+IMPLEMENT_SAVERESTORE( CFuncTankLaser, CFuncTank );
+
+void CFuncTankLaser::Activate( void )
+{
+	if ( !GetLaser() )
+	{
+		UTIL_Remove( this );
+		ALERT( at_error, "Laser tank with no env_laser!\n" );
+	}
+	else
+	{
+		m_pLaser->TurnOff();
+	}
+}
+
+void CFuncTankLaser::KeyValue( KeyValueData *pkvd )
+{
+	if ( FStrEq( pkvd->szKeyName, "laserentity" ) )
+	{
+		pev->message   = ALLOC_STRING( pkvd->szValue );
+		pkvd->fHandled = TRUE;
+	}
+	else
+		CFuncTank::KeyValue( pkvd );
+}
+
+CLaser *CFuncTankLaser::GetLaser( void )
+{
+	if ( m_pLaser )
+		return m_pLaser;
+
+	edict_t *pentLaser;
+
+	pentLaser = FIND_ENTITY_BY_TARGETNAME( NULL, STRING( pev->message ) );
+	while ( !FNullEnt( pentLaser ) )
+	{
+		// Found the landmark
+		if ( FClassnameIs( pentLaser, "env_laser" ) )
+		{
+			m_pLaser = (CLaser *)CBaseEntity::Instance( pentLaser );
+			break;
+		}
+		else
+			pentLaser = FIND_ENTITY_BY_TARGETNAME( pentLaser, STRING( pev->message ) );
+	}
+
+	return m_pLaser;
+}
+
+void CFuncTankLaser::Think( void )
+{
+	if ( m_pLaser && ( gpGlobals->time > m_laserTime ) )
+		m_pLaser->TurnOff();
+
+	CFuncTank::Think();
+}
+
+void CFuncTankLaser::Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker )
+{
+	int i;
+	TraceResult tr;
+
+	if ( m_fireLast != 0 && GetLaser() )
+	{
+		// TankTrace needs gpGlobals->v_up, etc.
+		UTIL_MakeAimVectors( pev->angles );
+
+		int bulletCount = ( gpGlobals->time - m_fireLast ) * m_fireRate;
+		if ( bulletCount )
+		{
+			for ( i = 0; i < bulletCount; i++ )
+			{
+				m_pLaser->pev->origin = barrelEnd;
+				TankTrace( barrelEnd, forward, gTankSpread[m_spread], tr );
+
+				m_laserTime = gpGlobals->time;
+				m_pLaser->TurnOn();
+				m_pLaser->pev->dmgtime = gpGlobals->time - 1.0;
+				m_pLaser->FireAtPoint( tr );
+				m_pLaser->pev->nextthink = 0;
+			}
+			CFuncTank::Fire( barrelEnd, forward, pev );
+		}
+	}
+	else
+	{
+		CFuncTank::Fire( barrelEnd, forward, pev );
+	}
+}
+
+//=========================================================
+// CFuncTankMortar implementation
+//=========================================================
+LINK_ENTITY_TO_CLASS( func_tankmortar, CFuncTankMortar );
+
+void CFuncTankMortar::KeyValue( KeyValueData *pkvd )
+{
+	if ( FStrEq( pkvd->szKeyName, "iMagnitude" ) )
+	{
+		pev->impulse   = atoi( pkvd->szValue );
+		pkvd->fHandled = TRUE;
+	}
+	else
+		CFuncTank::KeyValue( pkvd );
+}
+
+void CFuncTankMortar::Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker )
+{
+	if ( m_fireLast != 0 )
+	{
+		int bulletCount = ( gpGlobals->time - m_fireLast ) * m_fireRate;
+		// Only create 1 explosion
+		if ( bulletCount > 0 )
+		{
+			TraceResult tr;
+
+			// TankTrace needs gpGlobals->v_up, etc.
+			UTIL_MakeAimVectors( pev->angles );
+
+			TankTrace( barrelEnd, forward, gTankSpread[m_spread], tr );
+
+			ExplosionCreate( tr.vecEndPos, pev->angles, edict(), pev->impulse, TRUE );
+
+			CFuncTank::Fire( barrelEnd, forward, pev );
+		}
+	}
+	else
+		CFuncTank::Fire( barrelEnd, forward, pev );
+}
+
+//=========================================================
+// CFuncTankRocket implementation
+//=========================================================
+LINK_ENTITY_TO_CLASS( func_tankrocket, CFuncTankRocket );
+
+void CFuncTankRocket::Precache( void )
+{
+	UTIL_PrecacheOther( "rpg_rocket" );
+	CFuncTank::Precache();
+}
+
+void CFuncTankRocket::Fire( const Vector &barrelEnd, const Vector &forward, entvars_t *pevAttacker )
+{
+	int i;
+
+	if ( m_fireLast != 0 )
+	{
+		int bulletCount = ( gpGlobals->time - m_fireLast ) * m_fireRate;
+		if ( bulletCount > 0 )
+		{
+			for ( i = 0; i < bulletCount; i++ )
+			{
+				CBaseEntity *pRocket = CBaseEntity::Create( "rpg_rocket", barrelEnd, pev->angles, edict() );
+			}
+			CFuncTank::Fire( barrelEnd, forward, pev );
+		}
+	}
+	else
+		CFuncTank::Fire( barrelEnd, forward, pev );
+}
+

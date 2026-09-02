@@ -1,18 +1,4 @@
-/***
- *
- *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
- *
- *	This product contains software technology licensed from Id
- *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
- *	All Rights Reserved.
- *
- *   Use, distribution, and modification of this source code and/or resulting
- *   object code is restricted to non-commercial enhancements to products from
- *   Valve LLC.  All other use, distribution, or modification is prohibited
- *   without written permission from Valve LLC.
- *
- ****/
-#include "systems/charger_base.h"
+#include "systems/chargers.h"
 #include "weapons/weapon_base.h"
 
 TYPEDESCRIPTION CBaseWallCharger::m_SaveData[] =
@@ -25,6 +11,9 @@ TYPEDESCRIPTION CBaseWallCharger::m_SaveData[] =
 };
 
 IMPLEMENT_SAVERESTORE( CBaseWallCharger, CBaseToggle );
+
+LINK_ENTITY_TO_CLASS( func_healthcharger, CWallHealth );
+LINK_ENTITY_TO_CLASS( func_recharge, CWallRecharge );
 
 void CBaseWallCharger::KeyValue( KeyValueData *pkvd )
 {
@@ -99,30 +88,31 @@ void CBaseWallCharger::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_T
 	if ( m_flNextCharge >= gpGlobals->time )
 		return;
 
-	// Play start sound or looping sound
 	if ( !m_iOn )
 	{
-		m_iOn++;
+		m_iOn = 1;
 		EMIT_SOUND( ENT( pev ), CHAN_ITEM, (char *)GetStartSound(), GetSoundVolume(), ATTN_NORM );
 		m_flSoundTime = 0.56 + gpGlobals->time;
 	}
+
 	if ( ( m_iOn == 1 ) && ( m_flSoundTime <= gpGlobals->time ) )
 	{
-		m_iOn++;
+		m_iOn = 2;
 		EMIT_SOUND( ENT( pev ), CHAN_STATIC, (char *)GetLoopSound(), GetSoundVolume(), ATTN_NORM );
 	}
 
+	// charge the player
 	if ( GiveResource( pActivator ) )
 	{
 		m_iJuice--;
 	}
 
+	// govern the rate of charge
 	m_flNextCharge = gpGlobals->time + 0.1;
 }
 
 void CBaseWallCharger::Recharge( void )
 {
-	EMIT_SOUND( ENT( pev ), CHAN_ITEM, (char *)GetStartSound(), GetSoundVolume(), ATTN_NORM );
 	m_iJuice   = GetCapacity();
 	pev->frame = 0;
 	SetThink( &CBaseWallCharger::SUB_DoNothing );
@@ -130,18 +120,17 @@ void CBaseWallCharger::Recharge( void )
 
 void CBaseWallCharger::Off( void )
 {
-	if ( m_iOn > 1 && GetLoopSound() && *GetLoopSound() )
+	// Stop looping sound.
+	if ( m_iOn > 1 )
 		STOP_SOUND( ENT( pev ), CHAN_STATIC, (char *)GetLoopSound() );
 
 	m_iOn = 0;
 
-	if ( ( !m_iJuice ) && ( ( m_iReactivate = (int)GetRechargeTime() ) > 0 ) )
+	if ( ( !m_iJuice ) && ( ( m_iReactivate = GetRechargeTime() ) > 0 ) )
 	{
 		pev->nextthink = pev->ltime + m_iReactivate;
 		SetThink( &CBaseWallCharger::Recharge );
 	}
 	else
-	{
 		SetThink( &CBaseWallCharger::SUB_DoNothing );
-	}
 }

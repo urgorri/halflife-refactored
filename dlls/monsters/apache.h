@@ -16,6 +16,7 @@
 #define MONSTERS_APACHE_H
 
 #include "ai/monsters.h"
+#include "weapons/projectile_grenade.h"
 
 #define SF_WAITFORTRIGGER ( 1 << 6 )
 #define SF_NOWRECKAGE ( 1 << 7 )
@@ -81,6 +82,22 @@ class CApache : public CBaseMonster
 
 	int m_iDoSmokePuff;
 	CBeam *m_pBeam;
+};
+
+class CApacheHVR : public CGrenade
+{
+  public:
+	void Spawn( void );
+	void Precache( void );
+	void EXPORT IgniteThink( void );
+	void EXPORT AccelerateThink( void );
+
+	int Save( CSave &save );
+	int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
+
+	int m_iTrail;
+	Vector m_vecForward;
 };
 
 #endif // MONSTERS_APACHE_H

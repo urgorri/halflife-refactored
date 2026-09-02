@@ -1,121 +1,99 @@
-# Design Document: Pragmatic Modularization & Code Deduplication
+# Design Document
 
 ## Overview
 
-This design document outlines the technical architecture for consolidating over-modularized entity classes, eliminating cross-weapon ammo boilerplate via reusable patterns, and separating multi-entity source files into focused modules, in direct compliance with the refined [AGENTS.md](file:///E:/Dev/urgorri/halflife-refactored/AGENTS.md) standards.
+This design outlines the refactoring and consolidation strategy for Half-Life GoldSrc DLL codebase. By eliminating redundant translation units, extracting reusable pickup macros for world items and ground weapons, partitioning triggers cleanly into brush vs point categories, and removing unreferenced dead legacy files, the codebase achieves optimal locality, maintainability, and significantly faster compilation speeds without altering any game behavior.
 
----
-
-## Component Architecture & System Boundaries
+## System Architecture
 
 ### Component Map
 
-| Component ID | Module / File | Responsibility | Relationships |
-| :--- | :--- | :--- | :--- |
-| **COMP-1** | [`dlls/monsters/hgrunt.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/monsters/hgrunt.cpp) | Consolidated `CHGrunt` lifecycle, tactical squad AI, and weapon combat. | Derives from `CSquadMonster`. |
-| **COMP-2** | [`dlls/monsters/hgrunt_repel.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/monsters/hgrunt_repel.cpp) | Isolated `CHGruntRepel` rappel mechanics and `CDeadHGrunt` decorative prop. | Spawns `monster_human_grunt`. |
-| **COMP-3** | [`dlls/monsters/scientist.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/monsters/scientist.cpp) | Consolidated `CScientist` behavioral AI, panic schedules, heal routines, and sitting/dead variants. | Derives from `CTalkMonster`. |
-| **COMP-4** | [`dlls/ai/talkmonster.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/ai/talkmonster.cpp) | Consolidated `CTalkMonster` base follower AI, friend lookup, and speech scheduling. | Base class for Barney, Scientist. |
-| **COMP-5** | [`dlls/weapons/ammo_base.h`](file:///E:/Dev/urgorri/halflife-refactored/dlls/weapons/ammo_base.h) | Reusable factory macros and templates for ammo entity registration. | Included by all `weapon_*.cpp`. |
-| **COMP-6** | [`dlls/weapons/weapon_box.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/weapons/weapon_box.cpp) | `CWeaponBox` item container, weapon packing, and ammo collection. | Used on player death / drop. |
-| **COMP-7** | [`dlls/weapons/item_base.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/weapons/item_base.cpp) | `CBasePlayerItem` ground physics, materialization, and touch rules. | Base class for `CBasePlayerWeapon`. |
-| **COMP-8** | [`dlls/systems/effects_*.cpp`](file:///E:/Dev/urgorri/halflife-refactored/dlls/systems) | Isolated visual entities (`effects_beam.cpp`, `effects_lightning.cpp`, `effects_laser.cpp`, `effects_glow.cpp`, `effects_sprite.cpp`). | Independent map entities. |
-| **COMP-9** | [`cl_dll/input/input_hardware.cpp`](file:///E:/Dev/urgorri/halflife-refactored/cl_dll/input/input_hardware.cpp) | Low-level OS/DirectInput mouse and joystick polling. | Feeds raw axes to `input.cpp`. |
+| Component ID | Name | Type | Responsibility | Interfaces With |
+|-------------|------|------|----------------|-----------------|
+| COMP-AI | Monster AI & Satellites | Server | NPC behaviors, animations, attacks, projectiles | Core Game Engine |
+| COMP-SYS | Systems & Environmental Entities | Server | Chargers, Doors, Bmodels, Tanks, Effects | Game Rules, Core |
+| COMP-WORLD | World & Xen Fauna | Server | World geometry interactions, Xen plants | Physics, Core |
+| COMP-RULES | Map Rules Subsystem | Server | BSP level logic, scoring, team routing | Game Rules, Client |
+| COMP-TRIG | Triggers (Brush & Point) | Server | Touch volumes, changelevels, relays, counters | Dispatcher, Core |
+| COMP-ITEMS | Items & World Pickups | Server | Healthkits, batteries, suit, ground weapons | Player Inventory, HUD |
+| COMP-CL | Client HUD & VGUI | Client | HUD rendering, VGUI menus, View models | Engine Client API |
 
 ---
 
-## Detailed Component Specifications
+## Data Flow Specifications
 
-### 1. Monster Consolidation Architecture
+### 1. World Item Pickup Flow (`IMPLEMENT_WORLD_ITEM`)
 
 ```
-   BEFORE: Over-Fragmented Class Methods             AFTER: Cohesive Entity File
-  ┌─────────────────────────────────────┐          ┌────────────────────────────┐
-  │ hgrunt.cpp        (Core lifecycle)  │          │                            │
-  │ hgrunt_combat.cpp (Combat methods)  │  ──────► │ hgrunt.cpp (CHGrunt class) │
-  │ hgrunt_squad.cpp  (Squad schedules) │          │                            │
-  └─────────────────────────────────────┘          └────────────────────────────┘
-  ┌─────────────────────────────────────┐          ┌────────────────────────────┐
-  │ hgrunt_repel.cpp (Repel & Prop)     │  ──────► │ hgrunt_repel.cpp (Repel)   │
-  └─────────────────────────────────────┘          └────────────────────────────┘
+1. Map/Monster Spawns Item → Precache model/sound → Drop to Floor (FallInit)
+2. Player touches item bounding box → Item::MyTouch(pPlayer)
+3. Resource granted to player (Armor, Health, HEV Suit, Ammo)
+4. EMIT_SOUND (pickup audio) + Send Net Message (gmsgItemPickup) → Destroy or Respawn Item
 ```
 
-- **Consolidation Pattern**:
-  - `CHGrunt`'s member methods from `hgrunt_combat.cpp` and `hgrunt_squad.cpp` are moved back into `hgrunt.cpp`.
-  - `hgrunt_repel.cpp` remains dedicated exclusively to `CHGruntRepel` and `CDeadHGrunt`.
-  - `scientist.cpp` absorbs `scientist_heal.cpp`, reuniting `CanHeal`/`Heal` and sitting/dead variants.
-  - `talkmonster.cpp` absorbs `talkmonster_speech.cpp`, eliminating unnatural `extern Schedule_t slIdleResponse[];` linkage across files.
+### 2. Triggers Partitioning Flow
 
----
+```
+[Brush Triggers - triggers_brush.cpp]
+Player/Monster enters BSP Volume → Touch() → Evaluate Filter/Flags → Fire Target(Activator)
 
-### 2. Reusable Ammo Engine Architecture (`dlls/weapons/ammo_base.h`)
-
-Currently, 13 weapon files duplicate this pattern verbatim:
-
-```cpp
-// Boilerplate duplicated across all 13 weapon files:
-class CCrossbowAmmo : public CBasePlayerAmmo {
-    void Spawn( void ) { Precache(); SET_MODEL( ENT( pev ), "models/w_crossbow_clip.mdl" ); CBasePlayerAmmo::Spawn(); }
-    void Precache( void ) { PRECACHE_MODEL( "models/w_crossbow_clip.mdl" ); PRECACHE_SOUND( "items/9mmclip1.wav" ); }
-    BOOL AddAmmo( CBaseEntity *pOther ) {
-        int iResult = ( pOther->GiveAmmo( AMMO_CROSSBOWCLIP_GIVE, "bolts", _MAX_CARRY ) != -1 );
-        if ( iResult ) EMIT_SOUND( ENT( pev ), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM );
-        return iResult;
-    }
-};
-LINK_ENTITY_TO_CLASS( ammo_crossbow, CCrossbowAmmo );
+[Point Triggers - triggers_point.cpp]
+Trigger/Logic receives Use() → Evaluate Counter/Condition → Dispatch UseTargets()
 ```
 
-#### Reusable Design Pattern:
+---
 
-Define a unified template/macro in `ammo_base.h`:
+## Detailed Components Refactoring
 
-```cpp
-#ifndef WEAPONS_AMMO_BASE_H
-#define WEAPONS_AMMO_BASE_H
+### 1. Monster Subsystem Locality
+- Reintegrate satellite projectiles and effect entities back into primary monster source files:
+  - `CBabyCrab` in `headcrab.cpp`
+  - `CSquidSpit` in `bullsquid.cpp`
+  - `CBigMommaMortar` in `bigmomma.cpp`
+  - `CControllerHeadBall` / `CControllerZapBall` in `controller.cpp`
+  - `CGargantuaFlame` in `gargantua.cpp`
+  - `CNihilanthEnergyOrb` in `nihilanth.cpp`
+  - `CTentacleMaw` in `tentacle.cpp`
+  - `CApacheHVR` in `apache.cpp`
+- Remove all 8 satellite `.cpp` and `.h` files.
 
-#include "weapons/weapon_base.h"
+### 2. Chargers, Doors, Xen Flora, and Tanks Consolidation
+- **Chargers**: Consolidate `CBaseWallCharger`, `CWallHealth`, `CWallRecharge` in `dlls/systems/chargers.cpp` (and `chargers.h`).
+- **Doors**: Reintegrate `CRotDoor` and `CMomentaryDoor` into `dlls/systems/doors.cpp`.
+- **Xen Flora**: Reintegrate `CXenTree`, `CXenTreeTrigger`, and `CXenSpore` into `dlls/world/xen.cpp`.
+- **Tanks**: Consolidate `CFuncTank`, `CFuncTankGun`, `CFuncTankLaser`, `CFuncTankMortar`, `CFuncTankRocket` into `dlls/systems/func_tank.cpp`.
 
-#define IMPLEMENT_SIMPLE_AMMO( className, entityName, modelPath, ammoName, giveAmount, maxCarry, soundPath ) \
-class className : public CBasePlayerAmmo { \
-public: \
-    void Spawn( void ) { Precache(); SET_MODEL( ENT( pev ), modelPath ); CBasePlayerAmmo::Spawn(); } \
-    void Precache( void ) { PRECACHE_MODEL( modelPath ); PRECACHE_SOUND( soundPath ); } \
-    BOOL AddAmmo( CBaseEntity *pOther ) { \
-        int iResult = ( pOther->GiveAmmo( giveAmount, ammoName, maxCarry ) != -1 ); \
-        if ( iResult ) EMIT_SOUND( ENT( pev ), CHAN_ITEM, soundPath, 1, ATTN_NORM ); \
-        return iResult; \
-    } \
-}; \
-LINK_ENTITY_TO_CLASS( entityName, className );
+### 3. Triggers & Map Rules Architecture
+- Consolidate all 11 `game_*` map rule entities into `dlls/gameplay/maprules.cpp`.
+- Partition triggers into:
+  - `dlls/systems/triggers_brush.cpp` (Brush entities with BSP models & volume touch)
+  - `dlls/systems/triggers_point.cpp` (Point entities with logic & relay dispatch)
+- Remove 24 fragmented micro-files.
 
-#endif // WEAPONS_AMMO_BASE_H
-```
+### 4. Items & Ground Weapon Deduplication Engine
+- Macro engine in `dlls/items/item_base.h`:
+  ```cpp
+  #define IMPLEMENT_WORLD_ITEM(className, entityName, modelName, soundName) \
+      ...
+  ```
+- Ground weapon initializer in `dlls/weapons/weapon_base.h`:
+  ```cpp
+  #define INITIALIZE_WORLD_WEAPON(entityName, weaponId, worldModel, defaultAmmo) \
+      ...
+  ```
 
-This reusable abstraction eliminates over 350 lines of duplicate copy-pasted class boilerplate across `dlls/weapons/`.
+### 5. Dead Code Cleanup & Documentation
+- Delete 5 verified uncompiled legacy files (`dlls/core/mpstubb.cpp`, `cl_dll/hud/scoreboard.cpp`, `cl_dll/vgui/MOTD.cpp`, `cl_dll/vgui/vgui_ConsolePanel.cpp` + header, `cl_dll/systems/soundsystem.cpp`).
+- Document explicit legacy code exclusion in `README.md` and `AGENTS.md`.
 
 ---
 
-### 3. Decoupling `weapon_base.cpp` (1,398 LOC)
+## Testing Strategy
 
-- **`dlls/weapons/weapon_box.cpp`**: Extracts `CWeaponBox` and its methods (`Precache`, `Spawn`, `Kill`, `Touch`, `PackWeapon`, `PackAmmo`, `GiveAmmo`, `HasWeapon`, `IsEmpty`).
-- **`dlls/weapons/item_base.cpp`**: Extracts `CBasePlayerItem` and `CBasePlayerAmmo` ground physics (`FallInit`, `FallThink`, `Materialize`, `AttemptToMaterialize`, `CheckRespawn`, `Respawn`, `DefaultTouch`, `DestroyItem`, `AddToPlayer`, `Drop`, `Kill`, `Holster`, `AttachToPlayer`).
-- **`dlls/weapons/weapon_base.cpp`**: Retains core `CBasePlayerWeapon` animation, ammo consumption, holster, deploy, prediction update, and client data sync.
-
----
-
-### 4. Environmental Effects Decomposition (`dlls/systems/effects.cpp`)
-
-- **`effects_beam.cpp`**: Core `CBeam` entity and math methods (`BeamCreate`, `PointsInit`, `PointEntInit`, `EntsInit`, `HoseInit`, `RelinkBeam`, `DoSparks`).
-- **`effects_lightning.cpp`**: `CLightning` (`env_lightning`, `env_beam`) and `CTripBeam` (`trip_beam`).
-- **`effects_laser.cpp`**: `CLaser` (`env_laser`) targeting and beam projection.
-- **`effects_glow.cpp`**: `CGlow` (`env_glow`) sprite scale and visibility logic.
-- **`effects_sprite.cpp`**: `CSprite` (`env_sprite`) frame animation, transparency, and rendering.
-
----
-
-## Build System & Compatibility
-
-- Update Visual Studio project files (`hl_cdll.vcxproj`, `hl_cdll.vcxproj.filters`, `hldll.vcxproj`, `hldll.vcxproj.filters`).
-- Update Linux Makefiles (`Makefile.hl_cdll`, `Makefile.hldll`).
-- Zero changes to entity names, save/restore tables, or network messages.
+1. **Static Build Verification**:
+   - Visual Studio 2019 Win32 Release build: 0 errors, 0 warnings.
+   - GCC/Clang Linux build verification.
+2. **Behavior Preservation Verification**:
+   - Ensure all class names registered via `LINK_ENTITY_TO_CLASS` are 100% identical.
+   - Verify save/restore `TYPEDESCRIPTION` tables match original layouts.
+   - Verify map entity dispatch, touch physics, and damage calculation logic match verbatim.

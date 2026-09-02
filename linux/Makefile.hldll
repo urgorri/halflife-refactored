@@ -45,10 +45,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/bigmomma.o \
 	$(HLDLL_OBJ_DIR)/monsters/bloater.o \
 	$(HLDLL_OBJ_DIR)/world/bmodels.o \
-	$(HLDLL_OBJ_DIR)/systems/charger_base.o \
-	$(HLDLL_OBJ_DIR)/systems/charger_health.o \
-	$(HLDLL_OBJ_DIR)/systems/charger_suit.o \
-	$(HLDLL_OBJ_DIR)/items/item_healthkit.o \
+	$(HLDLL_OBJ_DIR)/systems/chargers.o \
+	$(HLDLL_OBJ_DIR)/items/items.o \
 	$(HLDLL_OBJ_DIR)/systems/effects_shooters.o \
 	$(HLDLL_OBJ_DIR)/systems/effects_screen.o \
 	$(HLDLL_OBJ_DIR)/systems/effects_env.o \
@@ -61,10 +59,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/world/guntarget.o \
 	$(HLDLL_OBJ_DIR)/world/conveyor.o \
 	$(HLDLL_OBJ_DIR)/world/rotating.o \
-	$(HLDLL_OBJ_DIR)/world/xen_tree.o \
-	$(HLDLL_OBJ_DIR)/world/xen_spores.o \
-	$(HLDLL_OBJ_DIR)/systems/door_rotating.o \
-	$(HLDLL_OBJ_DIR)/systems/door_momentary.o \
 	$(HLDLL_OBJ_DIR)/monsters/bullsquid.o \
 	$(HLDLL_OBJ_DIR)/systems/buttons.o \
 	$(HLCORE_OBJ_DIR)/cbase.o \
@@ -100,10 +94,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/ai/flyingmonster.o \
 	$(HLDLL_OBJ_DIR)/systems/func_break.o \
 	$(HLDLL_OBJ_DIR)/systems/func_tank.o \
-	$(HLDLL_OBJ_DIR)/systems/func_tankgun.o \
-	$(HLDLL_OBJ_DIR)/systems/func_tanklaser.o \
-	$(HLDLL_OBJ_DIR)/systems/func_tankmortar.o \
-	$(HLDLL_OBJ_DIR)/systems/func_tankrocket.o \
 	$(HLCORE_OBJ_DIR)/game.o \
 	$(HLDLL_OBJ_DIR)/gameplay/gamerules.o \
 	$(HLDLL_OBJ_DIR)/monsters/gargantua.o \
@@ -126,26 +116,9 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/houndeye.o \
 	$(HLDLL_OBJ_DIR)/monsters/ichthyosaur.o \
 	$(HLDLL_OBJ_DIR)/monsters/islave.o \
-	$(HLDLL_OBJ_DIR)/items/item_base.o \
-	$(HLDLL_OBJ_DIR)/items/item_battery.o \
-	$(HLDLL_OBJ_DIR)/items/item_suit.o \
-	$(HLDLL_OBJ_DIR)/items/item_antidote.o \
-	$(HLDLL_OBJ_DIR)/items/item_security.o \
-	$(HLDLL_OBJ_DIR)/items/item_longjump.o \
 	$(HLDLL_OBJ_DIR)/monsters/leech.o \
 	$(HLDLL_OBJ_DIR)/systems/lights.o \
 	$(HLDLL_OBJ_DIR)/gameplay/maprules.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_score.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_end.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_text.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_team_master.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_team_set.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_player_zone.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_player_hurt.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_counter.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_counter_set.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_player_equip.o \
-	$(HLDLL_OBJ_DIR)/gameplay/game_player_team.o \
 	$(HLDLL_OBJ_DIR)/ai/monstermaker.o \
 	$(HLDLL_OBJ_DIR)/ai/monsters.o \
 	$(HLDLL_OBJ_DIR)/ai/monster_combat.o \
@@ -155,14 +128,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/mortar.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_mp5.o \
 	$(HLDLL_OBJ_DIR)/monsters/nihilanth.o \
-	$(HLDLL_OBJ_DIR)/monsters/nihilanth_energy.o \
-	$(HLDLL_OBJ_DIR)/monsters/apache_hvr.o \
-	$(HLDLL_OBJ_DIR)/monsters/bigmomma_mortar.o \
-	$(HLDLL_OBJ_DIR)/monsters/bullsquid_spit.o \
-	$(HLDLL_OBJ_DIR)/monsters/controller_energy.o \
-	$(HLDLL_OBJ_DIR)/monsters/gargantua_effects.o \
-	$(HLDLL_OBJ_DIR)/monsters/baby_headcrab.o \
-	$(HLDLL_OBJ_DIR)/monsters/tentacle_maw.o \
 	$(HLDLL_OBJ_DIR)/ai/nodes_graph.o \
 	$(HLDLL_OBJ_DIR)/ai/nodes_routing.o \
 	$(HLDLL_OBJ_DIR)/ai/nodes_links.o \
@@ -170,7 +135,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/observer.o \
 	$(HLDLL_OBJ_DIR)/monsters/osprey.o \
 	$(HLDLL_OBJ_DIR)/ai/pathcorner.o \
-	$(HLDLL_OBJ_DIR)/core/plane.o \
+	$(HLCORE_OBJ_DIR)/plane.o \
 	$(HLDLL_OBJ_DIR)/world/plats.o \
 	$(HLDLL_OBJ_DIR)/core/player.o \
 	$(HLDLL_OBJ_DIR)/core/player_input.o \
@@ -211,30 +176,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/singleplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/stats.o \
 	$(HLDLL_OBJ_DIR)/ai/tempmonster.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_auto.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_base.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_camera.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_cdaudio.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_changelevel.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_changetarget.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_counter.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_endsection.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_fireanddie.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_friction.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_gravity.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_hurt.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_ladder.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_monsterjump.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_multi_manager.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_multiple.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_once.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_push.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_relay.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_render_fx.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_save.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_target_cdaudio.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_teleport.o \
-	$(HLDLL_OBJ_DIR)/systems/trigger_volume.o \
+	$(HLDLL_OBJ_DIR)/systems/triggers_brush.o \
+	$(HLDLL_OBJ_DIR)/systems/triggers_point.o \
 	$(HLDLL_OBJ_DIR)/monsters/tentacle.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_tripmine.o \
 	$(HLDLL_OBJ_DIR)/systems/miniturret.o \

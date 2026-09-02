@@ -1,73 +1,48 @@
-# Implementation Plan: Pragmatic Modularization & Code Deduplication
+# Implementation Plan
 
-- [x] 1. Consolidation of Over-Fragmented Monster Classes
-  - [x] 1.1 Consolidate `CHGrunt` member functions back into `hgrunt.cpp`
-    - Reintegrate `hgrunt_combat.cpp` methods (`CheckMeleeAttack1`, `CheckMeleeAttack2`, `CheckRangeAttack1`, `CheckRangeAttack2`, `Shotgun`, `MonsterThink`, etc.) into `dlls/monsters/hgrunt.cpp`
-    - Reintegrate `hgrunt_squad.cpp` squad tables, leader selection, and schedule routines into `dlls/monsters/hgrunt.cpp`
-    - Verify `dlls/monsters/hgrunt_repel.cpp` cleanly retains `CHGruntRepel` and `CDeadHGrunt`
-    - Remove `dlls/monsters/hgrunt_combat.cpp` and `dlls/monsters/hgrunt_squad.cpp`
-    - _Requirements: REQ-1.1, REQ-1.4_
-  - [x] 1.2 Consolidate `CScientist` healing and prop logic into `scientist.cpp`
-    - Reintegrate `scientist_heal.cpp` (`CanHeal`, `Heal`, `CDeadScientist`, `CSittingScientist`) into `dlls/monsters/scientist.cpp`
-    - Remove `dlls/monsters/scientist_heal.cpp`
-    - _Requirements: REQ-1.2, REQ-1.4_
-  - [x] 1.3 Consolidate `CTalkMonster` speech routines into `talkmonster.cpp`
-    - Reintegrate `talkmonster_speech.cpp` dialogue scheduling and friend reactions into `dlls/ai/talkmonster.cpp`
-    - Remove `dlls/ai/talkmonster_speech.cpp`
-    - Clean up unnatural `extern` schedule linkages
-    - _Requirements: REQ-1.3, REQ-1.4_
+- [x] 1. Monster Auxiliary Component Reintegration
+  - [x] 1.1 Reintegrate `baby_headcrab` into `dlls/monsters/headcrab.cpp` and delete `baby_headcrab.cpp`/`.h`
+  - [x] 1.2 Reintegrate `bullsquid_spit` into `dlls/monsters/bullsquid.cpp` and delete `bullsquid_spit.cpp`/`.h`
+  - [x] 1.3 Reintegrate `bigmomma_mortar` into `dlls/monsters/bigmomma.cpp` and delete `bigmomma_mortar.cpp`/`.h`
+  - [x] 1.4 Reintegrate `controller_energy` into `dlls/monsters/controller.cpp` and delete `controller_energy.cpp`/`.h`
+  - [x] 1.5 Reintegrate `gargantua_effects` into `dlls/monsters/gargantua.cpp` and delete `gargantua_effects.cpp`/`.h`
+  - [x] 1.6 Reintegrate `nihilanth_energy` into `dlls/monsters/nihilanth.cpp` and delete `nihilanth_energy.cpp`/`.h`
+  - [x] 1.7 Reintegrate `tentacle_maw` into `dlls/monsters/tentacle.cpp` and delete `tentacle_maw.cpp`/`.h`
+  - [x] 1.8 Reintegrate `apache_hvr` into `dlls/monsters/apache.cpp` and delete `apache_hvr.cpp`/`.h`
+  - _Requirements: [REQ-1]_
 
-- [x] 2. Reusable Ammo Deduplication Engine
-  - [x] 2.1 Create centralized reusable ammo helper header `dlls/weapons/ammo_base.h`
-    - Define `IMPLEMENT_SIMPLE_AMMO` macro and `CBasePlayerAmmo` helpers in `dlls/weapons/ammo_base.h`
-    - _Requirements: REQ-2.1_
-  - [x] 2.2 Refactor weapon ammo declarations across all 13 weapon source files
-    - Refactor `weapon_glock.cpp` (`ammo_glockclip`, `ammo_9mmclip`)
-    - Refactor `weapon_mp5.cpp` (`ammo_mp5clip`, `ammo_9mmAR`, `ammo_9mmbox`, `ammo_mp5grenades`, `ammo_ARgrenades`)
-    - Refactor `weapon_shotgun.cpp` (`ammo_buckshot`)
-    - Refactor `weapon_python.cpp` (`ammo_357`)
-    - Refactor `weapon_crossbow.cpp` (`ammo_crossbow`)
-    - Refactor `weapon_rpg.cpp` (`ammo_rpgclip`)
-    - Refactor `weapon_gauss.cpp` (`ammo_gaussclip`)
-    - Refactor `weapon_egon.cpp` (`ammo_egonclip`)
-    - Verify identical give counts, carry limits, and sounds
-    - _Requirements: REQ-2.2, REQ-2.3_
+- [x] 2. Domain Entity Subsystems Consolidation
+  - [x] 2.1 Consolidate `charger_health` and `charger_suit` into `dlls/systems/chargers.cpp` and `chargers.h`, deleting split files
+  - [x] 2.2 Reintegrate `door_rotating` and `door_momentary` into `dlls/systems/doors.cpp`, deleting split files
+  - [x] 2.3 Reintegrate `xen_tree` and `xen_spores` into `dlls/world/xen.cpp`, deleting split files
+  - [x] 2.4 Consolidate `func_tankgun`, `func_tanklaser`, `func_tankmortar`, `func_tankrocket` into `dlls/systems/func_tank.cpp`, deleting split files
+  - _Requirements: [REQ-2]_
+  - _Dependencies: Phase 1_
 
-- [x] 3. Weapon Base Subsystem & Contained Entity Decoupling
-  - [x] 3.1 Extract `CWeaponBox` to `dlls/weapons/weapon_box.cpp` and `weapon_box.h`
-    - Move `CWeaponBox` class definition and methods (`Precache`, `Spawn`, `Touch`, `PackWeapon`, `PackAmmo`, `GiveAmmo`, `IsEmpty`)
-    - _Requirements: REQ-3.1_
-  - [x] 3.2 Extract `CBasePlayerItem` ground physics to `dlls/weapons/player_item_base.cpp`
-    - Move `FallInit`, `FallThink`, `Materialize`, `AttemptToMaterialize`, `CheckRespawn`, `Respawn`, `DefaultTouch`, `AddToPlayer`, `Drop`
-    - Retain core `CBasePlayerWeapon` state transitions in `dlls/weapons/weapon_base.cpp`
-    - _Requirements: REQ-3.2, REQ-3.3_
+- [x] 3. Map Rules & Triggers Architecture
+  - [x] 3.1 Consolidate all 11 `game_*` map rule micro-entities into `dlls/gameplay/maprules.cpp`, deleting split files
+  - [x] 3.2 Create `dlls/systems/triggers_brush.cpp` and consolidate all volumetric BSP brush triggers
+  - [x] 3.3 Create `dlls/systems/triggers_point.cpp` and consolidate all logical non-brush point triggers
+  - [x] 3.4 Delete all 24 obsolete individual trigger `.cpp` files
+  - _Requirements: [REQ-3]_
+  - _Dependencies: Phase 2_
 
-- [x] 4. Environmental Effects Entity Decomposition
-  - [x] 4.1 Extract `CBeam` to `dlls/systems/effects_beam.cpp`
-    - Extract beam initialization and math routines
-    - _Requirements: REQ-4.1_
-  - [x] 4.2 Extract `CLightning` and `CTripBeam` to `dlls/systems/effects_lightning.cpp`
-    - Extract lightning striking and trip-beam tripwire logic
-    - _Requirements: REQ-4.2_
-  - [x] 4.3 Extract `CLaser` to `dlls/systems/effects_laser.cpp`
-    - Extract laser positioning and trace rendering
-    - _Requirements: REQ-4.3_
-  - [x] 4.4 Extract `CGlow` and `CSprite` to `dlls/systems/effects_glow.cpp` and `effects_sprite.cpp`
-    - Extract sprite animating and glow scaling
-    - Remove monolithic `dlls/systems/effects.cpp`
-    - _Requirements: REQ-4.4_
+- [x] 4. World Item & Ground Weapon Deduplication
+  - [x] 4.1 Create declarative `IMPLEMENT_WORLD_ITEM` macro/template in `dlls/items/item_base.h` and consolidate standard pickups into `dlls/items/items.cpp`, deleting redundant micro-files
+  - [x] 4.2 Create `INITIALIZE_WORLD_WEAPON` macro/helper in `dlls/weapons/weapon_base.h` and update weapon ground initialization
+  - _Requirements: [REQ-4]_
+  - _Dependencies: Phase 3_
 
-- [x] 5. Client Input Subsystem Decoupling
-  - [x] 5.1 Extract hardware polling from `cl_dll/input/inputw32.cpp` to `input_hardware.cpp`
-    - Separate raw mouse/joystick polling from command generation in `input.cpp`
-    - _Requirements: REQ-5.1, REQ-5.2_
+- [x] 5. Dead Code Removal & Documentation
+  - [x] 5.1 Remove unreferenced legacy stubs: `dlls/core/mpstubb.cpp`, `cl_dll/hud/scoreboard.cpp`, `cl_dll/vgui/MOTD.cpp`, `cl_dll/vgui/vgui_ConsolePanel.cpp` / `.h`, `cl_dll/systems/soundsystem.cpp`
+  - [x] 5.2 Update `README.md` and `AGENTS.md` documenting legacy code exclusion policy
+  - _Requirements: [REQ-5]_
+  - _Dependencies: Phase 4_
 
-- [x] 6. Build Systems Synchronization & Full Verification
-  - [x] 6.1 Update project files and Makefiles
-    - Update `projects/vs2019/hldll.vcxproj`, `hldll.vcxproj.filters`
-    - Update `projects/vs2019/hl_cdll.vcxproj`, `hl_cdll.vcxproj.filters`
-    - Update `linux/Makefile.hldll`, `linux/Makefile.hl_cdll`
-    - _Requirements: REQ-6.1_
-  - [x] 6.2 Verify local Windows MSBuild compilation (0 errors)
-    - Compile `hl_cdll.vcxproj` and `hldll.vcxproj` on Win32 Release
-    - _Requirements: REQ-6.1, REQ-6.2_
+- [x] 6. Build Systems Synchronization & Verification
+  - [x] 6.1 Update and synchronize `projects/vs2019/hldll.vcxproj` and `hldll.vcxproj.filters`
+  - [x] 6.2 Update and synchronize `projects/vs2019/hl_cdll.vcxproj` and `hl_cdll.vcxproj.filters`
+  - [x] 6.3 Update and synchronize `linux/Makefile.hldll` and `linux/Makefile.hl_cdll`
+  - [x] 6.4 Build locally with MSBuild on Win32 Release and verify 0 errors, 0 warnings
+  - _Requirements: [REQ-6]_
+  - _Dependencies: Phase 5_

@@ -127,4 +127,47 @@ class CNihilanth : public CBaseMonster
 	EHANDLE m_hFriend[3];
 };
 
+class CNihilanthHVR : public CBaseMonster
+{
+  public:
+	int Save( CSave &save );
+	int Restore( CRestore &restore );
+	static TYPEDESCRIPTION m_SaveData[];
+
+	void Spawn( void );
+	void Precache( void );
+
+	void CircleInit( CBaseEntity *pTarget );
+	void AbsorbInit( void );
+	void TeleportInit( CNihilanth *pOwner, CBaseEntity *pEnemy, CBaseEntity *pTarget, CBaseEntity *pTouch );
+	void GreenBallInit( void );
+	void ZapInit( CBaseEntity *pEnemy );
+
+	void EXPORT HoverThink( void );
+	BOOL CircleTarget( Vector vecTarget );
+	void EXPORT DissipateThink( void );
+
+	void EXPORT ZapThink( void );
+	void EXPORT TeleportThink( void );
+	void EXPORT TeleportTouch( CBaseEntity *pOther );
+
+	void EXPORT RemoveTouch( CBaseEntity *pOther );
+	void EXPORT BounceTouch( CBaseEntity *pOther );
+	void EXPORT ZapTouch( CBaseEntity *pOther );
+
+	CBaseEntity *RandomClassname( const char *szName );
+
+	void MovetoTarget( Vector vecTarget );
+	virtual void Crawl( void );
+
+	void Zap( void );
+	void Teleport( void );
+
+	float m_flIdealVel;
+	Vector m_vecIdeal;
+	CNihilanth *m_pNihilanth;
+	EHANDLE m_hTouch;
+	int m_nFrames;
+};
+
 #endif // MONSTERS_NIHILANTH_H

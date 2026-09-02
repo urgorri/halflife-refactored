@@ -28,7 +28,6 @@
 #include "ai/soundent.h"
 
 #include "monsters/tentacle.h"
-#include "monsters/tentacle_maw.h"
 
 int CTentacle ::g_fFlySound;
 int CTentacle ::g_fSquirmSound;
@@ -843,6 +842,32 @@ void CTentacle ::Killed( entvars_t *pevAttacker, int iGib )
 {
 	m_iGoalAnim = TENTACLE_ANIM_Pit_Idle;
 	return;
+}
+
+//=========================================================
+// CTentacleMaw implementation
+//=========================================================
+LINK_ENTITY_TO_CLASS( monster_tentaclemaw, CTentacleMaw );
+
+void CTentacleMaw ::Spawn()
+{
+	Precache();
+	SET_MODEL( ENT( pev ), "models/maw.mdl" );
+	UTIL_SetSize( pev, Vector( -32, -32, 0 ), Vector( 32, 32, 64 ) );
+
+	pev->solid     = SOLID_NOT;
+	pev->movetype  = MOVETYPE_STEP;
+	pev->effects   = 0;
+	pev->health    = 75;
+	pev->yaw_speed = 8;
+	pev->sequence  = 0;
+
+	pev->angles.x = 90;
+}
+
+void CTentacleMaw ::Precache()
+{
+	PRECACHE_MODEL( "models/maw.mdl" );
 }
 
 #endif
