@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -50,15 +50,11 @@ void CBaseMonster ::Listen( void )
 
 	if ( m_pSchedule )
 	{
-		//!!!WATCH THIS SPOT IF YOU ARE HAVING SOUND RELATED BUGS!
-		// Make sure your schedule AND personal sound masks agree!
+		// Make sure schedule and personal sound masks agree
 		iMySounds &= m_pSchedule->iSoundMask;
 	}
 
 	iSound = CSoundEnt::ActiveList();
-
-	// UNDONE: Clear these here?
-	ClearConditions( bits_COND_HEAR_SOUND | bits_COND_SMELL_FOOD | bits_COND_SMELL );
 	hearingSensitivity = HearingSensitivity();
 
 	while ( iSound != SOUNDLIST_EMPTY )
@@ -68,11 +64,8 @@ void CBaseMonster ::Listen( void )
 		if ( pCurrentSound &&
 		     ( pCurrentSound->m_iType & iMySounds ) &&
 		     ( pCurrentSound->m_vecOrigin - EarPosition() ).Length() <= pCurrentSound->m_iVolume * hearingSensitivity )
-
-		// if ( ( g_pSoundEnt->m_SoundPool[ iSound ].m_iType & iMySounds ) && ( g_pSoundEnt->m_SoundPool[ iSound ].m_vecOrigin - EarPosition()).Length () <= g_pSoundEnt->m_SoundPool[ iSound ].m_iVolume * hearingSensitivity )
 		{
 			// the monster cares about this sound, and it's close enough to hear.
-			// g_pSoundEnt->m_SoundPool[ iSound ].m_iNextAudible = m_iAudibleList;
 			pCurrentSound->m_iNextAudible = m_iAudibleList;
 
 			if ( pCurrentSound->FIsSound() )
@@ -83,11 +76,9 @@ void CBaseMonster ::Listen( void )
 			else
 			{
 				// if not a sound, must be a smell - determine if it's just a scent, or if it's a food scent
-				//				if ( g_pSoundEnt->m_SoundPool[ iSound ].m_iType & ( bits_SOUND_MEAT | bits_SOUND_CARCASS ) )
 				if ( pCurrentSound->m_iType & ( bits_SOUND_MEAT | bits_SOUND_CARCASS ) )
 				{
 					// the detected scent is a food item, so set both conditions.
-					// !!!BUGBUG - maybe a virtual function to determine whether or not the scent is food?
 					SetConditions( bits_COND_SMELL_FOOD );
 					SetConditions( bits_COND_SMELL );
 				}
@@ -98,14 +89,11 @@ void CBaseMonster ::Listen( void )
 				}
 			}
 
-			//			m_afSoundTypes |= g_pSoundEnt->m_SoundPool[ iSound ].m_iType;
 			m_afSoundTypes |= pCurrentSound->m_iType;
-
 			m_iAudibleList = iSound;
 		}
 
-		//		iSound = g_pSoundEnt->m_SoundPool[ iSound ].m_iNext;
-		iSound = pCurrentSound->m_iNext;
+		iSound = pCurrentSound ? pCurrentSound->m_iNext : SOUNDLIST_EMPTY;
 	}
 }
 

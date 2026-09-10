@@ -72,6 +72,34 @@ SBColumnInfo g_ColumnInfo[NUM_COLUMNS] =
 #define TEAM_SPECTATORS 2
 #define TEAM_BLANK 3
 
+#define SBOARD_RES_LOW_WIDTH 400
+#define SBOARD_RES_DEFAULT_WIDTH 640
+#define SBOARD_RES_DEFAULT_HEIGHT 480
+
+static int GetScaledColumnWidth( int columnIndex, int defaultWidth )
+{
+	int xwide = defaultWidth;
+	if ( ScreenWidth >= SBOARD_RES_DEFAULT_WIDTH )
+	{
+		xwide = XRES( xwide );
+	}
+	else if ( ScreenWidth == SBOARD_RES_LOW_WIDTH )
+	{
+		// Fit within 400x300 resolution
+		if ( columnIndex == 1 )
+		{
+			// reduces size of player name cell
+			xwide -= 28;
+		}
+		else if ( columnIndex == 0 )
+		{
+			// tracker icon cell
+			xwide -= 8;
+		}
+	}
+	return xwide;
+}
+
 //-----------------------------------------------------------------------------
 // ScorePanel::HitTestPanel.
 //-----------------------------------------------------------------------------
@@ -100,8 +128,6 @@ ScorePanel::ScorePanel( int x, int y, int wide, int tall )
 	m_pCurrentHighlightLabel = NULL;
 	m_iHighlightRow          = -1;
 
-	// m_pTrackerIcon = vgui_LoadTGANoInvertAlpha("gfx/vgui/640_scoreboardtracker.tga");
-
 	// Initialize the top title.
 	m_TitleLabel.setFont( tfont );
 	m_TitleLabel.setText( "" );
@@ -114,7 +140,7 @@ ScorePanel::ScorePanel( int x, int y, int wide, int tall )
 	setPaintBorderEnabled( true );
 
 	int xpos = g_ColumnInfo[0].m_Width + 3;
-	if ( ScreenWidth >= 640 )
+	if ( ScreenWidth >= SBOARD_RES_DEFAULT_WIDTH )
 	{
 		// only expand column size for res greater than 640
 		xpos = XRES( xpos );
@@ -134,25 +160,7 @@ ScorePanel::ScorePanel( int x, int y, int wide, int tall )
 		else if ( g_ColumnInfo[i].m_pTitle )
 			m_HeaderLabels[i].setText( g_ColumnInfo[i].m_pTitle );
 
-		int xwide = g_ColumnInfo[i].m_Width;
-		if ( ScreenWidth >= 640 )
-		{
-			xwide = XRES( xwide );
-		}
-		else if ( ScreenWidth == 400 )
-		{
-			// hack to make 400x300 resolution scoreboard fit
-			if ( i == 1 )
-			{
-				// reduces size of player name cell
-				xwide -= 28;
-			}
-			else if ( i == 0 )
-			{
-				// tracker icon cell
-				xwide -= 8;
-			}
-		}
+		int xwide = GetScaledColumnWidth( i, g_ColumnInfo[i].m_Width );
 
 		m_HeaderGrid.SetColumnWidth( i, xwide );
 		m_HeaderGrid.SetEntry( i, 0, &m_HeaderLabels[i] );
@@ -163,7 +171,7 @@ ScorePanel::ScorePanel( int x, int y, int wide, int tall )
 		m_HeaderLabels[i].setContentAlignment( g_ColumnInfo[i].m_Alignment );
 
 		int yres = 12;
-		if ( ScreenHeight >= 480 )
+		if ( ScreenHeight >= SBOARD_RES_DEFAULT_HEIGHT )
 		{
 			yres = YRES( yres );
 		}
@@ -245,7 +253,7 @@ void ScorePanel::Initialize( void )
 
 bool HACK_GetPlayerUniqueID( int iPlayer, char playerID[16] )
 {
-	return !!gEngfuncs.GetPlayerUniqueID( iPlayer, playerID ); // TODO remove after testing
+	return !!gEngfuncs.GetPlayerUniqueID( iPlayer, playerID );
 }
 
 //-----------------------------------------------------------------------------
@@ -860,7 +868,7 @@ void ScorePanel::FillGrid()
 		pGridRow->RepositionContents();
 	}
 
-	// hack, for the thing to resize
+	// Force player list panel resize to refresh layout
 	m_PlayerList.getSize( x, y );
 	m_PlayerList.setSize( x, y );
 }
