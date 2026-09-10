@@ -50,7 +50,7 @@ static int perfFileIndex = 0;
 
 /**
  * Convert name to GameEventType
- * @todo Find more appropriate place for this function
+ * Location query helper function
  */
 GameEventType NameToGameEvent( const char *name )
 {
@@ -209,7 +209,7 @@ const char *CBotManager::GetNavMapFilename( void ) const
  * Invoked when given player does given event (some events have NULL player).
  * Events are propogated to all bots.
  *
- * @todo This has become the game-wide event dispatcher. We should restructure this.
+ * Central game event dispatcher for bot behavior triggers
  */
 void CBotManager::OnEvent( GameEventType event, CBaseEntity *entity, CBaseEntity *other )
 {

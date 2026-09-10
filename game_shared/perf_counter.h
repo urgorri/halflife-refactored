@@ -99,38 +99,38 @@ inline double CPerformanceCounter::GetCurTime()
 	static unsigned int oldtime;
 	static int first = 1;
 	LARGE_INTEGER PerformanceCount;
-	unsigned int temp, t2;
+	unsigned int curTicks, deltaTicks;
 	double time;
 
 	QueryPerformanceCounter( &PerformanceCount );
 	if ( m_iLowShift == 0 )
 	{
-		temp = (unsigned int)PerformanceCount.LowPart;
+		curTicks = (unsigned int)PerformanceCount.LowPart;
 	}
 	else
 	{
-		temp = ( (unsigned int)PerformanceCount.LowPart >> m_iLowShift ) |
+		curTicks = ( (unsigned int)PerformanceCount.LowPart >> m_iLowShift ) |
 		       ( (unsigned int)PerformanceCount.HighPart << ( 32 - m_iLowShift ) );
 	}
 
 	if ( first )
 	{
-		oldtime = temp;
+		oldtime = curTicks;
 		first   = 0;
 	}
 	else
 	{
 		// check for turnover or backward time
-		if ( ( temp <= oldtime ) && ( ( oldtime - temp ) < 0x10000000 ) )
+		if ( ( curTicks <= oldtime ) && ( ( oldtime - curTicks ) < 0x10000000 ) )
 		{
-			oldtime = temp; // so we can't get stuck
+			oldtime = curTicks; // so we can't get stuck
 		}
 		else
 		{
-			t2 = temp - oldtime;
+			deltaTicks = curTicks - oldtime;
 
-			time    = (double)t2 * m_flPerfCounterFreq;
-			oldtime = temp;
+			time    = (double)deltaTicks * m_flPerfCounterFreq;
+			oldtime = curTicks;
 
 			m_flCurrentTime += time;
 

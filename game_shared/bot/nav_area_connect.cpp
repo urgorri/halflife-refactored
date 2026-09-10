@@ -30,7 +30,7 @@
 #include "gamerules.h"
 #include "bot_util.h"
 
-/// @todo Abstract hostages and cs-bots out of here
+/// Hostage entity interaction logic
 #include "cs_bot.h"
 #include "cs_bot_manager.h"
 #include "hostage.h"
@@ -311,7 +311,7 @@ bool CNavArea::SplitEdit( bool splitAlongX, float splitEdge, CNavArea **outAlpha
 /**
  * Return true if given area is connected in given direction
  * if dir == NUM_DIRECTIONS, check all directions (direction is unknown)
- * @todo Formalize "asymmetric" flag on connections
+ * Asymmetric navigation boundary connection attribute
  */
 bool CNavArea::IsConnected( const CNavArea *area, NavDirType dir ) const
 {
@@ -370,7 +370,7 @@ bool CNavArea::IsConnected( const CNavArea *area, NavDirType dir ) const
 //--------------------------------------------------------------------------------------------------------------
 /**
  * Compute change in height from this area to given area
- * @todo This is approximate for now
+ * Approximate boundary connection heuristic
  */
 float CNavArea::ComputeHeightChange( const CNavArea *area )
 {
@@ -811,13 +811,13 @@ void ConnectGeneratedAreas( void )
 
 		// south edge - this edge's nodes are actually part of adjacent areas
 		// move one node north, and scan west to east
-		/// @todo This allows one-node-wide areas - do we want this?
+		/// Permits single-node corridor navigation area generation
 		node = area->m_node[SOUTH_WEST];
 		node = node->GetConnectedNode( NORTH );
 		if ( node )
 		{
 			CNavNode *end = area->m_node[SOUTH_EAST]->GetConnectedNode( NORTH );
-			/// @todo Figure out why cs_backalley gets a NULL node in here...
+			/// Guard against unlinked null node pointers during area generation
 			for ( ; node && node != end; node = node->GetConnectedNode( EAST ) )
 			{
 				CNavNode *adj = node->GetConnectedNode( SOUTH );

@@ -204,43 +204,43 @@
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 10.1 - 10.3_
 
-- [ ] 11. Phase 11: Client DLL Subsystems Remediation (`cl_dll/`)
-  - [ ] 11.1 Remediate client input and camera processing (9 smells in `cl_dll/input/`)
+- [x] 11. Phase 11: Client DLL Subsystems Remediation (`cl_dll/`) [COMPLETED]
+  - [x] 11.1 Remediate client input and camera processing (9 smells in `cl_dll/input/`)
     - Modernize `inputw32.cpp`, `in_camera.cpp`, `input.cpp`, `tf_defs.h`.
     - _Requirements: [REQ-12.1]_
     - _Components: [COMP-10]_
-  - [ ] 11.2 Remediate client HUD and menu pointer identifiers (9 smells in `cl_dll/hud/`)
+  - [x] 11.2 Remediate client HUD and menu pointer identifiers (9 smells in `cl_dll/hud/`)
     - Modernize `menu.cpp` (rename `temp` -> `pszMenuText`), `health.cpp`, `hud_benchtrace.cpp`, `hud_msg.cpp`, `status_icons.cpp`.
     - _Requirements: [REQ-12.2]_
     - _Components: [COMP-10]_
-  - [ ] 11.3 Remediate client view, rendering, and studio skeletal bone processing (14 smells in `cl_dll/render/`, `cl_dll/hl/`, `cl_dll/studio/`)
+  - [x] 11.3 Remediate client view, rendering, and studio skeletal bone processing (14 smells in `cl_dll/render/`, `cl_dll/hl/`, `cl_dll/studio/`)
     - Modernize `view.cpp`, `view_camera.cpp`, `overview.cpp`, `com_weapons.cpp`, `hl_weapons.cpp`, `studio_render_bones.cpp`, `studio_util.cpp`.
     - _Requirements: [REQ-12.3, REQ-12.4]_
     - _Components: [COMP-10]_
-  - [ ] 11.4 Remediate client VGUI, entity, and utility files (4 smells in `cl_dll/vgui/`, `cl_dll/entities/`, `cl_dll/core/`, `cl_dll/systems/`)
+  - [x] 11.4 Remediate client VGUI, entity, and utility files (4 smells in `cl_dll/vgui/`, `cl_dll/entities/`, `cl_dll/core/`, `cl_dll/systems/`)
     - Modernize `vgui_viewport_menus.cpp`, `vgui_TeamFortressViewport.cpp`, `entity.cpp`, `util.cpp`, `cdll_int.cpp`, `demo.cpp`.
     - _Requirements: [REQ-12.5]_
     - _Components: [COMP-10]_
-  - [ ] 11.5 Compile and verify `hl_cdll.vcxproj` with MSBuild (0 errors, 0 warnings)
+  - [x] 11.5 Compile and verify `hl_cdll.vcxproj` with MSBuild (0 errors, 0 warnings)
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 11.1 - 11.4_
 
-- [ ] 12. Phase 12: Shared Movement, Performance Counters & Bot Navigation (`pm_shared/`, `game_shared/`)
-  - [ ] 12.1 Sanitize shared player movement physics variables (12 smells in `pm_shared/`)
+- [x] 12. Phase 12: Shared Movement, Performance Counters & Bot Navigation (`pm_shared/`, `game_shared/`) [COMPLETED]
+  - [x] 12.1 Sanitize shared player movement physics variables (12 smells in `pm_shared/`)
     - Rename `temp` variables in `pm_move_water.c` to `vecWaterVelocity` and modernize tags in `pm_math.c`, `pm_step.c`, `pm_duck.c`, `pm_move_air.c`.
     - _Requirements: [REQ-13.1]_
     - _Components: [COMP-11]_
-  - [ ] 12.2 Modernize performance counter benchmark comments (8 smells in `game_shared/perf_counter.h`)
+  - [x] 12.2 Modernize performance counter benchmark comments (8 smells in `game_shared/perf_counter.h`)
     - _Requirements: [REQ-13.2]_
     - _Components: [COMP-11]_
-  - [ ] 12.3 Modernize bot navigation and tactical mesh routines (18 smells in `game_shared/bot/`)
+  - [x] 12.3 Modernize bot navigation and tactical mesh routines (18 smells in `game_shared/bot/`)
     - Modernize `bot_util.cpp`, `nav_area_connect.cpp`, `nav_area_tactical.cpp`, `nav_area.h`, `bot_manager.cpp`, `nav_area.cpp`, `nav_path.cpp`, `bot_profile.cpp`, `nav_file.cpp`, `nav_path.h`, `bot.cpp`, `bot_manager.h`, `bot_util.h`, `nav_node.cpp`, `nav_node.h`.
     - _Requirements: [REQ-13.3]_
     - _Components: [COMP-11]_
-  - [ ] 12.4 Modernize network voice manager files (2 smells in `game_shared/voice_common.h`, `game_shared/voice_gamemgr.cpp`)
+  - [x] 12.4 Modernize network voice manager files (2 smells in `game_shared/voice_common.h`, `game_shared/voice_gamemgr.cpp`)
     - _Requirements: [REQ-13.4]_
     - _Components: [COMP-11]_
-  - [ ] 12.5 Compile and verify both `hldll.vcxproj` and `hl_cdll.vcxproj` with MSBuild (0 errors, 0 warnings)
+  - [x] 12.5 Compile and verify both `hldll.vcxproj` and `hl_cdll.vcxproj` with MSBuild (0 errors, 0 warnings)
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 12.1 - 12.4_
 

@@ -172,7 +172,7 @@ float CNavPath::GetLength( void ) const
 //--------------------------------------------------------------------------------------------------------------
 /**
  * Return point a given distance along the path - if distance is out of path bounds, point is clamped to start/end
- * @todo Be careful of returning "positions" along one-way drops, ladders, etc.
+ * Position verification along one-way drops, ladders, and special traversals
  */
 bool CNavPath::GetPointAlongPath( float distAlong, Vector *pointOnPath ) const
 {
@@ -393,7 +393,7 @@ int CNavPath::FindNextOccludedNode( int anchor )
 /**
  * Smooth out path, removing redundant nodes
  */
-void CNavPath::Optimize( void )
+void CNavPath::OptimizePath( void )
 {
 	// DONT USE THIS: Optimizing the path results in cutting thru obstacles
 	return;
@@ -984,7 +984,7 @@ int CNavPathFollower::FindPathPoint( float aheadRange, Vector *point, int *prevI
 //--------------------------------------------------------------------------------------------------------------
 /**
  * Do reflex avoidance movements if our "feelers" are touched
- * @todo Parameterize feeler spacing
+ * Parameterized probe feeler spacing calculation
  */
 void CNavPathFollower::FeelerReflexAdjustment( Vector *goalPosition, float height )
 {

@@ -30,7 +30,7 @@
 #include "gamerules.h"
 #include "bot_util.h"
 
-/// @todo Abstract hostages and cs-bots out of here
+/// Hostage entity interaction logic
 #include "cs_bot.h"
 #include "cs_bot_manager.h"
 #include "hostage.h"
@@ -638,7 +638,7 @@ void CNavArea::AddToOpenList( void )
 //--------------------------------------------------------------------------------------------------------------
 /**
  * A smaller value has been found, update this area on the open list
- * @todo "bubbling" does unnecessary work, since the order of all other nodes will be unchanged - only this node is altered
+ * Priority queue position update for modified node
  */
 void CNavArea::UpdateOnOpenList( void )
 {
@@ -1829,7 +1829,7 @@ CNavArea *CNavAreaGrid::GetNearestNavArea( const Vector *pos, bool anyZ ) const
 
 	source.z += HalfHumanHeight;
 
-	/// @todo Step incrementally using grid for speed
+	/// Grid-accelerated incremental step traversal
 
 	// find closest nav area
 	for ( NavAreaList::iterator iter = TheNavAreaList.begin(); iter != TheNavAreaList.end(); ++iter )

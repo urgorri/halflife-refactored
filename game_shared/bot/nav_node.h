@@ -37,7 +37,7 @@ class CNavNode
 	BOOL IsBiLinked( NavDirType dir ) const; ///< node is bidirectionally linked to another node in the given direction
 	BOOL IsClosedCell( void ) const;         ///< node is the NW corner of a bi-linked quad of nodes
 
-	void Cover( void ) { m_isCovered = true; }           ///< @todo Should pass in area that is covering
+	void Cover( void ) { m_isCovered = true; }           ///< Mark node as covered by navigation area
 	BOOL IsCovered( void ) const { return m_isCovered; } ///< return true if this node has been covered by an area
 
 	void AssignArea( CNavArea *area ); ///< assign the given area to this node

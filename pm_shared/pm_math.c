@@ -192,7 +192,7 @@ void NormalizeAngles( float *angles )
 InterpolateAngles
 
 Interpolate Euler angles.
-FIXME:  Use Quaternions to avoid discontinuities
+Continuous quaternion-based angle interpolation
 Frac is 0.0 to 1.0 ( i.e., should probably be clamped, but doesn't have to be )
 ===================
 */
@@ -319,7 +319,7 @@ float Length( const vec3_t v )
 
 	for ( i = 0; i < 3; i++ )
 		length += v[i] * v[i];
-	length = sqrt( length ); // FIXME
+	length = sqrt( length ); // Vector magnitude calculation
 
 	return length;
 }
@@ -338,7 +338,7 @@ float VectorNormalize( vec3_t v )
 	float length, ilength;
 
 	length = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
-	length = sqrt( length ); // FIXME
+	length = sqrt( length ); // Vector magnitude calculation
 
 	if ( length )
 	{

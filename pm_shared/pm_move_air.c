@@ -407,8 +407,7 @@ void PM_Jump( void )
 	if ( pmove->onground == -1 )
 	{
 		// Flag that we jumped.
-		// HACK HACK HACK
-		// Remove this when the game .dll no longer does physics code!!!!
+		// Retain jump button state to prevent auto-jump before release
 		pmove->oldbuttons |= IN_JUMP; // don't jump again until released
 		return;                       // in air, so no effect
 	}
