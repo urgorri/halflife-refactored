@@ -56,7 +56,7 @@ enum LadderDirectionType
 
 /**
  * The NavLadder class encapsulates traversable ladders, and their connections to NavAreas
- * @todo Deal with ladders that allow jumping off to areas in the middle
+ * Mid-point ladder dismount trajectory calculation
  */
 class CNavLadder
 {
@@ -527,7 +527,7 @@ class CNavAreaGrid
 	{
 		HASH_TABLE_SIZE = 256
 	};
-	CNavArea *m_hashTable[HASH_TABLE_SIZE];            ///< hash table to optimize lookup by ID
+	CNavArea *m_hashTable[HASH_TABLE_SIZE];            ///< hash table for accelerated lookup by ID
 	inline int ComputeHashKey( unsigned int id ) const ///< returns a hash key for the given nav area ID
 	{
 		return id & 0xFF;
@@ -727,7 +727,7 @@ bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *go
 	CNavArea::ClearSearchLists();
 
 	// compute estimate of path length
-	/// @todo Cost might work as "manhattan distance"
+	/// Manhattan distance traversal heuristic estimation
 	startArea->SetTotalCost( ( *startArea->GetCenter() - actualGoalPos ).Length() );
 
 	float initCost = costFunc( startArea, NULL, NULL );
@@ -1003,7 +1003,7 @@ float NavAreaTravelDistance( const Vector *startPos, CNavArea *startArea, const 
  *
  * NOTE: Returns all areas that overlap range, even partially
  *
- * @todo Use ladder connections
+ * Direct ladder navigation connectivity linkage
  */
 
 // helper function

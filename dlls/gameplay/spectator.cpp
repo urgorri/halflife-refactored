@@ -14,7 +14,7 @@
  ****/
 // CBaseSpectator
 
-// YWB:  UNDONE
+// Spectator subsystem implementation
 
 // Spectator functions
 //
@@ -136,7 +136,7 @@ void CBaseSpectator::SpectatorThink( void )
 Spawn
 
   Called when spectator is initialized:
-  UNDONE:  Is this actually being called because spectators are not allocated in normal fashion?
+  Spectator entity lifecycle allocation and release management
 ============
 */
 void CBaseSpectator::Spawn()

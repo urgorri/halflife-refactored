@@ -676,7 +676,7 @@ int CountPlayers( void )
 ==============
 ExtractCommandString
 
-Parse commands/key value pairs to issue right after map xxx command is issued on server
+Parse commands/key value pairs to issue right after map command is issued on server
  level transition
 ==============
 */

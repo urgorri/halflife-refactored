@@ -407,8 +407,8 @@ void CL_DLLEXPORT CAM_Think( void )
 	cam_ofs[2] = dist;
 }
 
-extern void KeyDown( kbutton_t *b ); // HACK
-extern void KeyUp( kbutton_t *b );   // HACK
+extern void KeyDown( kbutton_t *b ); // Keyboard button press handler
+extern void KeyUp( kbutton_t *b );   // Keyboard button release handler
 
 void CAM_PitchUpDown( void )
 {

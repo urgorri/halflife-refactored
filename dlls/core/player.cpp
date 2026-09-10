@@ -403,7 +403,7 @@ void CBasePlayer::PlayerDeathThink( void )
 	}
 
 	// once we're done animating our death and we're on the ground, we want to set movetype to None so our dead body won't do collisions and stuff anymore
-	// this prevents a bug where the dead body would go to a player's head if he walked over it while the dead player was clicking their button to respawn
+	// Prevent corpse origin desync during concurrent respawn interaction
 	if ( pev->movetype != MOVETYPE_NONE && FBitSet( pev->flags, FL_ONGROUND ) )
 		pev->movetype = MOVETYPE_NONE;
 
@@ -778,12 +778,12 @@ void CBasePlayer::UpdateStatusBar()
     4) Certain actions or countermeasures counteract the damaging effects of tbds:
 
         Armor/Heater/Cooler - Chemical(acid),burn, freeze all do damage to armor power, then to body
-                            - recharged by suit recharger
+        - recharged by suit recharger
         Air In Lungs		- drowning damage is done to air in lungs first, then to body
-                            - recharged by poking head out of water
-                            - 10 seconds if swiming fast
+        - recharged by poking head out of water
+        - 10 seconds if swiming fast
         Air In SCUBA		- drowning damage is done to air in tanks first, then to body
-                            - 2 minutes in tanks. Need new tank once empty.
+        - 2 minutes in tanks. Need new tank once empty.
         Radiation Syringe	- Each syringe full provides protection vs one radiation dosage
         Antitoxin Syringe	- Each syringe full provides protection vs one poisoning (nervegas or poison).
         Health kit			- Immediate stop to acid/chemical, fire or freeze damage.
@@ -1139,7 +1139,7 @@ int CBasePlayer::Restore( CRestore &restore )
 
 	if ( FBitSet( pev->flags, FL_DUCKING ) )
 	{
-		// Use the crouch HACK
+		// Apply duck hull collision adjustment
 		// FixPlayerCrouchStuck( edict() );
 		// Don't need to do this with new player prediction code.
 		UTIL_SetSize( pev, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX );
@@ -1166,7 +1166,7 @@ int CBasePlayer::Restore( CRestore &restore )
 	TabulateAmmo();
 
 #if defined( CLIENT_WEAPONS )
-	// HACK:	This variable is saved/restored in CBaseMonster as a time variable, but we're using it
+	// Monster time tracking variable reused for player interval calculation
 	//			as just a counter.  Ideally, this needs its own variable that's saved as a plain float.
 	//			Barring that, we clear it out here instead of using the incorrect restored time value.
 	m_flNextAttack = UTIL_WeaponTimeBase();

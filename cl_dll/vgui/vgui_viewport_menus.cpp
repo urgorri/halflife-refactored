@@ -494,10 +494,10 @@ void TeamFortressViewport::ShowVGUIMenu( int iMenu )
 	{
 		if ( m_pCurrentMenu->GetMenuID() == MENU_CLASS && iMenu == MENU_TEAM )
 		{
-			CMenuPanel *temp = m_pCurrentMenu;
+			CMenuPanel *pPrevMenu = m_pCurrentMenu;
 			m_pCurrentMenu->Close();
 			m_pCurrentMenu = pNewMenu;
-			m_pCurrentMenu->SetNextMenu( temp );
+			m_pCurrentMenu->SetNextMenu( pPrevMenu );
 			m_pCurrentMenu->Open();
 			UpdateCursorState();
 		}

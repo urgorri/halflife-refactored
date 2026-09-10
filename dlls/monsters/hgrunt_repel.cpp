@@ -62,7 +62,7 @@ void CHGruntRepel::RepelUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_
 	pGrunt->pev->movetype = MOVETYPE_FLY;
 	pGrunt->pev->velocity = Vector( 0, 0, RANDOM_FLOAT( -196, -128 ) );
 	pGrunt->SetActivity( ACT_GLIDE );
-	// UNDONE: position?
+	// Verify rope descent terminal position
 	pGrunt->m_vecLastPosition = tr.vecEndPos;
 
 	CBeam *pBeam = CBeam::BeamCreate( "sprites/rope.spr", 10 );

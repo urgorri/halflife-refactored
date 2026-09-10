@@ -369,7 +369,7 @@ void CGargantua ::FlameDamage( Vector vecStart, Vector vecEnd, entvars_t *pevInf
 	{
 		if ( pEntity->pev->takedamage != DAMAGE_NO )
 		{
-			// UNDONE: this should check a damage mask, not an ignore
+			// Verify damage eligibility against damage mask
 			if ( iClassIgnore != CLASS_NONE && pEntity->Classify() == iClassIgnore )
 			{ // houndeyes don't hurt other houndeyes with their attack
 				continue;
@@ -573,7 +573,7 @@ void CGargantua::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vec
 		return;
 	}
 
-	// UNDONE: Hit group specific damage?
+	// Hitgroup specific damage distribution
 	if ( bitsDamageType & ( GARG_DAMAGE | DMG_BLAST ) )
 	{
 		if ( m_painSoundTime < gpGlobals->time )

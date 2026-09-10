@@ -42,7 +42,7 @@ class CRoach : public CBaseMonster
 	void Look( int iDistance );
 	int ISoundMask( void );
 
-	// UNDONE: These don't necessarily need to be save/restored, but if we add more data, it may
+	// Roach state fields preserved for save/restore consistency
 	BOOL m_fLightHacked;
 	int m_iMode;
 };

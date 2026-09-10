@@ -73,7 +73,7 @@ int CHudOverview::Draw( float flTime )
 			float v[3] = { pl->origin[0], pl->origin[1], 0 };
 			gEngfuncs.Overview_WorldToScreen( v, &x, &y );
 
-			// hack in some team colors
+			// Assign team-specific tactical map colors
 			float r, g, bc;
 			if ( g_PlayerExtraInfo[i].teamnumber == 1 )
 			{

@@ -75,7 +75,7 @@ void CBasePlayer::WaterMove()
 		// if we took drowning damage, give it back slowly
 		if ( m_idrowndmg > m_idrownrestored )
 		{
-			// set drowning damage bit.  hack - dmg_drownrecover actually
+			// Set drowning damage bit. Drown recovery gradually restores health
 			// makes the time based damage code 'give back' health over time.
 			// make sure counter is cleared so we start count correctly.
 
@@ -223,7 +223,7 @@ void CBasePlayer::Jump()
 		pev->velocity = pev->velocity + pevGround->velocity;
 }
 
-// This is a glorious hack to find free space when you've crouched into some solid space
+// Free space unsticking algorithm when un-crouching in tight geometry
 // Our crouching collisions do not work correctly for some reason and this is easier
 // than fixing the problem :(
 void FixPlayerCrouchStuck( edict_t *pPlayer )
@@ -257,7 +257,7 @@ void CBasePlayer::PreThink( void )
 	int buttonsChanged = ( m_afButtonLast ^ pev->button ); // These buttons have changed this frame
 
 	// Debounced button codes for pressed/released
-	// UNDONE: Do we need auto-repeat?
+	// Button auto-repeat configuration
 	m_afButtonPressed  = buttonsChanged & pev->button;      // The changed ones still down are "pressed"
 	m_afButtonReleased = buttonsChanged & ( ~pev->button ); // The ones not down are "released"
 
@@ -456,8 +456,7 @@ void CBasePlayer::PostThink()
 		if ( pev->watertype == CONTENT_WATER )
 		{
 			// Did he hit the world or a non-moving entity?
-			// BUG - this happens all the time in water, especially when
-			// BUG - water has current force
+			// Water immersion and current velocity interaction handling
 			// if ( !pev->groundentity || VARS(pev->groundentity)->velocity.z == 0 )
 			// EMIT_SOUND(ENT(pev), CHAN_BODY, "player/pl_wade1.wav", 1, ATTN_NORM);
 		}

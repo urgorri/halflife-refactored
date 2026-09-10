@@ -259,7 +259,7 @@ BOOL CFuncTank ::StartControl( CBasePlayer *pController )
 
 void CFuncTank ::StopControl()
 {
-	// TODO: bring back the controllers current weapon
+	// Restore controller weapon state upon tank release
 	if ( !m_pController )
 		return;
 
@@ -547,7 +547,7 @@ void CFuncTank::Fire( const Vector &barrelEnd, const Vector &forward, entvars_t 
 			pSprite->SetTransparency( kRenderTransAdd, 255, 255, 255, 255, kRenderFxNoDissipation );
 			pSprite->SetScale( m_spriteScale );
 
-			// Hack Hack, make it stick around for at least 100 ms.
+			// Ensure muzzleflash remains active for minimum visual duration (100 ms)
 			pSprite->pev->nextthink += 0.1;
 		}
 		SUB_UseTargets( this, USE_TOGGLE, 0 );

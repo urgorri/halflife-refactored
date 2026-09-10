@@ -150,7 +150,7 @@ void CCycler ::Think( void )
 	if ( m_fSequenceFinished && !m_fSequenceLoops )
 	{
 		// ResetSequenceInfo();
-		// hack to avoid reloading model every frame
+		// Cache active model pointer to avoid redundant per-frame model loading
 		pev->animtime       = gpGlobals->time;
 		pev->framerate      = 1.0;
 		m_fSequenceFinished = FALSE;

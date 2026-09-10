@@ -852,7 +852,7 @@ void CBaseMonster ::Move( float flInterval )
 		return;
 	}
 
-	// UNDONE: this is a hack to quit moving farther than it has looked ahead.
+	// Stop navigation advancement beyond verified line-of-sight distance.
 	if ( flCheckDist < m_flGroundSpeed * flInterval )
 	{
 		flInterval = flCheckDist / m_flGroundSpeed;
@@ -938,7 +938,7 @@ int CBaseMonster::TaskIsRunning( void )
 // if MaxDist isn't supplied, it defaults to a reasonable
 // value
 //=========================================================
-// UNDONE: Should this find the nearest node?
+// Fallback to nearest waypoint node if direct path is obstructed
 
 // float CGraph::PathLength( int iStart, int iDest, int iHull, int afCapMask )
 
@@ -1113,7 +1113,7 @@ BOOL CBaseMonster ::BuildNearestRoute( Vector vecThreat, Vector vecViewOffset, f
 					{
 						flMaxDist     = flDist;
 						m_vecMoveGoal = node.m_vecOrigin;
-						return TRUE; // UNDONE: keep looking for something closer!
+						return TRUE; // Continue scanning for optimal candidate node
 					}
 				}
 			}

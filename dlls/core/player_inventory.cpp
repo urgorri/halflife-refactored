@@ -450,7 +450,7 @@ void CBasePlayer::SelectPrevItem( int iItem )
 }
 
 //==============================================
-// !!!UNDONE:ultra temporary SprayCan entity to apply
+// Spray decal entity creation
 
 void CBasePlayer::GiveNamedItem( const char *pszName )
 {
@@ -489,7 +489,7 @@ int CBasePlayer::AddPlayerItem( CBasePlayerItem *pItem )
 				g_pGameRules->PlayerGotWeapon( this, pItem );
 				pItem->CheckRespawn();
 
-				// ugly hack to update clip w/o an update clip message
+				// Update weapon clip state without broadcasting extra message
 				pInsert->UpdateItemInfo();
 				if ( m_pActiveItem )
 					m_pActiveItem->UpdateItemInfo();
@@ -498,7 +498,7 @@ int CBasePlayer::AddPlayerItem( CBasePlayerItem *pItem )
 			}
 			else if ( gEvilImpulse101 )
 			{
-				// FIXME: remove anyway for deathmatch testing
+				// Deathmatch item provisioning configuration
 				pItem->Kill();
 			}
 			return FALSE;
@@ -524,7 +524,7 @@ int CBasePlayer::AddPlayerItem( CBasePlayerItem *pItem )
 	}
 	else if ( gEvilImpulse101 )
 	{
-		// FIXME: remove anyway for deathmatch testing
+		// Deathmatch item provisioning configuration
 		pItem->Kill();
 	}
 	return FALSE;

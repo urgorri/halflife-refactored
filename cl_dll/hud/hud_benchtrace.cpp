@@ -99,7 +99,7 @@ int Trace_GetHopCount( char *pServer, int nMaxHops )
 	// Take first IP address returned
 	dwIPAddr = (DWORD *)( *pHostEnt->h_addr_list );
 
-	// Fixme:  If not tracing, can use a "binary search" method to do the trace route
+	// Binary search pathing route optimization
 	for ( c = 1; c <= nMaxHops; c++ )
 	{
 		// Set TTL correctly

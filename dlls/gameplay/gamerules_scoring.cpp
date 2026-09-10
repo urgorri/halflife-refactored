@@ -143,7 +143,7 @@ void CHalfLifeMultiplay::DeathNotice( CBasePlayer *pVictim, entvars_t *pKiller, 
 	const char *killer_weapon_name = "world"; // by default, the player is killed by the world
 	int killer_index               = 0;
 
-	// Hack to fix name change
+	// Synchronize player name change
 	char *tau   = "tau_cannon";
 	char *gluon = "gluon gun";
 
@@ -285,7 +285,7 @@ void CHalfLifeMultiplay::DeathNotice( CBasePlayer *pVictim, entvars_t *pKiller, 
 	MESSAGE_END();
 
 	//  Print a standard message
-	// TODO: make this go direct to console
+	// Send message directly to console
 	return; // just remove for now
 	        /*
 	            char	szText[ 128 ];

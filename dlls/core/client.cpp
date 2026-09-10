@@ -393,7 +393,7 @@ void ClientPrecache( void )
 	// setup precaches always needed
 	PRECACHE_SOUND( "player/sprayer.wav" ); // spray paint sound for PreAlpha
 
-	// PRECACHE_SOUND("player/pl_jumpland2.wav");		// UNDONE: play 2x step sound
+	// PRECACHE_SOUND("player/pl_jumpland2.wav");		// Landing step audio
 
 	PRECACHE_SOUND( "player/pl_fallpain2.wav" );
 	PRECACHE_SOUND( "player/pl_fallpain3.wav" );
@@ -535,7 +535,7 @@ void Sys_Error( const char *error_string )
 PlayerCustomization
 
 A new player customization has been registered on the server
-UNDONE:  This only sets the # of frames of the spray can logo
+Frame count definition for spray logo decal
 animation right now.
 ================
 */

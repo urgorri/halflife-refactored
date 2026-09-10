@@ -51,7 +51,7 @@ class CNavPath
 	/// compute closest point on path to given point
 	bool FindClosestPointOnPath( const Vector *worldPos, int startIndex, int endIndex, Vector *close ) const;
 
-	void Optimize( void );
+	void OptimizePath( void );
 
 	/**
 	 * Compute shortest path from 'start' to 'goal' via A* algorithm
@@ -153,7 +153,7 @@ class CNavPath
 	bool ComputePathPositions( void );                                ///< determine actual path positions
 	bool BuildTrivialPath( const Vector *start, const Vector *goal ); ///< utility function for when start and goal are in the same area
 
-	int FindNextOccludedNode( int anchor ); ///< used by Optimize()
+	int FindNextOccludedNode( int anchor ); ///< used by OptimizePath()
 };
 
 //--------------------------------------------------------------------------------------------------------

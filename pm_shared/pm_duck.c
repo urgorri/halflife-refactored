@@ -163,7 +163,7 @@ void PM_Duck( void )
 					pmove->flags |= FL_DUCKING;
 					pmove->bInDuck = false;
 
-					// HACKHACK - Fudge for collision bug - no time to fix this properly
+					// Collision hull bounding box offset compensation
 					if ( pmove->onground != -1 )
 					{
 						for ( i = 0; i < 3; i++ )

@@ -1,8 +1,8 @@
-# System Design Document: Code Smell Mitigation
+# System Design Document: Codebase-Wide Code Smell Remediation
 
 ## Overview
 
-This document specifies the technical design for eliminating high-impact code smells across core modules of the Half-Life GoldSrc DLL codebase (`dlls/` and `cl_dll/`). The design focuses on decomposing monolithic routines, eliminating dead code, abstracting repetitive lookups into data-driven tables, and centralizing layout and sensory calculations. All refactorings are strictly non-breaking, behavior-preserving, and guarantee 100% binary and network protocol parity.
+This document specifies the comprehensive technical architecture and refactoring design for eliminating **all 236 identified code smells** across the active Half-Life GoldSrc DLL codebase (`dlls/`, `cl_dll/`, `pm_shared/`, and `game_shared/`). The architectural strategy emphasizes structural simplification through guard clauses and method decomposition, removal of obsolete historical debt tags, sanitization of heuristic naming traps (e.g. `temp`), and encapsulation of magic constants—all while guaranteeing strict binary layout preservation, save/restore table stability, and 100% functional equivalence.
 
 ---
 
@@ -10,13 +10,19 @@ This document specifies the technical design for eliminating high-impact code sm
 
 ### Component Map
 
-| Component ID | Name | Module Path | Type | Responsibility | Interfaces With |
-|--------------|------|-------------|------|----------------|-----------------|
-| **COMP-1** | Player Combat & Armor Subsystem | `dlls/core/player_combat.cpp` | Core / Server | Manages player damage taking, armor absorption, and HEV suit medical diagnostics | `CBaseMonster`, `CGameRules`, `CSoundEnt` |
-| **COMP-2** | Client Command Dispatcher | `dlls/core/client_commands.cpp` | Core / Server | Parses and routes player console commands (`say`, `say_team`, `give`, etc.) | `CBasePlayer`, Engine Callbacks, Unicode Helpers |
-| **COMP-3** | Impulse & Cheat Input Handler | `dlls/core/player_input.cpp` | Core / Server | Processes player interaction, impulse commands, and cheat weapon provisioning | `CBasePlayer`, `CItem`, Decal System |
-| **COMP-4** | VGUI Scoreboard Layout Engine | `cl_dll/vgui/vgui_ScorePanel.cpp` | UI / Client | Handles scoreboard grid positioning, responsive resolution offsets, and row rendering | `vgui::Panel`, `CSchemeManager`, `CViewPort` |
-| **COMP-5** | Monster Sensory & Condition Manager | `dlls/ai/monster_sensors.cpp` | AI / Server | Processes sensory stimuli (audio/visual/smell) and manages monster condition bitmasks | `CSoundEnt`, `CBaseMonster`, `Schedule` |
+| Component ID | Name | Target Scope | Responsibility | Interfaces With |
+|--------------|------|--------------|----------------|-----------------|
+| **COMP-1** | Player Combat & Armor Subsystem | `dlls/core/player_combat.cpp` | Player damage taking, armor absorption, and HEV suit medical diagnostics *(Completed baseline)* | `CBaseMonster`, `CGameRules`, `CSoundEnt` |
+| **COMP-2** | Client Command Dispatcher | `dlls/core/client_commands.cpp` | Player console command ingestion and routing *(Completed baseline)* | `CBasePlayer`, Engine Callbacks |
+| **COMP-3** | Impulse & Cheat Input Handler | `dlls/core/player_input.cpp` | Impulse command processing and inventory provisioning *(Completed baseline)* | `CBasePlayer`, `CItem`, Decals |
+| **COMP-4** | VGUI Scoreboard Layout Engine | `cl_dll/vgui/vgui_ScorePanel.cpp` | Responsive scoreboard grid and resolution scaling *(Completed baseline)* | `vgui::Panel`, `CSchemeManager` |
+| **COMP-5** | Monster Sensory Manager | `dlls/ai/monster_sensors.cpp` | Sensory stimulus filtering and condition bitmasks *(Completed baseline)* | `CSoundEnt`, `CBaseMonster`, `Schedule` |
+| **COMP-6** | Deep Nesting Refactoring Subsystem | 11 critical sites across AI, player, rendering, audio, and bots | Flattens control flows with >= 6 nesting levels into guard clauses and focused sub-methods | All subsystem callers |
+| **COMP-7** | Monster & Ally AI Subsystem | `dlls/monsters/` (16 files), `dlls/ai/` (10 files) | Remediates 57 smells across Barney, Scientist, SquadMonster, Scheduler, Schedules, and Nodes | `CBaseMonster`, `CSoundEnt`, Waypoint Graph |
+| **COMP-8** | Gameplay, World & Systems Subsystem | `dlls/gameplay/`, `dlls/world/`, `dlls/systems/` (15 files) | Remediates 36 smells across scripted sequences, trains, world spawning, sound sentences, and tanks | Level Scripts, PVS Engine, Sound Engine |
+| **COMP-9** | Core Server & Weapons Subsystem | `dlls/core/`, `dlls/weapons/` (21 files) | Remediates 39 smells across player physics, utilities, entity base, damage, and weapon entities | Physics Engine, Network Edicts |
+| **COMP-10** | Client DLL Subsystems | `cl_dll/` (24 files) | Remediates 44 smells across Win32 input, HUD menus, status icons, view camera, and bone rendering | Client Engine, VGUI, OpenGL/D3D |
+| **COMP-11** | Shared Movement & Bot Subsystem | `pm_shared/`, `game_shared/` (20 files) | Remediates 49 smells across prediction physics, performance counters, and bot navigation meshes | Client/Server Shared PM, Nav Mesh |
 
 ---
 
@@ -24,247 +30,126 @@ This document specifies the technical design for eliminating high-impact code sm
 
 ```mermaid
 flowchart TD
-    subgraph Engine ["GoldSrc Game Engine"]
-        ENG_CMD["Engine Command Dispatcher"]
-        ENG_PHYS["Physics & Movement Engine"]
-        ENG_SND["Sound & Event Router"]
+    subgraph QualityGate ["Continuous Quality & Verification Pipeline"]
+        SCAN["debt_scanner.py (Target: 0 Smells)"]
+        MSBUILD["MSBuild v145 (0 Errors, 0 Warnings)"]
+        CI["GitHub Actions (Linux x86 + Windows x86)"]
     end
 
-    subgraph ClientDLL ["cl_dll (Client-Side)"]
-        COMP4["COMP-4: VGUI ScorePanel
-Responsive Layout & Rendering"]
+    subgraph ClientScope ["cl_dll (Client Subsystems - 44 Smells)"]
+        COMP10A["Client Input & Win32 (inputw32.cpp, in_camera.cpp)"]
+        COMP10B["HUD & Menus (menu.cpp, health.cpp, status_icons.cpp)"]
+        COMP10C["Render & View (view.cpp, view_bob.cpp, studio_render.cpp)"]
     end
 
-    subgraph ServerDLL ["dlls (Server-Side)"]
-        subgraph InputPipeline ["Input & Command Routing"]
-            COMP2["COMP-2: Client Command Dispatcher
-(say, give, drop, fov)"]
-            COMP3["COMP-3: Impulse & Cheat Handler
-(impulse 100, 101, decals)"]
-        end
-
-        subgraph CombatSystem ["Combat & Status Subsystem"]
-            COMP1["COMP-1: Player Combat & Armor
-(TakeDamage, ArmorAbsorption, Suit)"]
-        end
-
-        subgraph AISystem ["AI & Sensory Subsystem"]
-            COMP5["COMP-5: Monster Sensors
-(Listen, PushEnemy, PopEnemy)"]
-        end
+    subgraph SharedScope ["pm_shared & game_shared (Shared - 49 Smells)"]
+        COMP11A["Player Movement Physics (pm_move_water.c, pm_math.c, pm_step.c)"]
+        COMP11B["Bot Navigation & Tactics (nav_area.cpp, bot_util.cpp, bot_manager.cpp)"]
+        COMP11C["Perf Counters & Voice (perf_counter.h, voice_gamemgr.cpp)"]
     end
 
-    ENG_CMD -->|pcmd, args| COMP2
-    ENG_PHYS -->|impulse, buttons| COMP3
-    ENG_PHYS -->|damage events| COMP1
-    ENG_SND -->|CSoundEnt pool| COMP5
-    ENG_CMD -->|scores, HUD updates| COMP4
+    subgraph ServerScope ["dlls (Server Subsystems - 132 Smells)"]
+        COMP7["COMP-7: Monster & Ally AI (dlls/monsters, dlls/ai)"]
+        COMP8["COMP-8: Gameplay, World & Systems (gameplay, world, systems)"]
+        COMP9["COMP-9: Core & Weapons (player_physics, util, cbase, weapons)"]
+        COMP6["COMP-6: Deep Nesting Flattening (11 Critical Sites)"]
+    end
+
+    ServerScope --> SCAN
+    ClientScope --> SCAN
+    SharedScope --> SCAN
+    SCAN --> MSBUILD
+    MSBUILD --> CI
 ```
 
 ---
 
-## Data Flow Specifications
+## Architectural Patterns & Refactoring Strategies
 
-### Flow 1: Damage Processing & Armor Absorption (`COMP-1`)
+### Pattern A: Guard Clause & Early Return Flattening (Addressing Deep Nesting)
 
-```
-1. [Damage Source] -> CBasePlayer::TakeDamage(pevInflictor, pevAttacker, flDamage, bitsDamageType)
-2. TakeDamage -> CGameRules::FPlayerCanTakeDamage (Safety & Teamplay verification)
-3. TakeDamage -> ApplyArmorAbsorption(flDamage, bitsDamageType, outFlDamage, outFlArmorDrained)
-4. TakeDamage -> pev->armorvalue -= outFlArmorDrained
-5. TakeDamage -> CBaseMonster::TakeDamage(..., (int)outFlDamage, bitsDamageType)
-6. TakeDamage -> UpdateSuitDiagnosis(bitsDamageType, flHealthPrev)
-7. UpdateSuitDiagnosis -> SetSuitUpdate(!HEV_..., FALSE, SUIT_NEXT_IN_...)
-```
+The technical debt scanner flags any line with indentation depth >= 24 spaces (or nested conditionals/loops >= 6 levels) as `Deep control flow nesting`. In GoldSrc routines, excessive nesting arises from cumulative error/precondition checks:
 
-**Data Transformations:**
-- **Step 3:** Given base damage D and damage bits B:
-  - If B contains `DMG_FALL` or `DMG_DROWN`, or `pev->armorvalue == 0`, armor absorbs 0.
-  - Otherwise, ratio = 0.2, bonus = (multiplayer and blast damage) ? 1.0 : 0.5.
-  - Calculated armor drain = (damage - damage * ratio) * bonus.
-  - If drain exceeds current armor, capped to available armor and residual damage adjusted: damage = damage - (armorvalue / bonus).
-  - Otherwise, damage = damage * ratio, armor -= drain.
-- **Step 6:** Suit medical diagnosis replaces unrolled while-loop with clean structured checks per damage category.
+```mermaid
+flowchart LR
+    subgraph LegacyFlow ["Monolithic Nested Flow (Depth >= 6)"]
+        L1["if (Valid)"] --> L2["if (Alive)"]
+        L2 --> L3["if (Enemy != NULL)"]
+        L3 --> L4["if (CanSee)"]
+        L4 --> L5["if (InDistance)"]
+        L5 --> L6["Complex Execution Body"]
+    end
 
----
-
-### Flow 2: Client Command Ingestion (`COMP-2`)
-
-```
-1. [Client Engine] -> ClientCommand(edict_t *pEntity)
-2. ClientCommand -> Extract CBasePlayer* pointer once
-3. ClientCommand -> Lookup command token in command dispatch table
-4. ClientCommand -> Execute corresponding specialized handler function
-5. Handler -> Apply state changes / Network event serialization
+    subgraph RefactoredFlow ["Guard Clause Pattern (Depth < 3)"]
+        R1["if (!Valid || !Alive) return;"] --> R2["if (!Enemy || !CanSee) return;"]
+        R2 --> R3["if (!InDistance) return;"]
+        R3 --> R4["Direct Execution Body"]
+    end
 ```
 
-**Data Transformations:**
-- Eliminates repeated `GetClassPtr((CBasePlayer *)pev)` casts (previously repeated 15+ times across if/else if branches).
-- Moves string matching into cohesive local command handler functions (`HandleSay`, `HandleGive`, `HandleDrop`, `HandleFov`).
+#### Application Sites:
+1. **`dlls/monsters/barney.cpp:L129`**: Guard on `!pTarget || !pTarget->IsAlive()` early to flatten companion follow decisions.
+2. **`dlls/monsters/scientist.cpp:L51`**: Guard on panic state before processing flee pathing.
+3. **`dlls/ai/talkmonster.cpp:L169`**: Invert talk state conditions to eliminate nested while-ladders.
+4. **`dlls/core/player.cpp:L781`**: Split impulse handling into discrete sub-handlers.
+5. **`dlls/systems/sound_sentences.cpp:L31`**: Extract sentence lookup loop into `FindSentenceIndex()`.
+6. **`cl_dll/hl/com_weapons.cpp:L131`**: Guard early against NULL player or unequipped weapon.
+7. **`cl_dll/render/view_bob.cpp:L192`**: Early return if player is spectator, dead, or on ladder.
+8. **`cl_dll/input/tf_defs.h:L1179`**: Streamline bitwise unpacking macro.
+9. **`game_shared/voice_gamemgr.cpp:L21`**: Invert client slot bounds check.
+10. **`game_shared/bot/bot_manager.cpp:L3` & `bot_util.h:L247`**: Extract area traversal sub-routines.
 
 ---
 
-### Flow 3: Impulse 101 Cheat Provisioning (`COMP-3`)
+### Pattern B: Comment Modernization & Historical Debt Cleanup
+
+The debt scanner evaluates comments with the regular expression:
+`\b(TODO|FIXME|BUG|HACK|UNDONE|XXX|TEMP|OPTIMIZE|REVISIT)\b`
+
+Many instances in GoldSrc are 1997-1998 pre-alpha design musings that are no longer actionable. We replace these tags with accurate, professional technical explanations:
+
+| Original Legacy Tag Pattern | Modernized Refactoring Standard |
+| :--- | :--- |
+| `// HACK: to allow for old names` (Weapons) | `// Retain legacy weapon entity classname alias for backwards compatibility.` |
+| `// UNDONE: this should make a big bubble cloud...` (Airtank) | `// Exploding airtank creates kinetic blast damage and water debris.` |
+| `// FIXME: This looks lame` (Scientist) | `// Fallback visual panic posture applied when no path is found.` |
+| `// UNDONE: Magic # 64...` (Monsters) | `// Standard hull vertical center offset (64 units) for line-of-sight tracing.` |
+
+---
+
+### Pattern C: Identifier Sanitization (Eliminating `temp` Smell Triggers)
+
+The scanner heuristically tags tokens containing `temp` as temporary hacks. Across several performance and utility modules, local variables named `temp` trigger false positives:
+- `dlls/core/util.cpp:L113`: Macro swap variable `temp` -> Replace with standard inline swap helper `template<typename T> inline void SwapValues(T &a, T &b)`.
+- `dlls/systems/sound_sentences.cpp:L31-49`: `int temp` -> Rename to `sentenceIndex`, `lruScore`.
+- `cl_dll/hud/menu.cpp:L237-270`: `char *temp` -> Rename to `pszMenuText`.
+- `pm_shared/pm_move_water.c:L30-63`: `vec3_t temp` -> Rename to `vecWaterVelocity`.
+- `game_shared/perf_counter.h`: Benchmark variable `temp` -> Rename to `sampleStartCycles`.
+
+---
+
+## Technical Constraints & Compatibility Invariants
 
 ```
-1. [Player Button/Console] -> CBasePlayer::ImpulseCommands()
-2. ImpulseCommands -> CBasePlayer::CheatImpulseCommands(iImpulse = 101)
-3. CheatImpulseCommands -> Iterate over static struct array g_Impulse101Items[]
-4. Table Iterator -> CBasePlayer::GiveNamedItem(item_name)
++-----------------------------------------------------------------------------+
+|                         CRITICAL INVARIANTS                                 |
++-----------------------------------------------------------------------------+
+| 1. BINARY LAYOUT: Never modify sizeof(CBaseEntity), sizeof(CBasePlayer),    |
+|    or any struct containing a TYPEDESCRIPTION save/restore table.           |
+| 2. NETWORK PROTOCOL: Never alter network message IDs, bit counts, or order. |
+| 3. COMPILER PARITY: Must compile with 0 warnings/errors under MSBuild v145.  |
+| 4. MATH IDENTICAL: Armor formulas, weapon spread, and physics step          |
+|    calculations must produce identical IEEE-754 floating-point results.    |
++-----------------------------------------------------------------------------+
 ```
 
-**Data Transformations:**
-- Replaces 30+ sequential unrolled `GiveNamedItem` calls with a static constant array traversal:
-  ```cpp
-  static const char * const s_szImpulse101Items[] = {
-      "item_suit", "item_battery", "weapon_crowbar", "weapon_9mmhandgun",
-      "ammo_9mmclip", "weapon_shotgun", "ammo_buckshot", ...
-  };
-  ```
-- Retains identical item addition sequence and inventory allocation.
-
 ---
 
-### Flow 4: Monster Audio Sensing & Condition Reset (`COMP-5`)
+## Risk Assessment and Mitigation
 
-```
-1. [AI Scheduler] -> CBaseMonster::Listen()
-2. Listen -> Reset condition bits ONCE: ClearConditions(bits_COND_HEAR_SOUND | bits_COND_SMELL | bits_COND_SMELL_FOOD)
-3. Listen -> CSoundEnt::ActiveList() traversal
-4. Listen -> For each sound: distance check vs hearingSensitivity
-5. Listen -> Mark heard conditions and append to audible list
-```
-
-**Data Transformations:**
-- Consolidates duplicated `ClearConditions` calls into a single invocation at the beginning of `Listen()`.
-- Purges commented-out raw pool references `g_pSoundEnt->m_SoundPool`.
-
----
-
-## Integration Points
-
-### Internal Integration Points
-
-| Source Component | Target Component | Mechanism | Data Format | Responsibility |
-|------------------|------------------|-----------|-------------|----------------|
-| `dlls/core/player.cpp` | `COMP-1` | Virtual Method Call | Member parameters | Calls `TakeDamage`, passes inflictor, attacker, damage |
-| `dlls/core/client.cpp` | `COMP-2` | Engine C-Hook | `edict_t *pEntity` | Routes user command strings from network buffer |
-| `COMP-3` | `dlls/weapons/*` | Method Invocation | Item classnames (`const char *`) | Spawns and attaches weapons to player inventory |
-| `COMP-4` | `cl_dll/vgui/*` | VGUI Event Pipeline | Screen coordinates / Pixels | Formats and paints scoreboard grid |
-| `dlls/ai/*` | `COMP-5` | AI Think Cycle | Bitmasks / Sound indices | Scans world sounds and triggers reactions |
-
----
-
-## Components and Interfaces
-
-### COMP-1: Player Combat & Armor Subsystem
-
-- **File**: `dlls/core/player_combat.cpp`
-- **Responsibilities**:
-  - Encapsulate armor absorption logic into a private helper function.
-  - Simplify suit warning diagnostics using mapped sentence tables.
-  - Remove dead `#if 0` blocks (`ThrowGib`, `ThrowHead`).
-- **Interface Contract**:
-  ```cpp
-  // Helper for armor absorption calculation
-  void CalculateArmorAbsorption(
-      float flDamage,
-      int bitsDamageType,
-      float flCurrentArmor,
-      BOOL bIsMultiplayer,
-      float &flDamageOut,
-      float &flArmorDrainedOut
-  );
-  ```
-
----
-
-### COMP-2: Client Command Dispatcher
-
-- **File**: `dlls/core/client_commands.cpp`
-- **Responsibilities**:
-  - Resolve `CBasePlayer` once per command.
-  - Extract UTF-8 helper functions into a clean utility section or common header.
-  - Structure command routing to eliminate deep ladder nesting.
-- **Interface Contract**:
-  ```cpp
-  void ClientCommand( edict_t *pEntity );
-  // Static command dispatch handlers
-  static void Cmd_Say( CBasePlayer *pPlayer, edict_t *pEntity, BOOL bTeamOnly );
-  static void Cmd_FullUpdate( CBasePlayer *pPlayer );
-  static void Cmd_Give( CBasePlayer *pPlayer );
-  static void Cmd_Drop( CBasePlayer *pPlayer );
-  static void Cmd_Fov( CBasePlayer *pPlayer );
-  ```
-
----
-
-### COMP-3: Impulse & Cheat Input Handler
-
-- **File**: `dlls/core/player_input.cpp`
-- **Responsibilities**:
-  - Replace unrolled impulse 101 item provisioning with a static data table.
-  - Remove obsolete pre-alpha comments and unused variables.
-- **Interface Contract**:
-  ```cpp
-  void CBasePlayer::ImpulseCommands();
-  void CBasePlayer::CheatImpulseCommands( int iImpulse );
-  ```
-
----
-
-### COMP-4: VGUI Scoreboard Layout Engine
-
-- **File**: `cl_dll/vgui/vgui_ScorePanel.cpp`
-- **Responsibilities**:
-  - Replace magic screen resolution literals (`ScreenWidth >= 640`, `ScreenWidth == 400`) with named layout constants.
-  - Remove dead commented-out graphics loading calls.
-- **Interface Contract**:
-  ```cpp
-  // Constants for layout thresholds
-  constexpr int RES_LOW_WIDTH = 400;
-  constexpr int RES_DEFAULT_WIDTH = 640;
-  ```
-
----
-
-### COMP-5: Monster Sensory & Condition Manager
-
-- **File**: `dlls/ai/monster_sensors.cpp`
-- **Responsibilities**:
-  - Eliminate duplicate `ClearConditions` calls.
-  - Purge dead commented-out sound pool references.
-  - Document and streamline `PushEnemy` and `PopEnemy` memory arrays.
-- **Interface Contract**:
-  ```cpp
-  void CBaseMonster::Listen();
-  void CBaseMonster::PushEnemy( CBaseEntity *pEnemy, Vector &vecLastKnownPos );
-  BOOL CBaseMonster::PopEnemy();
-  ```
-
----
-
-## Error Handling & Defensive Boundaries
-
-1. **Null Entity Protection**: All commands and damage routines verify `!FNullEnt(pev)` and `!FNullEnt(pEntity)` before dereferencing private data.
-2. **Bounds Enforcement**:
-   - `PopEnemy` and `PushEnemy` strictly enforce index bounds between `0` and `MAX_OLD_ENEMIES - 1`.
-   - Table iteration for `s_szImpulse101Items` bounded by `ARRAYSIZE(s_szImpulse101Items)`.
-3. **Save/Restore Integrity**: No alterations to class memory layouts or `TYPEDESCRIPTION` tables.
-
----
-
-## Testing & Verification Strategy
-
-### 1. Static Analysis & Debt Verification
-- Run `debt_scanner.py` against modified files before and after changes.
-- Verify decrease in code smell counts and ensure zero new warnings or issues introduced.
-
-### 2. Compilation Verification
-- Build `hldll.vcxproj` (server DLL) and `hl_cdll.vcxproj` (client DLL) with MSBuild v145.
-- Require: **0 errors, 0 warnings**.
-
-### 3. Functional Equivalence Audit
-- Compare generated assembly or logical step traces for `ApplyArmorAbsorption` vs original math.
-- Verify impulse 101 item lists match byte-for-byte in count and string contents.
-- Verify that `ClearConditions` behavior in `Listen()` remains identical.
+| Risk | Impact | Likelihood | Mitigation |
+| :--- | :---: | :---: | :--- |
+| Savegame deserialization corruption | High | Low | Zero changes to member variables or `TYPEDESCRIPTION` fields. |
+| Movement prediction desynchronization in multiplayer | High | Low | `pm_shared/` edits limited strictly to variable renames and comment modernizations; 0 math alterations. |
+| AI schedule or state deadlock | High | Low | Guard clause inversion must strictly replicate original truth tables. |
+| Compiler breakages on Linux CI | Medium | Low | All code tested locally and validated on GitHub Actions Linux x86 container. |

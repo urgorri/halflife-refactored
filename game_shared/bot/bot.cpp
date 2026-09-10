@@ -371,7 +371,7 @@ byte CBot::ThrottledMsec( void ) const
 
 //--------------------------------------------------------------------------------------------------------------
 
-// Nasty Hack.  See client.cpp/ClientCommand()
+// Client command dispatch forwarding
 const char *BotArgs[4] = { NULL };
 bool UseBotArgs        = false;
 

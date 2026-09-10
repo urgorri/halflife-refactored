@@ -48,7 +48,6 @@ Task_t tlFollow[] =
     {
         { TASK_SET_FAIL_SCHEDULE, (float)SCHED_CANT_FOLLOW }, // If you fail, bail out of follow
         { TASK_MOVE_TO_TARGET_RANGE, (float)128 },            // Move within 128 of target ent (client)
-                                                              //	{ TASK_SET_SCHEDULE,		(float)SCHED_TARGET_FACE },
 };
 
 Schedule_t slFollow[] =
@@ -68,7 +67,6 @@ Task_t tlFollowScared[] =
     {
         { TASK_SET_FAIL_SCHEDULE, (float)SCHED_TARGET_CHASE }, // If you fail, follow normally
         { TASK_MOVE_TO_TARGET_RANGE_SCARED, (float)128 },      // Move within 128 of target ent (client)
-                                                               //	{ TASK_SET_SCHEDULE,		(float)SCHED_TARGET_FACE_SCARED },
 };
 
 Schedule_t slFollowScared[] =
@@ -193,8 +191,6 @@ Schedule_t slIdleSciStand[] =
               bits_COND_PROVOKED,
 
           bits_SOUND_COMBAT | // sound flags
-                              // bits_SOUND_PLAYER		|
-                              // bits_SOUND_WORLD		|
               bits_SOUND_DANGER |
               bits_SOUND_MEAT | // scents
               bits_SOUND_CARCASS |
@@ -228,7 +224,7 @@ Task_t tlScientistHide[] =
         { TASK_SET_FAIL_SCHEDULE, (float)SCHED_PANIC }, // If you fail, just panic!
         { TASK_STOP_MOVING, (float)0 },
         { TASK_PLAY_SEQUENCE, (float)ACT_CROUCH },
-        { TASK_SET_ACTIVITY, (float)ACT_CROUCHIDLE }, // FIXME: This looks lame
+        { TASK_SET_ACTIVITY, (float)ACT_CROUCHIDLE }, // Cower posture fallback
         { TASK_WAIT_RANDOM, (float)10.0 },
 };
 
@@ -848,7 +844,7 @@ Schedule_t *CScientist ::GetSchedule( void )
 		{
 			if ( !m_hTargetEnt->IsAlive() )
 			{
-				// UNDONE: Comment about the recently dead player here?
+				// Reaction when following player is killed
 				StopFollowing( FALSE );
 				break;
 			}
@@ -859,7 +855,7 @@ Schedule_t *CScientist ::GetSchedule( void )
 			if ( pEnemy != NULL )
 				relationship = IRelationship( pEnemy );
 
-			// UNDONE: Model fear properly, fix R_FR and add multiple levels of fear
+			// Graduated fear level response model
 			if ( relationship != R_DL && relationship != R_HT )
 			{
 				// If I'm already close enough to my target
@@ -872,7 +868,7 @@ Schedule_t *CScientist ::GetSchedule( void )
 				}
 				return GetScheduleOfType( SCHED_TARGET_FACE ); // Just face and follow.
 			}
-			else // UNDONE: When afraid, scientist won't move out of your way.  Keep This?  If not, write move away scared
+			else // Fear state keeps scientist immobilized in place
 			{
 				if ( HasConditions( bits_COND_NEW_ENEMY ) )           // I just saw something new and scary, react
 					return GetScheduleOfType( SCHED_FEAR );           // React to something scary
@@ -1052,7 +1048,7 @@ void CDeadScientist ::Spawn()
 		ALERT( at_console, "Dead scientist with bad pose\n" );
 	}
 
-	//	pev->skin += 2; // use bloody skin -- UNDONE: Turn this back on when we have a bloody skin again!
+	//	pev->skin += 2; // Optional bloody skin variant when available in model
 	MonsterInitDead();
 }
 

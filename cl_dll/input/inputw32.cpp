@@ -297,7 +297,7 @@ float IN_GetMouseSensitivity()
 ===========
 IN_ResetMouse
 
-FIXME: Call through to engine?
+Pass input message through to engine
 ===========
 */
 void IN_ResetMouse( void )
@@ -788,8 +788,7 @@ void IN_JoyMove( float frametime, usercmd_t *cmd )
 				{
 					// no pitch movement
 					// disable pitch return-to-center unless requested by user
-					// *** this code can be removed when the lookspring bug is fixed
-					// *** the bug always has the lookspring feature on
+					// Maintain pitch centering according to lookspring configuration
 					if ( lookspring->value == 0.0 )
 					{
 						V_StopPitchDrift();
@@ -859,8 +858,7 @@ void IN_JoyMove( float frametime, usercmd_t *cmd )
 				{
 					// no pitch movement
 					// disable pitch return-to-center unless requested by user
-					// *** this code can be removed when the lookspring bug is fixed
-					// *** the bug always has the lookspring feature on
+					// Maintain pitch centering according to lookspring configuration
 					if ( lookspring->value == 0.0 )
 					{
 						V_StopPitchDrift();

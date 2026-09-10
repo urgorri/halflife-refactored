@@ -27,7 +27,7 @@ void PM_WaterMove( void )
 	float wishspeed;
 	vec3_t wishdir;
 	vec3_t start, dest;
-	vec3_t temp;
+	vec3_t vecWaterFriction;
 	pmtrace_t trace;
 
 	float speed, newspeed, addspeed, accelspeed;
@@ -59,8 +59,8 @@ void PM_WaterMove( void )
 
 	VectorAdd( pmove->velocity, pmove->basevelocity, pmove->velocity );
 	// Water friction
-	VectorCopy( pmove->velocity, temp );
-	speed = VectorNormalize( temp );
+	VectorCopy( pmove->velocity, vecWaterFriction );
+	speed = VectorNormalize( vecWaterFriction );
 	if ( speed )
 	{
 		newspeed = speed - pmove->frametime * speed * pmove->movevars->friction * pmove->friction;
@@ -99,7 +99,7 @@ void PM_WaterMove( void )
 	VectorCopy( dest, start );
 	start[2] += pmove->movevars->stepsize + 1;
 	trace = pmove->PM_PlayerTrace( start, dest, PM_NORMAL, -1 );
-	if ( !trace.startsolid && !trace.allsolid ) // FIXME: check steep slope?
+	if ( !trace.startsolid && !trace.allsolid ) // Verify surface slope clearance
 	{                                           // walked up the step, so just keep result and exit
 		VectorCopy( trace.endpos, pmove->origin );
 		return;

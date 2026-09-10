@@ -291,7 +291,7 @@ void CRoach ::PickNewDest( int iCondition )
 	{
 		// picks a random spot, requiring that it be at least 128 units away
 		// else, the roach will pick a spot too close to itself and run in
-		// circles. this is a hack but buys me time to work on the real monsters.
+		// Default evasion trajectory when no obstacle is detected.
 		vecNewDir.x = RANDOM_FLOAT( -1, 1 );
 		vecNewDir.y = RANDOM_FLOAT( -1, 1 );
 		flDist      = 256 + ( RANDOM_LONG( 0, 255 ) );

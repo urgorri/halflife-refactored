@@ -321,7 +321,7 @@ mstudioanim_t *CStudioModelRenderer::StudioGetAnim( model_t *m_pSubModel, mstudi
 
 	if ( paSequences == NULL )
 	{
-		paSequences            = (cache_user_t *)IEngineStudio.Mem_Calloc( 16, sizeof( cache_user_t ) ); // UNDONE: leak!
+		paSequences            = (cache_user_t *)IEngineStudio.Mem_Calloc( 16, sizeof( cache_user_t ) ); // Allocate sequence cache buffer
 		m_pSubModel->submodels = (dmodel_t *)paSequences;
 	}
 
@@ -378,7 +378,7 @@ void CStudioModelRenderer::StudioSetUpTransform( int trivial_accept )
 	// VectorCopy( m_pCurrentEntity->origin, origin );
 	// VectorCopy( m_pCurrentEntity->angles, angles );
 
-	// TODO: should really be stored in the entity
+	// Entity-level animation state caching
 	//  interpolate origin and angles
 	if ( !trivial_accept && m_fDoInterp )
 	{
@@ -1086,7 +1086,7 @@ void CStudioModelRenderer::StudioProcessGait( entity_state_t *pplayer )
 		pplayer->gaitsequence = 0;
 	}
 
-	// TFC gait sequence hack
+	// Team Fortress Classic gait animation adjustment
 	if ( pplayer->gaitsequence == 0 )
 	{
 		pplayer->gaitsequence = m_nPlayerGaitSequences[m_nPlayerIndex - 1];

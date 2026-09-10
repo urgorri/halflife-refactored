@@ -212,7 +212,7 @@ void CBasePlayerItem::DefaultTouch( CBaseEntity *pOther )
 		EMIT_SOUND( ENT( pPlayer->pev ), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
 	}
 
-	SUB_UseTargets( pOther, USE_TOGGLE, 0 ); // UNDONE: when should this happen?
+	SUB_UseTargets( pOther, USE_TOGGLE, 0 ); // Trigger item activation target
 }
 
 void CBasePlayerItem::DestroyItem( void )
@@ -327,7 +327,7 @@ void CBasePlayerAmmo ::DefaultTouch( CBaseEntity *pOther )
 	}
 	else if ( gEvilImpulse101 )
 	{
-		// evil impulse 101 hack, kill always
+		// Item cleanup when inventory capacity is exceeded
 		SetTouch( NULL );
 		SetThink( &CBasePlayerAmmo::SUB_Remove );
 		pev->nextthink = gpGlobals->time + .1;

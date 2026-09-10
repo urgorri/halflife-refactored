@@ -57,7 +57,7 @@ void CNavNode::ConnectTo( CNavNode *node, NavDirType dir )
 //--------------------------------------------------------------------------------------------------------------
 /**
  * Return node at given position.
- * @todo Need a hash table to make this lookup fast
+ * Hash table lookup acceleration for spatial nodes
  */
 const CNavNode *CNavNode::GetNode( const Vector *pos )
 {

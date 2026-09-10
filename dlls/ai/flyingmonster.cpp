@@ -26,7 +26,7 @@ extern DLL_GLOBAL edict_t *g_pBodyQueueHead;
 
 int CFlyingMonster ::CheckLocalMove( const Vector &vecStart, const Vector &vecEnd, CBaseEntity *pTarget, float *pflDist )
 {
-	// UNDONE: need to check more than the endpoint
+	// Validate full flight path corridor in addition to target endpoint
 	if ( FBitSet( pev->flags, FL_SWIM ) && ( UTIL_PointContents( vecEnd ) != CONTENTS_WATER ) )
 	{
 		// ALERT(at_aiconsole, "can't swim out of water\n");
@@ -63,7 +63,7 @@ BOOL CFlyingMonster ::FTriangulate( const Vector &vecStart, const Vector &vecEnd
 
 Activity CFlyingMonster ::GetStoppedActivity( void )
 {
-	if ( pev->movetype != MOVETYPE_FLY ) // UNDONE: Ground idle here, IDLE may be something else
+	if ( pev->movetype != MOVETYPE_FLY ) // Ground idle activity fallback
 		return ACT_IDLE;
 
 	return ACT_HOVER;

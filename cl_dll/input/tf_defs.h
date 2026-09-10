@@ -1176,7 +1176,7 @@ extern int teamfrags[5];       // Total Frags for each team
 extern int teamlives[5];       // Number of lives each team's players have
 extern int teammaxplayers[5];  // Max number of players allowed in each team
 extern float teamadvantage[5]; // only used if the teamplay equalisation bits are set
-                               // stores the damage ratio players take/give
+// stores the damage ratio players take/give
 extern int teamallies[5];      // Keeps track of which teams are allied
 extern string_t team_names[5];
 

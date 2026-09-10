@@ -166,7 +166,6 @@ Schedule_t slIdleHello[] =
 Task_t tlIdleStopShooting[] =
     {
         { TASK_TLK_STOPSHOOTING, (float)0 }, // tell player to stop shooting friend
-                                             // { TASK_TLK_EYECONTACT,		(float)0		},// look at the player
 };
 
 Schedule_t slIdleStopShooting[] =
@@ -267,9 +266,6 @@ Schedule_t slTlkIdleWatchClient[] =
               bits_COND_PROVOKED,
 
           bits_SOUND_COMBAT | // sound flags - change these, and you'll break the talking code.
-                              // bits_SOUND_PLAYER		|
-                              // bits_SOUND_WORLD		|
-
               bits_SOUND_DANGER |
               bits_SOUND_MEAT | // scents
               bits_SOUND_CARCASS |
@@ -288,9 +284,6 @@ Schedule_t slTlkIdleWatchClient[] =
               bits_COND_PROVOKED,
 
           bits_SOUND_COMBAT | // sound flags - change these, and you'll break the talking code.
-                              // bits_SOUND_PLAYER		|
-                              // bits_SOUND_WORLD		|
-
               bits_SOUND_DANGER |
               bits_SOUND_MEAT | // scents
               bits_SOUND_CARCASS |
@@ -686,8 +679,8 @@ void CTalkMonster::ShutUpFriends( void )
 	}
 }
 
-// UNDONE: Keep a follow time in each follower, make a list of followers in this function and do LRU
-// UNDONE: Check this in Restore to keep restored monsters from joining a full list of followers
+// Maintain follower list with LRU priority
+// Verify restored follower count does not exceed squad limit
 void CTalkMonster::LimitFollowers( CBaseEntity *pPlayer, int maxFollowers )
 {
 	CBaseEntity *pFriend = NULL;
@@ -1067,7 +1060,7 @@ int CTalkMonster ::FIdleSpeak( void )
 		// force friend to answer
 		CTalkMonster *pTalkMonster = (CTalkMonster *)pFriend;
 		m_hTalkTarget              = pFriend;
-		pTalkMonster->SetAnswerQuestion( this ); // UNDONE: This is EVIL!!!
+		pTalkMonster->SetAnswerQuestion( this ); // Designate question responder
 		pTalkMonster->m_flStopTalkTime = m_flStopTalkTime;
 
 		m_nSpeak++;

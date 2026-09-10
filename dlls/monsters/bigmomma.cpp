@@ -450,7 +450,7 @@ void CBigMomma ::Precache()
 
 	UTIL_PrecacheOther( BIG_CHILDCLASS );
 
-	// TEMP: Squid
+	// Mortar spit projectile and effect sprites
 	PRECACHE_MODEL( "sprites/mommaspit.spr" );                      // spit projectile.
 	gSpitSprite       = PRECACHE_MODEL( "sprites/mommaspout.spr" ); // client side spittle.
 	gSpitDebrisSprite = PRECACHE_MODEL( "sprites/mommablob.spr" );

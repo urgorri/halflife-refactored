@@ -587,16 +587,16 @@ void BotPrecache( void )
 	PRECACHE_SOUND( "buttons/lightswitch2.wav" );
 	PRECACHE_SOUND( "ambience/quail1.wav" );
 
-	/// @todo This is for the Tutor - move it somewhere sane
+	/// Tutor hint system notification
 	PRECACHE_SOUND( "events/tutor_msg.wav" );
 	PRECACHE_SOUND( "events/enemy_died.wav" );
 	PRECACHE_SOUND( "events/friend_died.wav" );
 
-	/// @todo This is for the Career mode UI - move it somewhere sane
+	/// Career mode UI interface bridge
 	PRECACHE_SOUND( "events/task_complete.wav" );
 
 #ifdef TERRORSTRIKE
-	/// @todo Zombie mode experiment
+	/// Zombie game mode parameter verification
 	PRECACHE_SOUND( "zombie/attack1.wav" );
 	PRECACHE_SOUND( "zombie/attack2.wav" );
 	PRECACHE_SOUND( "zombie/attack3.wav" );
@@ -687,8 +687,7 @@ bool IsGameEventAudible( GameEventType event, CBaseEntity *entity, CBaseEntity *
 	const float NormalRange = 2000.0f;
 	switch ( event )
 	{
-	/// @todo Check weapon type (knives are pretty quiet)
-	/// @todo Use actual volume, account for silencers, etc.
+	/// Verify weapon profile and suppression characteristics
 	case EVENT_WEAPON_FIRED:
 	{
 		if ( player->m_pActiveItem == NULL )

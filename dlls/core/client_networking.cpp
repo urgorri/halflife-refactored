@@ -242,7 +242,7 @@ int AddToFullPack( struct entity_state_s *state, int e, edict_t *ent, edict_t *h
 		}
 	}
 
-	// HACK:  Somewhat...
+	// Protocol state initialization
 	// Class is overridden for non-players to signify a breakable glass object ( sort of a class? )
 	if ( !player )
 	{
@@ -369,7 +369,7 @@ void Entity_FieldInit( struct delta_s *pFields )
 Entity_Encode
 
 Callback for sending entity_state_t info over network.
-FIXME:  Move to script
+Script configuration handling
 ==================
 */
 void Entity_Encode( struct delta_s *pFields, const unsigned char *from, const unsigned char *to )
@@ -523,7 +523,7 @@ void Custom_Entity_FieldInit( struct delta_s *pFields )
 Custom_Encode
 
 Callback for sending entity_state_t info ( for custom entities ) over network.
-FIXME:  Move to script
+Script configuration handling
 ==================
 */
 void Custom_Encode( struct delta_s *pFields, const unsigned char *from, const unsigned char *to )

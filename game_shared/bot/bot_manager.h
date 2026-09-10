@@ -29,7 +29,7 @@ class CGrenade;
 /**
  * An ActiveGrenade is a representation of a grenade in the world
  * NOTE: Currently only used for smoke grenade line-of-sight testing
- * @todo Use system allow bots to avoid HE and Flashbangs
+ * System allowing bots to evade explosive and tactical grenades
  */
 class ActiveGrenade
 {

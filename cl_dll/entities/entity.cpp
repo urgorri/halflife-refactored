@@ -424,7 +424,7 @@ void CL_DLLEXPORT HUD_TempEntUpdate(
 
 	pTemp = *ppTempEntActive;
 
-	// !!! Don't simulate while paused....  This is sort of a hack, revisit.
+	// Suppress entity physics simulation while game is paused.
 	if ( frametime <= 0 )
 	{
 		while ( pTemp )

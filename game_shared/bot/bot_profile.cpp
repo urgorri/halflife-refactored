@@ -24,7 +24,7 @@ BotProfileManager *TheBotProfiles = NULL;
 #ifdef GAMEUI_EXPORTS
 #include "../GameUI/EngineInterface.h"
 #include "../cstrike/dlls/weapontype.h"
-#include "../cstrike/dlls/weapontype.cpp" /// @TODO: remove this CStrike peculiarity from a game_shared file!!!
+#include "../cstrike/dlls/weapontype.cpp" /// Weapon type definition include
 void Career_Printf( const char *fmt, ... );
 #define CONSOLE_ECHO Career_Printf
 #define LOAD_FILE_FOR_ME( name, len ) ( engine->COM_LoadFile( ( name ), 5, ( len ) ) )
@@ -331,7 +331,7 @@ void BotProfileManager::Init( const char *filename, unsigned int *checksum )
 			profile->m_name = CloneString( SharedGetToken() );
 
 			/**
-			 * HACK HACK
+			 * Weapon selection priority adjustment
 			 * Until we have a generalized means of storing bot preferences, we're going to hardcode the bot's
 			 * preference towards silencers based on his name.
 			 */

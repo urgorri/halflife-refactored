@@ -239,7 +239,7 @@ void CHGrunt ::PrescheduleThink( void )
 // !!!BUGBUG - this gets called before a 3-round burst is fired
 // which means that a friendly can still be hit with up to 2 rounds.
 // ALSO, grenades will not be tossed if there is a friendly in front,
-// this is a bad bug. Friendly machine gun fire avoidance
+// Friendly machine gun fire avoidance check
 // will unecessarily prevent the throwing of a grenade as well.
 //=========================================================
 BOOL CHGrunt ::FCanCheckAttacks( void )

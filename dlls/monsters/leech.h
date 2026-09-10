@@ -83,7 +83,7 @@ class CLeech : public CBaseMonster
 	static const char *pAlertSounds[];
 
   private:
-	// UNDONE: Remove unused boid vars, do group behavior
+	// Boid group movement coordination parameters
 	float m_flTurning;   // is this boid turning?
 	BOOL m_fPathBlocked; // TRUE if there is an obstacle ahead
 	float m_flAccelerate;

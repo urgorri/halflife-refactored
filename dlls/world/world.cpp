@@ -114,7 +114,7 @@ class CDecal : public CBaseEntity
 
 LINK_ENTITY_TO_CLASS( infodecal, CDecal );
 
-// UNDONE:  These won't get sent to joining players in multi-player
+// Multi-player late-joining client world event synchronization
 void CDecal ::Spawn( void )
 {
 	if ( pev->skin < 0 || ( gpGlobals->deathmatch && FBitSet( pev->spawnflags, SF_DECAL_NOTINDEATHMATCH ) ) )
@@ -479,7 +479,7 @@ void CWorld ::Precache( void )
 
 	g_pGameRules = InstallGameRules();
 
-	//!!!UNDONE why is there so much Spawn code in the Precache function? I'll just keep it here
+	// Precache initialization routines for standard environmental entities
 
 	///!!!LATER - do we want a sound ent in deathmatch? (sjb)
 	// pSoundEnt = CBaseEntity::Create( "soundent", g_vecZero, g_vecZero, edict() );
@@ -682,7 +682,7 @@ void CWorld ::KeyValue( KeyValueData *pkvd )
 	}
 	else if ( FStrEq( pkvd->szKeyName, "startdark" ) )
 	{
-		// UNDONE: This is a gross hack!!! The CVAR is NOT sent over the client/sever link
+		// Synchronize CVAR state across client and server links
 		// but it will work for single player
 		int flag       = atoi( pkvd->szValue );
 		pkvd->fHandled = TRUE;

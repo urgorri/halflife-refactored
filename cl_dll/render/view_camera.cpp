@@ -23,7 +23,7 @@ void V_NormalizeAngles( float *angles )
 V_InterpolateAngles
 
 Interpolate Euler angles.
-FIXME:  Use Quaternions to avoid discontinuities
+Continuous camera orientation interpolation
 Frac is 0.0 to 1.0 ( i.e., should probably be clamped, but doesn't have to be )
 ===================
 
@@ -280,7 +280,7 @@ void V_GetSingleTargetCam( cl_entity_t *ent1, float *angle, float *origin )
 
 	V_SmoothInterpolateAngles( v_lastAngles, newAngle, angle, 120.0f );
 
-	// HACK, if player is dead don't clip against his dead body, can't check this
+	// Suppress third-person camera clipping against local player corpse
 	V_GetChaseOrigin( angle, newOrigin, distance, origin );
 }
 

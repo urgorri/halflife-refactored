@@ -42,7 +42,7 @@ float Length( const float *v )
 	length = 0;
 	for ( i = 0; i < 3; i++ )
 		length += v[i] * v[i];
-	length = sqrt( length ); // FIXME
+	length = sqrt( length ); // Vector magnitude calculation
 
 	return length;
 }
@@ -81,7 +81,7 @@ float VectorNormalize( float *v )
 	float length, ilength;
 
 	length = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
-	length = sqrt( length ); // FIXME
+	length = sqrt( length ); // Vector magnitude calculation
 
 	if ( length )
 	{

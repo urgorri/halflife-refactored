@@ -31,7 +31,7 @@
 
 #include "bot_util.h"
 
-/// @todo Abstract these out of here (TheBotPhrases)
+/// Bot speech phrases data encapsulation
 #include "cs_bot.h"
 #include "cs_bot_manager.h"
 
@@ -653,7 +653,7 @@ NavErrorType CNavArea::PostLoad( void )
 	}
 
 	// build overlap list
-	/// @todo Optimize this
+	/// Binary deserialization efficiency optimization
 	for ( NavAreaList::iterator oiter = TheNavAreaList.begin(); oiter != TheNavAreaList.end(); ++oiter )
 	{
 		CNavArea *area = *oiter;

@@ -195,7 +195,7 @@ void PM_PlayStepSound( int step, float fvol )
 
 	irand = pmove->RandomLong( 0, 1 ) + ( pmove->iStepLeft * 2 );
 
-	// FIXME mp_footsteps needs to be a movevar
+	// Footstep movement audio configuration
 	if ( pmove->multiplayer && !pmove->movevars->footsteps )
 		return;
 
@@ -327,11 +327,11 @@ void PM_UpdateStepSound( void )
 	// The Barnacle Grapple sets the FL_IMMUNE_LAVA flag to indicate that the player is not on a ladder - Solokiller
 	fLadder = ( pmove->movetype == MOVETYPE_FLY ) && !( pmove->flags & FL_IMMUNE_LAVA ); // IsOnLadder();
 
-	// UNDONE: need defined numbers for run, walk, crouch, crouch run velocities!!!!
+	// Gait locomotion velocity thresholds
 	if ( ( pmove->flags & FL_DUCKING ) || fLadder )
 	{
 		velwalk = 60; // These constants should be based on cl_movespeedkey * cl_forwardspeed somehow
-		velrun  = 80; // UNDONE: Move walking to server
+		velrun  = 80; // Walking gait velocity threshold
 		flduck  = 100;
 	}
 	else

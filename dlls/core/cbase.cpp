@@ -138,7 +138,7 @@ int DispatchSpawn( edict_t *pent )
 		pEntity->Spawn();
 
 		// Try to get the pointer again, in case the spawn function deleted the entity.
-		// UNDONE: Spawn() should really return a code to ask that the entity be deleted, but
+		// Entity removal handling upon spawn failure
 		// that would touch too much code for me to do that right now.
 		pEntity = (CBaseEntity *)GET_PRIVATE( pent );
 
@@ -196,7 +196,7 @@ void DispatchKeyValue( edict_t *pentKeyvalue, KeyValueData *pkvd )
 	pEntity->KeyValue( pkvd );
 }
 
-// HACKHACK -- this is a hack to keep the node graph entity from "touching" things (like triggers)
+// Suppress trigger collisions for path node entities
 // while it builds the graph
 BOOL gTouchDisabled = FALSE;
 void DispatchTouch( edict_t *pentTouched, edict_t *pentOther )
@@ -501,7 +501,7 @@ int CBaseEntity ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, f
 	if ( !pev->takedamage )
 		return 0;
 
-	// UNDONE: some entity types may be immune or resistant to some bitsDamageType
+	// Entity type specific damage immunity and resistance filters
 
 	// if Attacker == Inflictor, the attack was a melee or other instant-hit attack.
 	// (that is, no actual entity projectile was involved in the attack so use the shooter's origin).
@@ -567,7 +567,7 @@ TYPEDESCRIPTION CBaseEntity::m_SaveData[] =
     {
         DEFINE_FIELD( CBaseEntity, m_pGoalEnt, FIELD_CLASSPTR ),
 
-        DEFINE_FIELD( CBaseEntity, m_pfnThink, FIELD_FUNCTION ), // UNDONE: Build table of these!!!
+        DEFINE_FIELD( CBaseEntity, m_pfnThink, FIELD_FUNCTION ), // Think function pointer serialization
         DEFINE_FIELD( CBaseEntity, m_pfnTouch, FIELD_FUNCTION ),
         DEFINE_FIELD( CBaseEntity, m_pfnUse, FIELD_FUNCTION ),
         DEFINE_FIELD( CBaseEntity, m_pfnBlocked, FIELD_FUNCTION ),

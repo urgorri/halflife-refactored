@@ -42,7 +42,7 @@ class CFlyingMonster : public CBaseMonster
 	float FloorZ( const Vector &position );
 	BOOL ProbeZ( const Vector &position, const Vector &probe, float *pFraction );
 
-	// UNDONE:  Save/restore this stuff!!!
+	// Flight steering state parameters
   protected:
 	Vector m_vecTravel;  // Current direction
 	float m_flightSpeed; // Current flight speed (decays when not flapping or gliding)

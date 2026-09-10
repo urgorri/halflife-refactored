@@ -38,7 +38,7 @@ void V_Init( void );
 void VectorAngles( const float *forward, float *angles );
 int CL_ButtonBits( int );
 
-// xxx need client dll function to get and clear impuse
+// Client DLL impulse retrieval and clearing
 extern cvar_t *in_joystick;
 
 int in_impulse = 0;

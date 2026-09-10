@@ -209,7 +209,7 @@ void CBaseMonster ::MaintainSchedule( void )
 	Schedule_t *pNewSchedule;
 	int i;
 
-	// UNDONE: Tune/fix this 10... This is just here so infinite loops are impossible
+	// Maximum task transition iterations to guard against infinite loops
 	for ( i = 0; i < 10; i++ )
 	{
 		if ( m_pSchedule != NULL && TaskIsComplete() )
@@ -272,7 +272,7 @@ void CBaseMonster ::MaintainSchedule( void )
 			StartTask( pTask );
 		}
 
-		// UNDONE: Twice?!!!
+		// Sequence reset confirmation
 		if ( m_Activity != m_IdealActivity )
 		{
 			SetActivity( m_IdealActivity );
@@ -289,7 +289,7 @@ void CBaseMonster ::MaintainSchedule( void )
 		RunTask( pTask );
 	}
 
-	// UNDONE: We have to do this so that we have an animation set to blend to if RunTask changes the animation
+	// Prime blending animation sequence prior to RunTask transition
 	// RunTask() will always change animations at the end of a script!
 	// Don't do this twice
 	if ( m_Activity != m_IdealActivity )
@@ -457,7 +457,7 @@ void CBaseMonster ::RunTask( Task_t *pTask )
 
 			if ( !BBoxFlat() )
 			{
-				// a bit of a hack. If a corpses' bbox is positioned such that being left solid so that it can be attacked will
+				// Position corpse bounding box to permit attacks without obstructing pathways
 				// block the player on a slope or stairs, the corpse is made nonsolid.
 				//					pev->solid = SOLID_NOT;
 				UTIL_SetSize( pev, Vector( -4, -4, 0 ), Vector( 4, 4, 1 ) );
@@ -1125,7 +1125,7 @@ void CBaseMonster ::StartTask( Task_t *pTask )
 	}
 	case TASK_RUN_PATH:
 	{
-		// UNDONE: This is in some default AI and some monsters can't run? -- walk instead?
+		// Fallback to walk locomotion if monster does not possess a running activity
 		if ( LookupActivity( ACT_RUN ) != ACTIVITY_NOT_AVAILABLE )
 		{
 			m_movementActivity = ACT_RUN;

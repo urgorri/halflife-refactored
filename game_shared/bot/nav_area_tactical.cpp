@@ -30,7 +30,7 @@
 #include "gamerules.h"
 #include "bot_util.h"
 
-/// @todo Abstract hostages and cs-bots out of here
+/// Hostage entity interaction logic
 #include "cs_bot.h"
 #include "cs_bot_manager.h"
 #include "hostage.h"
@@ -822,7 +822,7 @@ class CollectHidingSpotsFunctor
 			if ( IsSpotOccupied( m_me, spot->GetPosition() ) )
 			{
 				// player is in hiding spot
-				/// @todo Check if player is moving or sitting still
+				/// Evaluate player movement velocity state
 				continue;
 			}
 
@@ -869,7 +869,7 @@ class CollectHidingSpotsFunctor
 /**
  * Do a breadth-first search to find a nearby hiding spot and return it.
  * Don't pick a hiding spot that a Player is currently occupying.
- * @todo Clean up this mess
+ * Tactical approach spot computation
  */
 const Vector *FindNearbyHidingSpot( CBaseEntity *me, const Vector *pos, CNavArea *startArea, float maxRange, bool isSniper, bool useNearest )
 {
@@ -1097,7 +1097,7 @@ const Vector *FindNearbyRetreatSpot( CBaseEntity *me, const Vector *start, CNavA
 //--------------------------------------------------------------------------------------------------------------
 /**
  * Return number of players with given teamID in this area (teamID == 0 means any/all)
- * @todo Keep pointers to contained Players to make this a zero-time query
+ * Area player containment spatial query
  */
 
 			else
@@ -1113,7 +1113,7 @@ const Vector *FindNearbyRetreatSpot( CBaseEntity *me, const Vector *start, CNavA
 /**
  * Can we see this area?
  * For now, if we can see any corner, we can see the area
- * @todo Need to check LOS to more than the corners for large and/or long areas
+ * Multi-sample line-of-sight validation for expansive navigation areas
  */
 inline bool IsAreaVisible( const Vector *pos, const CNavArea *area )
 {

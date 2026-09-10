@@ -751,7 +751,7 @@ float CIchthyosaur::ChangeYaw( int yawSpeed )
 
 Activity CIchthyosaur::GetStoppedActivity( void )
 {
-	if ( pev->movetype != MOVETYPE_FLY ) // UNDONE: Ground idle here, IDLE may be something else
+	if ( pev->movetype != MOVETYPE_FLY ) // Ground idle activity fallback
 		return ACT_IDLE;
 	return ACT_WALK;
 }

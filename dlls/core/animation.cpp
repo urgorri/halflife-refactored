@@ -22,7 +22,7 @@ typedef int BOOL;
 #define TRUE 1
 #define FALSE 0
 
-// hack into header files that we can ship
+// Internal animation definitions extracted from engine headers
 typedef int qboolean;
 typedef unsigned char byte;
 #include "../utils/common/mathlib.h"
@@ -200,7 +200,7 @@ void SequencePrecache( void *pmodel, const char *pSequenceName )
 			if ( pevent[i].event >= EVENT_CLIENT )
 				continue;
 
-			// UNDONE: Add a callback to check to see if a sound is precached yet and don't allocate a copy
+			// Verify sound precache status before allocating string copy
 			// of it's name if it is.
 			if ( IsSoundEvent( pevent[i].event ) )
 			{
@@ -332,7 +332,7 @@ float SetController( void *pmodel, entvars_t *pev, int iController, float flValu
 
 	if ( pbonecontroller->type & ( STUDIO_XR | STUDIO_YR | STUDIO_ZR ) )
 	{
-		// ugly hack, invert value if end < start
+		// Invert value if controller bounds are reversed
 		if ( pbonecontroller->end < pbonecontroller->start )
 			flValue = -flValue;
 
@@ -381,7 +381,7 @@ float SetBlending( void *pmodel, entvars_t *pev, int iBlender, float flValue )
 
 	if ( pseqdesc->blendtype[iBlender] & ( STUDIO_XR | STUDIO_YR | STUDIO_ZR ) )
 	{
-		// ugly hack, invert value if end < start
+		// Invert value if controller bounds are reversed
 		if ( pseqdesc->blendend[iBlender] < pseqdesc->blendstart[iBlender] )
 			flValue = -flValue;
 

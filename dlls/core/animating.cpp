@@ -141,7 +141,7 @@ void CBaseAnimating ::DispatchAnimEvents( float flInterval )
 		return;
 	}
 
-	// FIXME: I have to do this or some events get missed, and this is probably causing the problem below
+	// Advance animation frame to capture pending event triggers
 	flInterval = 0.1;
 
 	// FIX: this still sometimes hits events twice

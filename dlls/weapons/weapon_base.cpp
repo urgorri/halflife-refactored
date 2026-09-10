@@ -280,7 +280,7 @@ BOOL CBasePlayerWeapon ::AddPrimaryAmmo( int iCount, char *szName, int iMaxClip,
 		iIdAmmo = m_pPlayer->GiveAmmo( iCount, szName, iMaxCarry );
 	}
 
-	// m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType] = iMaxCarry; // hack for testing
+	// m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType] = iMaxCarry; // Testing ammo provision
 
 	if ( iIdAmmo > 0 )
 	{
@@ -302,7 +302,7 @@ BOOL CBasePlayerWeapon ::AddSecondaryAmmo( int iCount, char *szName, int iMax )
 
 	iIdAmmo = m_pPlayer->GiveAmmo( iCount, szName, iMax );
 
-	// m_pPlayer->m_rgAmmo[m_iSecondaryAmmoType] = iMax; // hack for testing
+	// m_pPlayer->m_rgAmmo[m_iSecondaryAmmoType] = iMax; // Testing secondary ammo provision
 
 	if ( iIdAmmo > 0 )
 	{
@@ -392,7 +392,7 @@ BOOL CBasePlayerWeapon ::DefaultReload( int iClipSize, int iAnim, float fDelay, 
 
 	m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + fDelay;
 
-	//!!UNDONE -- reload sound goes here !!!
+	// Reload audio playback handling
 	SendWeaponAnim( iAnim, UseDecrement() ? 1 : 0 );
 
 	m_fInReload = TRUE;
