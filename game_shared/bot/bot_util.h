@@ -244,8 +244,8 @@ inline bool IsEntityValid( CBaseEntity *entity )
  * Note that this computes the intersection of the 2D (x,y) projection of the line segments.
  */
 inline bool IsIntersecting2D( const Vector &startA, const Vector &endA,
-                              const Vector &startB, const Vector &endB,
-                              Vector *result = NULL )
+	const Vector &startB, const Vector &endB,
+	Vector *result = NULL )
 {
 	float denom = ( endA.x - startA.x ) * ( endB.y - startB.y ) - ( endA.y - startA.y ) * ( endB.x - startB.x );
 	if ( denom == 0.0f )

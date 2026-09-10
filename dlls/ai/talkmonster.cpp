@@ -166,7 +166,6 @@ Schedule_t slIdleHello[] =
 Task_t tlIdleStopShooting[] =
     {
         { TASK_TLK_STOPSHOOTING, (float)0 }, // tell player to stop shooting friend
-                                             // { TASK_TLK_EYECONTACT,		(float)0		},// look at the player
 };
 
 Schedule_t slIdleStopShooting[] =
@@ -267,9 +266,6 @@ Schedule_t slTlkIdleWatchClient[] =
               bits_COND_PROVOKED,
 
           bits_SOUND_COMBAT | // sound flags - change these, and you'll break the talking code.
-                              // bits_SOUND_PLAYER		|
-                              // bits_SOUND_WORLD		|
-
               bits_SOUND_DANGER |
               bits_SOUND_MEAT | // scents
               bits_SOUND_CARCASS |
@@ -288,9 +284,6 @@ Schedule_t slTlkIdleWatchClient[] =
               bits_COND_PROVOKED,
 
           bits_SOUND_COMBAT | // sound flags - change these, and you'll break the talking code.
-                              // bits_SOUND_PLAYER		|
-                              // bits_SOUND_WORLD		|
-
               bits_SOUND_DANGER |
               bits_SOUND_MEAT | // scents
               bits_SOUND_CARCASS |

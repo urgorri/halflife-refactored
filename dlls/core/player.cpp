@@ -778,12 +778,12 @@ void CBasePlayer::UpdateStatusBar()
     4) Certain actions or countermeasures counteract the damaging effects of tbds:
 
         Armor/Heater/Cooler - Chemical(acid),burn, freeze all do damage to armor power, then to body
-                            - recharged by suit recharger
+        - recharged by suit recharger
         Air In Lungs		- drowning damage is done to air in lungs first, then to body
-                            - recharged by poking head out of water
-                            - 10 seconds if swiming fast
+        - recharged by poking head out of water
+        - 10 seconds if swiming fast
         Air In SCUBA		- drowning damage is done to air in tanks first, then to body
-                            - 2 minutes in tanks. Need new tank once empty.
+        - 2 minutes in tanks. Need new tank once empty.
         Radiation Syringe	- Each syringe full provides protection vs one radiation dosage
         Antitoxin Syringe	- Each syringe full provides protection vs one poisoning (nervegas or poison).
         Health kit			- Immediate stop to acid/chemical, fire or freeze damage.

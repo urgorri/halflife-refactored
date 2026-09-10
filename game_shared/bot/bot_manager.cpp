@@ -33,7 +33,7 @@ const float smokeRadius = 115.0f; ///< for smoke grenades
 
 // #define CHECK_PERFORMANCE
 #ifdef CHECK_PERFORMANCE
-                                  // crude performance timing
+// crude performance timing
 static CPerformanceCounter perfCounter;
 
 struct PerfInfo
