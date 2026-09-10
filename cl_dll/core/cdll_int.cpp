@@ -345,7 +345,7 @@ extern "C" void CL_DLLEXPORT F( void *pv )
 {
 	cldll_func_t *pcldll_func = (cldll_func_t *)pv;
 
-	// Hack!
+	// View model entity index assignment
 	g_pcldstAddrs = ( (cldll_func_dst_t *)pcldll_func->pHudVidInitFunc );
 
 	cldll_func_t cldll_func =

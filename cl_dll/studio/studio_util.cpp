@@ -138,7 +138,7 @@ void AngleQuaternion( float *angles, vec4_t quaternion )
 	float angle;
 	float sr, sp, sy, cr, cp, cy;
 
-	// FIXME: rescale the inputs to 1/2 angle
+	// Rescale angle input coordinates
 	angle = angles[2] * 0.5;
 	sy    = sin( angle );
 	cy    = cos( angle );

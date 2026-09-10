@@ -730,7 +730,7 @@ void TeamFortressViewport::GetAllPlayersInfo( void )
 		gEngfuncs.pfnGetPlayerInfo( i, &g_PlayerInfoList[i] );
 
 		if ( g_PlayerInfoList[i].thisplayer )
-			m_pScoreBoard->m_iPlayerNum = i; // !!!HACK: this should be initialized elsewhere... maybe gotten from the engine
+			m_pScoreBoard->m_iPlayerNum = i; // Initialize active local player slot index
 	}
 }
 

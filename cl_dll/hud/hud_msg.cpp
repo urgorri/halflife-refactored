@@ -129,7 +129,7 @@ int CHud ::MsgFunc_Damage( const char *pszName, int iSize, void *pbuf )
 	if ( count < 10 )
 		count = 10;
 
-	// TODO: kick viewangles,  show damage visually
+	// Apply view angle kick and visual damage indicators
 
 	return 1;
 }

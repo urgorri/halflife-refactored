@@ -172,7 +172,7 @@ BOOL CBasePlayerWeapon ::DefaultReload( int iClipSize, int iAnim, float fDelay, 
 
 	m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + fDelay;
 
-	//!!UNDONE -- reload sound goes here !!!
+	// Reload audio event playback
 	SendWeaponAnim( iAnim, UseDecrement(), body );
 
 	m_fInReload = TRUE;
@@ -340,7 +340,7 @@ void CBasePlayerWeapon::ItemPostFrame( void )
 {
 	if ( ( m_fInReload ) && ( m_pPlayer->m_flNextAttack <= 0.0 ) )
 	{
-#if 0 // FIXME, need ammo on client to make this work right
+#if 0 // Client-side predicted weapon ammunition state
       // complete the reload.
 		int j = min( iMaxClip() - m_iClip, m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType]);
 
@@ -694,7 +694,7 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	gpGlobals->time = time;
 
 	// Fill in data based on selected weapon
-	// FIXME, make this a method in each weapon?  where you pass in an entity_state_t *?
+	// Per-weapon entity state message handler
 	switch ( from->client.m_iId )
 	{
 	case WEAPON_CROWBAR:

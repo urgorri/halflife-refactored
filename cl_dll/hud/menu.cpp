@@ -234,7 +234,7 @@ void CHudMenu ::SelectMenuItem( int menu_item )
 // if this message is never received, then scores will simply be the combined totals of the players.
 int CHudMenu ::MsgFunc_ShowMenu( const char *pszName, int iSize, void *pbuf )
 {
-	char *temp = NULL;
+	char *pszConverted = NULL;
 
 	BEGIN_READ( pbuf, iSize );
 
@@ -265,11 +265,11 @@ int CHudMenu ::MsgFunc_ShowMenu( const char *pszName, int iSize, void *pbuf )
 			g_szMenuString[MAX_MENU_STRING - 1] = '\0';
 
 			// Swap in characters
-			if ( KB_ConvertString( g_szMenuString, &temp ) )
+			if ( KB_ConvertString( g_szMenuString, &pszConverted ) )
 			{
-				strncpy( g_szMenuString, temp, MAX_MENU_STRING );
+				strncpy( g_szMenuString, pszConverted, MAX_MENU_STRING );
 				g_szMenuString[MAX_MENU_STRING - 1] = '\0';
-				free( temp );
+				free( pszConverted );
 			}
 		}
 

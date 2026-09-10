@@ -188,19 +188,19 @@
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 9.1 - 9.3_
 
-- [ ] 10. Phase 10: Core Server & Weapons Subsystems Remediation (`dlls/core/`, `dlls/weapons/`)
-  - [ ] 10.1 Modernize server core mechanics and helper files (26 smells in `dlls/core/`)
+- [x] 10. Phase 10: Core Server & Weapons Subsystems Remediation (`dlls/core/`, `dlls/weapons/`) [COMPLETED]
+  - [x] 10.1 Modernize server core mechanics and helper files (26 smells in `dlls/core/`)
     - Remediate `player_physics.cpp`, `animation.cpp`, `cbase.cpp`, `combat_damage.cpp`, `player.cpp`, `player_inventory.cpp`, `client_networking.cpp`, `subs.cpp`, `client.cpp`, `animating.cpp`, `combat_gib.cpp`, `player_cheats.cpp`, `util_saverestore.cpp`.
     - _Requirements: [REQ-11.1]_
     - _Components: [COMP-9]_
-  - [ ] 10.2 Replace macro swap temporary variables in `dlls/core/util.cpp` with inline template `SwapValues`
+  - [x] 10.2 Replace macro swap temporary variables in `dlls/core/util.cpp` with inline template `SwapValues`
     - _Requirements: [REQ-11.2]_
     - _Components: [COMP-9]_
-  - [ ] 10.3 Modernize weapon base and firearm entity files (13 smells in `dlls/weapons/`)
+  - [x] 10.3 Modernize weapon base and firearm entity files (13 smells in `dlls/weapons/`)
     - Remediate `weapon_base.cpp`, `player_item_base.cpp`, `projectile_grenade.cpp`, `projectile_hornet.cpp`, `weapon_crowbar.cpp`, `weapon_gauss.cpp`, `weapon_glock.cpp`, `weapon_mp5.cpp`, `weapon_python.cpp`, `weapon_snark.cpp`.
     - _Requirements: [REQ-11.3, REQ-11.4]_
     - _Components: [COMP-9]_
-  - [ ] 10.4 Compile and verify `hldll.vcxproj` with MSBuild (0 errors, 0 warnings)
+  - [x] 10.4 Compile and verify `hldll.vcxproj` with MSBuild (0 errors, 0 warnings)
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 10.1 - 10.3_
 

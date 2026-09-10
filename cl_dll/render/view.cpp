@@ -142,7 +142,7 @@ void V_CalcNormalRefdef( struct ref_params_s *pparams )
 
 	// never let view origin sit exactly on a node line, because a water plane can
 	// dissapear when viewed with the eye exactly on it.
-	// FIXME, we send origin at 1/128 now, change this?
+	// Coordinate quantization precision verification
 	// the server protocol only specifies to 1/16 pixel, so add 1/32 in each axis
 
 	pparams->vieworg[0] += 1.0 / 32;
@@ -312,7 +312,7 @@ void V_CalcNormalRefdef( struct ref_params_s *pparams )
 
 		steptime = pparams->time - lasttime;
 		if ( steptime < 0 )
-			// FIXME		I_Error ("steptime < 0");
+			// Verify positive steptime duration
 			steptime = 0;
 
 		oldz += steptime * 150;

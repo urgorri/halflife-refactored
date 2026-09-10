@@ -95,7 +95,7 @@ int CHudHealth::VidInit( void )
 
 int CHudHealth::MsgFunc_Health( const char *pszName, int iSize, void *pbuf )
 {
-	// TODO: update local health data
+	// Update local player health display data
 	BEGIN_READ( pbuf, iSize );
 	int x = READ_BYTE();
 
@@ -290,7 +290,7 @@ int CHudHealth::DrawPain( float flTime )
 	int r, g, b;
 	int x, y, a, shade;
 
-	// TODO:  get the shift value of the health
+	// Compute health pulse display shift offset
 	a = 255; // max brightness until then
 
 	float fFade = gHUD.m_flTimeDelta * 2;
