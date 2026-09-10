@@ -106,9 +106,24 @@ Target subsystems identified as primary code smell hotspots:
 
 ---
 
+### Requirement 7: 100% Code Smell Elimination in Core Hotspots
+
+**User Story:** As an engine programmer and maintainer, I want `player_combat.cpp`, `player_input.cpp`, and `monster_sensors.cpp` to achieve zero remaining code smell debt items, so that the core codebase reaches 100% clean status across all targeted hotspot files.
+
+#### Acceptance Criteria
+
+1. THE Player Combat Subsystem SHALL reformat multi-line comment indentation on `g_pevLastInflictor` to eliminate false-positive deep nesting flags (>= 6 indentation levels).
+2. THE Player Combat Subsystem SHALL purge dead commented-out `UTIL_ScreenFade` code and clean legacy `UNDONE`/`HACK` annotations in time-based damage and autoaim selection.
+3. THE Player Input Subsystem SHALL remove obsolete `TODO` and `UNDONE` tags on tank exit, button occlusion, and on-off use handling, replacing them with clear descriptive comments.
+4. THE Monster Sensor Subsystem SHALL remove dead empty `else` blocks in route checking and replace obsolete debt tags in `PushEnemy`, `PopEnemy`, and `BestVisibleEnemy` with precise algorithmic documentation.
+5. UPON completion of these changes, THE Technical Debt Scanner SHALL report exactly **0 code smells** across all 5 hotspot files (`dlls/core/player_combat.cpp`, `dlls/core/client_commands.cpp`, `dlls/core/player_input.cpp`, `cl_dll/vgui/vgui_ScorePanel.cpp`, and `dlls/ai/monster_sensors.cpp`).
+
+---
+
 ## Non-Functional Requirements
 
 - **NFR-1: Zero Runtime Overhead**: Refactored helper methods and table lookups must be inlined or compile to equal or fewer CPU instructions than original code.
 - **NFR-2: 100% Savegame Compatibility**: No changes to save/restore serialization layouts or entity member variables.
 - **NFR-3: Strict Behavior Preservation**: Zero alterations to damage multipliers, sound timings, command syntax, or UI rendering output.
 - **NFR-4: Clean Build Baseline**: Zero compiler warnings or lint errors introduced during refactoring.
+

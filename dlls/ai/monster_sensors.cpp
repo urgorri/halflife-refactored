@@ -399,10 +399,6 @@ int CBaseMonster ::CheckEnemy( CBaseEntity *pEnemy )
 			// trail the enemy a bit
 			m_vecEnemyLKP = m_vecEnemyLKP - pEnemy->pev->velocity * RANDOM_FLOAT( -0.05, 0 );
 		}
-		else
-		{
-			// UNDONE: use pev->oldorigin?
-		}
 	}
 	else if ( !HasConditions( bits_COND_ENEMY_OCCLUDED | bits_COND_SEE_ENEMY ) && ( flDistToEnemy <= 256 ) )
 	{
@@ -432,7 +428,7 @@ int CBaseMonster ::CheckEnemy( CBaseEntity *pEnemy )
 		{
 			if ( m_Route[i].iType == ( bits_MF_IS_GOAL | bits_MF_TO_ENEMY ) )
 			{
-				// UNDONE: Should we allow monsters to override this distance (80?)
+				// Default threshold distance to refresh route towards enemy
 				if ( ( m_Route[i].vecLocation - m_vecEnemyLKP ).Length() > 80 )
 				{
 					// Refresh
@@ -456,7 +452,7 @@ void CBaseMonster ::PushEnemy( CBaseEntity *pEnemy, Vector &vecLastKnownPos )
 	if ( pEnemy == NULL )
 		return;
 
-	// UNDONE: blah, this is bad, we should use a stack but I'm too lazy to code one.
+	// Search enemy memory array to reuse slot or avoid duplicate tracking
 	for ( i = 0; i < MAX_OLD_ENEMIES; i++ )
 	{
 		if ( m_hOldEnemy[i] == pEnemy )
@@ -476,16 +472,15 @@ void CBaseMonster ::PushEnemy( CBaseEntity *pEnemy, Vector &vecLastKnownPos )
 //=========================================================
 BOOL CBaseMonster ::PopEnemy()
 {
-	// UNDONE: blah, this is bad, we should use a stack but I'm too lazy to code one.
+	// Traverse enemy memory in reverse order to pop most recent alive enemy
 	for ( int i = MAX_OLD_ENEMIES - 1; i >= 0; i-- )
 	{
 		if ( m_hOldEnemy[i] != NULL )
 		{
-			if ( m_hOldEnemy[i]->IsAlive() ) // cheat and know when they die
+			if ( m_hOldEnemy[i]->IsAlive() ) // check if still alive
 			{
 				m_hEnemy      = m_hOldEnemy[i];
 				m_vecEnemyLKP = m_vecOldEnemy[i];
-				// ALERT( at_console, "remembering\n");
 				return TRUE;
 			}
 			else
@@ -503,8 +498,7 @@ BOOL CBaseMonster ::PopEnemy()
 // a pointer to the enemy entity in that list that is nearest the
 // caller.
 //
-// !!!UNDONE - currently, this only returns the closest enemy.
-// we'll want to consider distance, relationship, attack types, back turned, etc.
+// Search caller's link list and return nearest visible hostile enemy.
 //=========================================================
 CBaseEntity *CBaseMonster ::BestVisibleEnemy( void )
 {

@@ -121,3 +121,28 @@
     - Format commit messages cleanly in English with clear descriptions.
     - _Requirements: [REQ-6.2, REQ-6.3]_
     - _Dependencies: Task 5.2_
+
+- [x] 6. Phase 6: Full 100% Remediation of Remaining Hotspot Code Smells
+  - [x] 6.1 Eliminate remaining 6 code smells in `dlls/core/player_combat.cpp`
+    - Reformat `g_pevLastInflictor` comment indentation (remove >24-space nesting).
+    - Remove commented-out `UTIL_ScreenFade` dead code.
+    - Rewrite comments on paralyze duration, drown recovery restore, and autoaim selection.
+    - Simplify autoaim skill checks (`1 || ...` and `0 || ...`).
+    - _Requirements: [REQ-7.1, REQ-7.5]_
+    - _Components: [COMP-1]_
+  - [x] 6.2 Eliminate remaining 3 code smells in `dlls/core/player_input.cpp`
+    - Purge `TODO: Send HUD Update` in tank use release.
+    - Rewrite comments in `PlayerUse` for button occlusion and on-off trigger releases.
+    - _Requirements: [REQ-7.3, REQ-7.5]_
+    - _Components: [COMP-3]_
+  - [x] 6.3 Eliminate remaining 5 code smells in `dlls/ai/monster_sensors.cpp`
+    - Remove empty `else` block and obsolete `UNDONE` in route distance check.
+    - Modernize comments in `PushEnemy`, `PopEnemy`, and `BestVisibleEnemy`.
+    - _Requirements: [REQ-7.4, REQ-7.5]_
+    - _Components: [COMP-5]_
+  - [x] 6.4 Compile with MSBuild v145 and re-run `debt_scanner.py`
+    - Verify 0 errors, 0 warnings, and 0 code smells in all 3 files.
+    - _Requirements: [REQ-6.1, REQ-7.5]_
+  - [x] 6.5 Commit and push updates to `refactor/code-smell-mitigation`
+    - Update PR #74.
+

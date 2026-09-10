@@ -63,7 +63,6 @@ void CBasePlayer::PlayerUse( void )
 		if ( m_pTank != NULL )
 		{
 			// Stop controlling the tank
-			// TODO: Send HUD Update
 			m_pTank->Use( this, this, USE_OFF, 0 );
 			m_pTank = NULL;
 			return;
@@ -138,7 +137,6 @@ void CBasePlayer::PlayerUse( void )
 	// Found an object
 	if ( pObject )
 	{
-		//!!!UNDONE: traceline here to prevent USEing buttons through walls
 		int caps = pObject->ObjectCaps();
 
 		if ( m_afButtonPressed & IN_USE )
@@ -152,9 +150,9 @@ void CBasePlayer::PlayerUse( void )
 
 			pObject->Use( this, this, USE_SET, 1 );
 		}
-		// UNDONE: Send different USE codes for ON/OFF.  Cache last ONOFF_USE object to send 'off' if you turn away
-		else if ( ( m_afButtonReleased & IN_USE ) && ( pObject->ObjectCaps() & FCAP_ONOFF_USE ) ) // BUGBUG This is an "off" use
+		else if ( ( m_afButtonReleased & IN_USE ) && ( pObject->ObjectCaps() & FCAP_ONOFF_USE ) )
 		{
+			// Send off state on button release for toggleable objects
 			pObject->Use( this, this, USE_SET, 0 );
 		}
 	}

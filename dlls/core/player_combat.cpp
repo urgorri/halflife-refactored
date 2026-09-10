@@ -335,8 +335,8 @@ int CBasePlayer ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, f
  *
  * ENTITY_METHOD(PlayerDie)
  */
-entvars_t *g_pevLastInflictor; // Set in combat.cpp.  Used to pass the damage inflictor for death messages.
-                               // Better solution:  Add as parameter to all Killed() functions.
+// Set in combat.cpp. Used to pass the damage inflictor for death messages.
+entvars_t *g_pevLastInflictor;
 
 void CBasePlayer::Killed( entvars_t *pevAttacker, int iGib )
 {
@@ -404,9 +404,6 @@ void CBasePlayer::Killed( entvars_t *pevAttacker, int iGib )
 		pev->solid = SOLID_NOT;
 	}
 
-	// UNDONE: Put this in, but add FFADE_PERMANENT and make fade time 8.8 instead of 4.12
-	// UTIL_ScreenFade( edict(), Vector(128,0,0), 6, 15, 255, FFADE_OUT | FFADE_MODULATE );
-
 	if ( ( pev->health < -40 && iGib != GIB_NEVER ) || iGib == GIB_ALWAYS )
 	{
 		pev->solid = SOLID_NOT;
@@ -452,11 +449,9 @@ void CBasePlayer::CheckTimeBasedDamage()
 			switch ( i )
 			{
 			case itbd_Paralyze:
-				// UNDONE - flag movement as half-speed
 				bDuration = PARALYZE_DURATION;
 				break;
 			case itbd_NerveGas:
-				//				TakeDamage(pev, pev, NERVEGAS_DAMAGE, DMG_GENERIC);
 				bDuration = NERVEGAS_DURATION;
 				break;
 			case itbd_Poison:
@@ -464,12 +459,10 @@ void CBasePlayer::CheckTimeBasedDamage()
 				bDuration = POISON_DURATION;
 				break;
 			case itbd_Radiation:
-				//				TakeDamage(pev, pev, RADIATION_DAMAGE, DMG_GENERIC);
 				bDuration = RADIATION_DURATION;
 				break;
 			case itbd_DrownRecover:
-				// NOTE: this hack is actually used to RESTORE health
-				// after the player has been drowning and finally takes a breath
+				// DrownRecover gradually restores health after player surfaces and takes a breath
 				if ( m_idrowndmg > m_idrownrestored )
 				{
 					int idif = min( m_idrowndmg - m_idrownrestored, 10 );
@@ -480,15 +473,12 @@ void CBasePlayer::CheckTimeBasedDamage()
 				bDuration = 4; // get up to 5*10 = 50 points back
 				break;
 			case itbd_Acid:
-				//				TakeDamage(pev, pev, ACID_DAMAGE, DMG_GENERIC);
 				bDuration = ACID_DURATION;
 				break;
 			case itbd_SlowBurn:
-				//				TakeDamage(pev, pev, SLOWBURN_DAMAGE, DMG_GENERIC);
 				bDuration = SLOWBURN_DURATION;
 				break;
 			case itbd_SlowFreeze:
-				//				TakeDamage(pev, pev, SLOWFREEZE_DAMAGE, DMG_GENERIC);
 				bDuration = SLOWFREEZE_DURATION;
 				break;
 			default:
@@ -536,13 +526,8 @@ Vector CBasePlayer ::GetAutoaimVector( float flDelta )
 	Vector vecSrc = GetGunPosition();
 	float flDist  = 8192;
 
-	// always use non-sticky autoaim
-	// UNDONE: use sever variable to chose!
-	if ( 1 || g_iSkillLevel == SKILL_MEDIUM )
-	{
-		m_vecAutoAim = Vector( 0, 0, 0 );
-		// flDelta *= 0.5;
-	}
+	// Always use non-sticky autoaim for standard skill levels
+	m_vecAutoAim = Vector( 0, 0, 0 );
 
 	BOOL m_fOldTargeting = m_fOnTarget;
 	Vector angles        = AutoaimDeflection( vecSrc, flDist, flDelta );
@@ -573,9 +558,8 @@ Vector CBasePlayer ::GetAutoaimVector( float flDelta )
 	if ( angles.y < -12 )
 		angles.y = -12;
 
-	// always use non-sticky autoaim
-	// UNDONE: use sever variable to chose!
-	if ( 0 || g_iSkillLevel == SKILL_EASY )
+	// Deflection weighting based on skill level
+	if ( g_iSkillLevel == SKILL_EASY )
 	{
 		m_vecAutoAim = m_vecAutoAim * 0.67 + angles * 0.33;
 	}
