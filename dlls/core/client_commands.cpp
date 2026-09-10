@@ -269,11 +269,7 @@ void Host_Say( edict_t *pEntity, int teamonly )
 	// echo to server console
 	g_engfuncs.pfnServerPrint( text );
 
-	char *temp;
-	if ( teamonly )
-		temp = "say_team";
-	else
-		temp = "say";
+	const char *pszSayCmd = teamonly ? "say_team" : "say";
 
 	// team match?
 	if ( g_teamplay )
@@ -283,7 +279,7 @@ void Host_Say( edict_t *pEntity, int teamonly )
 		                GETPLAYERUSERID( pEntity ),
 		                GETPLAYERAUTHID( pEntity ),
 		                g_engfuncs.pfnInfoKeyValue( g_engfuncs.pfnGetInfoKeyBuffer( pEntity ), "model" ),
-		                temp,
+		                pszSayCmd,
 		                p );
 	}
 	else
@@ -293,7 +289,7 @@ void Host_Say( edict_t *pEntity, int teamonly )
 		                GETPLAYERUSERID( pEntity ),
 		                GETPLAYERAUTHID( pEntity ),
 		                GETPLAYERUSERID( pEntity ),
-		                temp,
+		                pszSayCmd,
 		                p );
 	}
 }
@@ -315,6 +311,9 @@ void ClientCommand( edict_t *pEntity )
 		return;
 
 	entvars_t *pev = &pEntity->v;
+	CBasePlayer *pPlayer = GetClassPtr( (CBasePlayer *)pev );
+	if ( !pPlayer )
+		return;
 
 	if ( FStrEq( pcmd, "say" ) )
 	{
@@ -326,52 +325,49 @@ void ClientCommand( edict_t *pEntity )
 	}
 	else if ( FStrEq( pcmd, "fullupdate" ) )
 	{
-		GetClassPtr( (CBasePlayer *)pev )->ForceClientDllUpdate();
+		pPlayer->ForceClientDllUpdate();
 	}
 	else if ( FStrEq( pcmd, "give" ) )
 	{
 		if ( CVAR_GET_FLOAT( "sv_cheats" ) != 0.0 )
 		{
 			int iszItem = ALLOC_STRING( CMD_ARGV( 1 ) ); // Make a copy of the classname
-			GetClassPtr( (CBasePlayer *)pev )->GiveNamedItem( STRING( iszItem ) );
+			pPlayer->GiveNamedItem( STRING( iszItem ) );
 		}
 	}
-
 	else if ( FStrEq( pcmd, "drop" ) )
 	{
 		// player is dropping an item.
-		GetClassPtr( (CBasePlayer *)pev )->DropPlayerItem( (char *)CMD_ARGV( 1 ) );
+		pPlayer->DropPlayerItem( (char *)CMD_ARGV( 1 ) );
 	}
 	else if ( FStrEq( pcmd, "fov" ) )
 	{
 		if ( CVAR_GET_FLOAT( "sv_cheats" ) && CMD_ARGC() > 1 )
 		{
-			GetClassPtr( (CBasePlayer *)pev )->m_iFOV = atoi( CMD_ARGV( 1 ) );
+			pPlayer->m_iFOV = atoi( CMD_ARGV( 1 ) );
 		}
 		else
 		{
-			CLIENT_PRINTF( pEntity, print_console, UTIL_VarArgs( "\"fov\" is \"%d\"\n", (int)GetClassPtr( (CBasePlayer *)pev )->m_iFOV ) );
+			CLIENT_PRINTF( pEntity, print_console, UTIL_VarArgs( "\"fov\" is \"%d\"\n", (int)pPlayer->m_iFOV ) );
 		}
 	}
 	else if ( FStrEq( pcmd, "use" ) )
 	{
-		GetClassPtr( (CBasePlayer *)pev )->SelectItem( (char *)CMD_ARGV( 1 ) );
+		pPlayer->SelectItem( (char *)CMD_ARGV( 1 ) );
 	}
 	else if ( ( ( pstr = strstr( pcmd, "weapon_" ) ) != NULL ) && ( pstr == pcmd ) )
 	{
-		GetClassPtr( (CBasePlayer *)pev )->SelectItem( pcmd );
+		pPlayer->SelectItem( pcmd );
 	}
 	else if ( FStrEq( pcmd, "lastinv" ) )
 	{
-		GetClassPtr( (CBasePlayer *)pev )->SelectLastItem();
+		pPlayer->SelectLastItem();
 	}
 	else if ( FStrEq( pcmd, "spectate" ) ) // clients wants to become a spectator
 	{
 		// always allow proxies to become a spectator
 		if ( ( pev->flags & FL_PROXY ) || allow_spectators.value )
 		{
-			CBasePlayer *pPlayer = GetClassPtr( (CBasePlayer *)pev );
-
 			edict_t *pentSpawnSpot = g_pGameRules->GetPlayerSpawnSpot( pPlayer );
 			pPlayer->StartObserver( pev->origin, VARS( pentSpawnSpot )->angles );
 
@@ -379,12 +375,12 @@ void ClientCommand( edict_t *pEntity )
 			UTIL_ClientPrintAll( HUD_PRINTNOTIFY, UTIL_VarArgs( "%s switched to spectator mode\n", ( pev->netname && STRING( pev->netname )[0] != 0 ) ? STRING( pev->netname ) : "unconnected" ) );
 		}
 		else
+		{
 			ClientPrint( pev, HUD_PRINTCONSOLE, "Spectator mode is disabled.\n" );
+		}
 	}
 	else if ( FStrEq( pcmd, "specmode" ) ) // new spectator mode
 	{
-		CBasePlayer *pPlayer = GetClassPtr( (CBasePlayer *)pev );
-
 		if ( pPlayer->IsObserver() )
 			pPlayer->Observer_SetMode( atoi( CMD_ARGV( 1 ) ) );
 	}
@@ -394,12 +390,10 @@ void ClientCommand( edict_t *pEntity )
 	}
 	else if ( FStrEq( pcmd, "follownext" ) ) // follow next player
 	{
-		CBasePlayer *pPlayer = GetClassPtr( (CBasePlayer *)pev );
-
 		if ( pPlayer->IsObserver() )
 			pPlayer->Observer_FindNextPlayer( atoi( CMD_ARGV( 1 ) ) ? true : false );
 	}
-	else if ( g_pGameRules->ClientCommand( GetClassPtr( (CBasePlayer *)pev ), pcmd ) )
+	else if ( g_pGameRules->ClientCommand( pPlayer, pcmd ) )
 	{
 		// MenuSelect returns true only if the command is properly handled,  so don't print a warning
 	}
@@ -413,11 +407,11 @@ void ClientCommand( edict_t *pEntity )
 		strncpy( command, pcmd, 127 );
 		command[127] = '\0';
 		// First parse the name and remove any %'s
-		for ( char *pApersand = command; pApersand != NULL && *pApersand != 0; pApersand++ )
+		for ( char *pAmpersand = command; pAmpersand != NULL && *pAmpersand != 0; pAmpersand++ )
 		{
 			// Replace it with a space
-			if ( *pApersand == '%' )
-				*pApersand = ' ';
+			if ( *pAmpersand == '%' )
+				*pAmpersand = ' ';
 		}
 
 		// tell the user they entered an unknown command
