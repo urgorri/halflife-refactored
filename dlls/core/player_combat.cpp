@@ -64,62 +64,8 @@ Vector VecVelocityForDamage( float flDamage )
 	return vec;
 }
 
-#if 0 /*                                                                 \
-static void ThrowGib(entvars_t *pev, char *szGibModel, float flDamage)   \
-{                                                                        \
-    edict_t *pentNew = CREATE_ENTITY();                                  \
-    entvars_t *pevNew = VARS(pentNew);                                   \
-                                                                       \ \
-    pevNew->origin = pev->origin;                                        \
-    SET_MODEL(ENT(pevNew), szGibModel);                                  \
-    UTIL_SetSize(pevNew, g_vecZero, g_vecZero);                          \
-                                                                       \ \
-    pevNew->velocity		= VecVelocityForDamage(flDamage);                  \
-    pevNew->movetype		= MOVETYPE_BOUNCE;                                 \
-    pevNew->solid			= SOLID_NOT;                                         \
-    pevNew->avelocity.x		= RANDOM_FLOAT(0,600);                          \
-    pevNew->avelocity.y		= RANDOM_FLOAT(0,600);                          \
-    pevNew->avelocity.z		= RANDOM_FLOAT(0,600);                          \
-    CHANGE_METHOD(ENT(pevNew), em_think, SUB_Remove);                    \
-    pevNew->ltime		= gpGlobals->time;                                    \
-    pevNew->nextthink	= gpGlobals->time + RANDOM_FLOAT(10,20);           \
-    pevNew->frame		= 0;                                                  \
-    pevNew->flags		= 0;                                                  \
-}                                                                        \
-                                                                       \ \
-                                                                       \ \
-static void ThrowHead(entvars_t *pev, char *szGibModel, floatflDamage)   \
-{                                                                        \
-    SET_MODEL(ENT(pev), szGibModel);                                     \
-    pev->frame			= 0;                                                    \
-    pev->nextthink		= -1;                                                \
-    pev->movetype		= MOVETYPE_BOUNCE;                                    \
-    pev->takedamage		= DAMAGE_NO;                                        \
-    pev->solid			= SOLID_NOT;                                            \
-    pev->view_ofs		= Vector(0,0,8);                                      \
-    UTIL_SetSize(pev, Vector(-16,-16,0), Vector(16,16,56));              \
-    pev->velocity		= VecVelocityForDamage(flDamage);                     \
-    pev->avelocity		= RANDOM_FLOAT(-1,1) * Vector(0,600,0);              \
-    pev->origin.z -= 24;                                                 \
-    ClearBits(pev->flags, FL_ONGROUND);                                  \
-}                                                                        \
-                                                                       \ \
-                                                                       \ \
-*/
-#endif
-
-
 void CBasePlayer ::DeathSound( void )
 {
-	// water death sounds
-	/*
-	if (pev->waterlevel == 3)
-	{
-	    EMIT_SOUND(ENT(pev), CHAN_VOICE, "player/h2odeath.wav", 1, ATTN_NONE);
-	    return;
-	}
-	*/
-
 	// temporarily using pain sounds for death sounds
 	switch ( RANDOM_LONG( 1, 5 ) )
 	{
@@ -197,32 +143,105 @@ void CBasePlayer ::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector v
 #define ARMOR_RATIO 0.2 // Armor Takes 80% of the damage
 #define ARMOR_BONUS 0.5 // Each Point of Armor is work 1/x points of health
 
-int CBasePlayer ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType )
+static void CalculateArmorAbsorption( float &flDamage, float &flArmorValue, int bitsDamageType, BOOL bIsMultiplayer )
 {
-	// have suit diagnose the problem - ie: report damage type
-	int bitsDamage = bitsDamageType;
-	int ffound     = TRUE;
-	int fmajor;
-	int fcritical;
-	int fTookDamage;
-	int ftrivial;
-	float flRatio;
-	float flBonus;
-	float flHealthPrev = pev->health;
+	// Armor doesn't protect against fall or drown damage, or if depleted
+	if ( flArmorValue <= 0.0f || ( bitsDamageType & ( DMG_FALL | DMG_DROWN ) ) )
+		return;
 
-	flBonus = ARMOR_BONUS;
-	flRatio = ARMOR_RATIO;
+	float flBonus = ARMOR_BONUS;
+	float flRatio = ARMOR_RATIO;
 
-	if ( ( bitsDamageType & DMG_BLAST ) && g_pGameRules->IsMultiplayer() )
+	if ( ( bitsDamageType & DMG_BLAST ) && bIsMultiplayer )
 	{
-		// blasts damage armor more.
+		// Blasts damage armor more in multiplayer
 		flBonus *= 2;
 	}
 
+	float flNew = flDamage * flRatio;
+	float flArmor = ( flDamage - flNew ) * flBonus;
+
+	// Does this use more armor than we have?
+	if ( flArmor > flArmorValue )
+	{
+		flArmor = flArmorValue;
+		flArmor *= ( 1.0f / flBonus );
+		flNew = flDamage - flArmor;
+		flArmorValue = 0;
+	}
+	else
+	{
+		flArmorValue -= flArmor;
+	}
+
+	flDamage = flNew;
+}
+
+static void UpdateSuitDamageDiagnosis( CBasePlayer *pPlayer, int bitsDamage, BOOL fTookDamage, BOOL ftrivial, BOOL fmajor, float flLastDamage )
+{
+	if ( !fTookDamage || ( ftrivial && !( bitsDamage & DMG_TIMEBASED ) ) )
+		return;
+
+	if ( bitsDamage & DMG_CLUB )
+	{
+		if ( fmajor )
+			pPlayer->SetSuitUpdate( "!HEV_DMG4", FALSE, SUIT_NEXT_IN_30SEC ); // minor fracture
+	}
+
+	if ( bitsDamage & ( DMG_FALL | DMG_CRUSH ) )
+	{
+		if ( fmajor )
+			pPlayer->SetSuitUpdate( "!HEV_DMG5", FALSE, SUIT_NEXT_IN_30SEC ); // major fracture
+		else
+			pPlayer->SetSuitUpdate( "!HEV_DMG4", FALSE, SUIT_NEXT_IN_30SEC ); // minor fracture
+	}
+
+	if ( bitsDamage & DMG_BULLET )
+	{
+		if ( flLastDamage > 5 )
+			pPlayer->SetSuitUpdate( "!HEV_DMG6", FALSE, SUIT_NEXT_IN_30SEC ); // blood loss detected
+	}
+
+	if ( bitsDamage & DMG_SLASH )
+	{
+		if ( fmajor )
+			pPlayer->SetSuitUpdate( "!HEV_DMG1", FALSE, SUIT_NEXT_IN_30SEC ); // major laceration
+		else
+			pPlayer->SetSuitUpdate( "!HEV_DMG0", FALSE, SUIT_NEXT_IN_30SEC ); // minor laceration
+	}
+
+	if ( bitsDamage & DMG_SONIC )
+	{
+		if ( fmajor )
+			pPlayer->SetSuitUpdate( "!HEV_DMG2", FALSE, SUIT_NEXT_IN_1MIN ); // internal bleeding
+	}
+
+	if ( bitsDamage & ( DMG_POISON | DMG_PARALYZE ) )
+	{
+		pPlayer->SetSuitUpdate( "!HEV_DMG3", FALSE, SUIT_NEXT_IN_1MIN ); // blood toxins detected
+	}
+
+	if ( bitsDamage & DMG_ACID )
+	{
+		pPlayer->SetSuitUpdate( "!HEV_DET1", FALSE, SUIT_NEXT_IN_1MIN ); // hazardous chemicals detected
+	}
+
+	if ( bitsDamage & DMG_NERVEGAS )
+	{
+		pPlayer->SetSuitUpdate( "!HEV_DET0", FALSE, SUIT_NEXT_IN_1MIN ); // biohazard detected
+	}
+
+	if ( bitsDamage & DMG_RADIATION )
+	{
+		pPlayer->SetSuitUpdate( "!HEV_DET2", FALSE, SUIT_NEXT_IN_1MIN ); // radiation detected
+	}
+}
+
+int CBasePlayer ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType )
+{
 	// Already dead
 	if ( !IsAlive() )
 		return 0;
-	// go take the damage first
 
 	CBaseEntity *pAttacker = CBaseEntity::Instance( pevAttacker );
 
@@ -232,42 +251,23 @@ int CBasePlayer ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, f
 		return 0;
 	}
 
+	float flHealthPrev = pev->health;
+
 	// keep track of amount of damage last sustained
 	m_lastDamageAmount = flDamage;
 
-	// Armor.
-	if ( pev->armorvalue && !( bitsDamageType & ( DMG_FALL | DMG_DROWN ) ) ) // armor doesn't protect against fall or drown damage!
-	{
-		float flNew = flDamage * flRatio;
-
-		float flArmor;
-
-		flArmor = ( flDamage - flNew ) * flBonus;
-
-		// Does this use more armor than we have?
-		if ( flArmor > pev->armorvalue )
-		{
-			flArmor = pev->armorvalue;
-			flArmor *= ( 1 / flBonus );
-			flNew           = flDamage - flArmor;
-			pev->armorvalue = 0;
-		}
-		else
-			pev->armorvalue -= flArmor;
-
-		flDamage = flNew;
-	}
+	// Calculate and drain armor absorption
+	CalculateArmorAbsorption( flDamage, pev->armorvalue, bitsDamageType, g_pGameRules->IsMultiplayer() );
 
 	// this cast to INT is critical!!! If a player ends up with 0.5 health, the engine will get that
 	// as an int (zero) and think the player is dead! (this will incite a clientside screentilt, etc)
-	fTookDamage = CBaseMonster::TakeDamage( pevInflictor, pevAttacker, (int)flDamage, bitsDamageType );
+	int fTookDamage = CBaseMonster::TakeDamage( pevInflictor, pevAttacker, (int)flDamage, bitsDamageType );
 
 	// reset damage time countdown for each type of time based damage player just sustained
-
+	for ( int i = 0; i < CDMG_TIMEBASED; i++ )
 	{
-		for ( int i = 0; i < CDMG_TIMEBASED; i++ )
-			if ( bitsDamageType & ( DMG_PARALYZE << i ) )
-				m_rgbTimeBasedDamage[i] = 0;
+		if ( bitsDamageType & ( DMG_PARALYZE << i ) )
+			m_rgbTimeBasedDamage[i] = 0;
 	}
 
 	// tell director about it
@@ -280,111 +280,14 @@ int CBasePlayer ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, f
 	MESSAGE_END();
 
 	// how bad is it, doc?
+	BOOL ftrivial  = ( pev->health > 75 || m_lastDamageAmount < 5 );
+	BOOL fmajor    = ( m_lastDamageAmount > 25 );
+	BOOL fcritical = ( pev->health < 30 );
 
-	ftrivial  = ( pev->health > 75 || m_lastDamageAmount < 5 );
-	fmajor    = ( m_lastDamageAmount > 25 );
-	fcritical = ( pev->health < 30 );
+	m_bitsDamageType |= bitsDamageType; // Save this so we can report it to the client
+	m_bitsHUDDamage = -1;               // make sure the damage bits get resent
 
-	// handle all bits set in this damage message,
-	// let the suit give player the diagnosis
-
-	// UNDONE: add sounds for types of damage sustained (ie: burn, shock, slash )
-
-	// UNDONE: still need to record damage and heal messages for the following types
-
-	// DMG_BURN
-	// DMG_FREEZE
-	// DMG_BLAST
-	// DMG_SHOCK
-
-	m_bitsDamageType |= bitsDamage; // Save this so we can report it to the client
-	m_bitsHUDDamage = -1;           // make sure the damage bits get resent
-
-	while ( fTookDamage && ( !ftrivial || ( bitsDamage & DMG_TIMEBASED ) ) && ffound && bitsDamage )
-	{
-		ffound = FALSE;
-
-		if ( bitsDamage & DMG_CLUB )
-		{
-			if ( fmajor )
-				SetSuitUpdate( "!HEV_DMG4", FALSE, SUIT_NEXT_IN_30SEC ); // minor fracture
-			bitsDamage &= ~DMG_CLUB;
-			ffound = TRUE;
-		}
-		if ( bitsDamage & ( DMG_FALL | DMG_CRUSH ) )
-		{
-			if ( fmajor )
-				SetSuitUpdate( "!HEV_DMG5", FALSE, SUIT_NEXT_IN_30SEC ); // major fracture
-			else
-				SetSuitUpdate( "!HEV_DMG4", FALSE, SUIT_NEXT_IN_30SEC ); // minor fracture
-
-			bitsDamage &= ~( DMG_FALL | DMG_CRUSH );
-			ffound = TRUE;
-		}
-
-		if ( bitsDamage & DMG_BULLET )
-		{
-			if ( m_lastDamageAmount > 5 )
-				SetSuitUpdate( "!HEV_DMG6", FALSE, SUIT_NEXT_IN_30SEC ); // blood loss detected
-			// else
-			//	SetSuitUpdate("!HEV_DMG0", FALSE, SUIT_NEXT_IN_30SEC);	// minor laceration
-
-			bitsDamage &= ~DMG_BULLET;
-			ffound = TRUE;
-		}
-
-		if ( bitsDamage & DMG_SLASH )
-		{
-			if ( fmajor )
-				SetSuitUpdate( "!HEV_DMG1", FALSE, SUIT_NEXT_IN_30SEC ); // major laceration
-			else
-				SetSuitUpdate( "!HEV_DMG0", FALSE, SUIT_NEXT_IN_30SEC ); // minor laceration
-
-			bitsDamage &= ~DMG_SLASH;
-			ffound = TRUE;
-		}
-
-		if ( bitsDamage & DMG_SONIC )
-		{
-			if ( fmajor )
-				SetSuitUpdate( "!HEV_DMG2", FALSE, SUIT_NEXT_IN_1MIN ); // internal bleeding
-			bitsDamage &= ~DMG_SONIC;
-			ffound = TRUE;
-		}
-
-		if ( bitsDamage & ( DMG_POISON | DMG_PARALYZE ) )
-		{
-			SetSuitUpdate( "!HEV_DMG3", FALSE, SUIT_NEXT_IN_1MIN ); // blood toxins detected
-			bitsDamage &= ~( DMG_POISON | DMG_PARALYZE );
-			ffound = TRUE;
-		}
-
-		if ( bitsDamage & DMG_ACID )
-		{
-			SetSuitUpdate( "!HEV_DET1", FALSE, SUIT_NEXT_IN_1MIN ); // hazardous chemicals detected
-			bitsDamage &= ~DMG_ACID;
-			ffound = TRUE;
-		}
-
-		if ( bitsDamage & DMG_NERVEGAS )
-		{
-			SetSuitUpdate( "!HEV_DET0", FALSE, SUIT_NEXT_IN_1MIN ); // biohazard detected
-			bitsDamage &= ~DMG_NERVEGAS;
-			ffound = TRUE;
-		}
-
-		if ( bitsDamage & DMG_RADIATION )
-		{
-			SetSuitUpdate( "!HEV_DET2", FALSE, SUIT_NEXT_IN_1MIN ); // radiation detected
-			bitsDamage &= ~DMG_RADIATION;
-			ffound = TRUE;
-		}
-		if ( bitsDamage & DMG_SHOCK )
-		{
-			bitsDamage &= ~DMG_SHOCK;
-			ffound = TRUE;
-		}
-	}
+	UpdateSuitDamageDiagnosis( this, bitsDamageType, fTookDamage, ftrivial, fmajor, m_lastDamageAmount );
 
 	pev->punchangle.x = -2;
 
