@@ -1,39 +1,123 @@
-# Implementation Plan
+# Implementation Plan: Code Smell Mitigation
 
-- [x] 1. Turret Subsystem Consolidation
-  - [x] 1.1 Create `dlls/systems/turrets.h` with complete class declarations for `CBaseTurret`, `CTurret`, `CMiniTurret`, and `CSentry`
-  - [x] 1.2 Create `dlls/systems/turrets.cpp` consolidating base turret logic and derived variants
-  - [x] 1.3 Update references to `turret.h` across the codebase to `systems/turrets.h`
-  - [x] 1.4 Delete redundant micro-files: `turret_base.cpp`, `turret.cpp`, `miniturret.cpp`, `sentry.cpp`, `turret.h`
-  - _Requirements: [REQ-1]_
+## Project Boundaries
 
-- [x] 2. Visual Effects & Beam Subsystem Consolidation
-  - [x] 2.1 Update `dlls/systems/effects.h` with clean declarations for `CBeam`, `CLaser`, `CLightning`, `CGlow`, and `CSprite`
-  - [x] 2.2 Create `dlls/systems/effects_beams.cpp` consolidating beam, laser, lightning, glow, and sprite implementations
-  - [x] 2.3 Delete redundant micro-files: `effects_beam.cpp`, `effects_laser.cpp`, `effects_lightning.cpp`, `effects_glow.cpp`, `effects_sprite.cpp`
-  - _Requirements: [REQ-2]_
-  - _Dependencies: Phase 1_
+### Must Have
+- Elimination of high-leverage code smells in primary hotspot files:
+  - `dlls/core/player_combat.cpp`: dead `#if 0` code, un-encapsulated armor absorption, deep nesting in suit diagnosis.
+  - `dlls/core/client_commands.cpp`: repeated player pointer casting, monolithic if/else command ladders.
+  - `dlls/core/player_input.cpp`: repetitive unrolled impulse 101 item provisioning, obsolete pre-alpha comments.
+  - `cl_dll/vgui/vgui_ScorePanel.cpp`: magic resolution conditionals, dead commented blocks.
+  - `dlls/ai/monster_sensors.cpp`: redundant successive `ClearConditions` calls, commented sound pool code.
+- 100% preservation of gameplay behavior, network protocols, save/restore tables, and binary layout.
+- Clean compilation with 0 errors and 0 warnings using MSBuild toolset `v145`.
 
-- [x] 3. Client Spectator HUD Subsystem Consolidation
-  - [x] 3.1 Update `cl_dll/hud/hud_spectator.h` consolidating all spectator sub-structures and helper declarations
-  - [x] 3.2 Consolidate camera director, overview radar, and spectator menus into `cl_dll/hud/hud_spectator.cpp`
-  - [x] 3.3 Delete redundant micro-files: `hud_spectator_director.cpp`, `hud_spectator_overview.cpp`, `hud_spectator_menu.cpp`
-  - _Requirements: [REQ-3]_
-  - _Dependencies: Phase 2_
+### Nice to Have
+- Reduction of code smell count by >= 25 items across target files.
+- Improved code formatting and alignment adhering to GoldSrc refactoring standard.
 
-- [x] 4. Client Ammo HUD Subsystem Consolidation
-  - [x] 4.1 Create `cl_dll/hud/hud_ammo.h` declaring `CHudAmmo`, `CHudAmmoSecondary`, and `CHudAmmoHistory`
-  - [x] 4.2 Consolidate ammo counter, secondary ammo bar, and pickup history into `cl_dll/hud/hud_ammo.cpp`
-  - [x] 4.3 Update client references (`hud.h`, `hud_redraw.cpp`, etc.) to use `hud_ammo.h`
-  - [x] 4.4 Delete redundant micro-files: `ammo.cpp`, `ammo_secondary.cpp`, `ammohistory.cpp`, `ammo.h`, `ammohistory.h`
-  - _Requirements: [REQ-4]_
-  - _Dependencies: Phase 3_
+### Out of Scope
+- Unused legacy mod directories (`dmc/`, `ricochet/`, `utils/`, `external/`).
+- Full rewriting or modernization to modern C++20 standard libraries (breaks compatibility with GoldSrc runtime/compilers).
+- Security audit of unsafe string functions (`sprintf`, `strcpy`), which is tracked as a separate debt sprint.
 
-- [x] 5. Build Systems Synchronization & Verification
-  - [x] 5.1 Update and synchronize `projects/vs2019/hldll.vcxproj` and `hldll.vcxproj.filters`
-  - [x] 5.2 Update and synchronize `projects/vs2019/hl_cdll.vcxproj` and `hl_cdll.vcxproj.filters`
-  - [x] 5.3 Update and synchronize `linux/Makefile.hldll` and `linux/Makefile.hl_cdll`
-  - [x] 5.4 Audit and clean up unused `#include` statements across touched files
-  - [x] 5.5 Build locally with MSBuild on Win32 Release (`hldll` and `hl_cdll`) and verify 0 errors
-  - _Requirements: [REQ-5]_
-  - _Dependencies: Phase 4_
+### Technical Constraints
+- Operating System: Windows.
+- Compiler: MSBuild toolset `v145` (Visual Studio 2022).
+- Language Standard: C++98 / C++03 compliant syntax.
+- Branch Policy: Never push directly to `master` or `main`. All work conducted in `refactor/code-smell-mitigation`.
+
+---
+
+## Phased Implementation Plan
+
+- [x] 1. Phase 1: Planning, Scoping & Baseline Verification
+  - [x] 1.1 Run tech debt inventory scan across core codebase and catalogue code smell hotspots
+    - _Requirements: [REQ-6]_
+    - _Components: All_
+  - [x] 1.2 Create and checkout topic branch `refactor/code-smell-mitigation`
+    - _Requirements: [REQ-6]_
+  - [x] 1.3 Author requirements (`REQUIREMENTS.md`), architecture design (`PLAN_DESIGN.md`), and implementation plan (`PLAN.md`)
+    - _Requirements: [REQ-1, REQ-2, REQ-3, REQ-4, REQ-5, REQ-6]_
+    - _Components: [COMP-1, COMP-2, COMP-3, COMP-4, COMP-5]_
+
+- [ ] 2. Phase 2: Player Combat & Damage Mitigation (`dlls/core/player_combat.cpp`)
+  - [ ] 2.1 Remove dead `#if 0` blocks (`ThrowGib`, `ThrowHead`, commented audio) from `dlls/core/player_combat.cpp`
+    - _Requirements: [REQ-1.1]_
+    - _Components: [COMP-1]_
+    - _Dependencies: Phase 1_
+  - [ ] 2.2 Encapsulate armor damage absorption calculation into a dedicated static helper function
+    - Extract `CalculateArmorAbsorption` preserving exact `DMG_FALL`, `DMG_DROWN`, `DMG_BLAST`, and multiplayer bonus logic.
+    - _Requirements: [REQ-1.2, REQ-1.3]_
+    - _Components: [COMP-1]_
+    - _Dependencies: Task 2.1_
+  - [ ] 2.3 De-nest and simplify suit diagnosis logic in `TakeDamage`
+    - Replace deep while-loop condition nesting with structured bit-clearing helpers.
+    - _Requirements: [REQ-1.4, REQ-1.5]_
+    - _Components: [COMP-1]_
+    - _Dependencies: Task 2.2_
+  - [ ] 2.4 Compile and verify `hldll.vcxproj` with MSBuild
+    - Ensure 0 errors, 0 warnings.
+    - _Requirements: [REQ-6.1]_
+    - _Dependencies: Task 2.3_
+
+- [ ] 3. Phase 3: Client Commands & Player Input Optimization (`client_commands.cpp`, `player_input.cpp`)
+  - [ ] 3.1 Extract common player pointer extraction in `ClientCommand`
+    - Replace 15+ duplicated `GetClassPtr((CBasePlayer *)pev)` casts with single resolution.
+    - _Requirements: [REQ-2.1]_
+    - _Components: [COMP-2]_
+    - _Dependencies: Phase 1_
+  - [ ] 3.2 Refactor console command routing in `client_commands.cpp`
+    - Group command handling into modular helper functions (`Cmd_Say`, `Cmd_Give`, `Cmd_Drop`, `Cmd_Fov`).
+    - _Requirements: [REQ-2.2, REQ-2.3, REQ-2.4, REQ-2.5]_
+    - _Components: [COMP-2]_
+    - _Dependencies: Task 3.1_
+  - [ ] 3.3 Deduplicate impulse 101 item provisioning in `player_input.cpp`
+    - Replace 30+ unrolled `GiveNamedItem` calls with traversal over a static constant array `s_szImpulse101Items`.
+    - _Requirements: [REQ-3.1, REQ-3.2]_
+    - _Components: [COMP-3]_
+    - _Dependencies: Phase 1_
+  - [ ] 3.4 Clean obsolete pre-alpha comments and dead variables in `player_input.cpp`
+    - Remove unused `TraceResult tr; // UNDONE: kill me!` and dead comments.
+    - _Requirements: [REQ-3.3, REQ-3.4]_
+    - _Components: [COMP-3]_
+    - _Dependencies: Task 3.3_
+  - [ ] 3.5 Compile and verify `hldll.vcxproj` with MSBuild
+    - Ensure 0 errors, 0 warnings.
+    - _Requirements: [REQ-6.1]_
+    - _Dependencies: Task 3.2, Task 3.4_
+
+- [ ] 4. Phase 4: AI Monster Sensors & VGUI Scoreboard Remediations (`monster_sensors.cpp`, `vgui_ScorePanel.cpp`)
+  - [ ] 4.1 Consolidate duplicated `ClearConditions` calls in `CBaseMonster::Listen`
+    - Remove second redundant `ClearConditions` call and dead comments.
+    - _Requirements: [REQ-5.1]_
+    - _Components: [COMP-5]_
+    - _Dependencies: Phase 1_
+  - [ ] 4.2 Purge commented-out sound pool references in `monster_sensors.cpp`
+    - Clean legacy commented `g_pSoundEnt->m_SoundPool` lines.
+    - _Requirements: [REQ-5.2, REQ-5.3, REQ-5.4]_
+    - _Components: [COMP-5]_
+    - _Dependencies: Task 4.1_
+  - [ ] 4.3 Encapsulate magic resolution literals and remove dead code in `vgui_ScorePanel.cpp`
+    - Introduce named resolution constants (`RES_LOW_WIDTH`, `RES_DEFAULT_WIDTH`) and remove dead tracker icon code.
+    - _Requirements: [REQ-4.1, REQ-4.2, REQ-4.3, REQ-4.4]_
+    - _Components: [COMP-4]_
+    - _Dependencies: Phase 1_
+  - [ ] 4.4 Compile and verify `hl_cdll.vcxproj` with MSBuild
+    - Ensure 0 errors, 0 warnings.
+    - _Requirements: [REQ-6.1]_
+    - _Dependencies: Task 4.2, Task 4.3_
+
+- [ ] 5. Phase 5: Verification, Tech Debt Re-Scan & PR Packaging
+  - [ ] 5.1 Run `debt_scanner.py` and verify measurable reduction in code smell count
+    - Confirm decrease in debt inventory without introducing regressions.
+    - _Requirements: [REQ-6.4]_
+    - _Dependencies: Phases 2, 3, 4_
+  - [ ] 5.2 Perform full solution rebuild across all target configurations
+    - Build `hldll` and `hl_cdll` in Release configuration.
+    - _Requirements: [REQ-6.1]_
+    - _Dependencies: Task 5.1_
+  - [ ] 5.3 Commit all changes to `refactor/code-smell-mitigation`
+    - Format commit messages cleanly in English with clear descriptions.
+    - _Requirements: [REQ-6.2, REQ-6.3]_
+    - _Dependencies: Task 5.2_
