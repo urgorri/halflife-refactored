@@ -99,6 +99,11 @@ int PM_ClipVelocity( vec3_t in, vec3_t normal, vec3_t out, float overbounce )
 	return blocked;
 }
 
+float PM_GetPlayerGravity( void )
+{
+	return pmove->gravity ? pmove->gravity : 1.0f;
+}
+
 void PM_AddCorrectGravity()
 {
 	float ent_gravity;
@@ -106,10 +111,7 @@ void PM_AddCorrectGravity()
 	if ( pmove->waterjumptime )
 		return;
 
-	if ( pmove->gravity )
-		ent_gravity = pmove->gravity;
-	else
-		ent_gravity = 1.0;
+	ent_gravity = PM_GetPlayerGravity();
 
 	// Add gravity so they'll be in the correct position during movement
 	// yes, this 0.5 looks wrong, but it's not.
@@ -127,10 +129,7 @@ void PM_FixupGravityVelocity()
 	if ( pmove->waterjumptime )
 		return;
 
-	if ( pmove->gravity )
-		ent_gravity = pmove->gravity;
-	else
-		ent_gravity = 1.0;
+	ent_gravity = PM_GetPlayerGravity();
 
 	// Get the correct velocity for the end of the dt
 	pmove->velocity[2] -= ( ent_gravity * pmove->movevars->gravity * pmove->frametime * 0.5 );
@@ -337,16 +336,65 @@ int PM_FlyMove( void )
 }
 
 /*
-==============
-PM_Accelerate
-==============
+=================================
+PM_ComputePlanarWishVelocity
+
+Calculates normalized wish direction and wish speed in the horizontal plane,
+clamping against server defined maxspeed.
+=================================
 */
-void PM_Accelerate( vec3_t wishdir, float wishspeed, float accel )
+void PM_ComputePlanarWishVelocity( vec3_t wishvel, vec3_t wishdir, float *pWishspeed )
+{
+	int i;
+	float fmove = pmove->cmd.forwardmove;
+	float smove = pmove->cmd.sidemove;
+	float wishspeed;
+
+	// Zero out z components of movement vectors
+	pmove->forward[2] = 0;
+	pmove->right[2]   = 0;
+
+	// Renormalize horizontal orientation
+	VectorNormalize( pmove->forward );
+	VectorNormalize( pmove->right );
+
+	// Determine x and y parts of velocity
+	for ( i = 0; i < 2; i++ )
+	{
+		wishvel[i] = pmove->forward[i] * fmove + pmove->right[i] * smove;
+	}
+	wishvel[2] = 0;
+
+	VectorCopy( wishvel, wishdir );
+	wishspeed = VectorNormalize( wishdir );
+
+	// Clamp to server defined max speed
+	if ( wishspeed > pmove->maxspeed )
+	{
+		VectorScale( wishvel, pmove->maxspeed / wishspeed, wishvel );
+		wishspeed = pmove->maxspeed;
+	}
+
+	if ( pWishspeed )
+	{
+		*pWishspeed = wishspeed;
+	}
+}
+
+/*
+===================
+PM_AccelerateVector
+
+Generic vector acceleration calculation with optional target speed cap.
+===================
+*/
+void PM_AccelerateVector( vec3_t wishdir, float wishspeed, float accel, float speedcap )
 {
 	int i;
 	float addspeed, accelspeed, currentspeed;
+	float targetspeed = wishspeed;
 
-	// Dead player's don't accelerate
+	// Dead players don't accelerate
 	if ( pmove->dead )
 		return;
 
@@ -354,17 +402,20 @@ void PM_Accelerate( vec3_t wishdir, float wishspeed, float accel )
 	if ( pmove->waterjumptime )
 		return;
 
+	if ( speedcap > 0.0f && targetspeed > speedcap )
+		targetspeed = speedcap;
+
 	// See if we are changing direction a bit
 	currentspeed = DotProduct( pmove->velocity, wishdir );
 
-	// Reduce wishspeed by the amount of veer.
-	addspeed = wishspeed - currentspeed;
+	// Reduce targetspeed by the amount of veer.
+	addspeed = targetspeed - currentspeed;
 
 	// If not going to add any speed, done.
 	if ( addspeed <= 0 )
 		return;
 
-	// Determine amount of accleration.
+	// Determine amount of acceleration.
 	accelspeed = accel * pmove->frametime * wishspeed * pmove->friction;
 
 	// Cap at addspeed
@@ -379,21 +430,29 @@ void PM_Accelerate( vec3_t wishdir, float wishspeed, float accel )
 }
 
 /*
+==============
+PM_Accelerate
+==============
+*/
+void PM_Accelerate( vec3_t wishdir, float wishspeed, float accel )
+{
+	PM_AccelerateVector( wishdir, wishspeed, accel, 0.0f );
+}
+
+/*
 =====================
 PM_WalkMove
 
-Only used by players.  Moves along the ground when player is a MOVETYPE_WALK.
+Only used by players. Moves along the ground when player is a MOVETYPE_WALK.
 ======================
 */
 void PM_WalkMove()
 {
 	int clip;
 	int oldonground;
-	int i;
 
 	vec3_t wishvel;
 	float spd;
-	float fmove, smove;
 	vec3_t wishdir;
 	float wishspeed;
 
@@ -404,33 +463,7 @@ void PM_WalkMove()
 
 	pmtrace_t trace;
 
-	// Copy movement amounts
-	fmove = pmove->cmd.forwardmove;
-	smove = pmove->cmd.sidemove;
-
-	// Zero out z components of movement vectors
-	pmove->forward[2] = 0;
-	pmove->right[2]   = 0;
-
-	VectorNormalize( pmove->forward ); // Normalize remainder of vectors.
-	VectorNormalize( pmove->right );   //
-
-	for ( i = 0; i < 2; i++ ) // Determine x and y parts of velocity
-		wishvel[i] = pmove->forward[i] * fmove + pmove->right[i] * smove;
-
-	wishvel[2] = 0; // Zero out z part of velocity
-
-	VectorCopy( wishvel, wishdir ); // Determine maginitude of speed of move
-	wishspeed = VectorNormalize( wishdir );
-
-	//
-	// Clamp to server defined max speed
-	//
-	if ( wishspeed > pmove->maxspeed )
-	{
-		VectorScale( wishvel, pmove->maxspeed / wishspeed, wishvel );
-		wishspeed = pmove->maxspeed;
-	}
+	PM_ComputePlanarWishVelocity( wishvel, wishdir, &wishspeed );
 
 	// Set pmove velocity
 	pmove->velocity[2] = 0;
@@ -447,10 +480,6 @@ void PM_WalkMove()
 		VectorClear( pmove->velocity );
 		return;
 	}
-
-	// If we are not moving, do nothing
-	// if (!pmove->velocity[0] && !pmove->velocity[1] && !pmove->velocity[2])
-	//	return;
 
 	oldonground = pmove->onground;
 
@@ -491,7 +520,6 @@ void PM_WalkMove()
 
 	// Reset original values.
 	VectorCopy( original, pmove->origin );
-
 	VectorCopy( originalvel, pmove->velocity );
 
 	// Start out up one stair height
@@ -517,31 +545,37 @@ void PM_WalkMove()
 
 	trace = pmove->PM_PlayerTrace( pmove->origin, dest, PM_NORMAL, -1 );
 
-	// If we are not on the ground any more then
-	//  use the original movement attempt
+	// If we are not on the ground any more then use the original movement attempt
 	if ( trace.plane.normal[2] < 0.7 )
-		goto usedown;
-	// If the trace ended up in empty space, copy the end
-	//  over to the origin.
-	if ( !trace.startsolid && !trace.allsolid )
 	{
-		VectorCopy( trace.endpos, pmove->origin );
-	}
-	// Copy this origion to up.
-	VectorCopy( pmove->origin, pmove->up );
-
-	// decide which one went farther
-	downdist = ( down[0] - original[0] ) * ( down[0] - original[0] ) + ( down[1] - original[1] ) * ( down[1] - original[1] );
-	updist   = ( pmove->up[0] - original[0] ) * ( pmove->up[0] - original[0] ) + ( pmove->up[1] - original[1] ) * ( pmove->up[1] - original[1] );
-
-	if ( downdist > updist )
-	{
-	usedown:
 		VectorCopy( down, pmove->origin );
 		VectorCopy( downvel, pmove->velocity );
 	}
-	else // copy z value from slide move
-		pmove->velocity[2] = downvel[2];
+	else
+	{
+		// If the trace ended up in empty space, copy the end over to the origin.
+		if ( !trace.startsolid && !trace.allsolid )
+		{
+			VectorCopy( trace.endpos, pmove->origin );
+		}
+		// Copy this origin to up.
+		VectorCopy( pmove->origin, pmove->up );
+
+		// decide which one went farther
+		downdist = ( down[0] - original[0] ) * ( down[0] - original[0] ) + ( down[1] - original[1] ) * ( down[1] - original[1] );
+		updist   = ( pmove->up[0] - original[0] ) * ( pmove->up[0] - original[0] ) + ( pmove->up[1] - original[1] ) * ( pmove->up[1] - original[1] );
+
+		if ( downdist > updist )
+		{
+			VectorCopy( down, pmove->origin );
+			VectorCopy( downvel, pmove->velocity );
+		}
+		else
+		{
+			// copy z value from slide move
+			pmove->velocity[2] = downvel[2];
+		}
+	}
 }
 
 /*
@@ -636,12 +670,7 @@ PM_AddGravity
 */
 void PM_AddGravity()
 {
-	float ent_gravity;
-
-	if ( pmove->gravity )
-		ent_gravity = pmove->gravity;
-	else
-		ent_gravity = 1.0;
+	float ent_gravity = PM_GetPlayerGravity();
 
 	// Add gravity incorrectly
 	pmove->velocity[2] -= ( ent_gravity * pmove->movevars->gravity * pmove->frametime );
