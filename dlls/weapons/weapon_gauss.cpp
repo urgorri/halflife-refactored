@@ -276,7 +276,7 @@ void CGauss::SecondaryAttack()
 
 		PLAYBACK_EVENT_FULL( FEV_NOTHOST, m_pPlayer->edict(), m_usGaussSpin, 0.0, (float *)&g_vecZero, (float *)&g_vecZero, 0.0, 0.0, pitch, 0, ( m_iSoundState == SND_CHANGE_PITCH ) ? 1 : 0, 0 );
 
-		m_iSoundState = SND_CHANGE_PITCH; // hack for going through level transitions
+		m_iSoundState = SND_CHANGE_PITCH; // Retain sound state across level transition
 
 		m_pPlayer->m_iWeaponVolume = GAUSS_PRIMARY_CHARGE_VOLUME;
 

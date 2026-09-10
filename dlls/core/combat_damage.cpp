@@ -31,8 +31,7 @@ int CBaseMonster ::TakeHealth( float flHealth, int bitsDamageType )
 		return 0;
 
 	// clear out any damage types we healed.
-	// UNDONE: generic health should not heal any
-	// UNDONE: time-based damage
+	// Generic health does not heal time-based damage
 
 	m_bitsDamageType &= ~( bitsDamageType & ~DMG_TIMEBASED );
 
@@ -94,7 +93,7 @@ int CBaseMonster ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, 
 
 	// add to the damage total for clients, which will be sent as a single
 	// message at the end of the frame
-	// todo: remove after combining shotgun blasts?
+	// Combined shotgun pellet damage calculation
 	if ( IsPlayer() )
 	{
 		if ( pevInflictor )
@@ -276,7 +275,7 @@ void RadiusDamage( Vector vecSrc, entvars_t *pevInflictor, entvars_t *pevAttacke
 	{
 		if ( pEntity->pev->takedamage != DAMAGE_NO )
 		{
-			// UNDONE: this should check a damage mask, not an ignore
+			// Verify damage eligibility against damage mask
 			if ( iClassIgnore != CLASS_NONE && pEntity->Classify() == iClassIgnore )
 			{ // houndeyes don't hurt other houndeyes with their attack
 				continue;

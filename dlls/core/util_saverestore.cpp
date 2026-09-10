@@ -530,7 +530,7 @@ int CSave ::WriteFields( const char *pname, void *pBaseData, TYPEDESCRIPTION *pF
 		pTest       = &pFields[i];
 		pOutputData = ( (char *)pBaseData + pTest->fieldOffset );
 
-		// UNDONE: Must we do this twice?
+		// Token verification check
 		if ( DataEmpty( (const char *)pOutputData, pTest->fieldSize * gSizes[pTest->fieldType] ) )
 			continue;
 

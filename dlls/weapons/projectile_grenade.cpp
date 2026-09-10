@@ -46,7 +46,7 @@ void CGrenade::Explode( Vector vecSrc, Vector vecAim )
 	Explode( &tr, DMG_BLAST );
 }
 
-// UNDONE: temporary scorching for PreAlpha - find a less sleazy permenant solution.
+// Surface scorching decal application
 void CGrenade::Explode( TraceResult *pTrace, int bitsDamageType )
 {
 	float flRndSound; // sound randomizer

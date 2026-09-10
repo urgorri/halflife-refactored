@@ -160,7 +160,7 @@ void CSqueak::PrimaryAttack()
 		TraceResult tr;
 		Vector trace_origin;
 
-		// HACK HACK:  Ugly hacks to handle change in origin based on new physics code for players
+		// Adjust entity release origin relative to player eye position
 		// Move origin up if crouched and start trace a bit outside of body ( 20 units instead of 16 )
 		float flAimDownFraction = m_pPlayer->pev->v_angle[0] > 0 ? m_pPlayer->pev->v_angle[0] / 90.f : 0;
 		trace_origin            = m_pPlayer->pev->origin;

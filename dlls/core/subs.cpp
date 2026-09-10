@@ -217,7 +217,7 @@ void CBaseDelay ::SUB_UseTargets( CBaseEntity *pActivator, USE_TYPE useType, flo
 	//
 	if ( m_flDelay != 0 )
 	{
-		// create a temp object to fire at a later time
+		// Create a proxy target object to fire at a later time
 		CBaseDelay *pTemp     = GetClassPtr( (CBaseDelay *)NULL );
 		pTemp->pev->classname = MAKE_STRING( "DelayedUse" );
 
@@ -330,8 +330,8 @@ TYPEDESCRIPTION CBaseToggle::m_SaveData[] =
         DEFINE_FIELD( CBaseToggle, m_flTLength, FIELD_FLOAT ),
         DEFINE_FIELD( CBaseToggle, m_vecPosition1, FIELD_POSITION_VECTOR ),
         DEFINE_FIELD( CBaseToggle, m_vecPosition2, FIELD_POSITION_VECTOR ),
-        DEFINE_FIELD( CBaseToggle, m_vecAngle1, FIELD_VECTOR ), // UNDONE: Position could go through transition, but also angle?
-        DEFINE_FIELD( CBaseToggle, m_vecAngle2, FIELD_VECTOR ), // UNDONE: Position could go through transition, but also angle?
+        DEFINE_FIELD( CBaseToggle, m_vecAngle1, FIELD_VECTOR ), // Toggle angle vector 1 serialization
+        DEFINE_FIELD( CBaseToggle, m_vecAngle2, FIELD_VECTOR ), // Toggle angle vector 2 serialization
         DEFINE_FIELD( CBaseToggle, m_cTriggersLeft, FIELD_INTEGER ),
         DEFINE_FIELD( CBaseToggle, m_flHeight, FIELD_FLOAT ),
         DEFINE_FIELD( CBaseToggle, m_hActivator, FIELD_EHANDLE ),

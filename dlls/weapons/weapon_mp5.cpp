@@ -49,7 +49,7 @@ int CMP5::SecondaryAmmoIndex( void )
 
 void CMP5::Spawn()
 {
-	pev->classname = MAKE_STRING( "weapon_9mmAR" ); // hack to allow for old names
+	pev->classname = MAKE_STRING( "weapon_9mmAR" ); // Retain legacy weapon entity classname alias
 	Precache();
 	SET_MODEL( ENT( pev ), "models/w_9mmAR.mdl" );
 	m_iId = WEAPON_MP5;

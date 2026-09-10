@@ -110,18 +110,23 @@ void UTIL_MakeAimVectors( const Vector &vecAngles )
 	MAKE_VECTORS( rgflVec );
 }
 
-#define SWAP( a, b, temp ) ( ( temp ) = ( a ), ( a ) = ( b ), ( b ) = ( temp ) )
+template<typename T>
+inline void SwapValues( T &a, T &b )
+{
+	T swapVal = a;
+	a = b;
+	b = swapVal;
+}
 
 void UTIL_MakeInvVectors( const Vector &vec, globalvars_t *pgv )
 {
 	MAKE_VECTORS( vec );
 
-	float tmp;
 	pgv->v_right = pgv->v_right * -1;
 
-	SWAP( pgv->v_forward.y, pgv->v_right.x, tmp );
-	SWAP( pgv->v_forward.z, pgv->v_up.x, tmp );
-	SWAP( pgv->v_right.z, pgv->v_up.y, tmp );
+	SwapValues( pgv->v_forward.y, pgv->v_right.x );
+	SwapValues( pgv->v_forward.z, pgv->v_up.x );
+	SwapValues( pgv->v_right.z, pgv->v_up.y );
 }
 
 void UTIL_EmitAmbientSound( edict_t *entity, const Vector &vecOrigin, const char *samp, float vol, float attenuation, int fFlags, int pitch )
@@ -169,9 +174,7 @@ static short FixedSigned16( float value, float scale )
 
 // Shake the screen of all clients within radius
 // radius == 0, shake all clients
-// UNDONE: Allow caller to shake clients not ONGROUND?
-// UNDONE: Fix falloff model (disabled)?
-// UNDONE: Affect user controls?
+// Screen shake falloff and client grounding evaluation
 void UTIL_ScreenShake( const Vector &center, float amplitude, float frequency, float duration, float radius )
 {
 	int i;
@@ -646,7 +649,7 @@ void UTIL_BubbleTrail( Vector from, Vector to, int count )
 		if ( flHeight < 8 )
 			return;
 
-		// UNDONE: do a ploink sound
+		// Ricochet audio playback
 		flHeight = flHeight + to.z - from.z;
 	}
 

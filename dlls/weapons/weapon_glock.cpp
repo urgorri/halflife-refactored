@@ -42,7 +42,7 @@ LINK_ENTITY_TO_CLASS( weapon_9mmhandgun, CGlock );
 
 void CGlock::Spawn()
 {
-	pev->classname = MAKE_STRING( "weapon_9mmhandgun" ); // hack to allow for old names
+	pev->classname = MAKE_STRING( "weapon_9mmhandgun" ); // Retain legacy weapon entity classname alias
 	Precache();
 	m_iId = WEAPON_GLOCK;
 	SET_MODEL( ENT( pev ), "models/w_9mmhandgun.mdl" );

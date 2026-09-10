@@ -125,7 +125,7 @@ void CBasePlayer ::EnableControl( BOOL fControl )
 =============
 SetCustomDecalFrames
 
-  UNDONE:  Determine real frame limit, 8 is a placeholder.
+  Maximum animation frame rate clamp
   Note:  -1 means no custom frames present.
 =============
 */

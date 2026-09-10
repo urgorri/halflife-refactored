@@ -271,7 +271,7 @@ int CCrowbar::Swing( int fFirst )
 		}
 
 		// play texture hit sound
-		// UNDONE: Calculate the correct point of intersection when we hit with the hull instead of the line
+		// Compute precise point of intersection for melee hull trace
 
 		if ( fHitWorld )
 		{

@@ -170,21 +170,21 @@
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 8.1 - 8.3_
 
-- [ ] 9. Phase 9: Gameplay, World, & Interactive Systems Remediation (`dlls/gameplay/`, `dlls/world/`, `dlls/systems/`)
-  - [ ] 9.1 Modernize cinematic and game rules debt in `dlls/gameplay/` (14 smells)
+- [x] 9. Phase 9: Gameplay, World, & Interactive Systems Remediation (`dlls/gameplay/`, `dlls/world/`, `dlls/systems/`) [COMPLETED]
+  - [x] 9.1 Modernize cinematic and game rules debt in `dlls/gameplay/` (14 smells)
     - Remediate `scripted.cpp`, `gamerules_scoring.cpp`, `spectator.cpp`, `gamerules_spawn.cpp`, `h_cine.cpp`, `multiplay_gamerules.cpp`.
     - _Requirements: [REQ-10.1]_
     - _Components: [COMP-8]_
-  - [ ] 9.2 Modernize world entity and train movement debt in `dlls/world/` (8 smells)
+  - [x] 9.2 Modernize world entity and train movement debt in `dlls/world/` (8 smells)
     - Remediate `world.cpp`, `trains.cpp`, `trackchange.cpp`.
     - _Requirements: [REQ-10.2]_
     - _Components: [COMP-8]_
-  - [ ] 9.3 Remediate interactive system entities and sanitize `sound_sentences.cpp` (14 smells in `dlls/systems/`)
+  - [x] 9.3 Remediate interactive system entities and sanitize `sound_sentences.cpp` (14 smells in `dlls/systems/`)
     - Rename `temp` variables in `sound_sentences.cpp` to descriptive identifiers (`sentenceIndex`, `lruItem`).
     - Remediate `func_break.cpp`, `func_tank.cpp`, `vehicle.cpp`, `airtank.cpp`, `buttons.cpp`, `h_cycler.cpp`.
     - _Requirements: [REQ-10.3, REQ-10.4]_
     - _Components: [COMP-8]_
-  - [ ] 9.4 Compile and verify `hldll.vcxproj` with MSBuild (0 errors, 0 warnings)
+  - [x] 9.4 Compile and verify `hldll.vcxproj` with MSBuild (0 errors, 0 warnings)
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 9.1 - 9.3_
 

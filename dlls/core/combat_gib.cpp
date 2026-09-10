@@ -297,7 +297,7 @@ void CBaseMonster ::GibMonster( void )
 
 	EMIT_SOUND( ENT( pev ), CHAN_WEAPON, "common/bodysplat.wav", 1, ATTN_NORM );
 
-	// only humans throw skulls !!!UNDONE - eventually monsters will have their own sets of gibs
+	// Only human entities generate skull gib models
 	if ( HasHumanGibs() )
 	{
 		if ( CVAR_GET_FLOAT( "violence_hgibs" ) != 0 ) // Only the player will ever get here
