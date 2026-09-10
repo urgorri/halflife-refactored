@@ -41,83 +41,83 @@
     - _Requirements: [REQ-1, REQ-2, REQ-3, REQ-4, REQ-5, REQ-6]_
     - _Components: [COMP-1, COMP-2, COMP-3, COMP-4, COMP-5]_
 
-- [ ] 2. Phase 2: Player Combat & Damage Mitigation (`dlls/core/player_combat.cpp`)
-  - [ ] 2.1 Remove dead `#if 0` blocks (`ThrowGib`, `ThrowHead`, commented audio) from `dlls/core/player_combat.cpp`
+- [x] 2. Phase 2: Player Combat & Damage Mitigation (`dlls/core/player_combat.cpp`)
+  - [x] 2.1 Remove dead `#if 0` blocks (`ThrowGib`, `ThrowHead`, commented audio) from `dlls/core/player_combat.cpp`
     - _Requirements: [REQ-1.1]_
     - _Components: [COMP-1]_
     - _Dependencies: Phase 1_
-  - [ ] 2.2 Encapsulate armor damage absorption calculation into a dedicated static helper function
+  - [x] 2.2 Encapsulate armor damage absorption calculation into a dedicated static helper function
     - Extract `CalculateArmorAbsorption` preserving exact `DMG_FALL`, `DMG_DROWN`, `DMG_BLAST`, and multiplayer bonus logic.
     - _Requirements: [REQ-1.2, REQ-1.3]_
     - _Components: [COMP-1]_
     - _Dependencies: Task 2.1_
-  - [ ] 2.3 De-nest and simplify suit diagnosis logic in `TakeDamage`
+  - [x] 2.3 De-nest and simplify suit diagnosis logic in `TakeDamage`
     - Replace deep while-loop condition nesting with structured bit-clearing helpers.
     - _Requirements: [REQ-1.4, REQ-1.5]_
     - _Components: [COMP-1]_
     - _Dependencies: Task 2.2_
-  - [ ] 2.4 Compile and verify `hldll.vcxproj` with MSBuild
+  - [x] 2.4 Compile and verify `hldll.vcxproj` with MSBuild
     - Ensure 0 errors, 0 warnings.
     - _Requirements: [REQ-6.1]_
     - _Dependencies: Task 2.3_
 
-- [ ] 3. Phase 3: Client Commands & Player Input Optimization (`client_commands.cpp`, `player_input.cpp`)
-  - [ ] 3.1 Extract common player pointer extraction in `ClientCommand`
+- [x] 3. Phase 3: Client Commands & Player Input Optimization (`client_commands.cpp`, `player_input.cpp`)
+  - [x] 3.1 Extract common player pointer extraction in `ClientCommand`
     - Replace 15+ duplicated `GetClassPtr((CBasePlayer *)pev)` casts with single resolution.
     - _Requirements: [REQ-2.1]_
     - _Components: [COMP-2]_
     - _Dependencies: Phase 1_
-  - [ ] 3.2 Refactor console command routing in `client_commands.cpp`
+  - [x] 3.2 Refactor console command routing in `client_commands.cpp`
     - Group command handling into modular helper functions (`Cmd_Say`, `Cmd_Give`, `Cmd_Drop`, `Cmd_Fov`).
     - _Requirements: [REQ-2.2, REQ-2.3, REQ-2.4, REQ-2.5]_
     - _Components: [COMP-2]_
     - _Dependencies: Task 3.1_
-  - [ ] 3.3 Deduplicate impulse 101 item provisioning in `player_input.cpp`
+  - [x] 3.3 Deduplicate impulse 101 item provisioning in `player_input.cpp`
     - Replace 30+ unrolled `GiveNamedItem` calls with traversal over a static constant array `s_szImpulse101Items`.
     - _Requirements: [REQ-3.1, REQ-3.2]_
     - _Components: [COMP-3]_
     - _Dependencies: Phase 1_
-  - [ ] 3.4 Clean obsolete pre-alpha comments and dead variables in `player_input.cpp`
+  - [x] 3.4 Clean obsolete pre-alpha comments and dead variables in `player_input.cpp`
     - Remove unused `TraceResult tr; // UNDONE: kill me!` and dead comments.
     - _Requirements: [REQ-3.3, REQ-3.4]_
     - _Components: [COMP-3]_
     - _Dependencies: Task 3.3_
-  - [ ] 3.5 Compile and verify `hldll.vcxproj` with MSBuild
+  - [x] 3.5 Compile and verify `hldll.vcxproj` with MSBuild
     - Ensure 0 errors, 0 warnings.
     - _Requirements: [REQ-6.1]_
     - _Dependencies: Task 3.2, Task 3.4_
 
-- [ ] 4. Phase 4: AI Monster Sensors & VGUI Scoreboard Remediations (`monster_sensors.cpp`, `vgui_ScorePanel.cpp`)
-  - [ ] 4.1 Consolidate duplicated `ClearConditions` calls in `CBaseMonster::Listen`
+- [x] 4. Phase 4: AI Monster Sensors & VGUI Scoreboard Remediations (`monster_sensors.cpp`, `vgui_ScorePanel.cpp`)
+  - [x] 4.1 Consolidate duplicated `ClearConditions` calls in `CBaseMonster::Listen`
     - Remove second redundant `ClearConditions` call and dead comments.
     - _Requirements: [REQ-5.1]_
     - _Components: [COMP-5]_
     - _Dependencies: Phase 1_
-  - [ ] 4.2 Purge commented-out sound pool references in `monster_sensors.cpp`
+  - [x] 4.2 Purge commented-out sound pool references in `monster_sensors.cpp`
     - Clean legacy commented `g_pSoundEnt->m_SoundPool` lines.
     - _Requirements: [REQ-5.2, REQ-5.3, REQ-5.4]_
     - _Components: [COMP-5]_
     - _Dependencies: Task 4.1_
-  - [ ] 4.3 Encapsulate magic resolution literals and remove dead code in `vgui_ScorePanel.cpp`
+  - [x] 4.3 Encapsulate magic resolution literals and remove dead code in `vgui_ScorePanel.cpp`
     - Introduce named resolution constants (`RES_LOW_WIDTH`, `RES_DEFAULT_WIDTH`) and remove dead tracker icon code.
     - _Requirements: [REQ-4.1, REQ-4.2, REQ-4.3, REQ-4.4]_
     - _Components: [COMP-4]_
     - _Dependencies: Phase 1_
-  - [ ] 4.4 Compile and verify `hl_cdll.vcxproj` with MSBuild
+  - [x] 4.4 Compile and verify `hl_cdll.vcxproj` with MSBuild
     - Ensure 0 errors, 0 warnings.
     - _Requirements: [REQ-6.1]_
     - _Dependencies: Task 4.2, Task 4.3_
 
-- [ ] 5. Phase 5: Verification, Tech Debt Re-Scan & PR Packaging
-  - [ ] 5.1 Run `debt_scanner.py` and verify measurable reduction in code smell count
+- [x] 5. Phase 5: Verification, Tech Debt Re-Scan & PR Packaging
+  - [x] 5.1 Run `debt_scanner.py` and verify measurable reduction in code smell count
     - Confirm decrease in debt inventory without introducing regressions.
     - _Requirements: [REQ-6.4]_
     - _Dependencies: Phases 2, 3, 4_
-  - [ ] 5.2 Perform full solution rebuild across all target configurations
+  - [x] 5.2 Perform full solution rebuild across all target configurations
     - Build `hldll` and `hl_cdll` in Release configuration.
     - _Requirements: [REQ-6.1]_
     - _Dependencies: Task 5.1_
-  - [ ] 5.3 Commit all changes to `refactor/code-smell-mitigation`
+  - [x] 5.3 Commit all changes to `refactor/code-smell-mitigation`
     - Format commit messages cleanly in English with clear descriptions.
     - _Requirements: [REQ-6.2, REQ-6.3]_
     - _Dependencies: Task 5.2_
