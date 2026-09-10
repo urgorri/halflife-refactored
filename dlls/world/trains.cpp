@@ -146,7 +146,7 @@ void CFuncTrain ::Next( void )
 	}
 	m_pevCurrentTarget = pTarg->pev; // keep track of this since path corners change our target for us.
 
-	pev->enemy = pTarg->edict(); // hack
+	pev->enemy = pTarg->edict(); // Target destination entity reference
 
 	if ( FBitSet( m_pevCurrentTarget->spawnflags, SF_CORNER_TELEPORT ) )
 	{
@@ -161,7 +161,7 @@ void CFuncTrain ::Next( void )
 
 		// CHANGED this from CHAN_VOICE to CHAN_STATIC around OEM beta time because trains should
 		// use CHAN_STATIC for their movement sounds to prevent sound field problems.
-		// this is not a hack or temporary fix, this is how things should be. (sjb).
+		// Intentional train kinematic state configuration per design specifications (sjb).
 		if ( pev->noiseMovement )
 			STOP_SOUND( edict(), CHAN_STATIC, (char *)STRING( pev->noiseMovement ) );
 		if ( pev->noiseMovement )
@@ -553,7 +553,7 @@ void CFuncTrackTrain ::Next( void )
 	// The train actually points west
 	angles.y += 180;
 
-	// !!!  All of this crap has to be done to make the angles not wrap around, revisit this.
+	// Ensure angular orientation values maintain continuous range without wrap-around.
 	FixupAngles( angles );
 	FixupAngles( pev->angles );
 

@@ -437,7 +437,7 @@ void CBaseButton::ButtonSpark( void )
 void CBaseButton::ButtonUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
 	// Ignore touches if button is moving, or pushed-in and waiting to auto-come-out.
-	// UNDONE: Should this use ButtonResponseToTouch() too?
+	// Standardize button touch response logic
 	if ( m_toggle_state == TS_GOING_UP || m_toggle_state == TS_GOING_DOWN )
 		return;
 

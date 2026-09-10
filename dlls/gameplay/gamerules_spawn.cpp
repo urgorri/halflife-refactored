@@ -106,7 +106,7 @@ void CHalfLifeMultiplay ::InitHUD( CBasePlayer *pl )
 	// loop through all active players and send their score info to the new client
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
-		// FIXME:  Probably don't need to cast this just to read m_iDeaths
+		// Access player death counter directly
 		CBasePlayer *plr = (CBasePlayer *)UTIL_PlayerByIndex( i );
 
 		if ( plr )

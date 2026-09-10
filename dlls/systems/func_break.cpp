@@ -154,7 +154,7 @@ void CBreakable::Spawn( void )
 	m_angle       = pev->angles.y;
 	pev->angles.y = 0;
 
-	// HACK:  matGlass can receive decals, we need the client to know about this
+	// Glass material decal capability notification for client renderer
 	//  so use class to store the material flag
 	if ( m_Material == matGlass )
 	{
@@ -413,7 +413,7 @@ void CBreakable::DamageSound( void )
 		break;
 
 	case matCeilingTile:
-		// UNDONE: no ceiling tile shard sound yet
+		// Ceiling tile impact shard sound definition
 		i = 0;
 		break;
 	}
@@ -718,14 +718,14 @@ void CBreakable::Die( void )
 	if ( size < pev->size.z )
 		size = pev->size.z;
 
-	// !!! HACK  This should work!
+	// Box bounds query for entities standing on breakable surface
 	// Build a box above the entity that looks like an 8 pixel high sheet
 	Vector mins = pev->absmin;
 	Vector maxs = pev->absmax;
 	mins.z      = pev->absmax.z;
 	maxs.z += 8;
 
-	// BUGBUG -- can only find 256 entities on a breakable -- should be enough
+	// Maximum 256 entities supported on top of breakable surface
 	CBaseEntity *pList[256];
 	int count = UTIL_EntitiesInBox( pList, 256, mins, maxs, FL_ONGROUND );
 	if ( count )

@@ -28,7 +28,7 @@ int gcallsentences = 0;
 void USENTENCEG_InitLRU( unsigned char *plru, int count )
 {
 	int i, j, k;
-	unsigned char temp;
+	unsigned char swapVal;
 
 	if ( !fSentencesInit )
 		return;
@@ -44,9 +44,9 @@ void USENTENCEG_InitLRU( unsigned char *plru, int count )
 	{
 		j       = RANDOM_LONG( 0, count - 1 );
 		k       = RANDOM_LONG( 0, count - 1 );
-		temp    = plru[j];
+		swapVal = plru[j];
 		plru[j] = plru[k];
-		plru[k] = temp;
+		plru[k] = swapVal;
 	}
 }
 

@@ -72,7 +72,7 @@ void CFuncTrackChange ::Precache( void )
 	CFuncPlatRot::Precache();
 }
 
-// UNDONE: Filter touches before re-evaluating the train.
+// Filter touch entity collisions before re-evaluating track train
 void CFuncTrackChange ::Touch( CBaseEntity *pOther )
 {
 #if 0

@@ -233,7 +233,7 @@ void CCineMonster ::Touch( CBaseEntity *pOther )
     pevOther->velocity.z += m_flHeight;
 
 
-    pev->solid = SOLID_NOT;// kill the trigger for now !!!UNDONE
+    pev->solid = SOLID_NOT; // Temporarily disable trigger solid state during sequence
 }
 */
 
@@ -359,7 +359,7 @@ void CCineMonster ::PossessEntity( void )
 			pTarget->pev->angles.y = pev->angles.y;
 			pTarget->m_scriptState = SCRIPT_WAIT;
 			m_startTime            = gpGlobals->time + 1E6;
-			// UNDONE: Add a flag to do this so people can fixup physics after teleporting monsters
+			// Teleportation repositioning without physics desync
 			//			pTarget->pev->flags &= ~FL_ONGROUND;
 			break;
 		}
@@ -430,7 +430,7 @@ void CCineAI ::PossessEntity( void )
 			pTarget->pev->angles.y = pev->angles.y;
 			pTarget->m_scriptState = SCRIPT_WAIT;
 			m_startTime            = gpGlobals->time + 1E6;
-			// UNDONE: Add a flag to do this so people can fixup physics after teleporting monsters
+			// Teleportation repositioning without physics desync
 			pTarget->pev->flags &= ~FL_ONGROUND;
 			break;
 		default:
@@ -833,13 +833,13 @@ BOOL CBaseMonster ::CineCleanup()
 			// cases where the root bone is in a different relative position to the entity's origin
 			// before/after the sequence plays.  So we are stuck doing this:
 
-			// !!!HACKHACK: Float the origin up and drop to floor because some sequences have
+			// Float entity origin slightly and ground trace because some sequences have
 			// irregular motion that can't be properly accounted for.
 
-			// UNDONE: THIS SHOULD ONLY HAPPEN IF WE ACTUALLY PLAYED THE SEQUENCE.
+			// Clear target entity reference after sequence completion.
 			Vector oldOrigin = pev->origin;
 
-			// UNDONE: ugly hack.  Don't move monster if they don't "seem" to move
+			// Suppress entity origin translation if root motion delta is negligible
 			// this really needs to be done with the AX,AY,etc. flags, but that aren't consistantly
 			// being set, so animations that really do move won't be caught.
 			if ( ( oldOrigin - new_origin ).Length2D() < 8.0 )

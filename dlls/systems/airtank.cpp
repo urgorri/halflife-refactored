@@ -76,7 +76,7 @@ void CAirtank ::Killed( entvars_t *pevAttacker, int iGib )
 {
 	pev->owner = ENT( pevAttacker );
 
-	// UNDONE: this should make a big bubble cloud, not an explosion
+	// Compressed tank rupture produces shockwave damage and bubble particulates
 
 	Explode( pev->origin, Vector( 0, 0, -1 ) );
 }

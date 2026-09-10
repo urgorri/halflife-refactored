@@ -154,19 +154,19 @@
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 7.1 - 7.10_
 
-- [ ] 8. Phase 8: Monster & Ally AI Subsystem Smell Remediation (`dlls/monsters/`, `dlls/ai/`)
-  - [ ] 8.1 Modernize legacy tags and comments in monster entity files (35 smells in `dlls/monsters/`)
+- [x] 8. Phase 8: Monster & Ally AI Subsystem Smell Remediation (`dlls/monsters/`, `dlls/ai/`) [COMPLETED]
+  - [x] 8.1 Modernize legacy tags and comments in monster entity files (35 smells in `dlls/monsters/`)
     - Remediate `barney.cpp`, `scientist.cpp`, `apache.cpp`, `controller.cpp`, `gargantua.cpp`, `osprey.cpp`, `zombie.cpp`, `agrunt.cpp`, `bigmomma.cpp`, `hgrunt.cpp`, `hgrunt_repel.cpp`, `ichthyosaur.cpp`, `leech.cpp`, `roach.cpp`.
     - _Requirements: [REQ-9.1]_
     - _Components: [COMP-7]_
-  - [ ] 8.2 Modernize legacy tags and comments in AI core scheduling files (22 smells in `dlls/ai/`)
+  - [x] 8.2 Modernize legacy tags and comments in AI core scheduling files (22 smells in `dlls/ai/`)
     - Remediate `monsters.cpp`, `schedule.cpp`, `h_ai.cpp`, `monster_scheduler.cpp`, `talkmonster.cpp`, `nodes.h`, `flyingmonster.cpp`, `nodes_links.cpp`, `pathcorner.cpp`, `squadmonster.cpp`.
     - _Requirements: [REQ-9.2]_
     - _Components: [COMP-7]_
-  - [ ] 8.3 Encapsulate bounding hull magic constants in `monsters.cpp`
+  - [x] 8.3 Encapsulate bounding hull magic constants in `monsters.cpp`
     - _Requirements: [REQ-9.3, REQ-9.4]_
     - _Components: [COMP-7]_
-  - [ ] 8.4 Compile and verify `hldll.vcxproj` with MSBuild (0 errors, 0 warnings)
+  - [x] 8.4 Compile and verify `hldll.vcxproj` with MSBuild (0 errors, 0 warnings)
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 8.1 - 8.3_
 

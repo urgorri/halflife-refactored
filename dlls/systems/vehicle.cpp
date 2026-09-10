@@ -718,8 +718,7 @@ void CFuncVehicle ::Next( void )
 			m_vVehicleDirection = gpGlobals->v_forward * -1;
 		}
 
-		Vector temp;
-		temp = UTIL_VecToAngles( m_vVehicleDirection );
+		// Vector vecVehicleAngles = UTIL_VecToAngles( m_vVehicleDirection );
 
 		if ( m_flUpdateSound < gpGlobals->time )
 		{

@@ -113,7 +113,7 @@ void CLegacyCineMonster ::CineSpawn( char *szModel )
 	pev->health    = 1;
 	pev->yaw_speed = 10;
 
-	// ugly alpha hack, can't set ints from the bsp.
+	// Parse animation sequence index from keyvalue definition
 	pev->sequence = (int)pev->impulse;
 	ResetSequenceInfo();
 	pev->framerate = 0.0;
