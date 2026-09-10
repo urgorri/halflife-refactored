@@ -17,41 +17,8 @@
 
 void PM_AirAccelerate( vec3_t wishdir, float wishspeed, float accel )
 {
-	int i;
-	float addspeed, accelspeed, currentspeed, wishspd = wishspeed;
-
-	if ( pmove->dead )
-		return;
-	if ( pmove->waterjumptime )
-		return;
-
-	// Cap speed
-	// wishspd = VectorNormalize (pmove->wishveloc);
-
-	if ( wishspd > 30 )
-		wishspd = 30;
-	// Determine veer amount
-	currentspeed = DotProduct( pmove->velocity, wishdir );
-	// See how much to add
-	addspeed = wishspd - currentspeed;
-	// If not adding any, done.
-	if ( addspeed <= 0 )
-		return;
-	// Determine acceleration speed after acceleration
-
-	accelspeed = accel * wishspeed * pmove->frametime * pmove->friction;
-	// Cap it
-	if ( accelspeed > addspeed )
-		accelspeed = addspeed;
-
-	// Adjust pmove vel.
-	for ( i = 0; i < 3; i++ )
-	{
-		pmove->velocity[i] += accelspeed * wishdir[i];
-	}
+	PM_AccelerateVector( wishdir, wishspeed, accel, 30.0f );
 }
-
-
 
 /*
 ===================
@@ -61,42 +28,11 @@ PM_AirMove
 */
 void PM_AirMove( void )
 {
-	int i;
 	vec3_t wishvel;
-	float fmove, smove;
 	vec3_t wishdir;
 	float wishspeed;
 
-	// Copy movement amounts
-	fmove = pmove->cmd.forwardmove;
-	smove = pmove->cmd.sidemove;
-
-	// Zero out z components of movement vectors
-	pmove->forward[2] = 0;
-	pmove->right[2]   = 0;
-	// Renormalize
-	VectorNormalize( pmove->forward );
-	VectorNormalize( pmove->right );
-
-	// Determine x and y parts of velocity
-	for ( i = 0; i < 2; i++ )
-	{
-		wishvel[i] = pmove->forward[i] * fmove + pmove->right[i] * smove;
-	}
-	// Zero out z part of velocity
-	wishvel[2] = 0;
-
-	// Determine maginitude of speed of move
-	VectorCopy( wishvel, wishdir );
-	wishspeed = VectorNormalize( wishdir );
-
-	// Clamp to server defined max speed
-	if ( wishspeed > pmove->maxspeed )
-	{
-		VectorScale( wishvel, pmove->maxspeed / wishspeed, wishvel );
-		wishspeed = pmove->maxspeed;
-	}
-
+	PM_ComputePlanarWishVelocity( wishvel, wishdir, &wishspeed );
 	PM_AirAccelerate( wishdir, wishspeed, pmove->movevars->airaccelerate );
 
 	// Add in any base velocity to the current velocity.
@@ -145,7 +81,7 @@ void PM_SpectatorMove( void )
 		speed = Length( pmove->velocity );
 		if ( speed < 1 )
 		{
-			VectorCopy( vec3_origin, pmove->velocity )
+			VectorCopy( vec3_origin, pmove->velocity );
 		}
 		else
 		{
@@ -456,26 +392,12 @@ void PM_Jump( void )
 		else // LAVA
 			pmove->velocity[2] = 50;
 
-		// play swiming sound
+		// play swimming sound
 		if ( pmove->flSwimTime <= 0 )
 		{
 			// Don't play sound again for 1 second
 			pmove->flSwimTime = 1000;
-			switch ( pmove->RandomLong( 0, 3 ) )
-			{
-			case 0:
-				pmove->PM_PlaySound( CHAN_BODY, "player/pl_wade1.wav", 1, ATTN_NORM, 0, PITCH_NORM );
-				break;
-			case 1:
-				pmove->PM_PlaySound( CHAN_BODY, "player/pl_wade2.wav", 1, ATTN_NORM, 0, PITCH_NORM );
-				break;
-			case 2:
-				pmove->PM_PlaySound( CHAN_BODY, "player/pl_wade3.wav", 1, ATTN_NORM, 0, PITCH_NORM );
-				break;
-			case 3:
-				pmove->PM_PlaySound( CHAN_BODY, "player/pl_wade4.wav", 1, ATTN_NORM, 0, PITCH_NORM );
-				break;
-			}
+			PM_PlayWadeSound( 1.0f );
 		}
 
 		return;
@@ -511,13 +433,13 @@ void PM_Jump( void )
 	// See if user can super long jump?
 	cansuperjump = atoi( pmove->PM_Info_ValueForKey( pmove->physinfo, "slj" ) ) == 1 ? true : false;
 
-	// Acclerate upward
-	// If we are ducking...
-	if ( ( pmove->bInDuck ) || ( pmove->flags & FL_DUCKING ) )
+	// Accelerate upward
 	{
-		// Adjust for super long jump module
-		// UNDONE -- note this should be based on forward angles, not current velocity.
-		if ( cansuperjump &&
+		float jumpHeight = 45.0f;
+
+		// If ducking, check for super long jump module
+		if ( ( pmove->bInDuck || ( pmove->flags & FL_DUCKING ) ) &&
+		     cansuperjump &&
 		     ( pmove->cmd.buttons & IN_DUCK ) &&
 		     ( pmove->flDuckTime > 0 ) &&
 		     Length( pmove->velocity ) > 50 )
@@ -529,16 +451,10 @@ void PM_Jump( void )
 				pmove->velocity[i] = pmove->forward[i] * PLAYER_LONGJUMP_SPEED * 1.6;
 			}
 
-			pmove->velocity[2] = sqrt( 2 * 800 * 56.0 );
+			jumpHeight = 56.0f;
 		}
-		else
-		{
-			pmove->velocity[2] = sqrt( 2 * 800 * 45.0 );
-		}
-	}
-	else
-	{
-		pmove->velocity[2] = sqrt( 2 * 800 * 45.0 );
+
+		pmove->velocity[2] = sqrt( 2 * 800 * jumpHeight );
 	}
 
 	// Decay it for simulation

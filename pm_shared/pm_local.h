@@ -155,6 +155,7 @@ typedef struct hull_s
 
 void PM_InitTextureTypes( void );
 void PM_PlayStepSound( int step, float fvol );
+void PM_PlayWadeSound( float fvol );
 int PM_MapTextureTypeStepType( char chTextureType );
 void PM_CatagorizeTextureType( void );
 void PM_UpdateStepSound( void );
@@ -162,10 +163,13 @@ void PM_PlayWaterSounds( void );
 
 void PM_CheckVelocity( void );
 int PM_ClipVelocity( vec3_t in, vec3_t normal, vec3_t out, float overbounce );
+float PM_GetPlayerGravity( void );
 void PM_AddCorrectGravity( void );
 void PM_FixupGravityVelocity( void );
 void PM_AddGravity( void );
 int PM_FlyMove( void );
+void PM_ComputePlanarWishVelocity( vec3_t wishvel, vec3_t wishdir, float *pWishspeed );
+void PM_AccelerateVector( vec3_t wishdir, float wishspeed, float accel, float speedcap );
 void PM_Accelerate( vec3_t wishdir, float wishspeed, float accel );
 void PM_WalkMove( void );
 void PM_Friction( void );
