@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -63,7 +63,6 @@ void CBasePlayer::PlayerUse( void )
 		if ( m_pTank != NULL )
 		{
 			// Stop controlling the tank
-			// TODO: Send HUD Update
 			m_pTank->Use( this, this, USE_OFF, 0 );
 			m_pTank = NULL;
 			return;
@@ -138,7 +137,6 @@ void CBasePlayer::PlayerUse( void )
 	// Found an object
 	if ( pObject )
 	{
-		//!!!UNDONE: traceline here to prevent USEing buttons through walls
 		int caps = pObject->ObjectCaps();
 
 		if ( m_afButtonPressed & IN_USE )
@@ -152,9 +150,9 @@ void CBasePlayer::PlayerUse( void )
 
 			pObject->Use( this, this, USE_SET, 1 );
 		}
-		// UNDONE: Send different USE codes for ON/OFF.  Cache last ONOFF_USE object to send 'off' if you turn away
-		else if ( ( m_afButtonReleased & IN_USE ) && ( pObject->ObjectCaps() & FCAP_ONOFF_USE ) ) // BUGBUG This is an "off" use
+		else if ( ( m_afButtonReleased & IN_USE ) && ( pObject->ObjectCaps() & FCAP_ONOFF_USE ) )
 		{
+			// Send off state on button release for toggleable objects
 			pObject->Use( this, this, USE_SET, 0 );
 		}
 	}
@@ -167,8 +165,6 @@ void CBasePlayer::PlayerUse( void )
 
 void CBasePlayer::ImpulseCommands()
 {
-	TraceResult tr; // UNDONE: kill me! This is temporary for PreAlpha CDs
-
 	// Handle use events
 	PlayerUse();
 
@@ -213,13 +209,14 @@ void CBasePlayer::ImpulseCommands()
 		break;
 
 	case 201: // paint decal
-
+	{
 		if ( gpGlobals->time < m_flNextDecalTime )
 		{
 			// too early!
 			break;
 		}
 
+		TraceResult tr;
 		UTIL_MakeVectors( pev->v_angle );
 		UTIL_TraceLine( pev->origin + pev->view_ofs, pev->origin + pev->view_ofs + gpGlobals->v_forward * 128, ignore_monsters, ENT( pev ), &tr );
 
@@ -231,6 +228,7 @@ void CBasePlayer::ImpulseCommands()
 		}
 
 		break;
+	}
 
 	default:
 		// check all of the cheat impulse commands now
@@ -270,35 +268,44 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 	}
 
 	case 101:
-		gEvilImpulse101 = TRUE;
-		GiveNamedItem( "item_suit" );
-		GiveNamedItem( "item_battery" );
-		GiveNamedItem( "weapon_crowbar" );
-		GiveNamedItem( "weapon_9mmhandgun" );
-		GiveNamedItem( "ammo_9mmclip" );
-		GiveNamedItem( "weapon_shotgun" );
-		GiveNamedItem( "ammo_buckshot" );
-		GiveNamedItem( "weapon_9mmAR" );
-		GiveNamedItem( "ammo_9mmAR" );
-		GiveNamedItem( "ammo_ARgrenades" );
-		GiveNamedItem( "weapon_handgrenade" );
-		GiveNamedItem( "weapon_tripmine" );
+	{
+		static const char * const s_szImpulse101Items[] = {
+			"item_suit",
+			"item_battery",
+			"weapon_crowbar",
+			"weapon_9mmhandgun",
+			"ammo_9mmclip",
+			"weapon_shotgun",
+			"ammo_buckshot",
+			"weapon_9mmAR",
+			"ammo_9mmAR",
+			"ammo_ARgrenades",
+			"weapon_handgrenade",
+			"weapon_tripmine",
 #ifndef OEM_BUILD
-		GiveNamedItem( "weapon_357" );
-		GiveNamedItem( "ammo_357" );
-		GiveNamedItem( "weapon_crossbow" );
-		GiveNamedItem( "ammo_crossbow" );
-		GiveNamedItem( "weapon_egon" );
-		GiveNamedItem( "weapon_gauss" );
-		GiveNamedItem( "ammo_gaussclip" );
-		GiveNamedItem( "weapon_rpg" );
-		GiveNamedItem( "ammo_rpgclip" );
-		GiveNamedItem( "weapon_satchel" );
-		GiveNamedItem( "weapon_snark" );
-		GiveNamedItem( "weapon_hornetgun" );
+			"weapon_357",
+			"ammo_357",
+			"weapon_crossbow",
+			"ammo_crossbow",
+			"weapon_egon",
+			"weapon_gauss",
+			"ammo_gaussclip",
+			"weapon_rpg",
+			"ammo_rpgclip",
+			"weapon_satchel",
+			"weapon_snark",
+			"weapon_hornetgun",
 #endif
+		};
+
+		gEvilImpulse101 = TRUE;
+		for ( size_t i = 0; i < ARRAYSIZE( s_szImpulse101Items ); ++i )
+		{
+			GiveNamedItem( s_szImpulse101Items[i] );
+		}
 		gEvilImpulse101 = FALSE;
 		break;
+	}
 
 	case 102:
 		// Gibbage!!!

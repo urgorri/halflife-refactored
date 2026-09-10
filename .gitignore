@@ -39,3 +39,6 @@ linux/hl_cdll_map.txt
 
 # Generic obj directories
 [Oo]bj/
+
+# Tech debt reports
+debt_inventory*.json

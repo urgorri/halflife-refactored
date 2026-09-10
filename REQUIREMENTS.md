@@ -1,65 +1,129 @@
-# Requirements Document
+# Requirements Document: Code Smell Mitigation
 
 ## Introduction
 
-This document specifies the requirements for the consolidation and defragmentation of tightly coupled domain subsystems in the Half-Life GoldSrc refactored repository (`halflife-refactored`). The target is to unify fragmented class hierarchies (turrets, beam/sprite rendering effects, and client-side spectator/ammo HUD components) into cohesive, maintainable translation units while strictly preserving 100% binary-compatible gameplay and networking behaviors.
+This project defines the requirements for systematically mitigating high-priority **code smells** across the core Half-Life GoldSrc DLL codebase (dlls/, cl_dll/, pm_shared/, game_shared/). The primary objective is to eliminate obsolete legacy code, deep control-flow nesting, copy-paste logic duplication, and magic constants while strictly preserving 100% binary compatibility, network protocol parity, and runtime gameplay behavior.
+
+Target subsystems identified as primary code smell hotspots:
+1. dlls/core/player_combat.cpp: Legacy dead code blocks (#if 0), monolithic armor absorption arithmetic, and repetitive suit diagnosis conditionals.
+2. dlls/core/client_commands.cpp: Monolithic if/else if command cascades, repetitive entity class casts, and embedded unicode decoding routines.
+3. dlls/core/player_input.cpp: Unrolled linear equipment provisioning for impulse 101, obsolete pre-alpha comments and temporary variables.
+4. cl_dll/vgui/vgui_ScorePanel.cpp: Resolution hack conditionals, magic layout offsets, and commented-out legacy rendering code.
+5. dlls/ai/monster_sensors.cpp: Redundant successive ClearConditions calls, commented sound pool code, and un-encapsulated enemy tracking arrays.
 
 ## Glossary
 
-- **CBaseTurret**: Base class for all stationary automated defensive gun entities in Half-Life.
-- **CTurret / CMiniTurret / CSentry**: Subclasses of `CBaseTurret` with specialized animations, firing rates, and models.
-- **CBeam / CLaser / CLightning / CSprite / CGlow**: Rendering entity hierarchy managing dynamic sprite/beam visual effects and network synchronizations.
-- **CHudSpectator**: Client HUD module handling camera modes, director triggers, overview maps, and spectator menu panels.
-- **CHudAmmo / CHudAmmoHistory**: Client HUD module rendering primary/secondary ammunition counts and weapon pickup history animations.
+- **GoldSrc DLL**: The core game dynamic link library set comprising the server library (hl.dll) and the client library (client.dll).
+- **Code Smell**: Surface structures in code that indicate deeper maintenance, readability, or architectural problems without necessarily being functional bugs.
+- **Technical Debt**: The implied cost of additional rework caused by choosing an easy or antiquated solution instead of a clean, maintainable approach.
+- **Edict (dict_t)**: The engine-level container representing an active entity slot in the world.
+- **Save/Restore Table (TYPEDESCRIPTION)**: Valve serialization reflection table that defines which fields are stored in saved games. Modifying field offsets or orders breaks savegame compatibility.
+- **Impulse Command**: Out-of-band numeric command sent from client to server (e.g., impulse 100 for flashlight, impulse 101 for full weapons).
+- **Hitgroup**: Anatomical region index (head, chest, stomach, limbs) used in damage calculations to multiply base weapon damage.
+- **RFC 2119**: The normative specification standard using uppercase keywords: SHALL, SHALL NOT, SHOULD, MAY.
+
+---
 
 ## Requirements
 
-### Requirement 1: Turret Subsystem Consolidation
+### Requirement 1: Player Combat & Armor Absorption Refactoring
 
-**User Story:** As an engine maintainer, I want all turret variants and their base class consolidated into a single translation unit, so that turret behaviors are easy to navigate, modify, and maintain without cross-file boilerplate.
-
-#### Acceptance Criteria
-
-1. THE Server DLL SHALL implement `CBaseTurret`, `CTurret` (`monster_turret`), `CMiniTurret` (`monster_miniturret`), and `CSentry` (`monster_sentry`) within a single unified source file `dlls/systems/turrets.cpp` and header `dlls/systems/turrets.h`.
-2. WHEN `monster_turret`, `monster_miniturret`, or `monster_sentry` is spawned in a map, THE Server DLL SHALL initialize and execute identical AI thinking, deploy/retract animation cycles, sound emissions, and projectile/bullet attacks as the original implementation.
-3. THE Server DLL SHALL delete the redundant split files `turret_base.cpp`, `turret.cpp`, `miniturret.cpp`, `sentry.cpp`, and `turret.h`.
-
-### Requirement 2: Visual Effects and Beam Hierarchy Consolidation
-
-**User Story:** As an engine maintainer, I want sprite and beam visual rendering entities consolidated into a cohesive translation unit, so that render entity declarations and implementations are unified and build faster.
+**User Story:** As an engine programmer and maintainer, I want player combat and armor damage absorption logic to be modular, cleanly encapsulated, and free of dead legacy code, so that damage calculations are readable, maintainable, and verifiable without altering combat math.
 
 #### Acceptance Criteria
 
-1. THE Server DLL SHALL consolidate `CBeam`, `CLaser` (`env_laser`), `CLightning` (`env_beam`, `env_lightning`), `CGlow` (`env_glow`), and `CSprite` (`env_sprite`) into `dlls/systems/effects_beams.cpp` and `dlls/systems/effects.h`.
-2. WHEN an `env_laser`, `env_beam`, `env_lightning`, `env_glow`, or `env_sprite` entity is activated, triggered, or animated, THE Server DLL SHALL produce identical entity state updates, sound effects, and network user messages.
-3. THE Server DLL SHALL delete the redundant micro-files `effects_beam.cpp`, `effects_laser.cpp`, `effects_lightning.cpp`, `effects_glow.cpp`, and `effects_sprite.cpp`.
+1. THE Player Combat Subsystem SHALL remove all dead #if 0 blocks (specifically ThrowGib, ThrowHead, and commented-out water death routines) from dlls/core/player_combat.cpp.
+2. WHEN CBasePlayer::TakeDamage executes armor absorption, THE Player Combat Subsystem SHALL encapsulate the armor reduction and damage attenuation calculations into a dedicated helper method ApplyArmorAbsorption(float flDamage, int bitsDamageType, float &flDamageRemaining, float &flArmorDrained).
+3. THE ApplyArmorAbsorption method SHALL produce mathematical results bit-identical to the original calculation across all damage types (DMG_BLAST, DMG_FALL, DMG_DROWN, standard attacks) and multiplayer modes.
+4. WHEN updating suit medical warnings in TakeDamage, THE Player Combat Subsystem SHALL streamline the bitwise diagnosis loop using structured damage-to-sentence mapping to reduce control flow nesting from >= 6 levels to < 3 levels.
+5. THE Player Combat Subsystem SHALL retain all network event broadcasts (SVC_DIRECTOR, DRC_CMD_EVENT) and player punchangle offsets without modification.
 
-### Requirement 3: Client Spectator HUD Subsystem Consolidation
+---
 
-**User Story:** As a client developer, I want all spectator interface logic consolidated into a single cohesive translation unit, so that spectator camera tracking, director mode, overview radar, and menu controls are unified.
+### Requirement 2: Client Command Dispatcher Refactoring
 
-#### Acceptance Criteria
-
-1. THE Client DLL SHALL consolidate `CHudSpectator` camera directors, overview mapping, and UI menu interactions into `cl_dll/hud/hud_spectator.cpp` and `cl_dll/hud/hud_spectator.h`.
-2. WHEN the local client or demo enters spectator mode, THE Client DLL SHALL render identical director views, overview insets, player tracking lists, and command menus.
-3. THE Client DLL SHALL delete the redundant micro-files `hud_spectator_director.cpp`, `hud_spectator_overview.cpp`, and `hud_spectator_menu.cpp`.
-
-### Requirement 4: Client Ammo HUD Subsystem Consolidation
-
-**User Story:** As a client developer, I want the ammunition counter, secondary ammo bar, and pickup history HUD elements consolidated, so that weapon inventory HUD logic resides in a single clear module.
+**User Story:** As a server developer, I want client console command parsing to be cleanly structured with centralized player resolution and helper utilities, so that adding, auditing, or maintaining commands is straightforward and avoids duplicated boilerplate.
 
 #### Acceptance Criteria
 
-1. THE Client DLL SHALL consolidate `CHudAmmo`, `CHudAmmoSecondary`, and `CHudAmmoHistory` into `cl_dll/hud/hud_ammo.cpp` and `cl_dll/hud/hud_ammo.h`.
-2. WHEN the player fires, reloads, or picks up weapons/ammunition, THE Client DLL SHALL render identical HUD icons, animation timers, fade transitions, and digit counters.
-3. THE Client DLL SHALL delete the redundant micro-files `ammo.cpp`, `ammo_secondary.cpp`, `ammohistory.cpp`, `ammo.h`, and `ammohistory.h`.
+1. WHEN ClientCommand is invoked, THE Client Command Subsystem SHALL resolve the player pointer CBasePlayer *pPlayer = GetClassPtr((CBasePlayer *)pev) once at the function entry point instead of repeating class casts across branches.
+2. THE Client Command Subsystem SHALL extract UTF-8 validation and decoding routines (Q_IsValidUChar32, Q_UTF8ToUChar32) from client_commands.cpp into a dedicated shared header/utility to improve cohesion.
+3. THE Client Command Subsystem SHALL replace repetitive string comparison ladders with structured command dispatch or grouped switch-friendly handlers for core commands (say, say_team, ullupdate, give, drop, ov).
+4. WHERE cheats are requested (give, ov), THE Client Command Subsystem SHALL maintain exact sv_cheats check semantics and permission boundaries.
+5. THE Client Command Subsystem SHALL preserve all teamplay chat logging formats (UTIL_LogPrintf) and text message network sequences (gmsgSayText).
 
-### Requirement 5: Build Systems Synchronization & Clean Compilation
+---
 
-**User Story:** As a developer and CI pipeline, I want project files and Makefiles synchronized across all configurations, so that both Windows MSBuild and Linux GCC build cleanly with zero errors.
+### Requirement 3: Impulse & Cheat Input Handler Deduplication
+
+**User Story:** As a gameplay programmer, I want ImpulseCommands and CheatImpulseCommands to use structured data arrays instead of linear repetitive code, so that impulse logic is compact, testable, and free of obsolete legacy comments.
 
 #### Acceptance Criteria
 
-1. THE build system SHALL synchronize `projects/vs2019/hldll.vcxproj`, `projects/vs2019/hldll.vcxproj.filters`, `projects/vs2019/hl_cdll.vcxproj`, and `projects/vs2019/hl_cdll.vcxproj.filters`.
-2. THE build system SHALL synchronize `linux/Makefile.hldll` and `linux/Makefile.hl_cdll`.
-3. THE Server and Client DLLs SHALL compile cleanly on Win32 Release MSBuild and Linux x86 GCC with 0 errors.
+1. WHEN cheat impulse 101 is executed, THE Player Input Subsystem SHALL distribute items and ammunition using an iterative data-driven table of item classnames rather than 30+ unrolled GiveNamedItem statements.
+2. THE Player Input Subsystem SHALL deliver the exact same sequence of weapons, ammunition, suit, and batteries in identical order as the original code.
+3. THE Player Input Subsystem SHALL remove obsolete dead comments and unused local variables (such as TraceResult tr; // UNDONE: kill me! This is temporary for PreAlpha CDs in ImpulseCommands).
+4. THE Player Input Subsystem SHALL maintain exact timing and cooldown logic for spray decals (m_flNextDecalTime, decalfrequency) and flashlight toggles.
+
+---
+
+### Requirement 4: VGUI Scoreboard Geometry & Cleanliness Remediation
+
+**User Story:** As a client UI developer, I want the VGUI scoreboard panel to encapsulate resolution checks and eliminate legacy hack comments, so that scoreboard layout logic is readable and resilient across display configurations.
+
+#### Acceptance Criteria
+
+1. THE VGUI Scoreboard Subsystem SHALL encapsulate resolution-dependent coordinate adjustments (such as 400x300 and 640x480 width thresholds) into well-named layout constants or helper methods.
+2. THE VGUI Scoreboard Subsystem SHALL remove dead commented-out blocks (including obsolete tracker icon loads and temporary debug test directives).
+3. THE VGUI Scoreboard Subsystem SHALL preserve exact column alignment, width calculation formulas, line borders, and font scheme bindings across all resolutions.
+4. THE VGUI Scoreboard Subsystem SHALL maintain exact spectator, teamplay, and deathmatch score presentation logic.
+
+---
+
+### Requirement 5: AI Monster Sensory Redundancy Elimination
+
+**User Story:** As an AI systems engineer, I want monster sensing and condition management to eliminate duplicate state operations and commented sound pool relics, so that AI sensory update loops run with maximum efficiency and clarity.
+
+#### Acceptance Criteria
+
+1. WHEN CBaseMonster::Listen runs, THE Monster Sensor Subsystem SHALL execute condition clearing (its_COND_HEAR_SOUND | bits_COND_SMELL | bits_COND_SMELL_FOOD) exactly once per cycle, eliminating redundant duplicate calls.
+2. THE Monster Sensor Subsystem SHALL purge commented-out legacy sound pool references (g_pSoundEnt->m_SoundPool) in favor of active CSoundEnt static accessor methods.
+3. THE Monster Sensor Subsystem SHALL maintain exact enemy memory stack behavior in PushEnemy and PopEnemy up to MAX_OLD_ENEMIES (4 slots) without altering monster tracking state.
+4. THE Monster Sensor Subsystem SHALL preserve identical hearing sensitivity thresholds and distance falloff checks.
+
+---
+
+### Requirement 6: Strict Functional & Binary Compatibility
+
+**User Story:** As a Half-Life community player and modder, I want the refactored DLLs to run with 100% functional equivalence to original GoldSrc, so that existing savegames, network packets, and gameplay timings remain completely unaffected.
+
+#### Acceptance Criteria
+
+1. THE refactored code SHALL compile cleanly on MSBuild toolset 145 (Visual Studio 2022) with 0 errors and 0 new warnings across both hldll.vcxproj and hl_cdll.vcxproj.
+2. THE refactored code SHALL NOT alter any struct member order, alignment, or size in classes with TYPEDESCRIPTION save/restore tables.
+3. THE refactored code SHALL NOT change any network message IDs, argument counts, or serialization formats.
+4. THE refactored code SHALL demonstrate a measurable reduction in identified code smell items as reported by the debt_scanner.py tool.
+
+---
+
+### Requirement 7: 100% Code Smell Elimination in Core Hotspots
+
+**User Story:** As an engine programmer and maintainer, I want `player_combat.cpp`, `player_input.cpp`, and `monster_sensors.cpp` to achieve zero remaining code smell debt items, so that the core codebase reaches 100% clean status across all targeted hotspot files.
+
+#### Acceptance Criteria
+
+1. THE Player Combat Subsystem SHALL reformat multi-line comment indentation on `g_pevLastInflictor` to eliminate false-positive deep nesting flags (>= 6 indentation levels).
+2. THE Player Combat Subsystem SHALL purge dead commented-out `UTIL_ScreenFade` code and clean legacy `UNDONE`/`HACK` annotations in time-based damage and autoaim selection.
+3. THE Player Input Subsystem SHALL remove obsolete `TODO` and `UNDONE` tags on tank exit, button occlusion, and on-off use handling, replacing them with clear descriptive comments.
+4. THE Monster Sensor Subsystem SHALL remove dead empty `else` blocks in route checking and replace obsolete debt tags in `PushEnemy`, `PopEnemy`, and `BestVisibleEnemy` with precise algorithmic documentation.
+5. UPON completion of these changes, THE Technical Debt Scanner SHALL report exactly **0 code smells** across all 5 hotspot files (`dlls/core/player_combat.cpp`, `dlls/core/client_commands.cpp`, `dlls/core/player_input.cpp`, `cl_dll/vgui/vgui_ScorePanel.cpp`, and `dlls/ai/monster_sensors.cpp`).
+
+---
+
+## Non-Functional Requirements
+
+- **NFR-1: Zero Runtime Overhead**: Refactored helper methods and table lookups must be inlined or compile to equal or fewer CPU instructions than original code.
+- **NFR-2: 100% Savegame Compatibility**: No changes to save/restore serialization layouts or entity member variables.
+- **NFR-3: Strict Behavior Preservation**: Zero alterations to damage multipliers, sound timings, command syntax, or UI rendering output.
+- **NFR-4: Clean Build Baseline**: Zero compiler warnings or lint errors introduced during refactoring.
+

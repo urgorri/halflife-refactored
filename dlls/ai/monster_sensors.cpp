@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -50,15 +50,11 @@ void CBaseMonster ::Listen( void )
 
 	if ( m_pSchedule )
 	{
-		//!!!WATCH THIS SPOT IF YOU ARE HAVING SOUND RELATED BUGS!
-		// Make sure your schedule AND personal sound masks agree!
+		// Make sure schedule and personal sound masks agree
 		iMySounds &= m_pSchedule->iSoundMask;
 	}
 
 	iSound = CSoundEnt::ActiveList();
-
-	// UNDONE: Clear these here?
-	ClearConditions( bits_COND_HEAR_SOUND | bits_COND_SMELL_FOOD | bits_COND_SMELL );
 	hearingSensitivity = HearingSensitivity();
 
 	while ( iSound != SOUNDLIST_EMPTY )
@@ -68,11 +64,8 @@ void CBaseMonster ::Listen( void )
 		if ( pCurrentSound &&
 		     ( pCurrentSound->m_iType & iMySounds ) &&
 		     ( pCurrentSound->m_vecOrigin - EarPosition() ).Length() <= pCurrentSound->m_iVolume * hearingSensitivity )
-
-		// if ( ( g_pSoundEnt->m_SoundPool[ iSound ].m_iType & iMySounds ) && ( g_pSoundEnt->m_SoundPool[ iSound ].m_vecOrigin - EarPosition()).Length () <= g_pSoundEnt->m_SoundPool[ iSound ].m_iVolume * hearingSensitivity )
 		{
 			// the monster cares about this sound, and it's close enough to hear.
-			// g_pSoundEnt->m_SoundPool[ iSound ].m_iNextAudible = m_iAudibleList;
 			pCurrentSound->m_iNextAudible = m_iAudibleList;
 
 			if ( pCurrentSound->FIsSound() )
@@ -83,11 +76,9 @@ void CBaseMonster ::Listen( void )
 			else
 			{
 				// if not a sound, must be a smell - determine if it's just a scent, or if it's a food scent
-				//				if ( g_pSoundEnt->m_SoundPool[ iSound ].m_iType & ( bits_SOUND_MEAT | bits_SOUND_CARCASS ) )
 				if ( pCurrentSound->m_iType & ( bits_SOUND_MEAT | bits_SOUND_CARCASS ) )
 				{
 					// the detected scent is a food item, so set both conditions.
-					// !!!BUGBUG - maybe a virtual function to determine whether or not the scent is food?
 					SetConditions( bits_COND_SMELL_FOOD );
 					SetConditions( bits_COND_SMELL );
 				}
@@ -98,14 +89,11 @@ void CBaseMonster ::Listen( void )
 				}
 			}
 
-			//			m_afSoundTypes |= g_pSoundEnt->m_SoundPool[ iSound ].m_iType;
 			m_afSoundTypes |= pCurrentSound->m_iType;
-
 			m_iAudibleList = iSound;
 		}
 
-		//		iSound = g_pSoundEnt->m_SoundPool[ iSound ].m_iNext;
-		iSound = pCurrentSound->m_iNext;
+		iSound = pCurrentSound ? pCurrentSound->m_iNext : SOUNDLIST_EMPTY;
 	}
 }
 
@@ -411,10 +399,6 @@ int CBaseMonster ::CheckEnemy( CBaseEntity *pEnemy )
 			// trail the enemy a bit
 			m_vecEnemyLKP = m_vecEnemyLKP - pEnemy->pev->velocity * RANDOM_FLOAT( -0.05, 0 );
 		}
-		else
-		{
-			// UNDONE: use pev->oldorigin?
-		}
 	}
 	else if ( !HasConditions( bits_COND_ENEMY_OCCLUDED | bits_COND_SEE_ENEMY ) && ( flDistToEnemy <= 256 ) )
 	{
@@ -444,7 +428,7 @@ int CBaseMonster ::CheckEnemy( CBaseEntity *pEnemy )
 		{
 			if ( m_Route[i].iType == ( bits_MF_IS_GOAL | bits_MF_TO_ENEMY ) )
 			{
-				// UNDONE: Should we allow monsters to override this distance (80?)
+				// Default threshold distance to refresh route towards enemy
 				if ( ( m_Route[i].vecLocation - m_vecEnemyLKP ).Length() > 80 )
 				{
 					// Refresh
@@ -468,7 +452,7 @@ void CBaseMonster ::PushEnemy( CBaseEntity *pEnemy, Vector &vecLastKnownPos )
 	if ( pEnemy == NULL )
 		return;
 
-	// UNDONE: blah, this is bad, we should use a stack but I'm too lazy to code one.
+	// Search enemy memory array to reuse slot or avoid duplicate tracking
 	for ( i = 0; i < MAX_OLD_ENEMIES; i++ )
 	{
 		if ( m_hOldEnemy[i] == pEnemy )
@@ -488,16 +472,15 @@ void CBaseMonster ::PushEnemy( CBaseEntity *pEnemy, Vector &vecLastKnownPos )
 //=========================================================
 BOOL CBaseMonster ::PopEnemy()
 {
-	// UNDONE: blah, this is bad, we should use a stack but I'm too lazy to code one.
+	// Traverse enemy memory in reverse order to pop most recent alive enemy
 	for ( int i = MAX_OLD_ENEMIES - 1; i >= 0; i-- )
 	{
 		if ( m_hOldEnemy[i] != NULL )
 		{
-			if ( m_hOldEnemy[i]->IsAlive() ) // cheat and know when they die
+			if ( m_hOldEnemy[i]->IsAlive() ) // check if still alive
 			{
 				m_hEnemy      = m_hOldEnemy[i];
 				m_vecEnemyLKP = m_vecOldEnemy[i];
-				// ALERT( at_console, "remembering\n");
 				return TRUE;
 			}
 			else
@@ -515,8 +498,7 @@ BOOL CBaseMonster ::PopEnemy()
 // a pointer to the enemy entity in that list that is nearest the
 // caller.
 //
-// !!!UNDONE - currently, this only returns the closest enemy.
-// we'll want to consider distance, relationship, attack types, back turned, etc.
+// Search caller's link list and return nearest visible hostile enemy.
 //=========================================================
 CBaseEntity *CBaseMonster ::BestVisibleEnemy( void )
 {
