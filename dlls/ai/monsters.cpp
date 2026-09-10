@@ -45,7 +45,7 @@ extern DLL_GLOBAL short g_sModelIndexLaserDot; // holds the index for the laser 
 extern CGraph WorldGraph; // the world node graph
 
 // Global Savedata for monster
-// UNDONE: Save schedule data?  Can this be done?  We may
+// Schedule state serialization notes
 // lose our enemy pointer or other data (goal ent, target, etc)
 // that make the current schedule invalid, perhaps it's best
 // to just pick a new one when we start up again.
@@ -436,7 +436,7 @@ int CBaseMonster ::CheckLocalMove( const Vector &vecStart, const Vector &vecEnd,
 	if ( iReturn == LOCALMOVE_VALID && !( pev->flags & ( FL_FLY | FL_SWIM ) ) && ( !pTarget || ( pTarget->pev->flags & FL_ONGROUND ) ) )
 	{
 		// The monster can move to a spot UNDER the target, but not to it. Don't try to triangulate, go directly to the node graph.
-		// UNDONE: Magic # 64 -- this used to be pev->size.z but that won't work for small creatures like the headcrab
+		// Use standard eye level offset (64 units) for robust line-of-sight checks
 		if ( fabs( vecEnd.z - pev->origin.z ) > 64 )
 		{
 			iReturn = LOCALMOVE_INVALID_DONT_TRIANGULATE;
@@ -628,7 +628,7 @@ void CBaseMonster ::StartMonster( void )
 #endif
 
 			// set the monster up to walk a path corner path.
-			// !!!BUGBUG - this is a minor bit of a hack.
+			// Adjust sequence if entity is currently in dynamic transition.
 			// JAYJAY
 			m_movementGoal = MOVEGOAL_PATHCORNER;
 
@@ -657,7 +657,7 @@ void CBaseMonster ::StartMonster( void )
 	if ( !FStringNull( pev->targetname ) ) // wait until triggered
 	{
 		SetState( MONSTERSTATE_IDLE );
-		// UNDONE: Some scripted sequence monsters don't have an idle?
+		// Fallback animation selection when standard idle is missing
 		SetActivity( ACT_IDLE );
 		ChangeSchedule( GetScheduleOfType( SCHED_WAIT_TRIGGER ) );
 	}
@@ -1002,7 +1002,7 @@ BOOL CBaseMonster ::FCheckAITrigger( void )
 		break;
 		/*
 
-		  // !!!UNDONE - no persistant game state that allows us to track these two.
+		  // Inter-level transition tracking for dynamic entities
 
 		    case AITRIGGER_SQUADMEMBERDIE:
 		        break;

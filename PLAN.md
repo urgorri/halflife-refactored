@@ -108,48 +108,48 @@
 
 ---
 
-- [ ] 7. Phase 7: High-Leverage Deep Control Flow Nesting Elimination (11 Critical Sites)
-  - [ ] 7.1 Restructure guard conditions in `dlls/monsters/barney.cpp` (L129)
+- [x] 7. Phase 7: High-Leverage Deep Control Flow Nesting Elimination (11 Critical Sites) [COMPLETED]
+  - [x] 7.1 Restructure guard conditions in `dlls/monsters/barney.cpp` (L129)
     - Invert precondition checks to flatten companion follow & combat state transitions.
     - _Requirements: [REQ-8.1]_
     - _Components: [COMP-6, COMP-7]_
-  - [ ] 7.2 Flatten panic and flee handling in `dlls/monsters/scientist.cpp` (L51)
+  - [x] 7.2 Flatten panic and flee handling in `dlls/monsters/scientist.cpp` (L51)
     - Decompose nested state cascades using guard clauses and early exits.
     - _Requirements: [REQ-8.2]_
     - _Components: [COMP-6, COMP-7]_
-  - [ ] 7.3 Restructure follower tracking in `dlls/ai/talkmonster.cpp` (L169)
+  - [x] 7.3 Restructure follower tracking in `dlls/ai/talkmonster.cpp` (L169)
     - Invert conversational state checks to reduce nesting depth to < 4.
     - _Requirements: [REQ-8.3]_
     - _Components: [COMP-6, COMP-7]_
-  - [ ] 7.4 Flatten player ladder and impulse conditions in `dlls/core/player.cpp` (L781)
+  - [x] 7.4 Flatten player ladder and impulse conditions in `dlls/core/player.cpp` (L781)
     - Apply early return guards in player impulse dispatcher.
     - _Requirements: [REQ-8.4]_
     - _Components: [COMP-6, COMP-9]_
-  - [ ] 7.5 Extract sentence lookup sub-routine in `dlls/systems/sound_sentences.cpp` (L31)
+  - [x] 7.5 Extract sentence lookup sub-routine in `dlls/systems/sound_sentences.cpp` (L31)
     - Encapsulate nested sentence search loops into dedicated helper method.
     - _Requirements: [REQ-8.5]_
     - _Components: [COMP-6, COMP-8]_
-  - [ ] 7.6 Guard client weapon prediction early in `cl_dll/hl/com_weapons.cpp` (L131)
+  - [x] 7.6 Guard client weapon prediction early in `cl_dll/hl/com_weapons.cpp` (L131)
     - Guard against invalid player and null weapon pointers at routine entry.
     - _Requirements: [REQ-8.6]_
     - _Components: [COMP-6, COMP-10]_
-  - [ ] 7.7 Simplify view bob calculations in `cl_dll/render/view_bob.cpp` (L192)
+  - [x] 7.7 Simplify view bob calculations in `cl_dll/render/view_bob.cpp` (L192)
     - Flatten ground velocity and camera tilt evaluations with guard returns.
     - _Requirements: [REQ-8.7]_
     - _Components: [COMP-6, COMP-10]_
-  - [ ] 7.8 Streamline input bitwise unpacking in `cl_dll/input/tf_defs.h` (L1179)
+  - [x] 7.8 Streamline input bitwise unpacking in `cl_dll/input/tf_defs.h` (L1179)
     - Modernize nested bitwise checks into linear mask evaluations.
     - _Requirements: [REQ-8.8]_
     - _Components: [COMP-6, COMP-10]_
-  - [ ] 7.9 Simplify network voice stream checks in `game_shared/voice_gamemgr.cpp` (L21)
+  - [x] 7.9 Simplify network voice stream checks in `game_shared/voice_gamemgr.cpp` (L21)
     - Invert client index validation checks.
     - _Requirements: [REQ-8.9]_
     - _Components: [COMP-6, COMP-11]_
-  - [ ] 7.10 Extract bot manager and traversal loops in `game_shared/bot/bot_manager.cpp` (L3) & `bot_util.h` (L247)
+  - [x] 7.10 Extract bot manager and traversal loops in `game_shared/bot/bot_manager.cpp` (L3) & `bot_util.h` (L247)
     - Isolate inner node scanning into focused traversal routines.
     - _Requirements: [REQ-8.10]_
     - _Components: [COMP-6, COMP-11]_
-  - [ ] 7.11 Compile and verify with MSBuild toolset `v145`
+  - [x] 7.11 Compile and verify with MSBuild toolset `v145`
     - Build `hldll.vcxproj` and `hl_cdll.vcxproj` with 0 errors and 0 warnings.
     - _Requirements: [REQ-14.2]_
     - _Dependencies: Tasks 7.1 - 7.10_

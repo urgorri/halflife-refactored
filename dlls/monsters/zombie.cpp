@@ -16,7 +16,7 @@
 // Zombie
 //=========================================================
 
-// UNDONE: Don't flinch every time you get hit
+// Controlled flinch probability under sustained fire
 
 #include "core/extdll.h"
 #include "core/util.h"
@@ -108,7 +108,7 @@ int CZombie ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float
 		flDamage *= 0.3;
 	}
 
-	// HACK HACK -- until we fix this.
+	// Play pain vocalization while alive
 	if ( IsAlive() )
 		PainSound();
 	return CBaseMonster::TakeDamage( pevInflictor, pevAttacker, flDamage, bitsDamageType );

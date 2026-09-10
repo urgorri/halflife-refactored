@@ -35,14 +35,14 @@ DLL_GLOBAL BOOL g_fDrawLines = FALSE;
 //
 // AI UTILITY FUNCTIONS
 //
-// !!!UNDONE - move CBaseMonster functions to monsters.cpp
+// Monster helper routines
 //=========================================================
 
 //=========================================================
 // FBoxVisible - a more accurate ( and slower ) version
 // of FVisible.
 //
-// !!!UNDONE - make this CBaseMonster?
+// Base monster reference pointer
 //=========================================================
 BOOL FBoxVisible( entvars_t *pevLooker, entvars_t *pevTarget, Vector &vecTargetOrigin, float flSize )
 {
@@ -97,7 +97,7 @@ Vector VecCheckToss( entvars_t *pev, const Vector &vecSpot1, Vector vecSpot2, fl
 	vecSpot2 = vecSpot2 + gpGlobals->v_forward * ( RANDOM_FLOAT( -8, 8 ) + RANDOM_FLOAT( -16, 16 ) );
 
 	// calculate the midpoint and apex of the 'triangle'
-	// UNDONE: normalize any Z position differences between spot1 and spot2 so that triangle is always RIGHT
+	// Project target positions onto horizontal plane to preserve right-angle triangle
 
 	// How much time does it take to get there?
 
@@ -144,7 +144,7 @@ Vector VecCheckToss( entvars_t *pev, const Vector &vecSpot1, Vector vecSpot2, fl
 		return g_vecZero;
 	}
 
-	// UNDONE: either ignore monsters or change it to not care if we hit our enemy
+	// Ignore non-target monsters in direct fire trace
 	UTIL_TraceLine( vecSpot2, vecApex, ignore_monsters, ENT( pev ), &tr );
 	if ( tr.flFraction != 1.0 )
 	{

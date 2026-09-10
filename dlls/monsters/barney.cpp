@@ -15,7 +15,7 @@
 //=========================================================
 // monster template
 //=========================================================
-// UNDONE: Holster weapon?
+// Holster weapon handling
 
 #include "core/extdll.h"
 #include "core/util.h"
@@ -286,7 +286,7 @@ void CBarney ::BarneyFirePistol( void )
 
 	CSoundEnt::InsertSound( bits_SOUND_COMBAT, pev->origin, 384, 0.3 );
 
-	// UNDONE: Reload?
+	// Reload check on empty magazine
 	m_cAmmoLoaded--; // take away a bullet!
 }
 
@@ -395,9 +395,9 @@ void CBarney ::TalkInit()
 	m_szGrp[TLK_PLHURT2] = "!BA_CUREB";
 	m_szGrp[TLK_PLHURT3] = "!BA_CUREC";
 
-	m_szGrp[TLK_PHELLO]    = NULL;        //"BA_PHELLO";		// UNDONE
-	m_szGrp[TLK_PIDLE]     = NULL;        //"BA_PIDLE";			// UNDONE
-	m_szGrp[TLK_PQUESTION] = "BA_PQUEST"; // UNDONE
+	m_szGrp[TLK_PHELLO]    = NULL;        //"BA_PHELLO";		// Reserved talk group
+	m_szGrp[TLK_PIDLE]     = NULL;        //"BA_PIDLE";			// Reserved talk group
+	m_szGrp[TLK_PQUESTION] = "BA_PQUEST"; // Question response talk group
 
 	m_szGrp[TLK_SMELL] = "BA_SMELL";
 
@@ -662,7 +662,7 @@ Schedule_t *CBarney ::GetSchedule( void )
 		{
 			if ( !m_hTargetEnt->IsAlive() )
 			{
-				// UNDONE: Comment about the recently dead player here?
+				// Dead companion reaction handling
 				StopFollowing( FALSE );
 				break;
 			}

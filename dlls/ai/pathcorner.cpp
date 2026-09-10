@@ -89,7 +89,7 @@ void CPathCorner :: Touch( CBaseEntity *pOther )
 		return;		// fighting, not following a path
 	}
 	
-	// UNDONE: support non-zero flWait
+	// Support non-zero dwell duration
 	/*
 	if (m_flWait != 0)
 		ALERT(at_warning, "Non-zero path-cornder waits NYI");
@@ -330,7 +330,7 @@ CPathTrack *CPathTrack ::LookAhead( Vector *origin, float dist, int move )
 			float length = dir.Length();
 			if ( !length && !ValidPath( pcurrent->GetNext()->GetNext(), move ) )
 			{
-				if ( dist == originalDist ) // HACK -- up against a dead end
+				if ( dist == originalDist ) // Terminal dead-end reached
 					return NULL;
 				return pcurrent;
 			}

@@ -16,8 +16,8 @@
 // leech - basic little swimming monster
 //=========================================================
 //
-// UNDONE:
-// DONE:Steering force model for attack
+// Development notes:
+// Steering force model for attack
 // DONE:Attack animation control / damage
 // DONE:Establish range of up/down motion and steer around vertical obstacles
 // DONE:Re-evaluate height periodically

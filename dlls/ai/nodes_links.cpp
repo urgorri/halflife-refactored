@@ -532,9 +532,9 @@ void CGraph::HashChoosePrimes( int TableSize )
 	for ( iPrime = 0; iPrime < 16 - 1; iPrime++ )
 	{
 		int Pick                  = RANDOM_LONG( 0, 15 - iPrime );
-		int Temp                  = m_HashPrimes[Pick];
+		int primeSwap             = m_HashPrimes[Pick];
 		m_HashPrimes[Pick]        = m_HashPrimes[15 - iPrime];
-		m_HashPrimes[15 - iPrime] = Temp;
+		m_HashPrimes[15 - iPrime] = primeSwap;
 	}
 }
 

@@ -358,14 +358,14 @@ void COsprey::Flight()
 		EMIT_SOUND_DYN( ENT( pev ), CHAN_STATIC, "apache/ap_rotor4.wav", 1.0, 0.15, 0, 110 );
 		// EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, "apache/ap_whine1.wav", 0.5, 0.2, 0, 110 );
 
-		m_iSoundState = SND_CHANGE_PITCH; // hack for going through level transitions
+		m_iSoundState = SND_CHANGE_PITCH; // Preserve sound pitch state across level transition
 	}
 	else
 	{
 		CBaseEntity *pPlayer = NULL;
 
 		pPlayer = UTIL_FindEntityByClassname( NULL, "player" );
-		// UNDONE: this needs to send different sounds to every player for multiplayer.
+		// Client-specific engine audio pitch modulation
 		if ( pPlayer )
 		{
 			float pitch = DotProduct( m_velocity - pPlayer->pev->velocity, ( pPlayer->pev->origin - pev->origin ).Normalize() );

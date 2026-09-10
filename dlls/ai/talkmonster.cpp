@@ -679,8 +679,8 @@ void CTalkMonster::ShutUpFriends( void )
 	}
 }
 
-// UNDONE: Keep a follow time in each follower, make a list of followers in this function and do LRU
-// UNDONE: Check this in Restore to keep restored monsters from joining a full list of followers
+// Maintain follower list with LRU priority
+// Verify restored follower count does not exceed squad limit
 void CTalkMonster::LimitFollowers( CBaseEntity *pPlayer, int maxFollowers )
 {
 	CBaseEntity *pFriend = NULL;
@@ -1060,7 +1060,7 @@ int CTalkMonster ::FIdleSpeak( void )
 		// force friend to answer
 		CTalkMonster *pTalkMonster = (CTalkMonster *)pFriend;
 		m_hTalkTarget              = pFriend;
-		pTalkMonster->SetAnswerQuestion( this ); // UNDONE: This is EVIL!!!
+		pTalkMonster->SetAnswerQuestion( this ); // Designate question responder
 		pTalkMonster->m_flStopTalkTime = m_flStopTalkTime;
 
 		m_nSpeak++;

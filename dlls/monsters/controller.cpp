@@ -108,7 +108,7 @@ void CController ::SetYawSpeed( void )
 
 int CController ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType )
 {
-	// HACK HACK -- until we fix this.
+	// Play pain vocalization while alive
 	if ( IsAlive() )
 		PainSound();
 	return CBaseMonster::TakeDamage( pevInflictor, pevAttacker, flDamage, bitsDamageType );
@@ -913,7 +913,7 @@ void CController ::Move( float flInterval )
 			}
 		}
 
-		// UNDONE: this is a hack to quit moving farther than it has looked ahead.
+		// Limit navigation movement distance to current lookahead range.
 		if ( flCheckDist < flMoveDist )
 		{
 			MoveExecute( pTargetEnt, vecDir, flCheckDist / m_flGroundSpeed );

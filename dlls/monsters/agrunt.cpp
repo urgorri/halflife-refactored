@@ -997,7 +997,7 @@ Schedule_t *CAGrunt ::GetSchedule( void )
 		// zap player!
 		if ( HasConditions( bits_COND_CAN_MELEE_ATTACK1 ) )
 		{
-			AttackSound(); // this is a total hack. Should be parto f the schedule
+			AttackSound(); // Play attack vocalization directly during attack sequence
 			return GetScheduleOfType( SCHED_MELEE_ATTACK1 );
 		}
 

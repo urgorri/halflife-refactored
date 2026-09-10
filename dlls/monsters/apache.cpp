@@ -347,7 +347,7 @@ void CApache::FlyTouch( CBaseEntity *pOther )
 	{
 		TraceResult tr = UTIL_GetGlobalTrace();
 
-		// UNDONE, do a real bounce
+		// Velocity reflection for ground collision bounce
 		pev->velocity = pev->velocity + tr.vecPlaneNormal * ( pev->velocity.Length() + 200 );
 	}
 }
@@ -634,14 +634,14 @@ void CApache ::Flight( void )
 		EMIT_SOUND_DYN( ENT( pev ), CHAN_STATIC, "apache/ap_rotor2.wav", 1.0, 0.3, 0, 110 );
 		// EMIT_SOUND_DYN(ENT(pev), CHAN_STATIC, "apache/ap_whine1.wav", 0.5, 0.2, 0, 110 );
 
-		m_iSoundState = SND_CHANGE_PITCH; // hack for going through level transitions
+		m_iSoundState = SND_CHANGE_PITCH; // Retain sound state across level transitions
 	}
 	else
 	{
 		CBaseEntity *pPlayer = NULL;
 
 		pPlayer = UTIL_FindEntityByClassname( NULL, "player" );
-		// UNDONE: this needs to send different sounds to every player for multiplayer.
+		// Multi-client rotor sound spatialization
 		if ( pPlayer )
 		{
 

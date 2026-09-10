@@ -259,15 +259,15 @@ inline int CALC_RANGE( int x, int lower, int upper )
 
 void inline CalcBounds( int &Lower, int &Upper, int Goal, int Best )
 {
-	int Temp = 2 * Goal - Best;
+	int boundValue = 2 * Goal - Best;
 	if ( Best > Goal )
 	{
-		Lower = max( 0, Temp );
+		Lower = max( 0, boundValue );
 		Upper = Best;
 	}
 	else
 	{
-		Upper = min( 255, Temp );
+		Upper = min( 255, boundValue );
 		Lower = Best;
 	}
 }

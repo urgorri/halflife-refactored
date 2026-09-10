@@ -107,7 +107,7 @@ class CBaseMonster : public CBaseToggle
 	int m_iTriggerCondition;     // for scripted AI, this is the condition that will cause the activation of the monster's TriggerTarget
 	string_t m_iszTriggerTarget; // name of target that should be fired.
 
-	Vector m_HackedGunPos; // HACK until we can query end of gun
+	Vector m_HackedGunPos; // Muzzle position offset until model attachment can be queried
 
 	// Scripted sequence Info
 	SCRIPTSTATE m_scriptState; // internal cinematic state
