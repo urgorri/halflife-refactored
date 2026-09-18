@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -384,4 +384,25 @@ class CMultiplayBusters : public CHalfLifeMultiplay
 	void CheckForEgons( void );
 };
 
+//=========================================================
+// Multiplayer Constants & Common Globals
+//=========================================================
+#define ITEM_RESPAWN_TIME 30
+#define WEAPON_RESPAWN_TIME 20
+#define AMMO_RESPAWN_TIME 20
+#define MAX_INTERMISSION_TIME 120
+
 extern DLL_GLOBAL CGameRules *g_pGameRules;
+extern DLL_GLOBAL BOOL g_fGameOver;
+extern int gmsgDeathMsg;
+extern int gmsgScoreInfo;
+extern int gmsgMOTD;
+extern int gmsgServerName;
+extern int g_teamplay;
+extern float g_flIntermissionStartTime;
+
+class CVoiceGameMgr;
+extern CVoiceGameMgr g_VoiceGameMgr;
+
+extern cvar_t mp_chattime;
+extern cvar_t timeleft, fragsleft, sv_busters;

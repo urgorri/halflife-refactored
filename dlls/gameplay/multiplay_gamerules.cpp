@@ -34,28 +34,7 @@
 #include <ctype.h>
 #endif
 
-extern DLL_GLOBAL CGameRules *g_pGameRules;
-extern DLL_GLOBAL BOOL g_fGameOver;
-extern int gmsgDeathMsg; // client dll messages
-extern int gmsgScoreInfo;
-extern int gmsgMOTD;
-extern int gmsgServerName;
-
-extern int g_teamplay;
-
-#define ITEM_RESPAWN_TIME 30
-#define WEAPON_RESPAWN_TIME 20
-#define AMMO_RESPAWN_TIME 20
-
 float g_flIntermissionStartTime = 0;
-
-// longest the intermission can last, in seconds
-#define MAX_INTERMISSION_TIME 120
-
-extern cvar_t timeleft, fragsleft, sv_busters;
-
-extern cvar_t mp_chattime;
-
 CVoiceGameMgr g_VoiceGameMgr;
 
 class CMultiplayGameMgrHelper : public IVoiceGameMgrHelper
