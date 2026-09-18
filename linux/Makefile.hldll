@@ -20,9 +20,9 @@ CFLAGS=$(BASE_CFLAGS)  $(ARCH_CFLAGS)  -DCLIENT_WEAPONS
 #-O3 -ffast-math -fno-strength-reduce
 
 HLDLL_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(HLDLL_SRC_DIR)/weapons -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(GAME_SHARED_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
-HLWPN_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(HLDLL_SRC_DIR)/weapons -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
+HLWPN_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(HLDLL_SRC_DIR)/weapons -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(GAME_SHARED_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
 PM_INCLUDEDIRS=-I$(COMMON_SRC_DIR)  -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
-GAME_SHARED_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(HLDLL_SRC_DIR)/weapons -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
+GAME_SHARED_INCLUDEDIRS=-I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(HLDLL_SRC_DIR)/weapons -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(GAME_SHARED_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(SOURCE_DIR)/public -I../public
 
 LDFLAGS= -lm -lstdc++
 
@@ -39,6 +39,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/airtank.o \
 	$(HLCORE_OBJ_DIR)/animating.o \
 	$(HLCORE_OBJ_DIR)/animation.o \
+	$(HLDLL_OBJ_DIR)/monsters/aircraft_fx.o \
 	$(HLDLL_OBJ_DIR)/monsters/apache.o \
 	$(HLDLL_OBJ_DIR)/monsters/barnacle.o \
 	$(HLDLL_OBJ_DIR)/monsters/barney.o \
@@ -47,6 +48,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/world/bmodels.o \
 	$(HLDLL_OBJ_DIR)/systems/chargers.o \
 	$(HLDLL_OBJ_DIR)/items/items.o \
+	$(HLDLL_OBJ_DIR)/items/ammo_items.o \
 	$(HLDLL_OBJ_DIR)/systems/effects_shooters.o \
 	$(HLDLL_OBJ_DIR)/systems/effects_screen.o \
 	$(HLDLL_OBJ_DIR)/systems/effects_env.o \

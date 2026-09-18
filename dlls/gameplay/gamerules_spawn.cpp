@@ -31,22 +31,7 @@
 #include <ctype.h>
 #endif
 
-#define WEAPON_RESPAWN_TIME 20
-#define ITEM_RESPAWN_TIME 30
-#define AMMO_RESPAWN_TIME 20
-#define MAX_INTERMISSION_TIME 120
 
-extern DLL_GLOBAL CGameRules *g_pGameRules;
-extern DLL_GLOBAL BOOL g_fGameOver;
-extern int gmsgDeathMsg;
-extern int gmsgScoreInfo;
-extern int gmsgMOTD;
-extern int gmsgServerName;
-extern CVoiceGameMgr g_VoiceGameMgr;
-extern cvar_t mp_chattime;
-extern cvar_t timeleft, fragsleft, sv_busters;
-extern int g_teamplay;
-extern float g_flIntermissionStartTime;
 
 //=========================================================
 //=========================================================

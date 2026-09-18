@@ -105,6 +105,9 @@
     <ClCompile Include="..\..\dlls\core\player_suit.cpp">
       <Filter>Source Files\dlls\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\monsters\aircraft_fx.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\apache.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -720,6 +723,9 @@
     <ClCompile Include="..\..\dlls\systems\charger_base.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\items\ammo_items.cpp">
+      <Filter>Source Files\dlls\items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\weapons\ammo_base.h">
@@ -1065,6 +1071,9 @@
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\monsters\agrunt.h">
+      <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\monsters\aircraft_fx.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\monsters\apache.h">

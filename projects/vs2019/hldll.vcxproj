@@ -110,6 +110,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\airtank.cpp" />
     <ClCompile Include="..\..\dlls\core\animating.cpp" />
     <ClCompile Include="..\..\dlls\core\animation.cpp" />
+    <ClCompile Include="..\..\dlls\monsters\aircraft_fx.cpp" />
     <ClCompile Include="..\..\dlls\monsters\apache.cpp" />
     <ClCompile Include="..\..\dlls\monsters\barnacle.cpp" />
     <ClCompile Include="..\..\dlls\monsters\barney.cpp" />
@@ -262,6 +263,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\pm_shared\pm_hull.c" />
     <ClCompile Include="..\..\dlls\systems\chargers.cpp" />
     <ClCompile Include="..\..\dlls\items\items.cpp" />
+    <ClCompile Include="..\..\dlls\items\ammo_items.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_shooters.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_screen.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_env.cpp" />
@@ -386,6 +388,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\monsters\monster_deadhev.h" />
     <ClInclude Include="..\..\dlls\monsters\aflock.h" />
     <ClInclude Include="..\..\dlls\monsters\agrunt.h" />
+    <ClInclude Include="..\..\dlls\monsters\aircraft_fx.h" />
     <ClInclude Include="..\..\dlls\monsters\apache.h" />
     <ClInclude Include="..\..\dlls\monsters\barnacle.h" />
     <ClInclude Include="..\..\dlls\monsters\bigmomma.h" />

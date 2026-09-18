@@ -18,7 +18,6 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
-#include "weapons/ammo_base.h"
 #include "weapons/weapon_glock.h"
 #include "ai/nodes.h"
 #include "core/player.h"
@@ -216,7 +215,4 @@ void CGlock::WeaponIdle( void )
 		SendWeaponAnim( iAnim, 1 );
 	}
 }
-
-IMPLEMENT_SIMPLE_AMMO( CGlockAmmo, ammo_glockclip, "models/w_9mmclip.mdl", "9mm", AMMO_GLOCKCLIP_GIVE, _9MM_MAX_CARRY, "items/9mmclip1.wav" )
-LINK_ENTITY_TO_CLASS( ammo_9mmclip, CGlockAmmo );
 

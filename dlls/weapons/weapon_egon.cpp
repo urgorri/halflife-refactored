@@ -20,7 +20,6 @@
 #include "core/player.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
-#include "weapons/ammo_base.h"
 #include "weapons/weapon_egon.h"
 #include "ai/nodes.h"
 #include "systems/effects.h"
@@ -548,8 +547,6 @@ void CEgon::EndAttack( void )
 
 	DestroyEffect();
 }
-
-IMPLEMENT_SIMPLE_AMMO( CEgonAmmo, ammo_egonclip, "models/w_chainammo.mdl", "uranium", AMMO_URANIUMBOX_GIVE, URANIUM_MAX_CARRY, "items/9mmclip1.wav" )
 
 #endif
 #ifndef CLIENT_DLL
