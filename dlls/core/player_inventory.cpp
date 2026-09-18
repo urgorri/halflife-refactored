@@ -1,4 +1,4 @@
-﻿/***
+/***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
 *
@@ -64,7 +64,7 @@ void CBasePlayer::PackDeadPlayerItems( void )
 	int iWeaponRules;
 	int iAmmoRules;
 	int i;
-	CBasePlayerWeapon *rgpPackWeapons[20]; // 20 hardcoded for now. How to determine exactly how many weapons we have?
+	CBasePlayerWeapon *rgpPackWeapons[MAX_WEAPONS];
 	int iPackAmmo[MAX_AMMO_SLOTS + 1];
 	int iPW = 0; // index into packweapons array
 	int iPA = 0; // index into packammo array
@@ -99,10 +99,16 @@ void CBasePlayer::PackDeadPlayerItems( void )
 					if ( m_pActiveItem && pPlayerItem == m_pActiveItem )
 					{
 						CBasePlayerWeapon *pWeapon = (CBasePlayerWeapon *)pPlayerItem;
-						int nIndex                 = iPW++;
 
 						// this is the active item. Pack it.
-						rgpPackWeapons[nIndex] = pWeapon;
+						if ( iPW < MAX_WEAPONS )
+						{
+							rgpPackWeapons[iPW++] = pWeapon;
+						}
+						else
+						{
+							ALERT( at_error, "PackDeadPlayerItems: Exceeded MAX_WEAPONS capacity (%d)!\n", MAX_WEAPONS );
+						}
 
 						// Reload the weapon before dropping it if we have ammo
 						int j = min( pWeapon->iMaxClip() - pWeapon->m_iClip, m_rgAmmo[pWeapon->m_iPrimaryAmmoType] );
@@ -116,7 +122,14 @@ void CBasePlayer::PackDeadPlayerItems( void )
 					break;
 
 				case GR_PLR_DROP_GUN_ALL:
-					rgpPackWeapons[iPW++] = (CBasePlayerWeapon *)pPlayerItem;
+					if ( iPW < MAX_WEAPONS )
+					{
+						rgpPackWeapons[iPW++] = (CBasePlayerWeapon *)pPlayerItem;
+					}
+					else
+					{
+						ALERT( at_error, "PackDeadPlayerItems: Exceeded MAX_WEAPONS capacity (%d)!\n", MAX_WEAPONS );
+					}
 					break;
 
 				default:
@@ -139,19 +152,28 @@ void CBasePlayer::PackDeadPlayerItems( void )
 				switch ( iAmmoRules )
 				{
 				case GR_PLR_DROP_AMMO_ALL:
-					iPackAmmo[iPA++] = i;
+					if ( iPA < MAX_AMMO_SLOTS )
+					{
+						iPackAmmo[iPA++] = i;
+					}
 					break;
 
 				case GR_PLR_DROP_AMMO_ACTIVE:
 					if ( m_pActiveItem && i == m_pActiveItem->PrimaryAmmoIndex() )
 					{
 						// this is the primary ammo type for the active weapon
-						iPackAmmo[iPA++] = i;
+						if ( iPA < MAX_AMMO_SLOTS )
+						{
+							iPackAmmo[iPA++] = i;
+						}
 					}
 					else if ( m_pActiveItem && i == m_pActiveItem->SecondaryAmmoIndex() )
 					{
 						// this is the secondary ammo type for the active weapon
-						iPackAmmo[iPA++] = i;
+						if ( iPA < MAX_AMMO_SLOTS )
+						{
+							iPackAmmo[iPA++] = i;
+						}
 					}
 					break;
 
@@ -217,14 +239,14 @@ void CBasePlayer::PackDeadPlayerItems( void )
 		if ( bPackItems )
 		{
 			// pack the ammo
-			while ( iPackAmmo[iPA] != -1 )
+			while ( iPA < MAX_AMMO_SLOTS && iPackAmmo[iPA] != -1 )
 			{
 				pWeaponBox->PackAmmo( MAKE_STRING( CBasePlayerItem::AmmoInfoArray[iPackAmmo[iPA]].pszName ), m_rgAmmo[iPackAmmo[iPA]] );
 				iPA++;
 			}
 
 			// now pack all of the items in the lists
-			while ( rgpPackWeapons[iPW] )
+			while ( iPW < MAX_WEAPONS && rgpPackWeapons[iPW] )
 			{
 				// weapon unhooked from the player. Pack it into der box.
 				pWeaponBox->PackWeapon( rgpPackWeapons[iPW] );
