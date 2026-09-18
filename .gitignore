@@ -42,3 +42,8 @@ linux/hl_cdll_map.txt
 
 # Tech debt reports
 debt_inventory*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class

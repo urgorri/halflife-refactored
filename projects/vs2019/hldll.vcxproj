@@ -276,6 +276,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\world\guntarget.cpp" />
     <ClCompile Include="..\..\dlls\world\conveyor.cpp" />
     <ClCompile Include="..\..\dlls\world\rotating.cpp" />
+    <ClCompile Include="..\..\tests\test_abi_layout.cpp" />
+    <ClCompile Include="..\..\tests\test_saverestore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\weapons\ammo_base.h" />

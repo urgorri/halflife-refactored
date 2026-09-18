@@ -724,7 +724,13 @@
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\items\ammo_items.cpp">
-      <Filter>Source Files\dlls\items</Filter>
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\test_abi_layout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\test_saverestore.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

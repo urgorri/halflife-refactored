@@ -1,0 +1,151 @@
+/***
+ *
+ *	Behavioral Equivalence Verification - Layer 2B: Save/Restore Member Layout
+ *
+ *	Validates that entity member variable offsets serialized via TYPEDESCRIPTION
+ *	tables remain binary-compatible with savegame and level-transition baselines.
+ *
+ ****/
+
+#include <stddef.h>
+
+#include "extdll.h"
+#include "util.h"
+#include "cbase.h"
+#include "player.h"
+#include "weapons/weapon_base.h"
+#include "weapons/weapon_defs.h"
+#include "weapons/projectile_hornet.h"
+#include "weapons/projectile_rocket.h"
+#include "weapons/weapon_gauss.h"
+#include "weapons/weapon_egon.h"
+#include "weapons/weapon_rpg.h"
+#include "weapons/weapon_satchel.h"
+#include "weapons/weapon_shotgun.h"
+#include "weapons/weapon_box.h"
+
+// ============================================================================
+// CBasePlayer SaveData Field Offsets
+// ============================================================================
+
+static_assert( offsetof( CBasePlayer, m_flFlashLightTime ) == 712, "CBasePlayer::m_flFlashLightTime offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iFlashBattery ) == 716, "CBasePlayer::m_iFlashBattery offset shifted" );
+static_assert( offsetof( CBasePlayer, m_afButtonLast ) == 720, "CBasePlayer::m_afButtonLast offset shifted" );
+static_assert( offsetof( CBasePlayer, m_afButtonPressed ) == 724, "CBasePlayer::m_afButtonPressed offset shifted" );
+static_assert( offsetof( CBasePlayer, m_afButtonReleased ) == 728, "CBasePlayer::m_afButtonReleased offset shifted" );
+static_assert( offsetof( CBasePlayer, m_rgItems ) == 748, "CBasePlayer::m_rgItems offset shifted" );
+static_assert( offsetof( CBasePlayer, m_afPhysicsFlags ) == 776, "CBasePlayer::m_afPhysicsFlags offset shifted" );
+static_assert( offsetof( CBasePlayer, m_flTimeStepSound ) == 784, "CBasePlayer::m_flTimeStepSound offset shifted" );
+static_assert( offsetof( CBasePlayer, m_flTimeWeaponIdle ) == 788, "CBasePlayer::m_flTimeWeaponIdle offset shifted" );
+static_assert( offsetof( CBasePlayer, m_flSwimTime ) == 792, "CBasePlayer::m_flSwimTime offset shifted" );
+static_assert( offsetof( CBasePlayer, m_flDuckTime ) == 796, "CBasePlayer::m_flDuckTime offset shifted" );
+static_assert( offsetof( CBasePlayer, m_flWallJumpTime ) == 800, "CBasePlayer::m_flWallJumpTime offset shifted" );
+static_assert( offsetof( CBasePlayer, m_flSuitUpdate ) == 804, "CBasePlayer::m_flSuitUpdate offset shifted" );
+static_assert( offsetof( CBasePlayer, m_rgSuitPlayList ) == 808, "CBasePlayer::m_rgSuitPlayList offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iSuitPlayNext ) == 824, "CBasePlayer::m_iSuitPlayNext offset shifted" );
+static_assert( offsetof( CBasePlayer, m_rgiSuitNoRepeat ) == 828, "CBasePlayer::m_rgiSuitNoRepeat offset shifted" );
+static_assert( offsetof( CBasePlayer, m_rgflSuitNoRepeatTime ) == 956, "CBasePlayer::m_rgflSuitNoRepeatTime offset shifted" );
+static_assert( offsetof( CBasePlayer, m_lastDamageAmount ) == 1084, "CBasePlayer::m_lastDamageAmount offset shifted" );
+static_assert( offsetof( CBasePlayer, m_rgpPlayerItems ) == 1204, "CBasePlayer::m_rgpPlayerItems offset shifted" );
+static_assert( offsetof( CBasePlayer, m_pActiveItem ) == 1228, "CBasePlayer::m_pActiveItem offset shifted" );
+static_assert( offsetof( CBasePlayer, m_pLastItem ) == 1236, "CBasePlayer::m_pLastItem offset shifted" );
+static_assert( offsetof( CBasePlayer, m_rgAmmo ) == 1240, "CBasePlayer::m_rgAmmo offset shifted" );
+static_assert( offsetof( CBasePlayer, m_idrowndmg ) == 1124, "CBasePlayer::m_idrowndmg offset shifted" );
+static_assert( offsetof( CBasePlayer, m_idrownrestored ) == 1128, "CBasePlayer::m_idrownrestored offset shifted" );
+static_assert( offsetof( CBasePlayer, m_tSneaking ) == 1172, "CBasePlayer::m_tSneaking offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iTrain ) == 1144, "CBasePlayer::m_iTrain offset shifted" );
+static_assert( offsetof( CBasePlayer, m_bitsHUDDamage ) == 1132, "CBasePlayer::m_bitsHUDDamage offset shifted" );
+static_assert( offsetof( CBasePlayer, m_flFallVelocity ) == 744, "CBasePlayer::m_flFallVelocity offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iTargetVolume ) == 692, "CBasePlayer::m_iTargetVolume offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iWeaponVolume ) == 696, "CBasePlayer::m_iWeaponVolume offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iExtraSoundTypes ) == 700, "CBasePlayer::m_iExtraSoundTypes offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iWeaponFlash ) == 704, "CBasePlayer::m_iWeaponFlash offset shifted" );
+static_assert( offsetof( CBasePlayer, m_fLongJump ) == 1168, "CBasePlayer::m_fLongJump offset shifted" );
+static_assert( offsetof( CBasePlayer, m_fInitHUD ) == 1136, "CBasePlayer::m_fInitHUD offset shifted" );
+static_assert( offsetof( CBasePlayer, m_tbdPrev ) == 1088, "CBasePlayer::m_tbdPrev offset shifted" );
+static_assert( offsetof( CBasePlayer, m_pTank ) == 1152, "CBasePlayer::m_pTank offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iHideHUD ) == 1188, "CBasePlayer::m_iHideHUD offset shifted" );
+static_assert( offsetof( CBasePlayer, m_iFOV ) == 1196, "CBasePlayer::m_iFOV offset shifted" );
+
+// ============================================================================
+// CBasePlayerItem SaveData Field Offsets
+// ============================================================================
+
+static_assert( offsetof( CBasePlayerItem, m_pPlayer ) == 112, "CBasePlayerItem::m_pPlayer offset shifted" );
+static_assert( offsetof( CBasePlayerItem, m_pNext ) == 116, "CBasePlayerItem::m_pNext offset shifted" );
+static_assert( offsetof( CBasePlayerItem, m_iId ) == 120, "CBasePlayerItem::m_iId offset shifted" );
+
+// ============================================================================
+// CBasePlayerWeapon SaveData Field Offsets
+// ============================================================================
+
+static_assert( offsetof( CBasePlayerWeapon, m_flNextPrimaryAttack ) == 140, "CBasePlayerWeapon::m_flNextPrimaryAttack offset shifted" );
+static_assert( offsetof( CBasePlayerWeapon, m_flNextSecondaryAttack ) == 144, "CBasePlayerWeapon::m_flNextSecondaryAttack offset shifted" );
+static_assert( offsetof( CBasePlayerWeapon, m_flTimeWeaponIdle ) == 148, "CBasePlayerWeapon::m_flTimeWeaponIdle offset shifted" );
+static_assert( offsetof( CBasePlayerWeapon, m_iPrimaryAmmoType ) == 152, "CBasePlayerWeapon::m_iPrimaryAmmoType offset shifted" );
+static_assert( offsetof( CBasePlayerWeapon, m_iSecondaryAmmoType ) == 156, "CBasePlayerWeapon::m_iSecondaryAmmoType offset shifted" );
+static_assert( offsetof( CBasePlayerWeapon, m_iClip ) == 160, "CBasePlayerWeapon::m_iClip offset shifted" );
+static_assert( offsetof( CBasePlayerWeapon, m_iDefaultAmmo ) == 176, "CBasePlayerWeapon::m_iDefaultAmmo offset shifted" );
+
+// ============================================================================
+// Weapon Subclasses SaveData Field Offsets
+// ============================================================================
+
+static_assert( offsetof( CGauss, m_fInAttack ) == 76, "CGauss::m_fInAttack offset shifted" );
+static_assert( offsetof( CGauss, m_fPrimaryFire ) == 204, "CGauss::m_fPrimaryFire offset shifted" );
+static_assert( offsetof( CEgon, m_fireState ) == 80, "CEgon::m_fireState offset shifted" );
+static_assert( offsetof( CEgon, m_flAmmoUseTime ) == 188, "CEgon::m_flAmmoUseTime offset shifted" );
+static_assert( offsetof( CRpg, m_fSpotActive ) == 192, "CRpg::m_fSpotActive offset shifted" );
+static_assert( offsetof( CRpg, m_cActiveRockets ) == 196, "CRpg::m_cActiveRockets offset shifted" );
+static_assert( offsetof( CSatchel, m_chargeReady ) == 188, "CSatchel::m_chargeReady offset shifted" );
+static_assert( offsetof( CShotgun, m_flNextReload ) == 192, "CShotgun::m_flNextReload offset shifted" );
+static_assert( offsetof( CShotgun, m_fInSpecialReload ) == 136, "CShotgun::m_fInSpecialReload offset shifted" );
+static_assert( offsetof( CShotgun, m_flPumpTime ) == 132, "CShotgun::m_flPumpTime offset shifted" );
+static_assert( offsetof( CWeaponBox, m_rgAmmo ) == 236, "CWeaponBox::m_rgAmmo offset shifted" );
+static_assert( offsetof( CWeaponBox, m_rgiszAmmo ) == 108, "CWeaponBox::m_rgiszAmmo offset shifted" );
+static_assert( offsetof( CWeaponBox, m_rgpPlayerItems ) == 84, "CWeaponBox::m_rgpPlayerItems offset shifted" );
+static_assert( offsetof( CWeaponBox, m_cAmmoTypes ) == 364, "CWeaponBox::m_cAmmoTypes offset shifted" );
+
+// ============================================================================
+// Weapon Projectiles SaveData Field Offsets
+// ============================================================================
+
+static_assert( offsetof( CHornet, m_flStopAttack ) == 664, "CHornet::m_flStopAttack offset shifted" );
+static_assert( offsetof( CHornet, m_iHornetType ) == 668, "CHornet::m_iHornetType offset shifted" );
+static_assert( offsetof( CHornet, m_flFlySpeed ) == 672, "CHornet::m_flFlySpeed offset shifted" );
+static_assert( offsetof( CRpgRocket, m_flIgniteTime ) == 672, "CRpgRocket::m_flIgniteTime offset shifted" );
+static_assert( offsetof( CRpgRocket, m_hLauncher ) == 676, "CRpgRocket::m_hLauncher offset shifted" );
+
+// ============================================================================
+// Core Entity Base Classes SaveData Field Offsets
+// ============================================================================
+
+static_assert( offsetof( CBaseEntity, m_pGoalEnt ) == 8, "CBaseEntity::m_pGoalEnt offset shifted" );
+static_assert( offsetof( CBaseEntity, m_pfnThink ) == 16, "CBaseEntity::m_pfnThink offset shifted" );
+static_assert( offsetof( CBaseEntity, m_pfnTouch ) == 20, "CBaseEntity::m_pfnTouch offset shifted" );
+static_assert( offsetof( CBaseEntity, m_pfnUse ) == 24, "CBaseEntity::m_pfnUse offset shifted" );
+static_assert( offsetof( CBaseEntity, m_pfnBlocked ) == 28, "CBaseEntity::m_pfnBlocked offset shifted" );
+static_assert( offsetof( CBaseDelay, m_flDelay ) == 84, "CBaseDelay::m_flDelay offset shifted" );
+static_assert( offsetof( CBaseDelay, m_iszKillTarget ) == 88, "CBaseDelay::m_iszKillTarget offset shifted" );
+static_assert( offsetof( CBaseAnimating, m_flFrameRate ) == 92, "CBaseAnimating::m_flFrameRate offset shifted" );
+static_assert( offsetof( CBaseAnimating, m_flGroundSpeed ) == 96, "CBaseAnimating::m_flGroundSpeed offset shifted" );
+static_assert( offsetof( CBaseAnimating, m_flLastEventCheck ) == 100, "CBaseAnimating::m_flLastEventCheck offset shifted" );
+static_assert( offsetof( CBaseAnimating, m_fSequenceFinished ) == 104, "CBaseAnimating::m_fSequenceFinished offset shifted" );
+static_assert( offsetof( CBaseAnimating, m_fSequenceLoops ) == 108, "CBaseAnimating::m_fSequenceLoops offset shifted" );
+static_assert( offsetof( CBaseToggle, m_toggle_state ) == 112, "CBaseToggle::m_toggle_state offset shifted" );
+static_assert( offsetof( CBaseToggle, m_flActivateFinished ) == 116, "CBaseToggle::m_flActivateFinished offset shifted" );
+static_assert( offsetof( CBaseToggle, m_flMoveDistance ) == 120, "CBaseToggle::m_flMoveDistance offset shifted" );
+static_assert( offsetof( CBaseToggle, m_flWait ) == 124, "CBaseToggle::m_flWait offset shifted" );
+static_assert( offsetof( CBaseToggle, m_flLip ) == 128, "CBaseToggle::m_flLip offset shifted" );
+static_assert( offsetof( CBaseToggle, m_flTWidth ) == 132, "CBaseToggle::m_flTWidth offset shifted" );
+static_assert( offsetof( CBaseToggle, m_flTLength ) == 136, "CBaseToggle::m_flTLength offset shifted" );
+static_assert( offsetof( CBaseToggle, m_vecPosition1 ) == 140, "CBaseToggle::m_vecPosition1 offset shifted" );
+static_assert( offsetof( CBaseToggle, m_vecPosition2 ) == 152, "CBaseToggle::m_vecPosition2 offset shifted" );
+static_assert( offsetof( CBaseToggle, m_vecAngle1 ) == 164, "CBaseToggle::m_vecAngle1 offset shifted" );
+static_assert( offsetof( CBaseToggle, m_vecAngle2 ) == 176, "CBaseToggle::m_vecAngle2 offset shifted" );
+static_assert( offsetof( CBaseToggle, m_cTriggersLeft ) == 188, "CBaseToggle::m_cTriggersLeft offset shifted" );
+static_assert( offsetof( CBaseToggle, m_flHeight ) == 192, "CBaseToggle::m_flHeight offset shifted" );
+static_assert( offsetof( CBaseToggle, m_hActivator ) == 196, "CBaseToggle::m_hActivator offset shifted" );
+static_assert( offsetof( CBaseToggle, m_pfnCallWhenMoveDone ) == 204, "CBaseToggle::m_pfnCallWhenMoveDone offset shifted" );
+static_assert( offsetof( CBaseToggle, m_vecFinalDest ) == 208, "CBaseToggle::m_vecFinalDest offset shifted" );
+static_assert( offsetof( CBaseToggle, m_vecFinalAngle ) == 220, "CBaseToggle::m_vecFinalAngle offset shifted" );
