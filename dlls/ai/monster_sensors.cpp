@@ -30,7 +30,6 @@
 #include "ai/defaultai.h"
 #include "ai/schedule.h"
 
-
 //=========================================================
 // Listen - monsters dig through the active sound list for
 // any sounds that may interest them. (smells, too!)
@@ -54,7 +53,7 @@ void CBaseMonster ::Listen( void )
 		iMySounds &= m_pSchedule->iSoundMask;
 	}
 
-	iSound = CSoundEnt::ActiveList();
+	iSound             = CSoundEnt::ActiveList();
 	hearingSensitivity = HearingSensitivity();
 
 	while ( iSound != SOUNDLIST_EMPTY )

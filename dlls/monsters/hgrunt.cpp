@@ -2148,4 +2148,3 @@ Schedule_t *CHGrunt ::GetScheduleOfType( int Type )
 	}
 	}
 }
-

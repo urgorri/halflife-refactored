@@ -60,7 +60,7 @@ CClassMenuPanel::CClassMenuPanel( int iTrans, int iRemoveMe, int x, int y, int w
     : CMenuPanel( iTrans, iRemoveMe, x, y, wide, tall )
 {
 	// Get the scheme used for the Titles
-	CSchemeManager *pSchemes = gViewPort->GetSchemeManager();
+	CSchemeManager *pSchemes    = gViewPort->GetSchemeManager();
 	SchemeHandle_t hTitleScheme = pSchemes->getSchemeHandle( "Title Font" );
 	int r, g, b, a;
 
@@ -142,10 +142,7 @@ void CClassMenuPanel::Update()
 			iTotal++;
 		}
 
-		m_pClassInfoPanel[i]->UpdatePlayerCount( iTotal, m_sPlayersOnTeamString,
-												 iTeamColors[g_iTeamNumber % iNumberOfTeamColors][0],
-		                                         iTeamColors[g_iTeamNumber % iNumberOfTeamColors][1],
-		                                         iTeamColors[g_iTeamNumber % iNumberOfTeamColors][2] );
+		m_pClassInfoPanel[i]->UpdatePlayerCount( iTotal, m_sPlayersOnTeamString, iTeamColors[g_iTeamNumber % iNumberOfTeamColors][0], iTeamColors[g_iTeamNumber % iNumberOfTeamColors][1], iTeamColors[g_iTeamNumber % iNumberOfTeamColors][2] );
 
 		m_pClassInfoPanel[i]->SetActiveTeamGraphic( g_iTeamNumber - 1 );
 	}
@@ -211,8 +208,8 @@ CClassMenuDescriptionPanel::CClassMenuDescriptionPanel( int iClass, int x, int y
 
 	memset( m_pClassImages, 0, sizeof( m_pClassImages ) );
 
-	CSchemeManager *pSchemes = gViewPort->GetSchemeManager();
-	SchemeHandle_t hTitleScheme = pSchemes->getSchemeHandle( "Title Font" );
+	CSchemeManager *pSchemes        = gViewPort->GetSchemeManager();
+	SchemeHandle_t hTitleScheme     = pSchemes->getSchemeHandle( "Title Font" );
 	SchemeHandle_t hClassWindowText = pSchemes->getSchemeHandle( "Briefing Text" );
 	int r, g, b, a;
 
@@ -224,7 +221,7 @@ CClassMenuDescriptionPanel::CClassMenuDescriptionPanel( int iClass, int x, int y
 
 	char sz[256];
 	sprintf( sz, "#Title_%s", sTFClassSelection[iClass] );
-	char *localName = CHudTextMessage::BufferedLocaliseTextString( sz );
+	char *localName   = CHudTextMessage::BufferedLocaliseTextString( sz );
 	Label *pNameLabel = new Label( "", textOffs, YRES( 8 ) ); // CLASSMENU_WINDOW_NAME_Y
 	pNameLabel->setFont( pSchemes->getFont( hTitleScheme ) );
 	pNameLabel->setParent( this );
@@ -338,7 +335,7 @@ void CClassMenuDescriptionPanel::SetActiveTeamGraphic( int team )
 }
 
 CClassMenuSelectionPanel::CClassMenuSelectionPanel( int x, int y, int wide, int tall )
-	: CTransparentPanel( 0, x, y, wide, tall )
+    : CTransparentPanel( 0, x, y, wide, tall )
 {
 	memset( m_pButtons, 0, sizeof( m_pButtons ) );
 }
@@ -366,7 +363,7 @@ void CClassMenuSelectionPanel::InitializeButtons( Panel *pParent )
 		m_pButtons[i]->setBoundKey( sz[0] );
 		m_pButtons[i]->setContentAlignment( vgui::Label::a_west );
 		m_pButtons[i]->addActionSignal( pASignal );
-		m_pButtons[i]->addInputSignal( new CHandler_MenuButtonOver( (CMenuPanel*)pParent, i ) );
+		m_pButtons[i]->addInputSignal( new CHandler_MenuButtonOver( (CMenuPanel *)pParent, i ) );
 		m_pButtons[i]->setParent( this );
 	}
 #endif
@@ -390,7 +387,7 @@ void CClassMenuSelectionPanel::UpdateButtons( int &iYPos, int &iCurrentInfo )
 				m_pButtons[0]->setVisible( true );
 				if ( getParent() )
 				{
-					((CClassMenuPanel *)getParent())->SetActiveInfo( 0 );
+					( (CClassMenuPanel *)getParent() )->SetActiveInfo( 0 );
 				}
 				iYPos += CLASSMENU_BUTTON_SIZE_Y + CLASSMENU_BUTTON_SPACER_Y;
 			}
@@ -413,7 +410,7 @@ void CClassMenuSelectionPanel::UpdateButtons( int &iYPos, int &iCurrentInfo )
 
 				if ( !iCurrentInfo && getParent() )
 				{
-					((CClassMenuPanel *)getParent())->SetActiveInfo( i );
+					( (CClassMenuPanel *)getParent() )->SetActiveInfo( i );
 				}
 			}
 		}

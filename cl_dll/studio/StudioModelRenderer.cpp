@@ -58,7 +58,7 @@ void CStudioModelRenderer::Init( void )
 	IEngineStudio.GetModelCounters( &m_pStudioModelCount, &m_pModelsDrawn );
 
 	// Get pointers to engine data structures
-	m_pbonetransform  = (float( * )[MAXSTUDIOBONES][3][4])IEngineStudio.StudioGetBoneTransform();
+	m_pbonetransform  = (float(  *)[MAXSTUDIOBONES][3][4])IEngineStudio.StudioGetBoneTransform();
 	m_plighttransform = (float( * )[MAXSTUDIOBONES][3][4])IEngineStudio.StudioGetLightTransform();
 	m_paliastransform = (float( * )[3][4])IEngineStudio.StudioGetAliasTransform();
 	m_protationmatrix = (float( * )[3][4])IEngineStudio.StudioGetRotationMatrix();
@@ -148,7 +148,7 @@ int CStudioModelRenderer::StudioDrawModel( int flags )
 		return StudioDrawPlayer( flags, &deadplayer );
 	}
 
-	m_pRenderModel = m_pCurrentEntity->model;
+	m_pRenderModel  = m_pCurrentEntity->model;
 	m_pStudioHeader = (studiohdr_t *)IEngineStudio.Mod_Extradata( m_pRenderModel );
 	IEngineStudio.StudioSetHeader( m_pStudioHeader );
 	IEngineStudio.SetRenderModel( m_pRenderModel );

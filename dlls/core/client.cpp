@@ -208,7 +208,6 @@ void ClientPutInServer( edict_t *pEntity )
 	pPlayer->pev->iuser2 = 0;
 }
 
-
 /*
 ========================
 ClientUserInfoChanged

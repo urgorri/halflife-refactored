@@ -22,30 +22,30 @@
 // Reusable standard player ammo entity definition helper
 //=========================================================
 #define IMPLEMENT_SIMPLE_AMMO( className, entityName, modelPath, ammoName, giveAmount, maxCarry, soundPath ) \
-class className : public CBasePlayerAmmo \
-{ \
-public: \
-	void Spawn( void ) \
-	{ \
-		Precache(); \
-		SET_MODEL( ENT( pev ), modelPath ); \
-		CBasePlayerAmmo::Spawn(); \
-	} \
-	void Precache( void ) \
-	{ \
-		PRECACHE_MODEL( modelPath ); \
-		PRECACHE_SOUND( soundPath ); \
-	} \
-	BOOL AddAmmo( CBaseEntity *pOther ) \
-	{ \
-		int iResult = ( pOther->GiveAmmo( giveAmount, ammoName, maxCarry ) != -1 ); \
-		if ( iResult ) \
-		{ \
-			EMIT_SOUND( ENT( pev ), CHAN_ITEM, soundPath, 1, ATTN_NORM ); \
-		} \
-		return iResult; \
-	} \
-}; \
-LINK_ENTITY_TO_CLASS( entityName, className );
+	class className : public CBasePlayerAmmo                                                                 \
+	{                                                                                                        \
+	  public:                                                                                                \
+		void Spawn( void )                                                                                   \
+		{                                                                                                    \
+			Precache();                                                                                      \
+			SET_MODEL( ENT( pev ), modelPath );                                                              \
+			CBasePlayerAmmo::Spawn();                                                                        \
+		}                                                                                                    \
+		void Precache( void )                                                                                \
+		{                                                                                                    \
+			PRECACHE_MODEL( modelPath );                                                                     \
+			PRECACHE_SOUND( soundPath );                                                                     \
+		}                                                                                                    \
+		BOOL AddAmmo( CBaseEntity *pOther )                                                                  \
+		{                                                                                                    \
+			int iResult = ( pOther->GiveAmmo( giveAmount, ammoName, maxCarry ) != -1 );                      \
+			if ( iResult )                                                                                   \
+			{                                                                                                \
+				EMIT_SOUND( ENT( pev ), CHAN_ITEM, soundPath, 1, ATTN_NORM );                                \
+			}                                                                                                \
+			return iResult;                                                                                  \
+		}                                                                                                    \
+	};                                                                                                       \
+	LINK_ENTITY_TO_CLASS( entityName, className );
 
 #endif // WEAPONS_AMMO_BASE_H

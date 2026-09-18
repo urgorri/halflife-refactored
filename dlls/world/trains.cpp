@@ -238,7 +238,6 @@ void CFuncTrain ::Spawn( void )
 void CFuncTrain::Precache( void )
 {
 	CBasePlatTrain::Precache();
-
 }
 
 void CFuncTrain::OverrideReset( void )
@@ -944,4 +943,3 @@ typedef enum
 	TRAIN_BLOCKING,
 	TRAIN_FOLLOWING
 } TRAIN_CODE;
-

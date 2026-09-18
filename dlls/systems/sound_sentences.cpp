@@ -178,7 +178,7 @@ int SENTENCEG_GetIndex( const char *szgroupname )
 // the sound before playback is done (see SENTENCEG_Stop).
 
 int SENTENCEG_PlayRndI( edict_t *entity, int isentenceg,
-	float volume, float attenuation, int flags, int pitch )
+                        float volume, float attenuation, int flags, int pitch )
 {
 	char name[64];
 	int ipick;
@@ -197,7 +197,7 @@ int SENTENCEG_PlayRndI( edict_t *entity, int isentenceg,
 // same as above, but takes sentence group name instead of index
 
 int SENTENCEG_PlayRndSz( edict_t *entity, const char *szgroupname,
-	float volume, float attenuation, int flags, int pitch )
+                         float volume, float attenuation, int flags, int pitch )
 {
 	char name[64];
 	int ipick;
@@ -225,7 +225,7 @@ int SENTENCEG_PlayRndSz( edict_t *entity, const char *szgroupname,
 // play sentences in sequential order from sentence group.  Reset after last sentence.
 
 int SENTENCEG_PlaySequentialSz( edict_t *entity, const char *szgroupname,
-	float volume, float attenuation, int flags, int pitch, int ipick, int freset )
+                                float volume, float attenuation, int flags, int pitch, int ipick, int freset )
 {
 	char name[64];
 	int ipicknext;
@@ -415,7 +415,6 @@ int SENTENCEG_Lookup( const char *sample, char *sentencenum )
 	return -1;
 }
 
-
 void EMIT_SOUND_SUIT( edict_t *entity, const char *sample )
 {
 	float fvol;
@@ -464,4 +463,3 @@ void EMIT_GROUPNAME_SUIT( edict_t *entity, const char *groupname )
 // Used to detect the texture the player is standing on, map the
 // texture name to a material type.  Play footstep sound based
 // on material type.
-

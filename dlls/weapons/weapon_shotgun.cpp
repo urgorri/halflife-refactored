@@ -365,7 +365,6 @@ void CShotgun::ItemPostFrame( void )
 	CBasePlayerWeapon::ItemPostFrame();
 }
 
-
 #ifndef CLIENT_DLL
 
 TYPEDESCRIPTION CShotgun::m_SaveData[] =

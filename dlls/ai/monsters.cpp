@@ -618,7 +618,7 @@ void CBaseMonster ::StartMonster( void )
 			// Monster will start turning towards his destination
 			MakeIdealYaw( m_pGoalEnt->pev->origin );
 
-						// set the monster up to walk a path corner path.
+			// set the monster up to walk a path corner path.
 			// Adjust sequence if entity is currently in dynamic transition.
 			// JAYJAY
 			m_movementGoal = MOVEGOAL_PATHCORNER;

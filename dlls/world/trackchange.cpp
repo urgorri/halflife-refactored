@@ -431,4 +431,3 @@ void CFuncTrackAuto ::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TY
 // pev->speed is the travel speed
 // pev->health is current health
 // pev->max_health is the amount to reset to each time it starts
-

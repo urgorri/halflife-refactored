@@ -27,7 +27,7 @@ void Hardware_GetRawMouseDelta( int *mx, int *my, bool bRawInput, bool bMouseThr
 void Hardware_PumpRelativeMouse( void );
 void Hardware_ResetMousePos( int x, int y );
 void Hardware_InitJoystick( void );
-int  Hardware_GetJoystickAxis( int axis );
+int Hardware_GetJoystickAxis( int axis );
 bool Hardware_IsJoystickAvailable( void );
 SDL_GameController *Hardware_GetJoystickHandle( void );
 

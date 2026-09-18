@@ -109,7 +109,6 @@ void PM_WaterMove( void )
 	PM_FlyMove();
 }
 
-
 qboolean PM_InWater( void )
 {
 	return ( pmove->waterlevel > 1 );
@@ -185,8 +184,6 @@ qboolean PM_CheckWater()
 
 	return pmove->waterlevel > 1;
 }
-
-
 
 void PM_WaterJump( void )
 {

@@ -46,8 +46,6 @@ extern CBaseEntity *FindEntityForward( CBaseEntity *pMe );
 #define TRAIN_FAST 0x04
 #define TRAIN_BACK 0x05
 
-
-
 void CBasePlayer::PlayerUse( void )
 {
 	if ( IsObserver() )
@@ -269,32 +267,32 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 
 	case 101:
 	{
-		static const char * const s_szImpulse101Items[] = {
-			"item_suit",
-			"item_battery",
-			"weapon_crowbar",
-			"weapon_9mmhandgun",
-			"ammo_9mmclip",
-			"weapon_shotgun",
-			"ammo_buckshot",
-			"weapon_9mmAR",
-			"ammo_9mmAR",
-			"ammo_ARgrenades",
-			"weapon_handgrenade",
-			"weapon_tripmine",
+		static const char *const s_szImpulse101Items[] = {
+		    "item_suit",
+		    "item_battery",
+		    "weapon_crowbar",
+		    "weapon_9mmhandgun",
+		    "ammo_9mmclip",
+		    "weapon_shotgun",
+		    "ammo_buckshot",
+		    "weapon_9mmAR",
+		    "ammo_9mmAR",
+		    "ammo_ARgrenades",
+		    "weapon_handgrenade",
+		    "weapon_tripmine",
 #ifndef OEM_BUILD
-			"weapon_357",
-			"ammo_357",
-			"weapon_crossbow",
-			"ammo_crossbow",
-			"weapon_egon",
-			"weapon_gauss",
-			"ammo_gaussclip",
-			"weapon_rpg",
-			"ammo_rpgclip",
-			"weapon_satchel",
-			"weapon_snark",
-			"weapon_hornetgun",
+		    "weapon_357",
+		    "ammo_357",
+		    "weapon_crossbow",
+		    "ammo_crossbow",
+		    "weapon_egon",
+		    "weapon_gauss",
+		    "ammo_gaussclip",
+		    "weapon_rpg",
+		    "ammo_rpgclip",
+		    "weapon_satchel",
+		    "weapon_snark",
+		    "weapon_hornetgun",
 #endif
 		};
 

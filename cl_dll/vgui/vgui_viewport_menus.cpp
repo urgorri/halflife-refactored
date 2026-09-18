@@ -243,7 +243,6 @@ void TeamFortressViewport::UpdatePlayerMenu( int menuIndex )
 
 void COM_FileBase( const char *in, char *out );
 
-
 void TeamFortressViewport::CreateServerBrowser( void )
 {
 	m_pServerBrowser = new ServerBrowser( 0, 0, ScreenWidth, ScreenHeight );

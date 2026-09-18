@@ -30,7 +30,6 @@
 #include "ai/defaultai.h"
 #include "ai/schedule.h"
 
-
 //=========================================================
 // 	RouteClear - zeroes out the monster's route array and goal
 //=========================================================
@@ -340,7 +339,6 @@ void CBaseMonster ::RouteSimplify( CBaseEntity *pTargetEnt )
 	// Terminate route
 	if ( i < ROUTE_SIZE )
 		m_Route[i].iType = 0;
-
 }
 
 //=========================================================

@@ -138,7 +138,6 @@ void CISlave ::IdleSound( void )
 	{
 		SENTENCEG_PlayRndSz( ENT( pev ), "SLV_IDLE", 0.85, ATTN_NORM, 0, m_voicePitch );
 	}
-
 }
 
 //=========================================================

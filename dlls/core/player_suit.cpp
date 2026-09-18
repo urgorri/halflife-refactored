@@ -24,7 +24,6 @@
 
 extern DLL_GLOBAL ULONG g_ulModelIndexPlayer;
 
-
 /*
 THE POWER SUIT
 
@@ -422,7 +421,6 @@ void CBasePlayer ::UpdatePlayerSound( void )
 	// UTIL_ParticleEffect ( pev->origin + gpGlobals->v_forward * iVolume, g_vecZero, 255, 25 );
 	// ALERT ( at_console, "%d/%d\n", iVolume, m_iTargetVolume );
 }
-
 
 BOOL CBasePlayer ::FlashlightIsOn( void )
 {

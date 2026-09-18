@@ -31,8 +31,6 @@
 #include <ctype.h>
 #endif
 
-
-
 //=========================================================
 //=========================================================
 BOOL CHalfLifeMultiplay ::ClientConnected( edict_t *pEntity, const char *pszName, const char *pszAddress, char szRejectReason[128] )
@@ -216,7 +214,6 @@ BOOL CHalfLifeMultiplay ::AllowAutoTargetCrosshair( void )
 }
 
 //=========================================================
-
 
 edict_t *CHalfLifeMultiplay::GetPlayerSpawnSpot( CBasePlayer *pPlayer )
 {

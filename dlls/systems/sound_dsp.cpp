@@ -1,6 +1,5 @@
 #include "sound_local.h"
 
-
 class CEnvSound : public CPointEntity
 {
   public:
@@ -192,4 +191,3 @@ void CEnvSound ::Spawn()
 	// spread think times
 	pev->nextthink = gpGlobals->time + RANDOM_FLOAT( 0.0, 0.5 );
 }
-

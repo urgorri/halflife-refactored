@@ -960,5 +960,3 @@ void CMomentaryDoor::DoorMoveDone( void )
 	STOP_SOUND( ENT( pev ), CHAN_STATIC, (char *)STRING( pev->noiseMoving ) );
 	EMIT_SOUND( ENT( pev ), CHAN_STATIC, (char *)STRING( pev->noiseArrived ), 1, ATTN_NORM );
 }
-
-

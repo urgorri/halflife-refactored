@@ -661,7 +661,6 @@ void PM_Friction( void )
 	VectorCopy( newvel, pmove->velocity );
 }
 
-
 /*
 ============
 PM_AddGravity

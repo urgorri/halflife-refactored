@@ -207,7 +207,6 @@ void CBaseMonster::BecomeDead( void )
 	// pev->velocity = pev->velocity * RANDOM_FLOAT( 300, 400 );
 }
 
-
 /*
 ============
 Killed

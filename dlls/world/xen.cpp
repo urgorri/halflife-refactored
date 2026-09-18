@@ -433,4 +433,3 @@ void CXenSpore::Think( void )
 	StudioFrameAdvance();
 	pev->nextthink = gpGlobals->time + 0.1;
 }
-

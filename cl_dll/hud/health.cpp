@@ -153,7 +153,6 @@ void CHudHealth::GetPainColor( int &r, int &g, int &b )
 		g = 0;
 		b = 0;
 	}
-
 }
 
 int CHudHealth::Draw( float flTime )

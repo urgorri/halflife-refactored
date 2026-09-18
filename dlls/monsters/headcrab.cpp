@@ -372,7 +372,7 @@ BOOL CHeadCrab ::CheckRangeAttack1( float flDot, float flDist )
 BOOL CHeadCrab ::CheckRangeAttack2( float flDot, float flDist )
 {
 	return FALSE;
-	}
+}
 
 int CHeadCrab ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType )
 {

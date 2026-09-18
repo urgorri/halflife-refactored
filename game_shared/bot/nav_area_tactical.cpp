@@ -1100,15 +1100,15 @@ const Vector *FindNearbyRetreatSpot( CBaseEntity *me, const Vector *start, CNavA
  * Area player containment spatial query
  */
 
-			else
-				dist = ( *area->GetCenter() - *fromArea->GetCenter() ).Length();
+else dist = ( *area->GetCenter() - *fromArea->GetCenter() ).Length();
 
-			float cost = dist + fromArea->GetCostSoFar();
+float cost = dist + fromArea->GetCostSoFar();
 
-			return cost;
-		}
-	}
-};
+return cost;
+}
+}
+}
+;
 
 /**
  * Can we see this area?
@@ -1271,5 +1271,3 @@ void CNavArea::ComputeApproachAreas( void )
  * The singleton for accessing the grid
  */
 CNavAreaGrid TheNavAreaGrid;
-
-

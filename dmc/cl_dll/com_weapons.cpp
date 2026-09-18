@@ -225,8 +225,8 @@ float UTIL_SharedRandomFloat( unsigned int seed, float low, float high )
 	unsigned int range;
 
 	int low_bits, high_bits;
-	std::memcpy(&low_bits, &low, sizeof(low));
-	std::memcpy(&high_bits, &high, sizeof(high));
+	std::memcpy( &low_bits, &low, sizeof( low ) );
+	std::memcpy( &high_bits, &high, sizeof( high ) );
 	U_Srand( (int)seed + low_bits + high_bits );
 
 	U_Random();

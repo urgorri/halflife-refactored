@@ -69,4 +69,3 @@ void SpectatorThink( edict_t *pEntity )
 	if ( pPlayer )
 		pPlayer->SpectatorThink();
 }
-

@@ -310,7 +310,7 @@ void ClientCommand( edict_t *pEntity )
 	if ( !pEntity->pvPrivateData )
 		return;
 
-	entvars_t *pev = &pEntity->v;
+	entvars_t *pev       = &pEntity->v;
 	CBasePlayer *pPlayer = GetClassPtr( (CBasePlayer *)pev );
 	if ( !pPlayer )
 		return;

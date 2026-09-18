@@ -29,7 +29,6 @@
 #define TRAIN_FAST 0x04
 #define TRAIN_BACK 0x05
 
-
 int TrainSpeed( int iSpeed, int iMax )
 {
 	float fSpeed, fMax;
@@ -120,7 +119,6 @@ void CBasePlayer ::EnableControl( BOOL fControl )
 // Autoaim
 // set crosshair position to point to enemey
 
-
 /*
 =============
 SetCustomDecalFrames
@@ -149,9 +147,3 @@ int CBasePlayer ::GetCustomDecalFrames( void )
 {
 	return m_nCustomSprayFrames;
 }
-
-
-
-
-
-

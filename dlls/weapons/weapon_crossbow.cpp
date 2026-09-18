@@ -300,6 +300,4 @@ void CCrossbow::WeaponIdle( void )
 	}
 }
 
-
-
 #endif // OEM_BUILD / HLDEMO_BUILD

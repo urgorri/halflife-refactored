@@ -33,7 +33,6 @@ float v_idlescale;
 float vJumpOrigin[3];
 float vJumpAngles[3];
 
-
 /*
 ==================
 V_CalcIntermissionRefdef
@@ -473,7 +472,6 @@ extern "C" void CL_DLLEXPORT V_CalcRefdef( struct ref_params_s *pparams )
 	}
 }
 
-
 int V_FindViewModelByWeaponModel( int weaponindex )
 {
 
@@ -536,7 +534,6 @@ int V_FindViewModelByWeaponModel( int weaponindex )
 	else
 		return 0;
 }
-
 
 /*
 =============

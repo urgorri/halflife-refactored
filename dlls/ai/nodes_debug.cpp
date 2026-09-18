@@ -339,7 +339,7 @@ void CTestHull ::BuildNodeGraph( void )
 
 					for ( step = 0; step < flDist; step += HULL_STEP_SIZE )
 					{
-						pev->angles.y = flYaw;
+						pev->angles.y  = flYaw;
 						pev->ideal_yaw = flYaw;
 
 						if ( !WALK_MOVE( ENT( pev ), flYaw, HULL_STEP_SIZE, WALKMOVE_CHECKONLY ) )

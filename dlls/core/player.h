@@ -327,7 +327,6 @@ class CBasePlayer : public CBaseMonster
 	int m_iAutoWepSwitch;
 };
 
-
 #define TRAIN_NEW 0xc0
 #define FLASH_DRAIN_TIME 1.2
 #define FLASH_CHARGE_TIME 0.2

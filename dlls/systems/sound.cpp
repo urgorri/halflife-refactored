@@ -17,7 +17,6 @@ void EMIT_SOUND_DYN( edict_t *entity, int channel, const char *sample, float vol
 
 // play a specific sentence over the HEV suit speaker - just pass player entity, and !sentencename
 
-
 int fTextureTypeInit = FALSE;
 
 #define CTEXTURESMAX 512 // max number of textures loaded
@@ -29,8 +28,6 @@ char grgchTextureType[CTEXTURESMAX];                   // parallel array of text
 // open materials.txt,  get size, alloc space,
 // save in array.  Only works first time called,
 // ignored on subsequent calls.
-
-
 
 void TEXTURETYPE_Init()
 {

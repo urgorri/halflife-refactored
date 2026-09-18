@@ -26,12 +26,12 @@ class CBaseWallCharger : public CBaseToggle
 	void EXPORT Recharge( void );
 
   protected:
-	virtual int GetCapacity( void ) const = 0;
-	virtual float GetRechargeTime( void ) const = 0;
+	virtual int GetCapacity( void ) const                = 0;
+	virtual float GetRechargeTime( void ) const          = 0;
 	virtual BOOL GiveResource( CBaseEntity *pActivator ) = 0;
-	virtual const char *GetStartSound( void ) const = 0;
-	virtual const char *GetLoopSound( void ) const = 0;
-	virtual const char *GetDenySound( void ) const = 0;
+	virtual const char *GetStartSound( void ) const      = 0;
+	virtual const char *GetLoopSound( void ) const       = 0;
+	virtual const char *GetDenySound( void ) const       = 0;
 	virtual float GetSoundVolume( void ) const { return 1.0f; }
 
 	float m_flNextCharge;

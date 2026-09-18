@@ -42,19 +42,6 @@ float UTIL_WeaponTimeBase( void )
 #endif
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void UTIL_ParametricRocket( entvars_t *pev, Vector vecOrigin, Vector vecAngles, edict_t *owner )
 {
 	pev->startpos = vecOrigin;
@@ -75,18 +62,10 @@ void UTIL_ParametricRocket( entvars_t *pev, Vector vecOrigin, Vector vecAngles, 
 	pev->impacttime = gpGlobals->time + travelTime;
 }
 
-
-
 BOOL UTIL_GetNextBestWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pCurrentWeapon )
 {
 	return g_pGameRules->GetNextBestWeapon( pPlayer, pCurrentWeapon );
 }
-
-
-
-
-
-
 
 //	float UTIL_MoveToOrigin( edict_t *pent, const Vector vecGoal, float flDist, int iMoveType )
 void UTIL_MoveToOrigin( edict_t *pent, const Vector &vecGoal, float flDist, int iMoveType )
@@ -110,12 +89,12 @@ void UTIL_MakeAimVectors( const Vector &vecAngles )
 	MAKE_VECTORS( rgflVec );
 }
 
-template<typename T>
+template < typename T >
 inline void SwapValues( T &a, T &b )
 {
 	T swapVal = a;
-	a = b;
-	b = swapVal;
+	a         = b;
+	b         = swapVal;
 }
 
 void UTIL_MakeInvVectors( const Vector &vec, globalvars_t *pgv )
@@ -445,8 +424,6 @@ void UTIL_SetSize( entvars_t *pev, const Vector &vecMin, const Vector &vecMax )
 	SET_SIZE( ENT( pev ), vecMin, vecMax );
 }
 
-
-
 void UTIL_SetOrigin( entvars_t *pev, const Vector &vecOrigin )
 {
 	edict_t *ent = ENT( pev );
@@ -458,14 +435,6 @@ void UTIL_ParticleEffect( const Vector &vecOrigin, const Vector &vecDirection, U
 {
 	PARTICLE_EFFECT( vecOrigin, vecDirection, (float)ulColor, (float)ulCount );
 }
-
-
-
-
-
-
-
-
 
 char *UTIL_VarArgs( char *format, ... )
 {
@@ -505,7 +474,6 @@ int UTIL_IsMasterTriggered( string_t sMaster, CBaseEntity *pActivator )
 	// if this isn't a master entity, just say yes.
 	return 1;
 }
-
 
 BOOL UTIL_TeamsMatch( const char *pTeamName1, const char *pTeamName2 )
 {
@@ -580,8 +548,6 @@ void UTIL_StringToIntArray( int *pVector, int count, const char *pString )
 		pVector[j] = 0;
 	}
 }
-
-
 
 float UTIL_WaterLevel( const Vector &position, float minz, float maxz )
 {

@@ -32,7 +32,6 @@ extern void CopyToBodyQue( entvars_t *pev );
 extern DLL_GLOBAL int g_iSkillLevel;
 extern DLL_GLOBAL ULONG g_ulModelIndexPlayer;
 
-
 void CBasePlayer ::Pain( void )
 {
 	float flRndSound; // sound randomizer
@@ -91,7 +90,6 @@ int CBasePlayer ::TakeHealth( float flHealth, int bitsDamageType )
 {
 	return CBaseMonster ::TakeHealth( flHealth, bitsDamageType );
 }
-
 
 //=========================================================
 // TraceAttack
@@ -158,7 +156,7 @@ static void CalculateArmorAbsorption( float &flDamage, float &flArmorValue, int 
 		flBonus *= 2;
 	}
 
-	float flNew = flDamage * flRatio;
+	float flNew   = flDamage * flRatio;
 	float flArmor = ( flDamage - flNew ) * flBonus;
 
 	// Does this use more armor than we have?
@@ -166,7 +164,7 @@ static void CalculateArmorAbsorption( float &flDamage, float &flArmorValue, int 
 	{
 		flArmor = flArmorValue;
 		flArmor *= ( 1.0f / flBonus );
-		flNew = flDamage - flArmor;
+		flNew        = flDamage - flArmor;
 		flArmorValue = 0;
 	}
 	else
@@ -421,7 +419,6 @@ void CBasePlayer::Killed( entvars_t *pevAttacker, int iGib )
 	SetThink( &CBasePlayer::PlayerDeathThink );
 	pev->nextthink = gpGlobals->time + 0.1;
 }
-
 
 /* */
 

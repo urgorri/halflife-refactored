@@ -1508,8 +1508,7 @@ BOOL CNihilanthHVR ::CircleTarget( Vector vecTarget )
 	}
 
 	m_vecIdeal = m_vecIdeal + Vector( RANDOM_FLOAT( -2, 2 ), RANDOM_FLOAT( -2, 2 ), RANDOM_FLOAT( -2, 2 ) );
-	m_vecIdeal = Vector( m_vecIdeal.x, m_vecIdeal.y, 0 ).Normalize() * 200
-	             + Vector( 0, 0, m_vecIdeal.z );
+	m_vecIdeal = Vector( m_vecIdeal.x, m_vecIdeal.y, 0 ).Normalize() * 200 + Vector( 0, 0, m_vecIdeal.z );
 
 	// move up/down
 	d1 = vecTarget.z - pev->origin.z;

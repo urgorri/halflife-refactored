@@ -17,7 +17,6 @@
 static vec3_t rgv3tStuckTable[54];
 static int rgStuckLast[MAX_CLIENTS][2];
 
-
 /*
 ================
 PM_AddToTouched
@@ -284,7 +283,6 @@ pmtrace_t PM_PushEntity( vec3_t push )
 
 	return trace;
 }
-
 
 void PM_CreateStuckTable( void )
 {
