@@ -19,7 +19,6 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
-#include "weapons/ammo_base.h"
 #include "weapons/weapon_crossbow.h"
 #include "weapons/projectile_bolt.h"
 #include "ai/nodes.h"
@@ -301,9 +300,6 @@ void CCrossbow::WeaponIdle( void )
 	}
 }
 
-#ifndef CLIENT_DLL
-IMPLEMENT_SIMPLE_AMMO( CCrossbowAmmo, ammo_crossbow, "models/w_crossbow_clip.mdl", "bolts", AMMO_CROSSBOWCLIP_GIVE, BOLT_MAX_CARRY, "items/9mmclip1.wav" )
-#endif
 
 
 #endif // OEM_BUILD / HLDEMO_BUILD

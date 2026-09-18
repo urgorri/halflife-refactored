@@ -262,6 +262,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\pm_shared\pm_hull.c" />
     <ClCompile Include="..\..\dlls\systems\chargers.cpp" />
     <ClCompile Include="..\..\dlls\items\items.cpp" />
+    <ClCompile Include="..\..\dlls\items\ammo_items.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_shooters.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_screen.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_env.cpp" />

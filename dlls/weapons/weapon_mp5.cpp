@@ -18,7 +18,6 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
-#include "weapons/ammo_base.h"
 #include "weapons/weapon_mp5.h"
 #include "ai/nodes.h"
 #include "core/player.h"
@@ -275,12 +274,4 @@ void CMP5::WeaponIdle( void )
 
 	m_flTimeWeaponIdle = UTIL_SharedRandomFloat( m_pPlayer->random_seed, 10, 15 ); // how long till we do this again.
 }
-
-IMPLEMENT_SIMPLE_AMMO( CMP5AmmoClip, ammo_mp5clip, "models/w_9mmARclip.mdl", "9mm", AMMO_MP5CLIP_GIVE, _9MM_MAX_CARRY, "items/9mmclip1.wav" )
-LINK_ENTITY_TO_CLASS( ammo_9mmAR, CMP5AmmoClip );
-
-IMPLEMENT_SIMPLE_AMMO( CMP5Chainammo, ammo_9mmbox, "models/w_chainammo.mdl", "9mm", AMMO_CHAINBOX_GIVE, _9MM_MAX_CARRY, "items/9mmclip1.wav" )
-
-IMPLEMENT_SIMPLE_AMMO( CMP5AmmoGrenade, ammo_mp5grenades, "models/w_ARgrenade.mdl", "ARgrenades", AMMO_M203BOX_GIVE, M203_GRENADE_MAX_CARRY, "items/9mmclip1.wav" )
-LINK_ENTITY_TO_CLASS( ammo_ARgrenades, CMP5AmmoGrenade );
 

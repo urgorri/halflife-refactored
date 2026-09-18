@@ -19,7 +19,6 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
-#include "weapons/ammo_base.h"
 #include "weapons/weapon_gauss.h"
 #include "ai/nodes.h"
 #include "core/player.h"
@@ -605,8 +604,6 @@ void CGauss::WeaponIdle( void )
 		SendWeaponAnim( iAnim );
 	}
 }
-
-IMPLEMENT_SIMPLE_AMMO( CGaussAmmo, ammo_gaussclip, "models/w_gaussammo.mdl", "uranium", AMMO_URANIUMBOX_GIVE, URANIUM_MAX_CARRY, "items/9mmclip1.wav" )
 
 #endif
 

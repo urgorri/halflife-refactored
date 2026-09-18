@@ -18,7 +18,6 @@
 #include "core/cbase.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
-#include "weapons/ammo_base.h"
 #include "weapons/weapon_shotgun.h"
 #include "ai/nodes.h"
 #include "core/player.h"
@@ -365,8 +364,6 @@ void CShotgun::ItemPostFrame( void )
 
 	CBasePlayerWeapon::ItemPostFrame();
 }
-
-IMPLEMENT_SIMPLE_AMMO( CShotgunAmmo, ammo_buckshot, "models/w_shotbox.mdl", "buckshot", AMMO_BUCKSHOTBOX_GIVE, BUCKSHOT_MAX_CARRY, "items/9mmclip1.wav" )
 
 
 #ifndef CLIENT_DLL

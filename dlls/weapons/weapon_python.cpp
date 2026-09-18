@@ -17,8 +17,8 @@
 #include "core/extdll.h"
 #include "core/util.h"
 #include "core/cbase.h"
+
 #include "weapons/weapon_base.h"
-#include "weapons/ammo_base.h"
 #include "weapons/weapon_python.h"
 #include "ai/monsters.h"
 #include "core/player.h"
@@ -275,8 +275,6 @@ void CPython::WeaponIdle( void )
 
 	SendWeaponAnim( iAnim, UseDecrement() ? 1 : 0, bUseScope );
 }
-
-IMPLEMENT_SIMPLE_AMMO( CPythonAmmo, ammo_357, "models/w_357ammobox.mdl", "357", AMMO_357BOX_GIVE, _357_MAX_CARRY, "items/9mmclip1.wav" )
 
 #endif
 
