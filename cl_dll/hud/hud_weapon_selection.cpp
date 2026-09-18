@@ -106,7 +106,7 @@ void WeaponsResource ::SelectSlot( int iSlot, int fAdvance, int iDirection )
 		return;
 	}
 
-	if ( iSlot > MAX_WEAPON_SLOTS )
+	if ( iSlot >= MAX_WEAPON_SLOTS )
 		return;
 
 	if ( gHUD.m_fPlayerDead || gHUD.m_iHideHUDDisplay & ( HIDEHUD_WEAPONS | HIDEHUD_ALL ) )
@@ -395,8 +395,21 @@ int CHudAmmo::DrawWList( float flTime )
 		}
 	}
 
+	// Determine the maximum slot to draw.
+	// Always draw at least the 5 standard Half-Life slots; expand dynamically if higher slots contain weapons.
+	int iMaxSlot = 5;
+	for ( int s = 5; s < MAX_WEAPON_SLOTS; s++ )
+	{
+		if ( gWR.GetFirstPos( s ) != NULL )
+			iMaxSlot = s + 1;
+	}
+	if ( iActiveSlot >= iMaxSlot )
+		iMaxSlot = iActiveSlot + 1;
+	if ( iMaxSlot > MAX_WEAPON_SLOTS )
+		iMaxSlot = MAX_WEAPON_SLOTS;
+
 	// Draw top line
-	for ( i = 0; i < MAX_WEAPON_SLOTS; i++ )
+	for ( i = 0; i < iMaxSlot; i++ )
 	{
 		int iWidth;
 
@@ -408,7 +421,13 @@ int CHudAmmo::DrawWList( float flTime )
 			a = 192;
 
 		ScaleColors( r, g, b, 255 );
-		SPR_Set( gHUD.GetSprite( m_HUD_bucket0 + i ), r, g, b );
+
+		int iBucketSpr = ( i < MAX_WEAPON_SLOTS && m_HUD_buckets[i] >= 0 ) ? m_HUD_buckets[i] : ( m_HUD_bucket0 + i );
+		HSPRITE hBucket = gHUD.GetSprite( iBucketSpr );
+		if ( hBucket )
+		{
+			SPR_Set( hBucket, r, g, b );
+		}
 
 		// make active slot wide enough to accomodate gun pictures
 		if ( i == iActiveSlot )
@@ -422,7 +441,14 @@ int CHudAmmo::DrawWList( float flTime )
 		else
 			iWidth = giBucketWidth;
 
-		SPR_DrawAdditive( 0, x, y, &gHUD.GetSpriteRect( m_HUD_bucket0 + i ) );
+		// Prevent drawing outside screen boundaries on low resolutions
+		if ( x + iWidth > ScreenWidth )
+			break;
+
+		if ( hBucket )
+		{
+			SPR_DrawAdditive( 0, x, y, &gHUD.GetSpriteRect( iBucketSpr ) );
+		}
 
 		x += iWidth + 5;
 	}
@@ -431,7 +457,7 @@ int CHudAmmo::DrawWList( float flTime )
 	x = 10;
 
 	// Draw all of the buckets
-	for ( i = 0; i < MAX_WEAPON_SLOTS; i++ )
+	for ( i = 0; i < iMaxSlot; i++ )
 	{
 		y = giBucketHeight + 10;
 
@@ -441,6 +467,9 @@ int CHudAmmo::DrawWList( float flTime )
 			int iWidth = giBucketWidth;
 			if ( p )
 				iWidth = p->rcActive.right - p->rcActive.left;
+
+			if ( x + iWidth > ScreenWidth )
+				break;
 
 			for ( int iPos = 0; iPos < MAX_WEAPON_POSITIONS; iPos++ )
 			{
@@ -482,6 +511,9 @@ int CHudAmmo::DrawWList( float flTime )
 		}
 		else
 		{
+			if ( x + giBucketWidth > ScreenWidth )
+				break;
+
 			UnpackRGB( r, g, b, RGB_YELLOWISH );
 
 			for ( int iPos = 0; iPos < MAX_WEAPON_POSITIONS; iPos++ )
