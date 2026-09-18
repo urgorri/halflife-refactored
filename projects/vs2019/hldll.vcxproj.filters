@@ -513,9 +513,6 @@
     <ClCompile Include="..\..\dlls\gameplay\teamplay_gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\ai\tempmonster.cpp">
-      <Filter>Source Files\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\tentacle.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>

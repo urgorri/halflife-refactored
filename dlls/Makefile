@@ -238,7 +238,6 @@ OBJ = \
 	$(CORE_OBJDIR)/subs.o \
 	$(DLL_OBJDIR)/ai/talkmonster.o \
 	$(DLL_OBJDIR)/gameplay/teamplay_gamerules.o \
-	$(DLL_OBJDIR)/ai/tempmonster.o \
 	$(DLL_OBJDIR)/systems/trigger_relay.o \
 	$(DLL_OBJDIR)/systems/trigger_camera.o \
 	$(DLL_OBJDIR)/systems/trigger_base.o \
