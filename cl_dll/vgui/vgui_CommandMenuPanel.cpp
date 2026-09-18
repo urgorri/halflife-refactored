@@ -264,8 +264,6 @@ void CMenuHandler_StringCommandClassSelect::actionPerformed( Panel *panel )
 #endif
 }
 
-
-
 int TeamFortressViewport::CreateCommandMenu( char *menuFile, int direction, int yOffset, bool flatDesign, float flButtonSizeX, float flButtonSizeY, int xOffset )
 {
 	// COMMAND MENU
@@ -520,7 +518,6 @@ int TeamFortressViewport::CreateCommandMenu( char *menuFile, int direction, int 
 	return newIndex;
 }
 
-
 CCommandMenu *TeamFortressViewport::CreateDisguiseSubmenu( CommandButton *pButton, CCommandMenu *pParentMenu, const char *commandText, int iYOffset, int iXOffset )
 {
 	// create the submenu, under which the class choices will be listed
@@ -544,7 +541,6 @@ CCommandMenu *TeamFortressViewport::CreateDisguiseSubmenu( CommandButton *pButto
 
 	return pMenu;
 }
-
 
 CommandButton *TeamFortressViewport::CreateCustomButton( char *pButtonText, char *pButtonName, int iYOffset )
 {
@@ -843,7 +839,6 @@ CommandButton *TeamFortressViewport::CreateCustomButton( char *pButtonText, char
 
 	return pButton;
 }
-
 
 CCommandMenu *TeamFortressViewport::CreateSubMenu( CommandButton *pButton, CCommandMenu *pParentMenu, int iYOffset, int iXOffset )
 {

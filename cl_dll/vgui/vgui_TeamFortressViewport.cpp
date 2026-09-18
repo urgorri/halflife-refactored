@@ -198,7 +198,6 @@ char *GetVGUITGAName( const char *pszName )
 // COMMAND MENU
 //================================================================
 
-
 //-----------------------------------------------------------------------------
 // Purpose: Tries to find a button that has a key bound to the input, and
 //			presses the button if found
@@ -438,7 +437,6 @@ class CException;
 // Output : CommandButton
 //-----------------------------------------------------------------------------
 
-
 void TeamFortressViewport::ShowScoreBoard( void )
 {
 	if ( m_pScoreBoard )
@@ -669,7 +667,6 @@ void TeamFortressViewport::CreateScoreBoard( void )
 	m_pScoreBoard->setParent( this );
 	m_pScoreBoard->setVisible( false );
 }
-
 
 void TeamFortressViewport::UpdateOnPlayerInfo()
 {

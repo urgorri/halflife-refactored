@@ -42,6 +42,7 @@ noOperatorEq
 useInitializationList
 arrayIndexOutOfBoundsCond
 arrayIndexOutOfBounds
+arrayIndexThenCheck
 containerOutOfBounds
 derefInvalidIterator
 oppositeInnerCondition
@@ -51,6 +52,7 @@ invalidPrintfArgType_uint
 
 # Suppress macro parsing / syntax failures
 syntaxError
+unknownMacro
 
 # Suppress potential null pointer dereference warnings in legacy code
 nullPointer

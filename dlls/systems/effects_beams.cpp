@@ -181,7 +181,7 @@ void CBeam::TriggerTouch( CBaseEntity *pOther )
 
 CBaseEntity *CBeam::RandomTargetname( const char *szName )
 {
-	int total = 0;
+	int total               = 0;
 	CBaseEntity *pEntity    = NULL;
 	CBaseEntity *pNewEntity = NULL;
 	while ( ( pNewEntity = UTIL_FindEntityByTargetname( pNewEntity, szName ) ) != NULL )
@@ -236,10 +236,10 @@ void CBeam::BeamDamage( TraceResult *ptr )
 LINK_ENTITY_TO_CLASS( env_laser, CLaser );
 
 TYPEDESCRIPTION CLaser::m_SaveData[] =
-{
-	DEFINE_FIELD( CLaser, m_pSprite, FIELD_CLASSPTR ),
-	DEFINE_FIELD( CLaser, m_iszSpriteName, FIELD_STRING ),
-	DEFINE_FIELD( CLaser, m_firePosition, FIELD_POSITION_VECTOR ),
+    {
+        DEFINE_FIELD( CLaser, m_pSprite, FIELD_CLASSPTR ),
+        DEFINE_FIELD( CLaser, m_iszSpriteName, FIELD_STRING ),
+        DEFINE_FIELD( CLaser, m_firePosition, FIELD_POSITION_VECTOR ),
 };
 
 IMPLEMENT_SAVERESTORE( CLaser, CBeam );
@@ -397,20 +397,20 @@ LINK_ENTITY_TO_CLASS( env_lightning, CLightning );
 LINK_ENTITY_TO_CLASS( env_beam, CLightning );
 
 TYPEDESCRIPTION CLightning::m_SaveData[] =
-{
-	DEFINE_FIELD( CLightning, m_active, FIELD_INTEGER ),
-	DEFINE_FIELD( CLightning, m_iszStartEntity, FIELD_STRING ),
-	DEFINE_FIELD( CLightning, m_iszEndEntity, FIELD_STRING ),
-	DEFINE_FIELD( CLightning, m_life, FIELD_FLOAT ),
-	DEFINE_FIELD( CLightning, m_boltWidth, FIELD_INTEGER ),
-	DEFINE_FIELD( CLightning, m_noiseAmplitude, FIELD_INTEGER ),
-	DEFINE_FIELD( CLightning, m_brightness, FIELD_INTEGER ),
-	DEFINE_FIELD( CLightning, m_speed, FIELD_INTEGER ),
-	DEFINE_FIELD( CLightning, m_restrike, FIELD_FLOAT ),
-	DEFINE_FIELD( CLightning, m_spriteTexture, FIELD_INTEGER ),
-	DEFINE_FIELD( CLightning, m_iszSpriteName, FIELD_STRING ),
-	DEFINE_FIELD( CLightning, m_frameStart, FIELD_INTEGER ),
-	DEFINE_FIELD( CLightning, m_radius, FIELD_FLOAT ),
+    {
+        DEFINE_FIELD( CLightning, m_active, FIELD_INTEGER ),
+        DEFINE_FIELD( CLightning, m_iszStartEntity, FIELD_STRING ),
+        DEFINE_FIELD( CLightning, m_iszEndEntity, FIELD_STRING ),
+        DEFINE_FIELD( CLightning, m_life, FIELD_FLOAT ),
+        DEFINE_FIELD( CLightning, m_boltWidth, FIELD_INTEGER ),
+        DEFINE_FIELD( CLightning, m_noiseAmplitude, FIELD_INTEGER ),
+        DEFINE_FIELD( CLightning, m_brightness, FIELD_INTEGER ),
+        DEFINE_FIELD( CLightning, m_speed, FIELD_INTEGER ),
+        DEFINE_FIELD( CLightning, m_restrike, FIELD_FLOAT ),
+        DEFINE_FIELD( CLightning, m_spriteTexture, FIELD_INTEGER ),
+        DEFINE_FIELD( CLightning, m_iszSpriteName, FIELD_STRING ),
+        DEFINE_FIELD( CLightning, m_frameStart, FIELD_INTEGER ),
+        DEFINE_FIELD( CLightning, m_radius, FIELD_FLOAT ),
 };
 
 IMPLEMENT_SAVERESTORE( CLightning, CBeam );
@@ -563,7 +563,7 @@ void CLightning::StrikeUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_T
 
 	if ( m_active )
 	{
-		m_active       = 0;
+		m_active = 0;
 		SetThink( NULL );
 	}
 	else
@@ -758,11 +758,11 @@ void CLightning::BeamUpdateVars( void )
 	pointStart      = IsPointEntity( CBaseEntity::Instance( pStart ) );
 	pointEnd        = IsPointEntity( CBaseEntity::Instance( pEnd ) );
 
-	pev->skin        = 0;
-	pev->sequence    = 0;
-	pev->rendermode  = 0;
-	pev->flags      |= FL_CUSTOMENTITY;
-	pev->model       = m_iszSpriteName;
+	pev->skin       = 0;
+	pev->sequence   = 0;
+	pev->rendermode = 0;
+	pev->flags |= FL_CUSTOMENTITY;
+	pev->model = m_iszSpriteName;
 	SetTexture( m_spriteTexture );
 
 	beamType = BEAM_ENTS;
@@ -818,9 +818,9 @@ void CLightning::BeamUpdateVars( void )
 LINK_ENTITY_TO_CLASS( env_glow, CGlow );
 
 TYPEDESCRIPTION CGlow::m_SaveData[] =
-{
-	DEFINE_FIELD( CGlow, m_lastTime, FIELD_TIME ),
-	DEFINE_FIELD( CGlow, m_maxFrame, FIELD_FLOAT ),
+    {
+        DEFINE_FIELD( CGlow, m_lastTime, FIELD_TIME ),
+        DEFINE_FIELD( CGlow, m_maxFrame, FIELD_FLOAT ),
 };
 
 IMPLEMENT_SAVERESTORE( CGlow, CPointEntity );
@@ -862,9 +862,9 @@ void CGlow::Animate( float frames )
 LINK_ENTITY_TO_CLASS( env_sprite, CSprite );
 
 TYPEDESCRIPTION CSprite::m_SaveData[] =
-{
-	DEFINE_FIELD( CSprite, m_lastTime, FIELD_TIME ),
-	DEFINE_FIELD( CSprite, m_maxFrame, FIELD_FLOAT ),
+    {
+        DEFINE_FIELD( CSprite, m_lastTime, FIELD_TIME ),
+        DEFINE_FIELD( CSprite, m_maxFrame, FIELD_FLOAT ),
 };
 
 IMPLEMENT_SAVERESTORE( CSprite, CPointEntity );

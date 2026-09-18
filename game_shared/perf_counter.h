@@ -110,7 +110,7 @@ inline double CPerformanceCounter::GetCurTime()
 	else
 	{
 		curTicks = ( (unsigned int)PerformanceCount.LowPart >> m_iLowShift ) |
-		       ( (unsigned int)PerformanceCount.HighPart << ( 32 - m_iLowShift ) );
+		           ( (unsigned int)PerformanceCount.HighPart << ( 32 - m_iLowShift ) );
 	}
 
 	if ( first )

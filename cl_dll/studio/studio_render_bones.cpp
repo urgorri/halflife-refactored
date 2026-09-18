@@ -62,8 +62,8 @@ void CStudioModelRenderer::StudioCalcBoneAdj( float dadt, float *adj, const byte
 				if ( abs( pcontroller1[i] - pcontroller2[i] ) > 128 )
 				{
 					int a, b;
-					a = ( pcontroller1[i] + 128 ) % 256;
-					b = ( pcontroller2[i] + 128 ) % 256;
+					a     = ( pcontroller1[i] + 128 ) % 256;
+					b     = ( pcontroller2[i] + 128 ) % 256;
 					value = ( ( a * ( 1.0 - dadt ) + b * dadt ) - 128 ) * ( 360.0 / 256.0 ) + pbonecontroller[j].start;
 				}
 				else
@@ -583,7 +583,7 @@ void CStudioModelRenderer::StudioFxTransform( cl_entity_t *ent, float transform[
 			int axis = gEngfuncs.pfnRandomLong( 0, 1 );
 			if ( axis == 1 ) // Choose between axis
 				axis = 2;
-			offset               = gEngfuncs.pfnRandomFloat( -10, 10 );
+			offset = gEngfuncs.pfnRandomFloat( -10, 10 );
 			transform[axis][3] += offset;
 		}
 		break;

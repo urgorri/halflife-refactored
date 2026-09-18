@@ -325,7 +325,6 @@ void CRpg::UpdateSpot( void )
 #endif
 }
 
-
 #endif
 
 #ifndef CLIENT_DLL

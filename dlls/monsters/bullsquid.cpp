@@ -1164,4 +1164,3 @@ void CSquidSpit::Touch( CBaseEntity *pOther )
 	SetThink( &CSquidSpit::SUB_Remove );
 	pev->nextthink = gpGlobals->time;
 }
-

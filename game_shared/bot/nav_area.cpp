@@ -421,7 +421,7 @@ void GenerateNavigationAreaMesh( void )
  * Return true if 'pos' is within 2D extents of area.
  */
 
-	return true;
+return true;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -970,8 +970,8 @@ void CNavArea::DrawConnectedAreas( void )
  * Raise/lower a corner
  */
 
- */
-class PlaceFloodFillFunctor
+* /
+    class PlaceFloodFillFunctor
 {
   public:
 	PlaceFloodFillFunctor( CNavArea *area )
@@ -1892,4 +1892,3 @@ unsigned int CNavAreaGrid::GetPlace( const Vector *pos ) const
 
 	return UNDEFINED_PLACE;
 }
-

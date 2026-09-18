@@ -156,25 +156,23 @@ char PM_FindTextureType( char *name )
 }
 
 static const char *rgszStepSounds[STEP_LADDER + 1][5] = {
-	/* STEP_CONCRETE = 0 */ { "player/pl_step1.wav", "player/pl_step3.wav", "player/pl_step2.wav", "player/pl_step4.wav", NULL },
-	/* STEP_METAL    = 1 */ { "player/pl_metal1.wav", "player/pl_metal3.wav", "player/pl_metal2.wav", "player/pl_metal4.wav", NULL },
-	/* STEP_DIRT     = 2 */ { "player/pl_dirt1.wav", "player/pl_dirt3.wav", "player/pl_dirt2.wav", "player/pl_dirt4.wav", NULL },
-	/* STEP_VENT     = 3 */ { "player/pl_duct1.wav", "player/pl_duct3.wav", "player/pl_duct2.wav", "player/pl_duct4.wav", NULL },
-	/* STEP_GRATE    = 4 */ { "player/pl_grate1.wav", "player/pl_grate3.wav", "player/pl_grate2.wav", "player/pl_grate4.wav", NULL },
-	/* STEP_TILE     = 5 */ { "player/pl_tile1.wav", "player/pl_tile3.wav", "player/pl_tile2.wav", "player/pl_tile4.wav", "player/pl_tile5.wav" },
-	/* STEP_SLOSH    = 6 */ { "player/pl_slosh1.wav", "player/pl_slosh3.wav", "player/pl_slosh2.wav", "player/pl_slosh4.wav", NULL },
-	/* STEP_WADE     = 7 */ { "player/pl_wade1.wav", "player/pl_wade2.wav", "player/pl_wade3.wav", "player/pl_wade4.wav", NULL },
-	/* STEP_LADDER   = 8 */ { "player/pl_ladder1.wav", "player/pl_ladder3.wav", "player/pl_ladder2.wav", "player/pl_ladder4.wav", NULL }
-};
+    /* STEP_CONCRETE = 0 */ { "player/pl_step1.wav", "player/pl_step3.wav", "player/pl_step2.wav", "player/pl_step4.wav", NULL },
+    /* STEP_METAL    = 1 */ { "player/pl_metal1.wav", "player/pl_metal3.wav", "player/pl_metal2.wav", "player/pl_metal4.wav", NULL },
+    /* STEP_DIRT     = 2 */ { "player/pl_dirt1.wav", "player/pl_dirt3.wav", "player/pl_dirt2.wav", "player/pl_dirt4.wav", NULL },
+    /* STEP_VENT     = 3 */ { "player/pl_duct1.wav", "player/pl_duct3.wav", "player/pl_duct2.wav", "player/pl_duct4.wav", NULL },
+    /* STEP_GRATE    = 4 */ { "player/pl_grate1.wav", "player/pl_grate3.wav", "player/pl_grate2.wav", "player/pl_grate4.wav", NULL },
+    /* STEP_TILE     = 5 */ { "player/pl_tile1.wav", "player/pl_tile3.wav", "player/pl_tile2.wav", "player/pl_tile4.wav", "player/pl_tile5.wav" },
+    /* STEP_SLOSH    = 6 */ { "player/pl_slosh1.wav", "player/pl_slosh3.wav", "player/pl_slosh2.wav", "player/pl_slosh4.wav", NULL },
+    /* STEP_WADE     = 7 */ { "player/pl_wade1.wav", "player/pl_wade2.wav", "player/pl_wade3.wav", "player/pl_wade4.wav", NULL },
+    /* STEP_LADDER   = 8 */ { "player/pl_ladder1.wav", "player/pl_ladder3.wav", "player/pl_ladder2.wav", "player/pl_ladder4.wav", NULL } };
 
 void PM_PlayWadeSound( float fvol )
 {
 	static const char *rgszWadeSounds[4] = {
-		"player/pl_wade1.wav",
-		"player/pl_wade2.wav",
-		"player/pl_wade3.wav",
-		"player/pl_wade4.wav"
-	};
+	    "player/pl_wade1.wav",
+	    "player/pl_wade2.wav",
+	    "player/pl_wade3.wav",
+	    "player/pl_wade4.wav" };
 	int idx = pmove->RandomLong( 0, 3 );
 	pmove->PM_PlaySound( CHAN_BODY, rgszWadeSounds[idx], fvol, ATTN_NORM, 0, PITCH_NORM );
 }
@@ -411,8 +409,6 @@ void PM_UpdateStepSound( void )
 		PM_PlayStepSound( step, fvol );
 	}
 }
-
-
 
 /*
 =================

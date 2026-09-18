@@ -203,7 +203,7 @@ int CGraph ::LinkVisibleNodes( CLink *pLinkPool, FILE *file, int *piBadNode )
 		fprintf( file, "----------------------------------------------------------------------------\n" );
 	}
 
-	cTotalLinks = 0; // start with no connections
+	cTotalLinks      = 0; // start with no connections
 	cMaxInitialLinks = 0;
 
 	for ( i = 0; i < m_cNodes; i++ )

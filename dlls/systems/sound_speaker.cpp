@@ -1,6 +1,5 @@
 #include "sound_local.h"
 
-
 class CSpeaker : public CBaseEntity
 {
   public:

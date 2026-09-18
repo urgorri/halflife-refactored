@@ -295,7 +295,6 @@ BOOL CHalfLifeMultiplay::FPlayerCanTakeDamage( CBasePlayer *pPlayer, CBaseEntity
 
 //=========================================================
 
-
 //=========================================================
 //=========================================================
 int CHalfLifeMultiplay::PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget )
@@ -839,7 +838,6 @@ void CHalfLifeMultiplay ::ChangeLevel( void )
 		SERVER_COMMAND( szCommands );
 	}
 }
-
 
 //=========================================================
 //=========================================================

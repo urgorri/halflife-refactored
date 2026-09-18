@@ -57,7 +57,6 @@ void V_InterpolateAngles( float *start, float *end, float *output, float frac )
     V_NormalizeAngles( output );
 } */
 
-
 void V_SmoothInterpolateAngles( float *startAngle, float *endAngle, float *finalAngle, float degreesPerSec )
 {
 	float absd, frac, d, threshhold;
@@ -599,7 +598,6 @@ void V_GetMapChasePosition( int target, float *cl_angles, float *origin, float *
 	VectorMA( origin, -1536, forward, origin );
 }
 
-
 /*
 ==================
 V_CalcSpectatorRefdef
@@ -782,8 +780,8 @@ void V_CalcSpectatorRefdef( struct ref_params_s *pparams )
 
 	// write back new values into pparams
 	VectorCopy( v_cl_angles, pparams->cl_viewangles );
-	VectorCopy( v_angles, pparams->viewangles )
-	    VectorCopy( v_origin, pparams->vieworg );
+	VectorCopy( v_angles, pparams->viewangles );
+	VectorCopy( v_origin, pparams->vieworg );
 }
 
 #if defined( TRACE_TEST )

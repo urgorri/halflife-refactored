@@ -490,8 +490,8 @@ LINK_ENTITY_TO_CLASS( trigger_transition, CTriggerVolume );
 
 void CTriggerVolume::Spawn( void )
 {
-	pev->solid      = SOLID_NOT;
-	pev->movetype   = MOVETYPE_NONE;
+	pev->solid    = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
 	SET_MODEL( ENT( pev ), STRING( pev->model ) );
 	pev->model      = NULL;
 	pev->modelindex = 0;
@@ -905,7 +905,7 @@ int CChangeLevel::AddTransitionToList( LEVELLIST *pLevelList, int listCount, con
 	}
 	strcpy( pLevelList[listCount].mapName, pMapName );
 	strcpy( pLevelList[listCount].landmarkName, pLandmarkName );
-	pLevelList[listCount].pentLandmark = pentLandmark;
+	pLevelList[listCount].pentLandmark      = pentLandmark;
 	pLevelList[listCount].vecLandmarkOrigin = VARS( pentLandmark )->origin;
 
 	return 1;

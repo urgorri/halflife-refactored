@@ -31,8 +31,6 @@
 #include <ctype.h>
 #endif
 
-
-
 //=========================================================
 //=========================================================
 BOOL CHalfLifeMultiplay::FShouldSwitchWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pWeapon )

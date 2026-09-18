@@ -422,7 +422,7 @@ int CHudAmmo::DrawWList( float flTime )
 
 		ScaleColors( r, g, b, 255 );
 
-		int iBucketSpr = ( i < MAX_WEAPON_SLOTS && m_HUD_buckets[i] >= 0 ) ? m_HUD_buckets[i] : ( m_HUD_bucket0 + i );
+		int iBucketSpr  = ( i < MAX_WEAPON_SLOTS && m_HUD_buckets[i] >= 0 ) ? m_HUD_buckets[i] : ( m_HUD_bucket0 + i );
 		HSPRITE hBucket = gHUD.GetSprite( iBucketSpr );
 		if ( hBucket )
 		{

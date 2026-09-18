@@ -1641,13 +1641,13 @@ void CHudSpectator::SetModes( int iNewMainMode, int iNewInsetMode )
 			break;
 
 		case OBS_MAP_FREE:
-			g_iUser1 = OBS_MAP_FREE;
+			g_iUser1    = OBS_MAP_FREE;
 			m_mapZoom   = m_OverviewData.zoom;
 			m_mapOrigin = m_OverviewData.origin;
 			break;
 
 		case OBS_MAP_CHASE:
-			g_iUser1 = OBS_MAP_CHASE;
+			g_iUser1    = OBS_MAP_CHASE;
 			m_mapZoom   = m_OverviewData.zoom;
 			m_mapOrigin = m_OverviewData.origin;
 			break;

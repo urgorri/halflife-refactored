@@ -330,7 +330,6 @@ void CBaseMonster ::RadiusDamage( Vector vecSrc, entvars_t *pevInflictor, entvar
 //
 // Used for many contact-range melee attacks. Bites, claws, etc.
 
-
 void CBaseEntity ::TraceBleed( float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType )
 {
 	if ( BloodColor() == DONT_BLEED )

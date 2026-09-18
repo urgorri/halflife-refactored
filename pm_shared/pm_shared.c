@@ -28,8 +28,8 @@ extern float vJumpAngles[3];
 #endif
 
 static int pm_shared_initialized = 0;
-playermove_t *pmove = NULL;
-int g_onladder = 0;
+playermove_t *pmove              = NULL;
+int g_onladder                   = 0;
 
 /*
 ===============
@@ -457,7 +457,6 @@ void PM_PlayerMove( qboolean server )
 		break;
 	}
 }
-
 
 void PM_Move( struct playermove_s *ppmove, int server )
 {

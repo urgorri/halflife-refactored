@@ -34,4 +34,3 @@ class CMP5 : public CBasePlayerWeapon
 	unsigned short m_usMP5;
 	unsigned short m_usMP52;
 };
-

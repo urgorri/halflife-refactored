@@ -215,4 +215,3 @@ void CGlock::WeaponIdle( void )
 		SendWeaponAnim( iAnim, 1 );
 	}
 }
-

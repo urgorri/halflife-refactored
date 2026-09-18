@@ -31,7 +31,6 @@
 #include "ai/defaultai.h"
 #include "ai/schedule.h"
 
-
 //=========================================================
 // FBecomeProne - tries to send a monster into PRONE state.
 // right now only used when a barnacle snatches someone, so

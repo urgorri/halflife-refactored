@@ -277,4 +277,3 @@ void CPython::WeaponIdle( void )
 }
 
 #endif
-

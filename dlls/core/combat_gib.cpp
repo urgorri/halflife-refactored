@@ -334,7 +334,6 @@ void CBaseMonster ::GibMonster( void )
 //=========================================================
 // GetDeathActivity - determines the best type of death
 
-
 BOOL CBaseMonster::ShouldGibMonster( int iGib )
 {
 	if ( ( iGib == GIB_NORMAL && pev->health < GIB_HEALTH_VALUE ) || ( iGib == GIB_ALWAYS ) )
@@ -546,4 +545,3 @@ void CGib ::Spawn( const char *szGibModel )
 	m_material     = matNone;
 	m_cBloodDecals = 5; // how many blood decals this gib can place (1 per bounce until none remain).
 }
-

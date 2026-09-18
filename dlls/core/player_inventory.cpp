@@ -1,17 +1,17 @@
 /***
-*
-*	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*
-*	This product contains software technology licensed from Id
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, and modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
+ *
+ *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
+ *
+ *	This product contains software technology licensed from Id
+ *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
+ *	All Rights Reserved.
+ *
+ *   Use, distribution, and modification of this source code and/or resulting
+ *   object code is restricted to non-commercial enhancements to products from
+ *   Valve LLC.  All other use, distribution, and modification is prohibited
+ *   without written permission from Valve LLC.
+ *
+ ****/
 
 #include "extdll.h"
 #include "util.h"
@@ -20,7 +20,6 @@
 #include "weapons/weapon_base.h"
 #include "player_inventory.h"
 #include "gameplay/gamerules.h"
-
 
 extern int gmsgFlashlight;
 extern int gmsgFlashBattery;
@@ -43,14 +42,12 @@ extern DLL_GLOBAL int gDisplayTitle;
 extern bool IsBustingGame();
 extern cvar_t weaponstay;
 
-
 #ifndef OBS_ROAMING
 #define OBS_ROAMING 1
 #endif
 
 extern DLL_GLOBAL ULONG g_ulModelIndexPlayer;
 extern DLL_GLOBAL BOOL g_fGameOver;
-
 
 //=========================================================
 // PackDeadPlayerItems - call this when a player dies to
@@ -723,7 +720,6 @@ void CBasePlayer::SendAmmoUpdate( void )
 		}
 	}
 }
-
 
 //=========================================================
 // DropPlayerItem - drop the named item, or if no name,

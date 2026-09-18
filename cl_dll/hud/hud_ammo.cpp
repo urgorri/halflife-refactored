@@ -316,7 +316,7 @@ int CHudAmmo::VidInit( void )
 		char szBucket[16];
 		sprintf( szBucket, "bucket%d", i + 1 );
 		m_HUD_buckets[i] = gHUD.GetSpriteIndex( szBucket );
-		if ( m_HUD_buckets[i] < 0 && i < 5 && m_HUD_bucket0 >= 0 )
+		if ( i < 5 && m_HUD_buckets[i] < 0 && m_HUD_bucket0 >= 0 )
 		{
 			m_HUD_buckets[i] = m_HUD_bucket0 + i;
 		}
@@ -660,7 +660,6 @@ client_sprite_t *GetSpriteList( client_sprite_t *pList, const char *psz, int iRe
 	return NULL;
 }
 
-
 //=========================================================
 // Secondary Ammo HUD Implementation
 //=========================================================
@@ -796,7 +795,6 @@ int CHudAmmoSecondary ::MsgFunc_SecAmmoVal( const char *pszName, int iSize, void
 
 	return 1;
 }
-
 
 //=========================================================
 // Ammo & Item Pickup History HUD Implementation

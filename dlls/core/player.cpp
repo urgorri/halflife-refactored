@@ -68,7 +68,6 @@ extern CGraph WorldGraph;
 #define TRAIN_FAST 0x04
 #define TRAIN_BACK 0x05
 
-
 // Global Savedata for player
 TYPEDESCRIPTION CBasePlayer::m_playerSaveData[] =
     {
@@ -148,9 +147,7 @@ TYPEDESCRIPTION CBasePlayer::m_playerSaveData[] =
 
 };
 
-
 #include "core/player_network.h"
-
 
 Vector CBasePlayer ::GetGunPosition()
 {
@@ -344,14 +341,12 @@ all the ammo we have into the ammo vars.
 ============
 */
 
-
 /*
 ===========
 WaterMove
 ============
 */
 #define AIRTIME 12 // lung full of air lasts this many seconds
-
 
 // TRUE if the player is attached to a ladder
 BOOL CBasePlayer::IsOnLadder( void )
@@ -822,9 +817,6 @@ void CBasePlayer::UpdateStatusBar()
 // #define SLOWFREEZE_DURATION	1.0
 // #define SLOWFREEZE_DAMAGE	3.0
 
-
-
-
 // checks if the spot is clear of players
 BOOL IsSpawnPointValid( CBaseEntity *pPlayer, CBaseEntity *pSpot )
 {
@@ -1108,7 +1100,6 @@ int CBasePlayer::Save( CSave &save )
 	return save.WriteFields( "PLAYER", this, m_playerSaveData, ARRAYSIZE( m_playerSaveData ) );
 }
 
-
 int CBasePlayer::Restore( CRestore &restore )
 {
 	if ( !CBaseMonster::Restore( restore ) )
@@ -1175,11 +1166,6 @@ int CBasePlayer::Restore( CRestore &restore )
 	return status;
 }
 
-
-
-
-
-
 const char *CBasePlayer::TeamID( void )
 {
 	if ( pev == NULL ) // Not fully connected yet
@@ -1188,7 +1174,6 @@ const char *CBasePlayer::TeamID( void )
 	// return their team name
 	return m_szTeamName;
 }
-
 
 CBaseEntity *FindEntityForward( CBaseEntity *pMe )
 {
@@ -1203,7 +1188,6 @@ CBaseEntity *FindEntityForward( CBaseEntity *pMe )
 	}
 	return NULL;
 }
-
 
 /*
 ===============
@@ -1234,13 +1218,8 @@ ImpulseCommands
 ============
 */
 
-
 //=========================================================
 //=========================================================
-
-
-
-
 
 /*
 ============
@@ -1249,7 +1228,6 @@ ItemPreFrame
 Called every frame by the player PreThink
 ============
 */
-
 
 /*
 ============

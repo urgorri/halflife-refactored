@@ -148,148 +148,142 @@ void CItem::Materialize( void )
 #define SF_SUIT_SHORTLOGON 0x0001
 
 IMPLEMENT_WORLD_ITEM(
-	CItemSuit,
-	item_suit,
-	"models/w_suit.mdl",
-	{},
-	{
-		if ( pPlayer->pev->weapons & ( 1 << WEAPON_SUIT ) )
-			return FALSE;
+    CItemSuit,
+    item_suit,
+    "models/w_suit.mdl",
+    {},
+    {
+	    if ( pPlayer->pev->weapons & ( 1 << WEAPON_SUIT ) )
+		    return FALSE;
 
-		if ( pev->spawnflags & SF_SUIT_SHORTLOGON )
-			EMIT_SOUND_SUIT( pPlayer->edict(), "!HEV_A0" );
-		else
-			EMIT_SOUND_SUIT( pPlayer->edict(), "!HEV_AAx" );
+	    if ( pev->spawnflags & SF_SUIT_SHORTLOGON )
+		    EMIT_SOUND_SUIT( pPlayer->edict(), "!HEV_A0" );
+	    else
+		    EMIT_SOUND_SUIT( pPlayer->edict(), "!HEV_AAx" );
 
-		pPlayer->pev->weapons |= ( 1 << WEAPON_SUIT );
-		return TRUE;
-	}
-)
-
-IMPLEMENT_WORLD_ITEM(
-	CItemBattery,
-	item_battery,
-	"models/w_battery.mdl",
-	{
-		PRECACHE_SOUND( "items/gunpickup2.wav" );
-	},
-	{
-		if ( pPlayer->pev->deadflag != DEAD_NO )
-		{
-			return FALSE;
-		}
-
-		if ( ( pPlayer->pev->armorvalue < MAX_NORMAL_BATTERY ) &&
-		     ( pPlayer->pev->weapons & ( 1 << WEAPON_SUIT ) ) )
-		{
-			int pct;
-			char szcharge[64];
-
-			pPlayer->pev->armorvalue += gSkillData.batteryCapacity;
-			pPlayer->pev->armorvalue = min< float >( pPlayer->pev->armorvalue, MAX_NORMAL_BATTERY );
-
-			EMIT_SOUND( pPlayer->edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
-
-			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
-			WRITE_STRING( STRING( pev->classname ) );
-			MESSAGE_END();
-
-			pct = (int)( (float)( pPlayer->pev->armorvalue * 100.0 ) * ( 1.0 / MAX_NORMAL_BATTERY ) + 0.5 );
-			pct = ( pct / 5 );
-			if ( pct > 0 )
-				pct--;
-
-			sprintf( szcharge, "!HEV_%1dP", pct );
-			pPlayer->SetSuitUpdate( szcharge, FALSE, SUIT_NEXT_IN_30SEC );
-			return TRUE;
-		}
-		return FALSE;
-	}
-)
+	    pPlayer->pev->weapons |= ( 1 << WEAPON_SUIT );
+	    return TRUE;
+    } )
 
 IMPLEMENT_WORLD_ITEM(
-	CHealthKit,
-	item_healthkit,
-	"models/w_medkit.mdl",
-	{
-		PRECACHE_SOUND( "items/smallmedkit1.wav" );
-	},
-	{
-		if ( pPlayer->pev->deadflag != DEAD_NO )
-		{
-			return FALSE;
-		}
+    CItemBattery,
+    item_battery,
+    "models/w_battery.mdl",
+    {
+	    PRECACHE_SOUND( "items/gunpickup2.wav" );
+    },
+    {
+	    if ( pPlayer->pev->deadflag != DEAD_NO )
+	    {
+		    return FALSE;
+	    }
 
-		if ( pPlayer->TakeHealth( gSkillData.healthkitCapacity, DMG_GENERIC ) )
-		{
-			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
-			WRITE_STRING( STRING( pev->classname ) );
-			MESSAGE_END();
+	    if ( ( pPlayer->pev->armorvalue < MAX_NORMAL_BATTERY ) &&
+	         ( pPlayer->pev->weapons & ( 1 << WEAPON_SUIT ) ) )
+	    {
+		    int pct;
+		    char szcharge[64];
 
-			EMIT_SOUND( ENT( pPlayer->pev ), CHAN_ITEM, "items/smallmedkit1.wav", 1, ATTN_NORM );
+		    pPlayer->pev->armorvalue += gSkillData.batteryCapacity;
+		    pPlayer->pev->armorvalue = min< float >( pPlayer->pev->armorvalue, MAX_NORMAL_BATTERY );
 
-			if ( g_pGameRules->ItemShouldRespawn( this ) )
-			{
-				Respawn();
-			}
-			else
-			{
-				UTIL_Remove( this );
-			}
+		    EMIT_SOUND( pPlayer->edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
 
-			return TRUE;
-		}
-		return FALSE;
-	}
-)
+		    MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+		    WRITE_STRING( STRING( pev->classname ) );
+		    MESSAGE_END();
 
-IMPLEMENT_WORLD_ITEM(
-	CItemAntidote,
-	item_antidote,
-	"models/w_antidote.mdl",
-	{},
-	{
-		pPlayer->SetSuitUpdate( "!HEV_DET4", FALSE, SUIT_NEXT_IN_1MIN );
-		pPlayer->m_rgItems[ITEM_ANTIDOTE] += 1;
-		return TRUE;
-	}
-)
+		    pct = (int)( (float)( pPlayer->pev->armorvalue * 100.0 ) * ( 1.0 / MAX_NORMAL_BATTERY ) + 0.5 );
+		    pct = ( pct / 5 );
+		    if ( pct > 0 )
+			    pct--;
+
+		    sprintf( szcharge, "!HEV_%1dP", pct );
+		    pPlayer->SetSuitUpdate( szcharge, FALSE, SUIT_NEXT_IN_30SEC );
+		    return TRUE;
+	    }
+	    return FALSE;
+    } )
 
 IMPLEMENT_WORLD_ITEM(
-	CItemSecurity,
-	item_security,
-	"models/w_security.mdl",
-	{},
-	{
-		pPlayer->m_rgItems[ITEM_SECURITY] += 1;
-		return TRUE;
-	}
-)
+    CHealthKit,
+    item_healthkit,
+    "models/w_medkit.mdl",
+    {
+	    PRECACHE_SOUND( "items/smallmedkit1.wav" );
+    },
+    {
+	    if ( pPlayer->pev->deadflag != DEAD_NO )
+	    {
+		    return FALSE;
+	    }
+
+	    if ( pPlayer->TakeHealth( gSkillData.healthkitCapacity, DMG_GENERIC ) )
+	    {
+		    MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+		    WRITE_STRING( STRING( pev->classname ) );
+		    MESSAGE_END();
+
+		    EMIT_SOUND( ENT( pPlayer->pev ), CHAN_ITEM, "items/smallmedkit1.wav", 1, ATTN_NORM );
+
+		    if ( g_pGameRules->ItemShouldRespawn( this ) )
+		    {
+			    Respawn();
+		    }
+		    else
+		    {
+			    UTIL_Remove( this );
+		    }
+
+		    return TRUE;
+	    }
+	    return FALSE;
+    } )
 
 IMPLEMENT_WORLD_ITEM(
-	CItemLongJump,
-	item_longjump,
-	"models/w_longjump.mdl",
-	{},
-	{
-		if ( pPlayer->m_fLongJump )
-		{
-			return FALSE;
-		}
+    CItemAntidote,
+    item_antidote,
+    "models/w_antidote.mdl",
+    {},
+    {
+	    pPlayer->SetSuitUpdate( "!HEV_DET4", FALSE, SUIT_NEXT_IN_1MIN );
+	    pPlayer->m_rgItems[ITEM_ANTIDOTE] += 1;
+	    return TRUE;
+    } )
 
-		if ( ( pPlayer->pev->weapons & ( 1 << WEAPON_SUIT ) ) )
-		{
-			pPlayer->m_fLongJump = TRUE;
+IMPLEMENT_WORLD_ITEM(
+    CItemSecurity,
+    item_security,
+    "models/w_security.mdl",
+    {},
+    {
+	    pPlayer->m_rgItems[ITEM_SECURITY] += 1;
+	    return TRUE;
+    } )
 
-			g_engfuncs.pfnSetPhysicsKeyValue( pPlayer->edict(), "slj", "1" );
+IMPLEMENT_WORLD_ITEM(
+    CItemLongJump,
+    item_longjump,
+    "models/w_longjump.mdl",
+    {},
+    {
+	    if ( pPlayer->m_fLongJump )
+	    {
+		    return FALSE;
+	    }
 
-			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
-			WRITE_STRING( STRING( pev->classname ) );
-			MESSAGE_END();
+	    if ( ( pPlayer->pev->weapons & ( 1 << WEAPON_SUIT ) ) )
+	    {
+		    pPlayer->m_fLongJump = TRUE;
 
-			EMIT_SOUND_SUIT( pPlayer->edict(), "!HEV_A1" );
-			return TRUE;
-		}
-		return FALSE;
-	}
-)
+		    g_engfuncs.pfnSetPhysicsKeyValue( pPlayer->edict(), "slj", "1" );
+
+		    MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+		    WRITE_STRING( STRING( pev->classname ) );
+		    MESSAGE_END();
+
+		    EMIT_SOUND_SUIT( pPlayer->edict(), "!HEV_A1" );
+		    return TRUE;
+	    }
+	    return FALSE;
+    } )

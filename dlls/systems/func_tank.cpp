@@ -877,4 +877,3 @@ void CFuncTankRocket::Fire( const Vector &barrelEnd, const Vector &forward, entv
 	else
 		CFuncTank::Fire( barrelEnd, forward, pev );
 }
-

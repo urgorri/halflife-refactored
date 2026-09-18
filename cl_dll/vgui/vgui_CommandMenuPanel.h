@@ -1,14 +1,11 @@
 #ifndef VGUI_COMMANDMENUPANEL_H
 #define VGUI_COMMANDMENUPANEL_H
 
-
 #include <VGUI_Panel.h>
 #include <VGUI_ActionSignal.h>
 #include <VGUI_InputSignal.h>
 #include <VGUI_Button.h>
 #include "vgui_TeamFortressViewport.h" // Since many handlers depend on gViewPort and macros like MAX_COMMAND_SIZE
-
-
 
 class CommandButton;
 class Button;
@@ -214,7 +211,6 @@ class CMenuHandler_LabelInput : public vgui::InputSignal
 	virtual void keyReleased( vgui::KeyCode code, vgui::Panel *panel ) {};
 	virtual void keyFocusTicked( vgui::Panel *panel ) {};
 };
-
 
 #define HIDE_TEXTWINDOW 0
 #define SHOW_MAPBRIEFING 1

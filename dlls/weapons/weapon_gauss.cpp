@@ -607,7 +607,6 @@ void CGauss::WeaponIdle( void )
 
 #endif
 
-
 #ifndef CLIENT_DLL
 
 TYPEDESCRIPTION CGauss::m_SaveData[] =

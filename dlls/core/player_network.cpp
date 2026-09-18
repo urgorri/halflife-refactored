@@ -7,7 +7,6 @@
 #include "core/game.h"
 #include "player_network.h"
 
-
 #include "pm_shared.h"
 
 extern bool IsBustingGame();
@@ -35,7 +34,6 @@ extern int gmsgLogo;
 // these globals are accessed:
 extern int gInitHUD;
 extern int gDisplayTitle;
-
 
 /*
 =========================================================

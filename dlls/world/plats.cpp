@@ -527,4 +527,3 @@ void CFuncPlatRot ::RotMove( Vector &destAngle, float time )
 		pev->nextthink = pev->ltime + 1;
 	}
 }
-

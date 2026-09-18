@@ -247,7 +247,6 @@ class CBaseEntity;
 // Misc. Prototypes
 extern void UTIL_SetSize( entvars_t *pev, const Vector &vecMin, const Vector &vecMax );
 
-
 // returns a CBaseEntity pointer to a player by index.  Only returns if the player is spawned and connected
 // otherwise returns NULL
 // Index is 1 based
@@ -295,7 +294,6 @@ extern char *UTIL_VarArgs( char *format, ... );
 extern void UTIL_Remove( CBaseEntity *pEntity );
 extern BOOL UTIL_IsValidEntity( edict_t *pent );
 extern BOOL UTIL_TeamsMatch( const char *pTeamName1, const char *pTeamName2 );
-
 
 // Search for water transition along a vertical line
 extern float UTIL_WaterLevel( const Vector &position, float minz, float maxz );
@@ -521,9 +519,5 @@ void EMIT_GROUPNAME_SUIT( edict_t *entity, const char *groupname );
 
 #define GROUP_OP_AND 0
 #define GROUP_OP_NAND 1
-
-
-
-
 
 float UTIL_WeaponTimeBase( void );

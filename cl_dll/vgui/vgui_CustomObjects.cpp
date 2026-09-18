@@ -413,7 +413,6 @@ void CImageLabel::LoadImage( const char *pImageName )
 //===========================================================
 // Various overloaded paint functions for Custom VGUI objects
 
-
 //=================================================================================
 // CUSTOM SCROLLPANEL
 //=================================================================================

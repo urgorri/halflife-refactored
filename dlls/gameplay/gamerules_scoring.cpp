@@ -31,7 +31,6 @@
 #include <ctype.h>
 #endif
 
-
 // IPointsForKill - how many points awarded to anyone
 // that kills this player?
 //=========================================================
@@ -375,4 +374,3 @@ void CHalfLifeMultiplay ::ClientUserInfoChanged( CBasePlayer *pPlayer, char *inf
 	// Set preferences
 	pPlayer->SetPrefsFromUserinfo( infobuffer );
 }
-

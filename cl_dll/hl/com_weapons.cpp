@@ -128,7 +128,7 @@ Directly queue up an event on the client
 =====================
 */
 void HUD_PlaybackEvent( int flags, const edict_t *pInvoker, unsigned short eventindex, float delay,
-	float *origin, float *angles, float fparam1, float fparam2, int iparam1, int iparam2, int bparam1, int bparam2 )
+                        float *origin, float *angles, float fparam1, float fparam2, int iparam1, int iparam2, int bparam1, int bparam2 )
 {
 	vec3_t org;
 	vec3_t ang;
@@ -224,8 +224,8 @@ float UTIL_SharedRandomFloat( unsigned int seed, float low, float high )
 	unsigned int range;
 
 	int low_bits, high_bits;
-	std::memcpy(&low_bits, &low, sizeof(low));
-	std::memcpy(&high_bits, &high, sizeof(high));
+	std::memcpy( &low_bits, &low, sizeof( low ) );
+	std::memcpy( &high_bits, &high, sizeof( high ) );
 	U_Srand( (int)seed + low_bits + high_bits );
 
 	U_Random();

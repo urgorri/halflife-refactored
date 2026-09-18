@@ -14,25 +14,25 @@ class CItem : public CBaseEntity
 };
 
 #define IMPLEMENT_WORLD_ITEM( className, entityName, modelPath, precacheCode, touchBody ) \
-class className : public CItem                                                            \
-{                                                                                         \
-  public:                                                                                 \
-	void Spawn( void ) override                                                           \
+	class className : public CItem                                                        \
 	{                                                                                     \
-		Precache();                                                                       \
-		SET_MODEL( ENT( pev ), modelPath );                                               \
-		CItem::Spawn();                                                                   \
-	}                                                                                     \
-	void Precache( void ) override                                                        \
-	{                                                                                     \
-		PRECACHE_MODEL( (char *)modelPath );                                              \
-		precacheCode                                                                      \
-	}                                                                                     \
-	BOOL MyTouch( CBasePlayer *pPlayer ) override                                         \
-	{                                                                                     \
-		touchBody                                                                         \
-	}                                                                                     \
-};                                                                                        \
-LINK_ENTITY_TO_CLASS( entityName, className );
+	  public:                                                                             \
+		void Spawn( void ) override                                                       \
+		{                                                                                 \
+			Precache();                                                                   \
+			SET_MODEL( ENT( pev ), modelPath );                                           \
+			CItem::Spawn();                                                               \
+		}                                                                                 \
+		void Precache( void ) override                                                    \
+		{                                                                                 \
+			PRECACHE_MODEL( (char *)modelPath );                                          \
+			precacheCode                                                                  \
+		}                                                                                 \
+		BOOL MyTouch( CBasePlayer *pPlayer ) override                                     \
+		{                                                                                 \
+			touchBody                                                                     \
+		}                                                                                 \
+	};                                                                                    \
+	LINK_ENTITY_TO_CLASS( entityName, className );
 
 #endif // ITEM_BASE_H

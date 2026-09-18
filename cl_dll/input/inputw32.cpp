@@ -541,7 +541,7 @@ void IN_StartupJoystick( void )
 		joy_numbuttons     = SDL_CONTROLLER_BUTTON_MAX;
 		joy_haspov         = 0;
 		joy_oldbuttonstate = joy_oldpovstate = 0;
-		joy_advancedinit   = 0;
+		joy_advancedinit                     = 0;
 	}
 }
 

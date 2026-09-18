@@ -41,7 +41,6 @@ void PM_AirMove( void )
 	PM_FlyMove();
 }
 
-
 /*
 ===============
 PM_SpectatorMove
@@ -168,7 +167,6 @@ void PM_SpectatorMove( void )
 		VectorCopy( vec3_origin, pmove->velocity );
 	}
 }
-
 
 /*
 ============
@@ -462,8 +460,6 @@ void PM_Jump( void )
 	// Flag that we jumped.
 	pmove->oldbuttons |= IN_JUMP; // don't jump again until released
 }
-
-
 
 void PM_CheckFalling( void )
 {

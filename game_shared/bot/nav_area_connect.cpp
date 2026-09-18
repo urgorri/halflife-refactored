@@ -1476,40 +1476,39 @@ bool CNavArea::IsEdge( NavDirType dir ) const
 			return false;
 	}
 
-
-void CNavArea::RaiseCorner( NavCornerType corner, int amount )
-{
-	if ( corner == NUM_CORNERS )
+	void CNavArea::RaiseCorner( NavCornerType corner, int amount )
 	{
-		m_extent.lo.z += amount;
-		m_extent.hi.z += amount;
-		m_neZ += amount;
-		m_swZ += amount;
-	}
-	else
-	{
-		switch ( corner )
+		if ( corner == NUM_CORNERS )
 		{
-		case NORTH_WEST:
 			m_extent.lo.z += amount;
-			break;
-		case NORTH_EAST:
-			m_neZ += amount;
-			break;
-		case SOUTH_WEST:
-			m_swZ += amount;
-			break;
-		case SOUTH_EAST:
 			m_extent.hi.z += amount;
-			break;
+			m_neZ += amount;
+			m_swZ += amount;
 		}
+		else
+		{
+			switch ( corner )
+			{
+			case NORTH_WEST:
+				m_extent.lo.z += amount;
+				break;
+			case NORTH_EAST:
+				m_neZ += amount;
+				break;
+			case SOUTH_WEST:
+				m_swZ += amount;
+				break;
+			case SOUTH_EAST:
+				m_extent.hi.z += amount;
+				break;
+			}
+		}
+
+		m_center.x = ( m_extent.lo.x + m_extent.hi.x ) / 2.0f;
+		m_center.y = ( m_extent.lo.y + m_extent.hi.y ) / 2.0f;
+		m_center.z = ( m_extent.lo.z + m_extent.hi.z ) / 2.0f;
 	}
 
-	m_center.x = ( m_extent.lo.x + m_extent.hi.x ) / 2.0f;
-	m_center.y = ( m_extent.lo.y + m_extent.hi.y ) / 2.0f;
-	m_center.z = ( m_extent.lo.z + m_extent.hi.z ) / 2.0f;
-}
-
-/**
+	/**
  * Flood fills all areas with current place
 
