@@ -75,10 +75,6 @@ void CFuncTrackChange ::Precache( void )
 // Filter touch entity collisions before re-evaluating track train
 void CFuncTrackChange ::Touch( CBaseEntity *pOther )
 {
-#if 0
-	TRAIN_CODE code;
-	entvars_t *pevToucher = pOther->pev;
-#endif
 }
 
 void CFuncTrackChange ::KeyValue( KeyValueData *pkvd )

@@ -341,13 +341,6 @@ void CBaseMonster ::RouteSimplify( CBaseEntity *pTargetEnt )
 	if ( i < ROUTE_SIZE )
 		m_Route[i].iType = 0;
 
-// Debug, test movement code
-#if 0
-//	if ( CVAR_GET_FLOAT( "simplify" ) != 0 )
-		DrawRoute( pev, outRoute, 0, 255, 0, 0 );
-//	else
-		DrawRoute( pev, m_Route, m_iRouteIndex, 0, 255, 0 );
-#endif
 }
 
 //=========================================================
@@ -576,54 +569,6 @@ BOOL CBaseMonster ::FTriangulate( const Vector &vecStart, const Vector &vecEnd, 
 
 	for ( i = 0; i < 8; i++ )
 	{
-// Debug, Draw the triangulation
-#if 0
-		MESSAGE_BEGIN( MSG_BROADCAST, SVC_TEMPENTITY );
-			WRITE_BYTE( TE_SHOWLINE);
-			WRITE_COORD( pev->origin.x );
-			WRITE_COORD( pev->origin.y );
-			WRITE_COORD( pev->origin.z );
-			WRITE_COORD( vecRight.x );
-			WRITE_COORD( vecRight.y );
-			WRITE_COORD( vecRight.z );
-		MESSAGE_END();
-
-		MESSAGE_BEGIN( MSG_BROADCAST, SVC_TEMPENTITY );
-			WRITE_BYTE( TE_SHOWLINE );
-			WRITE_COORD( pev->origin.x );
-			WRITE_COORD( pev->origin.y );
-			WRITE_COORD( pev->origin.z );
-			WRITE_COORD( vecLeft.x );
-			WRITE_COORD( vecLeft.y );
-			WRITE_COORD( vecLeft.z );
-		MESSAGE_END();
-#endif
-
-#if 0
-		if (pev->movetype == MOVETYPE_FLY)
-		{
-			MESSAGE_BEGIN( MSG_BROADCAST, SVC_TEMPENTITY );
-				WRITE_BYTE( TE_SHOWLINE );
-				WRITE_COORD( pev->origin.x );
-				WRITE_COORD( pev->origin.y );
-				WRITE_COORD( pev->origin.z );
-				WRITE_COORD( vecTop.x );
-				WRITE_COORD( vecTop.y );
-				WRITE_COORD( vecTop.z );
-			MESSAGE_END();
-
-			MESSAGE_BEGIN( MSG_BROADCAST, SVC_TEMPENTITY );
-				WRITE_BYTE( TE_SHOWLINE );
-				WRITE_COORD( pev->origin.x );
-				WRITE_COORD( pev->origin.y );
-				WRITE_COORD( pev->origin.z );
-				WRITE_COORD( vecBottom.x );
-				WRITE_COORD( vecBottom.y );
-				WRITE_COORD( vecBottom.z );
-			MESSAGE_END();
-		}
-#endif
-
 		if ( CheckLocalMove( pev->origin, vecRight, pTargetEnt, NULL ) == LOCALMOVE_VALID )
 		{
 			if ( CheckLocalMove( vecRight, vecFarSide, pTargetEnt, NULL ) == LOCALMOVE_VALID )
@@ -722,22 +667,6 @@ void CBaseMonster ::Move( float flInterval )
 
 	if ( m_flMoveWaitFinished > gpGlobals->time )
 		return;
-
-// Debug, test movement code
-#if 0
-//	if ( CVAR_GET_FLOAT("stopmove" ) != 0 )
-	{
-		if ( m_movementGoal == MOVEGOAL_ENEMY )
-			RouteSimplify( m_hEnemy );
-		else
-			RouteSimplify( m_hTargetEnt );
-		FRefreshRoute();
-		return;
-	}
-#else
-// Debug, draw the route
-//	DrawRoute( pev, m_Route, m_iRouteIndex, 0, 200, 0 );
-#endif
 
 	// if the monster is moving directly towards an entity (enemy for instance), we'll set this pointer
 	// to that entity for the CheckLocalMove and Triangulate functions.

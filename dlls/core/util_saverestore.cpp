@@ -380,12 +380,6 @@ void CSave ::WriteString( const char *pname, const int *stringId, int count )
 	short token = (short)TokenHash( STRING( *stringId ) );
 	WriteShort( pname, &token, 1 );
 #else
-#if 0
-	if ( count != 1 )
-		ALERT( at_error, "No string arrays!\n" );
-	WriteString( pname, (char *)STRING(*stringId) );
-#endif
-
 	size = 0;
 	for ( i = 0; i < count; i++ )
 		size += strlen( STRING( stringId[i] ) ) + 1;
@@ -821,12 +815,6 @@ int CRestore::ReadField( void *pBaseData, TYPEDESCRIPTION *pFields, int fieldCou
 					}
 				}
 			}
-#if 0
-			else
-			{
-				ALERT( at_console, "Skipping global field %s\n", pName );
-			}
-#endif
 			return fieldNumber;
 		}
 	}

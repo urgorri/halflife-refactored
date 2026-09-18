@@ -564,12 +564,6 @@ void CL_DLLEXPORT HUD_TempEntUpdate(
 					pTemp->entity.curstate.frame = pTemp->entity.curstate.frame - (int)( pTemp->entity.curstate.frame );
 				}
 			}
-// Experiment
-#if 0
-			if ( pTemp->flags & FTENT_SCALE )
-				pTemp->entity.curstate.framerate += 20.0 * (frametime / pTemp->entity.curstate.framerate);
-#endif
-
 			if ( pTemp->flags & FTENT_ROTATE )
 			{
 				pTemp->entity.angles[0] += pTemp->entity.baseline.angles[0] * frametime;
