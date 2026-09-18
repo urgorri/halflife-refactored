@@ -311,11 +311,23 @@ int CHudAmmo::VidInit( void )
 	m_HUD_bucket0   = gHUD.GetSpriteIndex( "bucket1" );
 	m_HUD_selection = gHUD.GetSpriteIndex( "selection" );
 
-	ghsprBuckets   = gHUD.GetSprite( m_HUD_bucket0 );
-	giBucketWidth  = gHUD.GetSpriteRect( m_HUD_bucket0 ).right - gHUD.GetSpriteRect( m_HUD_bucket0 ).left;
-	giBucketHeight = gHUD.GetSpriteRect( m_HUD_bucket0 ).bottom - gHUD.GetSpriteRect( m_HUD_bucket0 ).top;
+	for ( int i = 0; i < MAX_WEAPON_SLOTS; i++ )
+	{
+		char szBucket[16];
+		sprintf( szBucket, "bucket%d", i + 1 );
+		m_HUD_buckets[i] = gHUD.GetSpriteIndex( szBucket );
+		if ( m_HUD_buckets[i] < 0 && i < 5 && m_HUD_bucket0 >= 0 )
+		{
+			m_HUD_buckets[i] = m_HUD_bucket0 + i;
+		}
+	}
 
-	gHR.iHistoryGap = max( gHR.iHistoryGap, gHUD.GetSpriteRect( m_HUD_bucket0 ).bottom - gHUD.GetSpriteRect( m_HUD_bucket0 ).top );
+	ghsprBuckets   = ( m_HUD_bucket0 >= 0 ) ? gHUD.GetSprite( m_HUD_bucket0 ) : 0;
+	giBucketWidth  = ( m_HUD_bucket0 >= 0 ) ? ( gHUD.GetSpriteRect( m_HUD_bucket0 ).right - gHUD.GetSpriteRect( m_HUD_bucket0 ).left ) : 0;
+	giBucketHeight = ( m_HUD_bucket0 >= 0 ) ? ( gHUD.GetSpriteRect( m_HUD_bucket0 ).bottom - gHUD.GetSpriteRect( m_HUD_bucket0 ).top ) : 0;
+
+	if ( m_HUD_bucket0 >= 0 )
+		gHR.iHistoryGap = max( gHR.iHistoryGap, gHUD.GetSpriteRect( m_HUD_bucket0 ).bottom - gHUD.GetSpriteRect( m_HUD_bucket0 ).top );
 
 	// If we've already loaded weapons, let's get new sprites
 	gWR.LoadAllWeaponSprites();

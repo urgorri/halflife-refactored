@@ -131,6 +131,7 @@ class CHudAmmo : public CHudBase
 	WEAPON *m_pWeapon;
 	int m_HUD_bucket0;
 	int m_HUD_selection;
+	int m_HUD_buckets[MAX_WEAPON_SLOTS];
 };
 
 //
