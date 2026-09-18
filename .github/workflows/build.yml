@@ -21,6 +21,17 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v3
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Verify gameplay constants (Layer 1)
+        run: python tests/verify_constants.py --golden tests/golden/constants.json
+
+      - name: Verify save/restore tables (Layer 2B)
+        run: python tests/verify_saverestore.py --golden tests/golden/saverestore_baseline.json
+
       - name: Build Windows Client DLL
         run: >
           msbuild projects/vs2019/hl_cdll.vcxproj
@@ -81,7 +92,14 @@ jobs:
             gcc-multilib \
             g++-multilib \
             libc6-dev-i386 \
-            make
+            make \
+            python3
+
+      - name: Verify gameplay constants (Layer 1)
+        run: python3 tests/verify_constants.py --golden tests/golden/constants.json
+
+      - name: Verify save/restore tables (Layer 2B)
+        run: python3 tests/verify_saverestore.py --golden tests/golden/saverestore_baseline.json
 
       - name: Build Linux Client DLL
         working-directory: linux

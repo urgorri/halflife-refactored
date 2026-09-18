@@ -1,0 +1,1360 @@
+{
+  "_description": "Golden baseline for TYPEDESCRIPTION save/restore tables (Phase 1: Player, Weapons, Projectiles, and Base Entities).",
+  "_version": 1,
+  "tables": {
+    "CBasePlayer": {
+      "array": "m_playerSaveData",
+      "file": "dlls/core/player.cpp",
+      "field_count": 38,
+      "fields": [
+        {
+          "name": "m_flFlashLightTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iFlashBattery",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_afButtonLast",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_afButtonPressed",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_afButtonReleased",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_rgItems",
+          "type": "FIELD_INTEGER",
+          "size": 5,
+          "size_expr": "MAX_ITEMS",
+          "global": false
+        },
+        {
+          "name": "m_afPhysicsFlags",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flTimeStepSound",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flTimeWeaponIdle",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flSwimTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flDuckTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flWallJumpTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flSuitUpdate",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_rgSuitPlayList",
+          "type": "FIELD_INTEGER",
+          "size": 4,
+          "size_expr": "CSUITPLAYLIST",
+          "global": false
+        },
+        {
+          "name": "m_iSuitPlayNext",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_rgiSuitNoRepeat",
+          "type": "FIELD_INTEGER",
+          "size": 32,
+          "size_expr": "CSUITNOREPEAT",
+          "global": false
+        },
+        {
+          "name": "m_rgflSuitNoRepeatTime",
+          "type": "FIELD_TIME",
+          "size": 32,
+          "size_expr": "CSUITNOREPEAT",
+          "global": false
+        },
+        {
+          "name": "m_lastDamageAmount",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_rgpPlayerItems",
+          "type": "FIELD_CLASSPTR",
+          "size": 6,
+          "size_expr": "MAX_ITEM_TYPES",
+          "global": false
+        },
+        {
+          "name": "m_pActiveItem",
+          "type": "FIELD_CLASSPTR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pLastItem",
+          "type": "FIELD_CLASSPTR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_rgAmmo",
+          "type": "FIELD_INTEGER",
+          "size": 32,
+          "size_expr": "MAX_AMMO_SLOTS",
+          "global": false
+        },
+        {
+          "name": "m_idrowndmg",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_idrownrestored",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_tSneaking",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iTrain",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_bitsHUDDamage",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flFallVelocity",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iTargetVolume",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iWeaponVolume",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iExtraSoundTypes",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iWeaponFlash",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_fLongJump",
+          "type": "FIELD_BOOLEAN",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_fInitHUD",
+          "type": "FIELD_BOOLEAN",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_tbdPrev",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pTank",
+          "type": "FIELD_EHANDLE",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iHideHUD",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iFOV",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CBasePlayerItem": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/player_item_base.cpp",
+      "field_count": 3,
+      "fields": [
+        {
+          "name": "m_pPlayer",
+          "type": "FIELD_CLASSPTR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pNext",
+          "type": "FIELD_CLASSPTR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iId",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CBasePlayerWeapon": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/weapon_base.cpp",
+      "field_count": 7,
+      "fields": [
+        {
+          "name": "m_flNextPrimaryAttack",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flNextSecondaryAttack",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flTimeWeaponIdle",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iPrimaryAmmoType",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iSecondaryAmmoType",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iClip",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iDefaultAmmo",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CGauss": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/weapon_gauss.cpp",
+      "field_count": 2,
+      "fields": [
+        {
+          "name": "m_fInAttack",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_fPrimaryFire",
+          "type": "FIELD_BOOLEAN",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CEgon": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/weapon_egon.cpp",
+      "field_count": 5,
+      "fields": [
+        {
+          "name": "m_shootTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_fireState",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_fireMode",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_shakeTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flAmmoUseTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CRpg": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/weapon_rpg.cpp",
+      "field_count": 2,
+      "fields": [
+        {
+          "name": "m_fSpotActive",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_cActiveRockets",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CSatchel": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/weapon_satchel.cpp",
+      "field_count": 1,
+      "fields": [
+        {
+          "name": "m_chargeReady",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CShotgun": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/weapon_shotgun.cpp",
+      "field_count": 4,
+      "fields": [
+        {
+          "name": "m_flNextReload",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_fInSpecialReload",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flNextReload",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flPumpTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CWeaponBox": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/weapon_box.cpp",
+      "field_count": 4,
+      "fields": [
+        {
+          "name": "m_rgAmmo",
+          "type": "FIELD_INTEGER",
+          "size": 32,
+          "size_expr": "MAX_AMMO_SLOTS",
+          "global": false
+        },
+        {
+          "name": "m_rgiszAmmo",
+          "type": "FIELD_STRING",
+          "size": 32,
+          "size_expr": "MAX_AMMO_SLOTS",
+          "global": false
+        },
+        {
+          "name": "m_rgpPlayerItems",
+          "type": "FIELD_CLASSPTR",
+          "size": 6,
+          "size_expr": "MAX_ITEM_TYPES",
+          "global": false
+        },
+        {
+          "name": "m_cAmmoTypes",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CHornet": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/projectile_hornet.cpp",
+      "field_count": 3,
+      "fields": [
+        {
+          "name": "m_flStopAttack",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iHornetType",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flFlySpeed",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CSqueakGrenade": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/projectile_snark.cpp",
+      "field_count": 6,
+      "fields": [
+        {
+          "name": "m_flDie",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecTarget",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flNextHunt",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flNextHit",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_posPrev",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_hOwner",
+          "type": "FIELD_EHANDLE",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CRpgRocket": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/projectile_rocket.cpp",
+      "field_count": 2,
+      "fields": [
+        {
+          "name": "m_flIgniteTime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_hLauncher",
+          "type": "FIELD_EHANDLE",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CTripmineGrenade": {
+      "array": "m_SaveData",
+      "file": "dlls/weapons/projectile_tripmine.cpp",
+      "field_count": 9,
+      "fields": [
+        {
+          "name": "m_flPowerUp",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecDir",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecEnd",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flBeamLength",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_hOwner",
+          "type": "FIELD_EHANDLE",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pBeam",
+          "type": "FIELD_CLASSPTR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_posOwner",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_angleOwner",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pRealOwner",
+          "type": "FIELD_EDICT",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CBaseEntity": {
+      "array": "m_SaveData",
+      "file": "dlls/core/cbase.cpp",
+      "field_count": 5,
+      "fields": [
+        {
+          "name": "m_pGoalEnt",
+          "type": "FIELD_CLASSPTR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pfnThink",
+          "type": "FIELD_FUNCTION",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pfnTouch",
+          "type": "FIELD_FUNCTION",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pfnUse",
+          "type": "FIELD_FUNCTION",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pfnBlocked",
+          "type": "FIELD_FUNCTION",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CBaseDelay": {
+      "array": "m_SaveData",
+      "file": "dlls/core/subs.cpp",
+      "field_count": 2,
+      "fields": [
+        {
+          "name": "m_flDelay",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_iszKillTarget",
+          "type": "FIELD_STRING",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CBaseAnimating": {
+      "array": "m_SaveData",
+      "file": "dlls/core/animating.cpp",
+      "field_count": 5,
+      "fields": [
+        {
+          "name": "m_flFrameRate",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flGroundSpeed",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flLastEventCheck",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_fSequenceFinished",
+          "type": "FIELD_BOOLEAN",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_fSequenceLoops",
+          "type": "FIELD_BOOLEAN",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "CBaseToggle": {
+      "array": "m_SaveData",
+      "file": "dlls/core/subs.cpp",
+      "field_count": 19,
+      "fields": [
+        {
+          "name": "m_toggle_state",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flActivateFinished",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flMoveDistance",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flWait",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flLip",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flTWidth",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flTLength",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecPosition1",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecPosition2",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecAngle1",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecAngle2",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_cTriggersLeft",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flHeight",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_hActivator",
+          "type": "FIELD_EHANDLE",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_pfnCallWhenMoveDone",
+          "type": "FIELD_FUNCTION",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecFinalDest",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_vecFinalAngle",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_sMaster",
+          "type": "FIELD_STRING",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_bitsDamageInflict",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        }
+      ]
+    },
+    "gEntvarsDescription": {
+      "array": "gEntvarsDescription",
+      "file": "dlls/core/util_saverestore.cpp",
+      "field_count": 86,
+      "fields": [
+        {
+          "name": "classname",
+          "type": "FIELD_STRING",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "globalname",
+          "type": "FIELD_STRING",
+          "size": 1,
+          "global": true
+        },
+        {
+          "name": "origin",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "oldorigin",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "velocity",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "basevelocity",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "movedir",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "angles",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "avelocity",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "punchangle",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "v_angle",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "fixangle",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "idealpitch",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "pitch_speed",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "ideal_yaw",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "yaw_speed",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "modelindex",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "model",
+          "type": "FIELD_MODELNAME",
+          "size": 1,
+          "global": true
+        },
+        {
+          "name": "viewmodel",
+          "type": "FIELD_MODELNAME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "weaponmodel",
+          "type": "FIELD_MODELNAME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "absmin",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "absmax",
+          "type": "FIELD_POSITION_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "mins",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": true
+        },
+        {
+          "name": "maxs",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": true
+        },
+        {
+          "name": "size",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": true
+        },
+        {
+          "name": "ltime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "nextthink",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "solid",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "movetype",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "skin",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "body",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "effects",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "gravity",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "friction",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "light_level",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "frame",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "scale",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "sequence",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "animtime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "framerate",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "controller",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "blending",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "rendermode",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "renderamt",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "rendercolor",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "renderfx",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "health",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "frags",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "weapons",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "takedamage",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "deadflag",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "view_ofs",
+          "type": "FIELD_VECTOR",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "button",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "impulse",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "chain",
+          "type": "FIELD_EDICT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "dmg_inflictor",
+          "type": "FIELD_EDICT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "enemy",
+          "type": "FIELD_EDICT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "aiment",
+          "type": "FIELD_EDICT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "owner",
+          "type": "FIELD_EDICT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "groundentity",
+          "type": "FIELD_EDICT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "spawnflags",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "flags",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "colormap",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "team",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "max_health",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "teleport_time",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "armortype",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "armorvalue",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "waterlevel",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "watertype",
+          "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "target",
+          "type": "FIELD_STRING",
+          "size": 1,
+          "global": true
+        },
+        {
+          "name": "targetname",
+          "type": "FIELD_STRING",
+          "size": 1,
+          "global": true
+        },
+        {
+          "name": "netname",
+          "type": "FIELD_STRING",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "message",
+          "type": "FIELD_STRING",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "dmg_take",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "dmg_save",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "dmg",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "dmgtime",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "noise",
+          "type": "FIELD_SOUNDNAME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "noise1",
+          "type": "FIELD_SOUNDNAME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "noise2",
+          "type": "FIELD_SOUNDNAME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "noise3",
+          "type": "FIELD_SOUNDNAME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "speed",
+          "type": "FIELD_FLOAT",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "air_finished",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "pain_finished",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "radsuit_finished",
+          "type": "FIELD_TIME",
+          "size": 1,
+          "global": false
+        }
+      ]
+    }
+  },
+  "all_discovered_tables_count": 109
+}
