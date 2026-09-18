@@ -113,38 +113,7 @@ void CSqueak::Holster( int skiplocal /* = 0 */ )
 	EMIT_SOUND( ENT( m_pPlayer->pev ), CHAN_WEAPON, "common/null.wav", 1.0, ATTN_NORM );
 }
 
-// up / down
-#define PITCH 0
-// left / right
-#define YAW 1
-// fall over
-#define ROLL 2
-
-void AngleVectors( const vec3_t angles, vec3_t &forward, vec3_t &right, vec3_t &up )
-{
-	float angle;
-	float sr, sp, sy, cr, cp, cy;
-
-	angle = angles[YAW] * ( M_PI * 2 / 360 );
-	sy    = sin( angle );
-	cy    = cos( angle );
-	angle = angles[PITCH] * ( M_PI * 2 / 360 );
-	sp    = sin( angle );
-	cp    = cos( angle );
-	angle = angles[ROLL] * ( M_PI * 2 / 360 );
-	sr    = sin( angle );
-	cr    = cos( angle );
-
-	forward[0] = cp * cy;
-	forward[1] = cp * sy;
-	forward[2] = -sp;
-	right[0]   = ( -1 * sr * sp * cy + -1 * cr * -sy );
-	right[1]   = ( -1 * sr * sp * sy + -1 * cr * cy );
-	right[2]   = -1 * sr * cp;
-	up[0]      = ( cr * sp * cy + -sr * -sy );
-	up[1]      = ( cr * sp * sy + -sr * cy );
-	up[2]      = cr * cp;
-}
+extern "C" void AngleVectors( const float *angles, float *forward, float *right, float *up );
 
 void CSqueak::PrimaryAttack()
 {
