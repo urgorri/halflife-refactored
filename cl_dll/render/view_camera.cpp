@@ -780,8 +780,8 @@ void V_CalcSpectatorRefdef( struct ref_params_s *pparams )
 
 	// write back new values into pparams
 	VectorCopy( v_cl_angles, pparams->cl_viewangles );
-	VectorCopy( v_angles, pparams->viewangles )
-	    VectorCopy( v_origin, pparams->vieworg );
+	VectorCopy( v_angles, pparams->viewangles );
+	VectorCopy( v_origin, pparams->vieworg );
 }
 
 #if defined( TRACE_TEST )
