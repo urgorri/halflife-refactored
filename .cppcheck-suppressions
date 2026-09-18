@@ -42,6 +42,7 @@ noOperatorEq
 useInitializationList
 arrayIndexOutOfBoundsCond
 arrayIndexOutOfBounds
+arrayIndexThenCheck
 containerOutOfBounds
 derefInvalidIterator
 oppositeInnerCondition
