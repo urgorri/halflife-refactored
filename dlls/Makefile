@@ -83,6 +83,7 @@ OBJ = \
 	$(DLL_OBJDIR)/systems/airtank.o \
 	$(CORE_OBJDIR)/animating.o \
 	$(CORE_OBJDIR)/animation.o \
+	$(DLL_OBJDIR)/monsters/aircraft_fx.o \
 	$(DLL_OBJDIR)/monsters/apache.o \
 	$(DLL_OBJDIR)/monsters/barnacle.o \
 	$(DLL_OBJDIR)/monsters/barney.o \

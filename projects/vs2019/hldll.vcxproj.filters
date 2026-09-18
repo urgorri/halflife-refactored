@@ -105,6 +105,9 @@
     <ClCompile Include="..\..\dlls\core\player_suit.cpp">
       <Filter>Source Files\dlls\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\monsters\aircraft_fx.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\apache.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -1068,6 +1071,9 @@
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\monsters\agrunt.h">
+      <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\monsters\aircraft_fx.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\monsters\apache.h">

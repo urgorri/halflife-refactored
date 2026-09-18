@@ -39,6 +39,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/airtank.o \
 	$(HLCORE_OBJ_DIR)/animating.o \
 	$(HLCORE_OBJ_DIR)/animation.o \
+	$(HLDLL_OBJ_DIR)/monsters/aircraft_fx.o \
 	$(HLDLL_OBJ_DIR)/monsters/apache.o \
 	$(HLDLL_OBJ_DIR)/monsters/barnacle.o \
 	$(HLDLL_OBJ_DIR)/monsters/barney.o \

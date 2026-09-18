@@ -22,6 +22,7 @@
 #include "systems/effects.h"
 #include "customentity.h"
 #include "monsters/osprey.h"
+#include "monsters/aircraft_fx.h"
 
 LINK_ENTITY_TO_CLASS( monster_osprey, COsprey );
 
@@ -457,64 +458,10 @@ void COsprey ::DyingThink( void )
 
 		Vector vecSpot = pev->origin + pev->velocity * 0.2;
 
-		// random explosions
-		MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecSpot );
-		WRITE_BYTE( TE_EXPLOSION ); // This just makes a dynamic light now
-		WRITE_COORD( vecSpot.x + RANDOM_FLOAT( -150, 150 ) );
-		WRITE_COORD( vecSpot.y + RANDOM_FLOAT( -150, 150 ) );
-		WRITE_COORD( vecSpot.z + RANDOM_FLOAT( -150, -50 ) );
-		WRITE_SHORT( g_sModelIndexFireball );
-		WRITE_BYTE( RANDOM_LONG( 0, 29 ) + 30 ); // scale * 10
-		WRITE_BYTE( 12 );                        // framerate
-		WRITE_BYTE( TE_EXPLFLAG_NONE );
-		MESSAGE_END();
-
-		// lots of smoke
-		MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecSpot );
-		WRITE_BYTE( TE_SMOKE );
-		WRITE_COORD( vecSpot.x + RANDOM_FLOAT( -150, 150 ) );
-		WRITE_COORD( vecSpot.y + RANDOM_FLOAT( -150, 150 ) );
-		WRITE_COORD( vecSpot.z + RANDOM_FLOAT( -150, -50 ) );
-		WRITE_SHORT( g_sModelIndexSmoke );
-		WRITE_BYTE( 100 ); // scale * 10
-		WRITE_BYTE( 10 );  // framerate
-		MESSAGE_END();
+		Aircraft_FallingEffects( vecSpot, g_sModelIndexFireball, g_sModelIndexSmoke );
 
 		vecSpot = pev->origin + ( pev->mins + pev->maxs ) * 0.5;
-		MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecSpot );
-		WRITE_BYTE( TE_BREAKMODEL );
-
-		// position
-		WRITE_COORD( vecSpot.x );
-		WRITE_COORD( vecSpot.y );
-		WRITE_COORD( vecSpot.z );
-
-		// size
-		WRITE_COORD( 800 );
-		WRITE_COORD( 800 );
-		WRITE_COORD( 132 );
-
-		// velocity
-		WRITE_COORD( pev->velocity.x );
-		WRITE_COORD( pev->velocity.y );
-		WRITE_COORD( pev->velocity.z );
-
-		// randomization
-		WRITE_BYTE( 50 );
-
-		// Model
-		WRITE_SHORT( m_iTailGibs ); // model id#
-
-		// # of shards
-		WRITE_BYTE( 8 ); // let client decide
-
-		// duration
-		WRITE_BYTE( 200 ); // 10.0 seconds
-
-		// flags
-
-		WRITE_BYTE( BREAK_METAL );
-		MESSAGE_END();
+		Aircraft_BreakModel( vecSpot, Vector( 800, 800, 132 ), pev->velocity, 50, m_iTailGibs, 8, 200, BREAK_METAL );
 
 		// don't stop it we touch a entity
 		pev->flags &= ~FL_ONGROUND;
@@ -525,62 +472,11 @@ void COsprey ::DyingThink( void )
 	{
 		Vector vecSpot = pev->origin + ( pev->mins + pev->maxs ) * 0.5;
 
-		/*
-		MESSAGE_BEGIN( MSG_BROADCAST, SVC_TEMPENTITY );
-		    WRITE_BYTE( TE_EXPLOSION);		// This just makes a dynamic light now
-		    WRITE_COORD( vecSpot.x );
-		    WRITE_COORD( vecSpot.y );
-		    WRITE_COORD( vecSpot.z + 512 );
-		    WRITE_SHORT( m_iExplode );
-		    WRITE_BYTE( 250 ); // scale * 10
-		    WRITE_BYTE( 10  ); // framerate
-		MESSAGE_END();
-		*/
-
 		// gibs
-		MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, vecSpot );
-		WRITE_BYTE( TE_SPRITE );
-		WRITE_COORD( vecSpot.x );
-		WRITE_COORD( vecSpot.y );
-		WRITE_COORD( vecSpot.z + 512 );
-		WRITE_SHORT( m_iExplode );
-		WRITE_BYTE( 250 ); // scale * 10
-		WRITE_BYTE( 255 ); // brightness
-		MESSAGE_END();
-
-		/*
-		MESSAGE_BEGIN( MSG_BROADCAST, SVC_TEMPENTITY );
-		    WRITE_BYTE( TE_SMOKE );
-		    WRITE_COORD( vecSpot.x );
-		    WRITE_COORD( vecSpot.y );
-		    WRITE_COORD( vecSpot.z + 300 );
-		    WRITE_SHORT( g_sModelIndexSmoke );
-		    WRITE_BYTE( 250 ); // scale * 10
-		    WRITE_BYTE( 6  ); // framerate
-		MESSAGE_END();
-		*/
+		Aircraft_CrashExplosionSprite( vecSpot + Vector( 0, 0, 512 ), m_iExplode, 250, 255 );
 
 		// blast circle
-		MESSAGE_BEGIN( MSG_PAS, SVC_TEMPENTITY, pev->origin );
-		WRITE_BYTE( TE_BEAMCYLINDER );
-		WRITE_COORD( pev->origin.x );
-		WRITE_COORD( pev->origin.y );
-		WRITE_COORD( pev->origin.z );
-		WRITE_COORD( pev->origin.x );
-		WRITE_COORD( pev->origin.y );
-		WRITE_COORD( pev->origin.z + 2000 ); // reach damage radius over .2 seconds
-		WRITE_SHORT( m_iSpriteTexture );
-		WRITE_BYTE( 0 );   // startframe
-		WRITE_BYTE( 0 );   // framerate
-		WRITE_BYTE( 4 );   // life
-		WRITE_BYTE( 32 );  // width
-		WRITE_BYTE( 0 );   // noise
-		WRITE_BYTE( 255 ); // r, g, b
-		WRITE_BYTE( 255 ); // r, g, b
-		WRITE_BYTE( 192 ); // r, g, b
-		WRITE_BYTE( 128 ); // brightness
-		WRITE_BYTE( 0 );   // speed
-		MESSAGE_END();
+		Aircraft_CrashBlastCylinder( pev->origin, m_iSpriteTexture, MSG_PAS );
 
 		EMIT_SOUND( ENT( pev ), CHAN_STATIC, "weapons/mortarhit.wav", 1.0, 0.3 );
 
@@ -588,40 +484,7 @@ void COsprey ::DyingThink( void )
 
 		// gibs
 		vecSpot = pev->origin + ( pev->mins + pev->maxs ) * 0.5;
-		MESSAGE_BEGIN( MSG_PAS, SVC_TEMPENTITY, vecSpot );
-		WRITE_BYTE( TE_BREAKMODEL );
-
-		// position
-		WRITE_COORD( vecSpot.x );
-		WRITE_COORD( vecSpot.y );
-		WRITE_COORD( vecSpot.z + 64 );
-
-		// size
-		WRITE_COORD( 800 );
-		WRITE_COORD( 800 );
-		WRITE_COORD( 128 );
-
-		// velocity
-		WRITE_COORD( m_velocity.x );
-		WRITE_COORD( m_velocity.y );
-		WRITE_COORD( fabs( m_velocity.z ) * 0.25 );
-
-		// randomization
-		WRITE_BYTE( 40 );
-
-		// Model
-		WRITE_SHORT( m_iBodyGibs ); // model id#
-
-		// # of shards
-		WRITE_BYTE( 128 );
-
-		// duration
-		WRITE_BYTE( 200 ); // 10.0 seconds
-
-		// flags
-
-		WRITE_BYTE( BREAK_METAL );
-		MESSAGE_END();
+		Aircraft_BreakModel( vecSpot + Vector( 0, 0, 64 ), Vector( 800, 800, 128 ), Vector( m_velocity.x, m_velocity.y, fabs( m_velocity.z ) * 0.25 ), 40, m_iBodyGibs, 128, 200, BREAK_METAL, MSG_PAS );
 
 		UTIL_Remove( this );
 	}
