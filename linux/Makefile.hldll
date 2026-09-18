@@ -171,7 +171,6 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/gamerules_items.o \
 	$(HLDLL_OBJ_DIR)/gameplay/singleplay_gamerules.o \
 	$(HLDLL_OBJ_DIR)/gameplay/stats.o \
-	$(HLDLL_OBJ_DIR)/ai/tempmonster.o \
 	$(HLDLL_OBJ_DIR)/systems/triggers_brush.o \
 	$(HLDLL_OBJ_DIR)/systems/triggers_point.o \
 	$(HLDLL_OBJ_DIR)/monsters/tentacle.o \

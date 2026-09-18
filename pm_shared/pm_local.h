@@ -18,6 +18,11 @@
 #pragma once
 
 #include <assert.h>
+#include <stdio.h>  // NULL
+#include <stdlib.h> // atoi
+#include <math.h>   // sqrt
+#include <string.h> // strcpy
+#include <ctype.h>  // isspace
 #include "mathlib.h"
 #include "const.h"
 #include "minmax.h"
@@ -26,11 +31,6 @@
 #include "pm_shared.h"
 #include "pm_movevars.h"
 #include "pm_debug.h"
-#include <stdio.h>  // NULL
-#include <math.h>   // sqrt
-#include <string.h> // strcpy
-#include <stdlib.h> // atoi
-#include <ctype.h>  // isspace
 
 #pragma warning( disable : 4305 )
 

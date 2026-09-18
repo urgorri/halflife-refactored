@@ -214,12 +214,6 @@ void CBaseMonster ::HandleAnimEvent( MonsterEvent_t *pEvent )
 			m_pCine->AllowInterrupt( TRUE );
 		break;
 
-#if 0
-	case SCRIPT_EVENT_INAIR:			// Don't DROP_TO_FLOOR()
-	case SCRIPT_EVENT_ENDANIMATION:		// Set ending animation sequence to
-		break;
-#endif
-
 	case MONSTER_EVENT_BODYDROP_HEAVY:
 		if ( pev->flags & FL_ONGROUND )
 		{

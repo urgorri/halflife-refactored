@@ -618,16 +618,7 @@ void CBaseMonster ::StartMonster( void )
 			// Monster will start turning towards his destination
 			MakeIdealYaw( m_pGoalEnt->pev->origin );
 
-			// JAY: How important is this error message?  Big Momma doesn't obey this rule, so I took it out.
-#if 0
-			// At this point, we expect only a path_corner as initial goal
-			if (!FClassnameIs( m_pGoalEnt->pev, "path_corner"))
-			{
-				ALERT(at_warning, "ReadyMonster--monster's initial goal '%s' is not a path_corner", STRING(pev->target));
-			}
-#endif
-
-			// set the monster up to walk a path corner path.
+						// set the monster up to walk a path corner path.
 			// Adjust sequence if entity is currently in dynamic transition.
 			// JAYJAY
 			m_movementGoal = MOVEGOAL_PATHCORNER;
