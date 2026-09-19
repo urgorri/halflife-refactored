@@ -92,6 +92,11 @@ if(BUILD_SERVER)
         "dlls/*.c"
     )
 
+    # wxdebug.cpp is Windows-only (requires tchar.h)
+    if(NOT WIN32)
+        list(FILTER SERVER_SOURCES EXCLUDE REGEX "dlls/core/wxdebug\\.cpp$")
+    endif()
+
     # Optional downstream custom hooks
     file(GLOB_RECURSE SERVER_CUSTOM_SOURCES CONFIGURE_DEPENDS
         "dlls/custom/*.cpp"
@@ -260,7 +265,7 @@ if(BUILD_CLIENT)
         target_link_directories(client PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/linux")
         target_link_libraries(client PRIVATE
             "${CMAKE_CURRENT_SOURCE_DIR}/linux/vgui.so"
-            SDL2
+            "${CMAKE_CURRENT_SOURCE_DIR}/linux/libSDL2.so"
             dl
             pthread
             m
