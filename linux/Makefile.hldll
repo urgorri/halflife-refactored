@@ -119,6 +119,8 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/gameplay/maprules.o \
 	$(HLDLL_OBJ_DIR)/ai/monstermaker.o \
 	$(HLDLL_OBJ_DIR)/ai/monsters.o \
+	$(HLDLL_OBJ_DIR)/ai/monster_relationship_manager.o \
+	$(HLDLL_OBJ_DIR)/ai/talk_companion_registry.o \
 	$(HLDLL_OBJ_DIR)/ai/monster_combat.o \
 	$(HLDLL_OBJ_DIR)/ai/monster_scheduler.o \
 	$(HLDLL_OBJ_DIR)/ai/monster_sensors.o \
