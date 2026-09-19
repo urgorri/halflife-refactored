@@ -432,3 +432,22 @@ void UTIL_PrecacheOther( const char *szClassname )
 	(void)szClassname;
 }
 
+#include "util.h"
+#include "cbase.h"
+
+const Vector g_vecZero = Vector( 0, 0, 0 );
+
+int CBaseEntity::Save( CSave &save ) { return 0; }
+int CBaseEntity::Restore( CRestore &restore ) { return 0; }
+void CBaseEntity::SetObjectCollisionBox( void ) {}
+void CBaseEntity::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType ) {}
+int CBaseEntity::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType ) { return 0; }
+int CBaseEntity::TakeHealth( float flHealth, int bitsDamageType ) { return 0; }
+void CBaseEntity::Killed( entvars_t *pevAttacker, int iGib ) {}
+void CBaseEntity::TraceBleed( float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType ) {}
+int CBaseEntity::DamageDecal( int bitsDamageType ) { return 0; }
+int CBaseEntity::IsInWorld( void ) { return 1; }
+CBaseEntity *CBaseEntity::GetNextTarget( void ) { return nullptr; }
+int CBaseEntity::FVisible( CBaseEntity *pEntity ) { return 1; }
+int CBaseEntity::FVisible( const Vector &vecTarget ) { return 1; }
+

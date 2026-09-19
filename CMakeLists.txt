@@ -295,8 +295,11 @@ if(BUILD_TESTS)
         tests/test_saverestore.cpp
         tests/test_weapon_pipeline.cpp
         tests/test_item_registry.cpp
+        tests/test_ai_factions.cpp
         dlls/weapons/weapon_registry.cpp
         dlls/items/item_registry.cpp
+        dlls/ai/monster_relationship_manager.cpp
+        dlls/ai/talk_companion_registry.cpp
         cl_dll/hl/client_weapon_manager.cpp
         cl_dll/events/event_registry.cpp
         ${PM_SHARED_SOURCES}
@@ -324,6 +327,7 @@ if(BUILD_TESTS)
         dlls
         dlls/core
         dlls/weapons
+        dlls/ai
         cl_dll
         engine
         common

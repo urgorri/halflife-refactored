@@ -168,6 +168,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\gameplay\maprules.cpp" />
     <ClCompile Include="..\..\dlls\ai\monstermaker.cpp" />
     <ClCompile Include="..\..\dlls\ai\monsters.cpp" />
+    <ClCompile Include="..\..\dlls\ai\monster_relationship_manager.cpp" />
+    <ClCompile Include="..\..\dlls\ai\talk_companion_registry.cpp" />
     <ClCompile Include="..\..\dlls\ai\monster_combat.cpp" />
     <ClCompile Include="..\..\dlls\ai\monster_scheduler.cpp" />
     <ClCompile Include="..\..\dlls\ai\monster_sensors.cpp" />

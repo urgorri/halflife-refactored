@@ -115,8 +115,11 @@
     <ClCompile Include="..\..\tests\test_saverestore.cpp" />
     <ClCompile Include="..\..\tests\test_weapon_pipeline.cpp" />
     <ClCompile Include="..\..\tests\test_item_registry.cpp" />
+    <ClCompile Include="..\..\tests\test_ai_factions.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_registry.cpp" />
     <ClCompile Include="..\..\dlls\items\item_registry.cpp" />
+    <ClCompile Include="..\..\dlls\ai\monster_relationship_manager.cpp" />
+    <ClCompile Include="..\..\dlls\ai\talk_companion_registry.cpp" />
     <ClCompile Include="..\..\cl_dll\hl\client_weapon_manager.cpp" />
     <ClCompile Include="..\..\cl_dll\events\event_registry.cpp" />
   </ItemGroup>
