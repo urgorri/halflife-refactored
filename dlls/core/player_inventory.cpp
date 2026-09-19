@@ -20,6 +20,8 @@
 #include "weapons/weapon_base.h"
 #include "player_inventory.h"
 #include "gameplay/gamerules.h"
+#include <unordered_map>
+#include <string>
 
 extern int gmsgFlashlight;
 extern int gmsgFlashBattery;
@@ -294,7 +296,10 @@ void CBasePlayer::RemoveAllItems( BOOL removeSuit )
 	pev->weaponmodel = 0;
 
 	if ( removeSuit )
+	{
 		pev->weapons = 0;
+		ClearCustomItems();
+	}
 	else
 		pev->weapons &= ~WEAPON_ALLWEAPONS;
 
@@ -909,3 +914,4 @@ BOOL CBasePlayer ::SwitchWeapon( CBasePlayerItem *pWeapon )
 
 	return TRUE;
 }
+

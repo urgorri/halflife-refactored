@@ -325,6 +325,19 @@ class CBasePlayer : public CBaseMonster
 	float m_flNextChatTime;
 
 	int m_iAutoWepSwitch;
+
+	// Legacy persistent items (0 to MAX_ITEMS-1)
+	int GetItem( int iItemType ) const { return ( iItemType >= 0 && iItemType < MAX_ITEMS ) ? m_rgItems[iItemType] : 0; }
+	void SetItem( int iItemType, int iValue ) { if ( iItemType >= 0 && iItemType < MAX_ITEMS ) m_rgItems[iItemType] = iValue; }
+	int GetLegacyItem( int iItemType ) const { return GetItem( iItemType ); }
+	void SetLegacyItem( int iItemType, int iValue ) { SetItem( iItemType, iValue ); }
+
+	// Extensible auxiliary item interface for downstream mods
+	virtual int GetCustomItemCount( const char *pszItemName );
+	virtual void AddCustomItem( const char *pszItemName, int count = 1 );
+	virtual void SetCustomItemCount( const char *pszItemName, int count );
+	virtual BOOL HasCustomItem( const char *pszItemName );
+	virtual void ClearCustomItems( void );
 };
 
 #define TRAIN_NEW 0xc0

@@ -294,7 +294,9 @@ if(BUILD_TESTS)
         tests/test_abi_layout.cpp
         tests/test_saverestore.cpp
         tests/test_weapon_pipeline.cpp
+        tests/test_item_registry.cpp
         dlls/weapons/weapon_registry.cpp
+        dlls/items/item_registry.cpp
         cl_dll/hl/client_weapon_manager.cpp
         cl_dll/events/event_registry.cpp
         ${PM_SHARED_SOURCES}

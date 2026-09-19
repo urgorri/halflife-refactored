@@ -2,6 +2,7 @@
 #define ITEM_BASE_H
 
 #include "core/cbase.h"
+#include "items/item_registry.h"
 
 class CItem : public CBaseEntity
 {
@@ -33,6 +34,7 @@ class CItem : public CBaseEntity
 			touchBody                                                                     \
 		}                                                                                 \
 	};                                                                                    \
-	LINK_ENTITY_TO_CLASS( entityName, className );
+	LINK_ENTITY_TO_CLASS( entityName, className );                                        \
+	REGISTER_ITEM( entityName, 0 );
 
 #endif // ITEM_BASE_H
