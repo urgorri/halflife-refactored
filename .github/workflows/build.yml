@@ -21,17 +21,6 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Verify gameplay constants (Layer 1)
-        run: python tests/verify_constants.py --golden tests/golden/constants.json
-
-      - name: Verify save/restore tables (Layer 2B)
-        run: python tests/verify_saverestore.py --golden tests/golden/saverestore_baseline.json
-
       - name: Build Windows Client DLL
         run: >
           msbuild projects/vs2019/hl_cdll.vcxproj
@@ -57,21 +46,6 @@ jobs:
           if (-not (Test-Path $server)) {
             throw "Server DLL was not produced: $server"
           }
-
-      - name: Verify exported symbol table (Layer 4)
-        run: |
-          python tests/verify_symbols.py --golden tests/golden/symbols_client_windows.txt --binary projects/vs2019/Release/hl_cdll/client.dll
-          python tests/verify_symbols.py --golden tests/golden/symbols_server_windows.txt --binary projects/vs2019/Release/hldll/hl.dll
-
-      - name: Build unit tests (Layer 3)
-        run: >
-          msbuild projects/vs2019/hl_tests.vcxproj
-          /p:Configuration=Release
-          /p:Platform=Win32
-          /m
-
-      - name: Run unit tests (Layer 3)
-        run: projects/vs2019/Release/hl_tests/hl_tests.exe
 
       - name: Prepare packaging
         shell: pwsh
@@ -107,14 +81,7 @@ jobs:
             gcc-multilib \
             g++-multilib \
             libc6-dev-i386 \
-            make \
-            python3
-
-      - name: Verify gameplay constants (Layer 1)
-        run: python3 tests/verify_constants.py --golden tests/golden/constants.json
-
-      - name: Verify save/restore tables (Layer 2B)
-        run: python3 tests/verify_saverestore.py --golden tests/golden/saverestore_baseline.json
+            make
 
       - name: Build Linux Client DLL
         working-directory: linux
@@ -144,25 +111,6 @@ jobs:
           file linux/release/cl_dlls/client.so | grep -q "ELF 32-bit"
           file linux/release/dlls/hl.so
           file linux/release/dlls/hl.so | grep -q "ELF 32-bit"
-
-      - name: Verify exported symbol table (Layer 4)
-        run: |
-          python3 tests/verify_symbols.py --golden tests/golden/symbols_client_linux.txt --binary linux/release/cl_dlls/client.so
-          python3 tests/verify_symbols.py --golden tests/golden/symbols_server_linux.txt --binary linux/release/dlls/hl.so
-
-      - name: Build unit tests (Layer 3)
-        working-directory: linux
-        run: |
-          make hl_tests \
-            ARCH_CFLAGS_I486="-m32" \
-            ARCH_CFLAGS_I686="-m32" \
-            ARCH_CFLAGS_AMD="-m32" \
-            ARCH_CFLAGS_AMD64="-m32" \
-            HL_OUTPUT_DIR=release \
-            CREATE_OUTPUT_DIRS=1
-
-      - name: Run unit tests (Layer 3)
-        run: linux/release/hl_tests
 
       - name: Prepare packaging
         run: |

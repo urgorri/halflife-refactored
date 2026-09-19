@@ -190,9 +190,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/player_item_base.o \
 	$(HLDLL_OBJ_DIR)/world/world.o \
 	$(HLDLL_OBJ_DIR)/world/xen.o \
-	$(HLDLL_OBJ_DIR)/monsters/zombie.o \
-	$(HLDLL_OBJ_DIR)/tests/test_abi_layout.o \
-	$(HLDLL_OBJ_DIR)/tests/test_saverestore.o
+	$(HLDLL_OBJ_DIR)/monsters/zombie.o
 
 HLWPN_OBJS = \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_glock.o
@@ -228,7 +226,6 @@ dirs:
 	-mkdir -p $(PM_OBJ_DIR)
 	-mkdir -p $(GAME_SHARED_OBJ_DIR)
 	-mkdir -p $(HLDLL_OBJ_DIR)/world
-	-mkdir -p $(HLDLL_OBJ_DIR)/tests
 
 hl.$(SHLIBEXT): $(HLDLL_OBJS) $(HLWPN_OBJS) $(PM_OBJS) $(GAME_SHARED_OBJS)
 	$(CC) $(LDFLAGS) $(SHLIBLDFLAGS) -o $(BUILD_DIR)/$@ $(HLDLL_OBJS) $(HLWPN_OBJS) $(PM_OBJS) $(GAME_SHARED_OBJS)
@@ -265,9 +262,6 @@ $(HLDLL_OBJ_DIR)/monsters/%.o : $(HLDLL_SRC_DIR)/monsters/%.cpp
 $(HLDLL_OBJ_DIR)/gameplay/%.o : $(HLDLL_SRC_DIR)/gameplay/%.cpp
 	$(DO_HLDLL_CC)
 
-$(HLDLL_OBJ_DIR)/tests/%.o : $(SOURCE_DIR)/tests/%.cpp
-	$(DO_HLDLL_CC)
-
 $(HLDLL_OBJ_DIR)/%.o : $(HLDLL_SRC_DIR)/%.cpp
 	$(DO_HLDLL_CC)
 
@@ -286,5 +280,4 @@ clean:
 	-rm -rf $(HLWPN_OBJ_DIR)
 	-rm -rf $(HLDLL_OBJ_DIR)
 	-rm -rf $(HLCORE_OBJ_DIR)
-	-rm -rf $(HLDLL_OBJ_DIR)/tests
 	-rm -f hl_$(ARCH).$(SHLIBEXT)

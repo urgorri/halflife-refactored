@@ -1,6 +1,17 @@
 # Behavioral Equivalence Verification
 
-This test suite implements automated behavioral equivalence verification for `halflife-refactored`, ensuring that internal refactoring maintains exact gameplay behavior, binary ABI compatibility, and savegame/level-transition serialization.
+This test suite implements automated behavioral equivalence verification for `halflife-refactored`, ensuring that internal refactoring maintains exact gameplay behavior, binary ABI compatibility, and savegame/level-transition serialization with the original Valve Half-Life SDK 2.3.
+
+## Architecture: Fork-Friendly Decoupling
+
+To ensure this repository serves both as a strictly verified refactoring and as a clean foundation for downstream mods or forks:
+
+1. **Compilation Decoupling**:
+   - Compile-time regression assertions ([`tests/test_abi_layout.cpp`](file:///c:/code/halflife-refactored/tests/test_abi_layout.cpp) and [`tests/test_saverestore.cpp`](file:///c:/code/halflife-refactored/tests/test_saverestore.cpp)) are compiled exclusively as part of the standalone test runner (`hl_tests`), NOT baked into the production game DLL (`hl.dll` / `hl.so`).
+   - Modders can freely add instance variables to `CBasePlayer` or modify shared classes without triggering compile errors when building the game DLL.
+2. **CI Pipeline Decoupling**:
+   - [`.github/workflows/build.yml`](file:///c:/code/halflife-refactored/.github/workflows/build.yml) is the primary build pipeline: it compiles `client.dll` / `client.so` and `hl.dll` / `hl.so`, verifies binary production, and packages release artifacts. It never fails due to intentional gameplay changes in forks.
+   - [`.github/workflows/behavioral-equivalence.yml`](file:///c:/code/halflife-refactored/.github/workflows/behavioral-equivalence.yml) hosts all regression verification layers. It includes a guard condition (`if: github.repository == 'urgorri/halflife-refactored' || vars.ENABLE_BEHAVIORAL_EQUIVALENCE == 'true'`) so downstream forks automatically skip regression checks unless explicitly opted in.
 
 ## Overview of Verification Layers
 
@@ -36,7 +47,7 @@ This test suite implements automated behavioral equivalence verification for `ha
     - `physent_t`, `pmtrace_t`, `netadr_t`, `clientdata_t`, `weapon_data_t`, `entity_state_t`, `movevars_t`
 - **Execution**:
   - Evaluated entirely at compile-time via `static_assert`.
-  - Built automatically as part of normal Windows MSBuild and Linux Makefile targets.
+  - Built as part of the standalone test runner (`hl_tests.vcxproj` and `Makefile.tests`), completely decoupled from the production game DLL.
   - Zero runtime overhead.
 
 ---
@@ -44,7 +55,7 @@ This test suite implements automated behavioral equivalence verification for `ha
 ### Layer 2B — Save/Restore Tables Verification (`#101`)
 - **Script**: [`tests/verify_saverestore.py`](file:///c:/code/halflife-refactored/tests/verify_saverestore.py)
 - **Golden Baseline**: [`tests/golden/saverestore_baseline.json`](file:///c:/code/halflife-refactored/tests/golden/saverestore_baseline.json)
-- **Compile-Time Checks**: [`tests/test_saverestore.cpp`](file:///c:/code/halflife-refactored/tests/test_saverestore.cpp)
+- **Compile-Time Checks**: [`tests/test_saverestore.cpp`](file:///c:/code/halflife-refactored/tests/test_saverestore.cpp) (compiled in standalone test runner `hl_tests`, decoupled from production game DLL)
 - **Scope**:
   - Verifies `TYPEDESCRIPTION` tables for player (`CBasePlayer::m_playerSaveData`), weapons (`CBasePlayerItem`, `CBasePlayerWeapon`, `CGauss`, `CEgon`, `CRpg`, `CSatchel`, `CShotgun`, `CWeaponBox`), projectiles (`CHornet`, `CSqueakGrenade`, `CRpgRocket`, `CTripmineGrenade`), and entity base classes (`CBaseEntity`, `CBaseDelay`, `CBaseAnimating`, `CBaseToggle`, `gEntvarsDescription`).
   - Ensures field count, names, serialization types, and array dimensions match expected baselines.

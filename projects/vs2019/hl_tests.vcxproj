@@ -58,9 +58,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;CATCH_AMALGAMATED_CUSTOM_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;VALVE_DLL;CATCH_AMALGAMATED_CUSTOM_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <AdditionalIncludeDirectories>..\..\;..\..\tests;..\..\external\catch2;..\..\dlls;..\..\dlls\core;..\..\engine;..\..\common;..\..\pm_shared;..\..\game_shared;..\..\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\tests;..\..\external\catch2;..\..\dlls;..\..\dlls\core;..\..\dlls\weapons;..\..\engine;..\..\common;..\..\pm_shared;..\..\game_shared;..\..\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
@@ -77,8 +77,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;CATCH_AMALGAMATED_CUSTOM_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\;..\..\tests;..\..\external\catch2;..\..\dlls;..\..\dlls\core;..\..\engine;..\..\common;..\..\pm_shared;..\..\game_shared;..\..\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;VALVE_DLL;CATCH_AMALGAMATED_CUSTOM_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\;..\..\tests;..\..\external\catch2;..\..\dlls;..\..\dlls\core;..\..\dlls\weapons;..\..\engine;..\..\common;..\..\pm_shared;..\..\game_shared;..\..\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <LanguageStandard>stdcpp14</LanguageStandard>
@@ -111,6 +111,8 @@
     <ClCompile Include="..\..\tests\test_combat.cpp" />
     <ClCompile Include="..\..\tests\test_main.cpp" />
     <ClCompile Include="..\..\tests\test_pm_movement.cpp" />
+    <ClCompile Include="..\..\tests\test_abi_layout.cpp" />
+    <ClCompile Include="..\..\tests\test_saverestore.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

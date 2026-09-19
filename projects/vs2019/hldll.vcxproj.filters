@@ -726,12 +726,6 @@
     <ClCompile Include="..\..\dlls\items\ammo_items.cpp">
       <Filter>Source Files\items</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tests\test_abi_layout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\tests\test_saverestore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\weapons\ammo_base.h">
