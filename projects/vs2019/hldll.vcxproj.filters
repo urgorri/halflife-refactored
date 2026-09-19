@@ -339,6 +339,12 @@
     <ClCompile Include="..\..\dlls\ai\monsters.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\ai\monster_relationship_manager.cpp">
+      <Filter>Source Files\dlls\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\ai\talk_companion_registry.cpp">
+      <Filter>Source Files\dlls\ai</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\ai\monster_combat.cpp">
       <Filter>Source Files\dlls\ai</Filter>
     </ClCompile>

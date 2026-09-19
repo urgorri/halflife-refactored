@@ -18,6 +18,7 @@
 #include "ai/monsters.h"
 #include "ai/schedule.h"
 #include "ai/talkmonster.h"
+#include "ai/talk_companion_registry.h"
 
 #include "gameplay/scripted.h"
 #include "ai/defaultai.h"
@@ -611,12 +612,21 @@ void CTalkMonster ::Killed( entvars_t *pevAttacker, int iGib )
 CBaseEntity *CTalkMonster::EnumFriends( CBaseEntity *pPrevious, int listNumber, BOOL bTrace )
 {
 	CBaseEntity *pFriend = pPrevious;
-	char *pszFriend;
+	const char *pszFriend = NULL;
 	TraceResult tr;
 	Vector vecCheck;
 
-	pszFriend = m_szFriends[FriendNumber( listNumber )];
-	while ( pFriend = UTIL_FindEntityByClassname( pFriend, pszFriend ) )
+	int friendIndex = FriendNumber( listNumber );
+	pszFriend = TalkCompanionRegistry::GetCompanion( friendIndex );
+	if ( !pszFriend && friendIndex >= 0 && friendIndex < TLK_CFRIENDS )
+	{
+		pszFriend = m_szFriends[friendIndex];
+	}
+
+	if ( !pszFriend )
+		return NULL;
+
+	while ( pFriend = UTIL_FindEntityByClassname( pFriend, (char *)pszFriend ) )
 	{
 		if ( pFriend == this || !pFriend->IsAlive() )
 			// don't talk to self or dead people
@@ -644,9 +654,10 @@ void CTalkMonster::AlertFriends( void )
 {
 	CBaseEntity *pFriend = NULL;
 	int i;
+	int cfriends = TalkCompanionRegistry::GetCompanionCount();
 
 	// for each friend in this bsp...
-	for ( i = 0; i < TLK_CFRIENDS; i++ )
+	for ( i = 0; i < cfriends; i++ )
 	{
 		while ( pFriend = EnumFriends( pFriend, i, TRUE ) )
 		{
@@ -664,9 +675,10 @@ void CTalkMonster::ShutUpFriends( void )
 {
 	CBaseEntity *pFriend = NULL;
 	int i;
+	int cfriends = TalkCompanionRegistry::GetCompanionCount();
 
 	// for each friend in this bsp...
-	for ( i = 0; i < TLK_CFRIENDS; i++ )
+	for ( i = 0; i < cfriends; i++ )
 	{
 		while ( pFriend = EnumFriends( pFriend, i, TRUE ) )
 		{
@@ -685,10 +697,11 @@ void CTalkMonster::LimitFollowers( CBaseEntity *pPlayer, int maxFollowers )
 {
 	CBaseEntity *pFriend = NULL;
 	int i, count;
+	int cfriends = TalkCompanionRegistry::GetCompanionCount();
 
 	count = 0;
 	// for each friend in this bsp...
-	for ( i = 0; i < TLK_CFRIENDS; i++ )
+	for ( i = 0; i < cfriends; i++ )
 	{
 		while ( pFriend = EnumFriends( pFriend, i, FALSE ) )
 		{
@@ -772,7 +785,7 @@ CBaseEntity *CTalkMonster ::FindNearestFriend( BOOL fPlayer )
 	if ( fPlayer )
 		cfriends = 1;
 	else
-		cfriends = TLK_CFRIENDS;
+		cfriends = TalkCompanionRegistry::GetCompanionCount();
 
 	// for each type of friend...
 
@@ -781,7 +794,14 @@ CBaseEntity *CTalkMonster ::FindNearestFriend( BOOL fPlayer )
 		if ( fPlayer )
 			pszFriend = "player";
 		else
-			pszFriend = m_szFriends[FriendNumber( i )];
+		{
+			int friendIndex = FriendNumber( i );
+			pszFriend = (char *)TalkCompanionRegistry::GetCompanion( friendIndex );
+			if ( !pszFriend && friendIndex >= 0 && friendIndex < TLK_CFRIENDS )
+			{
+				pszFriend = m_szFriends[friendIndex];
+			}
+		}
 
 		if ( !pszFriend )
 			continue;
