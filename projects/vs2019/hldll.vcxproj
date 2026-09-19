@@ -265,6 +265,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\chargers.cpp" />
     <ClCompile Include="..\..\dlls\items\items.cpp" />
     <ClCompile Include="..\..\dlls\items\ammo_items.cpp" />
+    <ClCompile Include="..\..\dlls\items\item_registry.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_shooters.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_screen.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_env.cpp" />
@@ -303,6 +304,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\weapons\projectile_hornet.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_hornetgun.h" />
     <ClInclude Include="..\..\dlls\items\item_base.h" />
+    <ClInclude Include="..\..\dlls\items\item_registry.h" />
     <ClInclude Include="..\..\dlls\ai\monsterevent.h" />
     <ClInclude Include="..\..\dlls\ai\monster_combat.h" />
     <ClInclude Include="..\..\dlls\ai\monster_scheduler.h" />

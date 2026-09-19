@@ -552,6 +552,11 @@ int CBasePlayer ::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, f
 }
 void CBasePlayer::PackDeadPlayerItems( void ) {}
 void CBasePlayer::RemoveAllItems( BOOL removeSuit ) {}
+int CBasePlayer::GetCustomItemCount( const char *pszItemName ) { return 0; }
+void CBasePlayer::AddCustomItem( const char *pszItemName, int count ) {}
+void CBasePlayer::SetCustomItemCount( const char *pszItemName, int count ) {}
+BOOL CBasePlayer::HasCustomItem( const char *pszItemName ) { return FALSE; }
+void CBasePlayer::ClearCustomItems( void ) {}
 void CBasePlayer::SetAnimation( PLAYER_ANIM playerAnim ) {}
 void CBasePlayer::WaterMove() {}
 BOOL CBasePlayer::IsOnLadder( void )

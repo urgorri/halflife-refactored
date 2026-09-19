@@ -4,6 +4,7 @@
 #include "core/player.h"
 #include "ai/monsters.h"
 #include "weapons/weapon_base.h"
+#include "items/item_registry.h"
 #include "ai/nodes.h"
 #include "ai/soundent.h"
 #include "core/decals.h"
@@ -651,27 +652,11 @@ void W_Precache( void )
 	memset( CBasePlayerItem::AmmoInfoArray, 0, sizeof( CBasePlayerItem::AmmoInfoArray ) );
 	giAmmoIndex = 0;
 
-	// common world objects
-	UTIL_PrecacheOther( "item_suit" );
-	UTIL_PrecacheOther( "item_battery" );
-	UTIL_PrecacheOther( "item_antidote" );
-	UTIL_PrecacheOther( "item_security" );
-	UTIL_PrecacheOther( "item_longjump" );
+	// Precache all registered world items and ammo pickup entities dynamically
+	ItemRegistry::PrecacheAll();
 
 	// Precache all registered weapons dynamically
 	WeaponRegistry::PrecacheAll();
-
-	// Precache standard ammo pickup entities
-	UTIL_PrecacheOther( "ammo_buckshot" );
-	UTIL_PrecacheOther( "ammo_9mmclip" );
-	UTIL_PrecacheOther( "ammo_9mmAR" );
-	UTIL_PrecacheOther( "ammo_ARgrenades" );
-#if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
-	UTIL_PrecacheOther( "ammo_357" );
-	UTIL_PrecacheOther( "ammo_gaussclip" );
-	UTIL_PrecacheOther( "ammo_rpgclip" );
-	UTIL_PrecacheOther( "ammo_crossbow" );
-#endif
 
 #if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
 	if ( g_pGameRules->IsDeathmatch() )

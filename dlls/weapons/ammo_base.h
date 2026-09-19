@@ -17,6 +17,7 @@
 #define WEAPONS_AMMO_BASE_H
 
 #include "weapons/weapon_base.h"
+#include "items/item_registry.h"
 
 //=========================================================
 // Reusable standard player ammo entity definition helper
@@ -46,6 +47,7 @@
 			return iResult;                                                                                  \
 		}                                                                                                    \
 	};                                                                                                       \
-	LINK_ENTITY_TO_CLASS( entityName, className );
+	LINK_ENTITY_TO_CLASS( entityName, className );                                                           \
+	REGISTER_ITEM( entityName, 0 );
 
 #endif // WEAPONS_AMMO_BASE_H

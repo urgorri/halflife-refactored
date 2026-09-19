@@ -20,3 +20,4 @@ void SetMockTraceLineResult( const TraceResult &tr );
 void ResetMockEngine();
 void InitMockEngine();
 void UTIL_PrecacheOtherWeapon( const char *szClassname );
+void UTIL_PrecacheOther( const char *szClassname );

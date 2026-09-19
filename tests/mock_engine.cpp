@@ -427,3 +427,8 @@ void UTIL_PrecacheOtherWeapon( const char *szClassname )
 	(void)szClassname;
 }
 
+void UTIL_PrecacheOther( const char *szClassname )
+{
+	(void)szClassname;
+}
+

@@ -18,6 +18,7 @@
 #include "core/cbase.h"
 #include "weapons/weapon_base.h"
 #include "weapons/ammo_base.h"
+#include "items/item_registry.h"
 #include "core/player.h"
 #include "gameplay/gamerules.h"
 
@@ -30,16 +31,19 @@
 // 9mm Glock clip
 IMPLEMENT_SIMPLE_AMMO( CGlockAmmo, ammo_glockclip, "models/w_9mmclip.mdl", "9mm", AMMO_GLOCKCLIP_GIVE, _9MM_MAX_CARRY, "items/9mmclip1.wav" )
 LINK_ENTITY_TO_CLASS( ammo_9mmclip, CGlockAmmo );
+REGISTER_ITEM( ammo_9mmclip, 0 );
 
 // 9mm MP5 clip & chain box
 IMPLEMENT_SIMPLE_AMMO( CMP5AmmoClip, ammo_mp5clip, "models/w_9mmARclip.mdl", "9mm", AMMO_MP5CLIP_GIVE, _9MM_MAX_CARRY, "items/9mmclip1.wav" )
 LINK_ENTITY_TO_CLASS( ammo_9mmAR, CMP5AmmoClip );
+REGISTER_ITEM( ammo_9mmAR, 0 );
 
 IMPLEMENT_SIMPLE_AMMO( CMP5Chainammo, ammo_9mmbox, "models/w_chainammo.mdl", "9mm", AMMO_CHAINBOX_GIVE, _9MM_MAX_CARRY, "items/9mmclip1.wav" )
 
 // MP5 M203 Grenades
 IMPLEMENT_SIMPLE_AMMO( CMP5AmmoGrenade, ammo_mp5grenades, "models/w_ARgrenade.mdl", "ARgrenades", AMMO_M203BOX_GIVE, M203_GRENADE_MAX_CARRY, "items/9mmclip1.wav" )
 LINK_ENTITY_TO_CLASS( ammo_ARgrenades, CMP5AmmoGrenade );
+REGISTER_ITEM( ammo_ARgrenades, 0 );
 
 // .357 Python box
 IMPLEMENT_SIMPLE_AMMO( CPythonAmmo, ammo_357, "models/w_357ammobox.mdl", "357", AMMO_357BOX_GIVE, _357_MAX_CARRY, "items/9mmclip1.wav" )
@@ -84,5 +88,6 @@ class CRpgAmmo : public CBasePlayerAmmo
 	}
 };
 LINK_ENTITY_TO_CLASS( ammo_rpgclip, CRpgAmmo );
+REGISTER_ITEM( ammo_rpgclip, 0 );
 
 #endif // !CLIENT_DLL
