@@ -55,6 +55,7 @@ typedef enum
 
 extern playermove_t *pmove;
 extern int g_onladder;
+extern int pm_shared_initialized;
 
 typedef struct
 {

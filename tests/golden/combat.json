@@ -1,0 +1,26 @@
+{
+  "RadiusDamage": [
+    {"src": [0.000000, 0.000000, 0.000000], "end": [0.000000, 0.000000, 0.000000], "damage": 100.000000, "radius": 250.000000, "expected_damage": 100.000000},
+    {"src": [0.000000, 0.000000, 0.000000], "end": [125.000000, 0.000000, 0.000000], "damage": 100.000000, "radius": 250.000000, "expected_damage": 50.000000},
+    {"src": [0.000000, 0.000000, 0.000000], "end": [250.000000, 0.000000, 0.000000], "damage": 100.000000, "radius": 250.000000, "expected_damage": 0.000000},
+    {"src": [0.000000, 0.000000, 0.000000], "end": [300.000000, 0.000000, 0.000000], "damage": 100.000000, "radius": 250.000000, "expected_damage": 0.000000},
+    {"src": [0.000000, 0.000000, 0.000000], "end": [50.000000, 50.000000, 0.000000], "damage": 150.000000, "radius": 0.000000, "expected_damage": 150.000000}
+  ],
+  "HitgroupMultipliers": [
+    {"hitgroup": 0, "name": "HITGROUP_GENERIC", "input_damage": 40.000000, "monster_damage": 40.000000, "player_damage": 40.000000},
+    {"hitgroup": 1, "name": "HITGROUP_HEAD", "input_damage": 40.000000, "monster_damage": 120.000000, "player_damage": 120.000000},
+    {"hitgroup": 2, "name": "HITGROUP_CHEST", "input_damage": 40.000000, "monster_damage": 40.000000, "player_damage": 40.000000},
+    {"hitgroup": 3, "name": "HITGROUP_STOMACH", "input_damage": 40.000000, "monster_damage": 40.000000, "player_damage": 40.000000},
+    {"hitgroup": 4, "name": "HITGROUP_LEFTARM", "input_damage": 40.000000, "monster_damage": 40.000000, "player_damage": 40.000000},
+    {"hitgroup": 5, "name": "HITGROUP_RIGHTARM", "input_damage": 40.000000, "monster_damage": 40.000000, "player_damage": 40.000000},
+    {"hitgroup": 6, "name": "HITGROUP_LEFTLEG", "input_damage": 40.000000, "monster_damage": 40.000000, "player_damage": 40.000000},
+    {"hitgroup": 7, "name": "HITGROUP_RIGHTLEG", "input_damage": 40.000000, "monster_damage": 40.000000, "player_damage": 40.000000}
+  ],
+  "ArmorAbsorption": [
+    {"name": "bullet_standard_absorption", "damage": 50.000000, "initial_armor": 100.000000, "damage_type": 2, "is_multiplayer": false, "expected_damage": 10.000000, "expected_armor": 80.000000},
+    {"name": "armor_exhaustion", "damage": 100.000000, "initial_armor": 30.000000, "damage_type": 2, "is_multiplayer": false, "expected_damage": 40.000000, "expected_armor": 0.000000},
+    {"name": "fall_damage_unprotected", "damage": 50.000000, "initial_armor": 100.000000, "damage_type": 32, "is_multiplayer": false, "expected_damage": 50.000000, "expected_armor": 100.000000},
+    {"name": "drown_damage_unprotected", "damage": 50.000000, "initial_armor": 100.000000, "damage_type": 16384, "is_multiplayer": false, "expected_damage": 50.000000, "expected_armor": 100.000000},
+    {"name": "multiplayer_blast_bonus", "damage": 100.000000, "initial_armor": 100.000000, "damage_type": 64, "is_multiplayer": true, "expected_damage": 20.000000, "expected_armor": 20.000000}
+  ]
+}

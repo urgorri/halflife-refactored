@@ -1,0 +1,67 @@
+#
+# Behavioral Equivalence Verification - Unit Test Suite Makefile for Linux
+#
+
+HLDLL_SRC_DIR=$(SOURCE_DIR)/dlls
+HLCORE_SRC_DIR=$(HLDLL_SRC_DIR)/core
+TESTS_SRC_DIR=$(SOURCE_DIR)/tests
+EXTERNAL_SRC_DIR=$(SOURCE_DIR)/external
+
+TESTS_OBJ_DIR=$(BUILD_OBJ_DIR)/tests
+PM_OBJ_DIR=$(BUILD_OBJ_DIR)/tests_pm
+
+TESTS_INCLUDEDIRS=-I$(SOURCE_DIR) -I$(TESTS_SRC_DIR) -I$(EXTERNAL_SRC_DIR)/catch2 -I$(HLDLL_SRC_DIR) -I$(HLCORE_SRC_DIR) -I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(GAME_SHARED_SRC_DIR) -I$(PUBLIC_SRC_DIR)
+
+TESTS_CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS) -std=c++14 -DCATCH_AMALGAMATED_CUSTOM_MAIN
+PM_CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS)
+
+LDFLAGS=-lm -lstdc++ -lpthread
+
+DO_TESTS_CXX=$(CPLUS) $(TESTS_INCLUDEDIRS) $(TESTS_CFLAGS) -o $@ -c $<
+DO_PM_CC=$(CC) $(TESTS_INCLUDEDIRS) $(PM_CFLAGS) -o $@ -c $<
+
+TEST_OBJS = \
+	$(TESTS_OBJ_DIR)/catch_amalgamated.o \
+	$(TESTS_OBJ_DIR)/mock_engine.o \
+	$(TESTS_OBJ_DIR)/test_main.o \
+	$(TESTS_OBJ_DIR)/test_pm_movement.o \
+	$(TESTS_OBJ_DIR)/test_combat.o
+
+PM_OBJS = \
+	$(PM_OBJ_DIR)/pm_shared.o \
+	$(PM_OBJ_DIR)/pm_step.o \
+	$(PM_OBJ_DIR)/pm_move_ground.o \
+	$(PM_OBJ_DIR)/pm_move_air.o \
+	$(PM_OBJ_DIR)/pm_move_water.o \
+	$(PM_OBJ_DIR)/pm_ladders.o \
+	$(PM_OBJ_DIR)/pm_duck.o \
+	$(PM_OBJ_DIR)/pm_hull.o \
+	$(PM_OBJ_DIR)/pm_math.o \
+	$(PM_OBJ_DIR)/pm_debug.o
+
+all: dirs $(BUILD_DIR)/hl_tests
+
+dirs:
+	-mkdir -p $(BUILD_DIR)
+	-mkdir -p $(TESTS_OBJ_DIR)
+	-mkdir -p $(PM_OBJ_DIR)
+
+$(BUILD_DIR)/hl_tests: $(TEST_OBJS) $(PM_OBJS)
+	$(CPLUS) -m32 -o $@ $(TEST_OBJS) $(PM_OBJS) $(LDFLAGS)
+
+$(TESTS_OBJ_DIR)/catch_amalgamated.o: $(EXTERNAL_SRC_DIR)/catch2/catch_amalgamated.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/%.o: $(TESTS_SRC_DIR)/%.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(PM_OBJ_DIR)/%.o: $(PM_SRC_DIR)/%.c | dirs
+	$(DO_PM_CC)
+
+clean:
+	-rm -rf $(TESTS_OBJ_DIR)
+	-rm -rf $(PM_OBJ_DIR)
+	-rm -f $(BUILD_DIR)/hl_tests
+
+test: all
+	$(BUILD_DIR)/hl_tests

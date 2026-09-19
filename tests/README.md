@@ -57,3 +57,75 @@ This test suite implements automated behavioral equivalence verification for `ha
   ```bash
   python tests/verify_saverestore.py --update
   ```
+
+---
+
+### Layer 3 — Unit Test Infrastructure (`#100`)
+- **Framework**: Catch2 v3.7.1 vendored in [`external/catch2/`](file:///c:/code/halflife-refactored/external/catch2/)
+- **Mock Engine**: [`tests/mock_engine.h`](file:///c:/code/halflife-refactored/tests/mock_engine.h), [`tests/mock_engine.cpp`](file:///c:/code/halflife-refactored/tests/mock_engine.cpp)
+  - Provides lightweight stubs for `enginefuncs_t`, `gpGlobals`, and captures network messages via `g_mockMessageBuffer`.
+- **Test Suites**:
+  - [`tests/test_pm_movement.cpp`](file:///c:/code/halflife-refactored/tests/test_pm_movement.cpp): Player movement and physics functions (`PM_CalcRoll`, `PM_DropPunchAngle`, `PM_CheckParamters`, `PM_Friction`, `PM_Accelerate`, `PM_AirAccelerate`) validated against upstream golden outputs.
+  - [`tests/test_combat.cpp`](file:///c:/code/halflife-refactored/tests/test_combat.cpp): Combat calculations (`RadiusDamage` linear falloff, hitgroup damage multipliers, armor absorption & depletion, network message buffering).
+- **Projects / Makefiles**:
+  - Windows: Visual Studio project [`projects/vs2019/hl_tests.vcxproj`](file:///c:/code/halflife-refactored/projects/vs2019/hl_tests.vcxproj) included in `projects.sln`.
+  - Linux: [`linux/Makefile.tests`](file:///c:/code/halflife-refactored/linux/Makefile.tests) invoked via `make -C linux hl_tests`.
+- **How to build & run**:
+  - Windows:
+    ```bash
+    msbuild projects/vs2019/hl_tests.vcxproj /p:Configuration=Release /p:Platform=Win32 /m
+    projects/vs2019/Release/hl_tests/hl_tests.exe
+    ```
+  - Linux:
+    ```bash
+    make -C linux hl_tests ARCH_CFLAGS_I686="-m32" HL_OUTPUT_DIR=release
+    linux/release/hl_tests
+    ```
+
+---
+
+### Layer 4 — Exported Symbol Table Verification (`#99`)
+- **Script**: [`tests/verify_symbols.py`](file:///c:/code/halflife-refactored/tests/verify_symbols.py)
+- **Golden Baselines**:
+  - [`tests/golden/symbols_client_windows.txt`](file:///c:/code/halflife-refactored/tests/golden/symbols_client_windows.txt) (624 symbols)
+  - [`tests/golden/symbols_server_windows.txt`](file:///c:/code/halflife-refactored/tests/golden/symbols_server_windows.txt) (495 symbols)
+  - [`tests/golden/symbols_client_linux.txt`](file:///c:/code/halflife-refactored/tests/golden/symbols_client_linux.txt) (157 symbols)
+  - [`tests/golden/symbols_server_linux.txt`](file:///c:/code/halflife-refactored/tests/golden/symbols_server_linux.txt) (506 symbols)
+- **Features**:
+  - Windows PE parser using `dumpbin /EXPORTS`.
+  - Pure-Python ELF32 parser for dynamic symbol tables (`.dynsym`/`.dynstr`), with automatic fallback to `nm -D`.
+  - Cross-platform verification: ELF binaries can be validated on Windows without Linux tooling.
+- **How to run**:
+  - Windows:
+    ```bash
+    python tests/verify_symbols.py --golden tests/golden/symbols_client_windows.txt --binary projects/vs2019/Release/hl_cdll/client.dll
+    python tests/verify_symbols.py --golden tests/golden/symbols_server_windows.txt --binary projects/vs2019/Release/hldll/hl.dll
+    ```
+  - Linux:
+    ```bash
+    python3 tests/verify_symbols.py --golden tests/golden/symbols_client_linux.txt --binary linux/release/cl_dlls/client.so
+    python3 tests/verify_symbols.py --golden tests/golden/symbols_server_linux.txt --binary linux/release/dlls/hl.so
+    ```
+- **How to update**:
+  ```bash
+  python tests/verify_symbols.py --binary <path_to_dll_or_so> --update tests/golden/<baseline_file>.txt
+  ```
+
+---
+
+## Upstream Golden Reference Build (`#104`)
+
+To guarantee exact numerical and behavioral equivalence without circular dependencies, golden data is computed from pristine upstream Valve SDK 2.3 reference sources:
+
+- **Reference Sources**: [`tests/upstream_reference/`](file:///c:/code/halflife-refactored/tests/upstream_reference/) (extracted from commit `b1b5cf5892918535619b2937bb927e46cb097ba1`).
+- **Generator**: [`tests/generate_golden.cpp`](file:///c:/code/halflife-refactored/tests/generate_golden.cpp)
+- **Generated Outputs**:
+  - [`tests/golden/pm_movement.json`](file:///c:/code/halflife-refactored/tests/golden/pm_movement.json)
+  - [`tests/golden/combat.json`](file:///c:/code/halflife-refactored/tests/golden/combat.json)
+  - [`tests/golden/golden_data.h`](file:///c:/code/halflife-refactored/tests/golden/golden_data.h) (C++ header embedded in unit tests)
+- **How to regenerate**:
+  ```bash
+  cl /EHsc /std:c++14 /I dlls /I dlls/core /I engine /I common /I pm_shared /I game_shared /I public tests/generate_golden.cpp /Fe:generate_golden.exe
+  ./generate_golden.exe
+  ```
+
