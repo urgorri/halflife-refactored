@@ -26,6 +26,9 @@
 #include "gameplay/gamerules.h"
 
 LINK_ENTITY_TO_CLASS( weapon_crossbow, CCrossbow );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_crossbow, 800 );
+#endif
 
 void CCrossbow::Spawn()
 {

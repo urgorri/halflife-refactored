@@ -186,6 +186,7 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/util_debug.o \
 	$(HLDLL_OBJ_DIR)/systems/vehicle.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_base.o \
+	$(HLDLL_OBJ_DIR)/weapons/weapon_registry.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_box.o \
 	$(HLDLL_OBJ_DIR)/weapons/player_item_base.o \
 	$(HLDLL_OBJ_DIR)/world/world.o \

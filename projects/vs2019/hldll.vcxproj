@@ -244,6 +244,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\systems\vehicle.cpp" />
     <ClCompile Include="..\..\dlls\core\wxdebug.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_base.cpp" />
+    <ClCompile Include="..\..\dlls\weapons\weapon_registry.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_box.cpp" />
     <ClCompile Include="..\..\dlls\weapons\player_item_base.cpp" />
     <ClCompile Include="..\..\dlls\world\world.cpp" />
@@ -337,6 +338,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\weapons\projectile_snark.h" />
     <ClInclude Include="..\..\dlls\weapons\projectile_tripmine.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_base.h" />
+    <ClInclude Include="..\..\dlls\weapons\weapon_registry.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_crossbow.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_crowbar.h" />
     <ClInclude Include="..\..\dlls\weapons\weapon_damage.h" />

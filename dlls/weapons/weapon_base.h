@@ -4,6 +4,7 @@
 #include "weapons/weapon_defs.h"
 #include "weapons/weapon_damage.h"
 #include "weapons/projectile_grenade.h"
+#include "weapons/weapon_registry.h"
 
 class CBasePlayer;
 

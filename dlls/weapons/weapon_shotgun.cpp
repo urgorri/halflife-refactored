@@ -42,6 +42,9 @@ enum shotgun_e
 };
 
 LINK_ENTITY_TO_CLASS( weapon_shotgun, CShotgun );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_shotgun, 100 );
+#endif
 
 void CShotgun::Spawn()
 {

@@ -37,6 +37,9 @@ enum squeak_e
 };
 
 LINK_ENTITY_TO_CLASS( weapon_snark, CSqueak );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_snark, 1300 );
+#endif
 
 void CSqueak::Spawn()
 {

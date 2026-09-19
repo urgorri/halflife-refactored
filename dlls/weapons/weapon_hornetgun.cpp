@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -51,6 +51,9 @@ enum firemode_e
 };
 
 LINK_ENTITY_TO_CLASS( weapon_hornetgun, CHgun );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_hornetgun, 1400 );
+#endif
 
 BOOL CHgun::IsUseable( void )
 {

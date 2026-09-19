@@ -45,13 +45,10 @@
 #include "hud_iface.h"
 #include "com_weapons.h"
 #include "demo.h"
+#include "client_weapon_manager.h"
 
 extern globalvars_t *gpGlobals;
 extern int g_iUser1;
-
-// Pool of client side entities/entvars_t
-static entvars_t ev[32];
-static int num_ents = 0;
 
 // The entity we'll use to represent the local client
 static CBasePlayer player;
@@ -59,28 +56,10 @@ static CBasePlayer player;
 // Local version of game .dll global variables ( time, etc. )
 static globalvars_t Globals;
 
-static CBasePlayerWeapon *g_pWpns[32];
-
 float g_flApplyVel      = 0.0;
 int g_irunninggausspred = 0;
 
 vec3_t previousorigin;
-
-// HLDM Weapon placeholder entities.
-CGlock g_Glock;
-CCrowbar g_Crowbar;
-CPython g_Python;
-CMP5 g_Mp5;
-CCrossbow g_Crossbow;
-CShotgun g_Shotgun;
-CRpg g_Rpg;
-CGauss g_Gauss;
-CEgon g_Egon;
-CHgun g_HGun;
-CHandGrenade g_HandGren;
-CSatchel g_Satchel;
-CTripmine g_Tripmine;
-CSqueak g_Snark;
 
 /*
 ======================
@@ -124,23 +103,9 @@ we set up the m_pPlayer field.
 */
 void HUD_PrepEntity( CBaseEntity *pEntity, CBasePlayer *pWeaponOwner )
 {
-	memset( &ev[num_ents], 0, sizeof( entvars_t ) );
-	pEntity->pev = &ev[num_ents++];
-
-	pEntity->Precache();
-	pEntity->Spawn();
-
-	if ( pWeaponOwner )
-	{
-		ItemInfo info;
-
-		( (CBasePlayerWeapon *)pEntity )->m_pPlayer = pWeaponOwner;
-
-		( (CBasePlayerWeapon *)pEntity )->GetItemInfo( &info );
-
-		g_pWpns[info.iId] = (CBasePlayerWeapon *)pEntity;
-	}
+	ClientWeaponManager::PrepEntity( pEntity, pWeaponOwner );
 }
+
 
 /*
 =====================
@@ -606,25 +571,10 @@ void HUD_InitClientWeapons( void )
 	g_engfuncs.pfnRandomFloat   = gEngfuncs.pfnRandomFloat;
 	g_engfuncs.pfnRandomLong    = gEngfuncs.pfnRandomLong;
 
-	// Allocate a slot for the local player
-	HUD_PrepEntity( &player, NULL );
-
-	// Allocate slot(s) for each weapon that we are going to be predicting
-	HUD_PrepEntity( &g_Glock, &player );
-	HUD_PrepEntity( &g_Crowbar, &player );
-	HUD_PrepEntity( &g_Python, &player );
-	HUD_PrepEntity( &g_Mp5, &player );
-	HUD_PrepEntity( &g_Crossbow, &player );
-	HUD_PrepEntity( &g_Shotgun, &player );
-	HUD_PrepEntity( &g_Rpg, &player );
-	HUD_PrepEntity( &g_Gauss, &player );
-	HUD_PrepEntity( &g_Egon, &player );
-	HUD_PrepEntity( &g_HGun, &player );
-	HUD_PrepEntity( &g_HandGren, &player );
-	HUD_PrepEntity( &g_Satchel, &player );
-	HUD_PrepEntity( &g_Tripmine, &player );
-	HUD_PrepEntity( &g_Snark, &player );
+	// Initialize client weapon manager and all predicted weapon entities
+	ClientWeaponManager::Init( &player );
 }
+
 
 /*
 =====================
@@ -686,65 +636,9 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	gpGlobals->time = time;
 
 	// Fill in data based on selected weapon
-	// Per-weapon entity state message handler
-	switch ( from->client.m_iId )
-	{
-	case WEAPON_CROWBAR:
-		pWeapon = &g_Crowbar;
-		break;
+	// Per-weapon entity state message handler via dynamic lookup
+	pWeapon = ClientWeaponManager::GetWeapon( from->client.m_iId );
 
-	case WEAPON_GLOCK:
-		pWeapon = &g_Glock;
-		break;
-
-	case WEAPON_PYTHON:
-		pWeapon = &g_Python;
-		break;
-
-	case WEAPON_MP5:
-		pWeapon = &g_Mp5;
-		break;
-
-	case WEAPON_CROSSBOW:
-		pWeapon = &g_Crossbow;
-		break;
-
-	case WEAPON_SHOTGUN:
-		pWeapon = &g_Shotgun;
-		break;
-
-	case WEAPON_RPG:
-		pWeapon = &g_Rpg;
-		break;
-
-	case WEAPON_GAUSS:
-		pWeapon = &g_Gauss;
-		break;
-
-	case WEAPON_EGON:
-		pWeapon = &g_Egon;
-		break;
-
-	case WEAPON_HORNETGUN:
-		pWeapon = &g_HGun;
-		break;
-
-	case WEAPON_HANDGRENADE:
-		pWeapon = &g_HandGren;
-		break;
-
-	case WEAPON_SATCHEL:
-		pWeapon = &g_Satchel;
-		break;
-
-	case WEAPON_TRIPMINE:
-		pWeapon = &g_Tripmine;
-		break;
-
-	case WEAPON_SNARK:
-		pWeapon = &g_Snark;
-		break;
-	}
 
 	// Store pointer to our destination entity_state_t so we can get our origin, etc. from it
 	//  for setting up events on the client
@@ -771,9 +665,9 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	if ( !pWeapon )
 		return;
 
-	for ( i = 0; i < 32; i++ )
+	for ( i = 0; i < ClientWeaponManager::GetMaxWeapons(); i++ )
 	{
-		pCurrent = g_pWpns[i];
+		pCurrent = ClientWeaponManager::GetWeaponByIndex( i );
 		if ( !pCurrent )
 		{
 			continue;
@@ -847,8 +741,9 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	// Point to current weapon object
 	if ( from->client.m_iId )
 	{
-		player.m_pActiveItem = g_pWpns[from->client.m_iId];
+		player.m_pActiveItem = ClientWeaponManager::GetWeapon( from->client.m_iId );
 	}
+
 
 	if ( player.m_pActiveItem->m_iId == WEAPON_RPG )
 	{
@@ -874,9 +769,9 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	if ( cmd->weaponselect && ( player.pev->deadflag != ( DEAD_DISCARDBODY + 1 ) ) )
 	{
 		// Switched to a different weapon?
-		if ( from->weapondata[cmd->weaponselect].m_iId == cmd->weaponselect )
+				if ( from->weapondata[cmd->weaponselect].m_iId == cmd->weaponselect )
 		{
-			CBasePlayerWeapon *pNew = g_pWpns[cmd->weaponselect];
+			CBasePlayerWeapon *pNew = ClientWeaponManager::GetWeapon( cmd->weaponselect );
 			if ( pNew && ( pNew != pWeapon ) )
 			{
 				// Put away old weapon
@@ -931,20 +826,20 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 		int body = 2;
 
 		// Pop the model to body 0.
-		if ( pWeapon == &g_Tripmine )
+		if ( pWeapon && pWeapon->m_iId == WEAPON_TRIPMINE )
 			body = 0;
 
 		// Show laser sight/scope combo
-		if ( pWeapon == &g_Python && bIsMultiplayer() )
+		if ( pWeapon && pWeapon->m_iId == WEAPON_PYTHON && bIsMultiplayer() )
 			body = 1;
 
 		// Force a fixed anim down to viewmodel
 		HUD_SendWeaponAnim( to->client.weaponanim, body, 1 );
 	}
 
-	for ( i = 0; i < 32; i++ )
+	for ( i = 0; i < ClientWeaponManager::GetMaxWeapons(); i++ )
 	{
-		pCurrent = g_pWpns[i];
+		pCurrent = ClientWeaponManager::GetWeaponByIndex( i );
 
 		pto = &to->weapondata[i];
 

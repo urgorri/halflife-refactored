@@ -421,3 +421,9 @@ void InitMockEngine()
 
 	ResetMockEngine();
 }
+
+void UTIL_PrecacheOtherWeapon( const char *szClassname )
+{
+	(void)szClassname;
+}
+

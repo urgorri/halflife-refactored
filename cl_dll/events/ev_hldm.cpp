@@ -23,6 +23,7 @@
 #include "pm_materials.h"
 
 #include "eventscripts.h"
+#include "event_registry.h"
 #include "ev_hldm.h"
 
 #include "r_efx.h"
@@ -475,3 +476,7 @@ int EV_TFC_IsAllyTeam( int iTeam1, int iTeam2 )
 {
 	return 0;
 }
+
+REGISTER_CLIENT_EVENT( "events/crowbar.sc", EV_Crowbar );
+REGISTER_CLIENT_EVENT( "events/train.sc", EV_TrainPitchAdjust );
+

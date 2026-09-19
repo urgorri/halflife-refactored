@@ -38,6 +38,9 @@ enum python_e
 
 LINK_ENTITY_TO_CLASS( weapon_python, CPython );
 LINK_ENTITY_TO_CLASS( weapon_357, CPython );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_357, 500 );
+#endif
 
 int CPython::GetItemInfo( ItemInfo *p )
 {
