@@ -27,7 +27,7 @@ extern float vJumpAngles[3];
 #endif
 #endif
 
-static int pm_shared_initialized = 0;
+int pm_shared_initialized        = 0;
 playermove_t *pmove              = NULL;
 int g_onladder                   = 0;
 
