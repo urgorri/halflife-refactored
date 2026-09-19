@@ -47,6 +47,22 @@ jobs:
             throw "Server DLL was not produced: $server"
           }
 
+      - name: Build via CMake (Win32)
+        run: |
+          cmake -B build-cmake -A Win32
+          cmake --build build-cmake --config Release
+
+      - name: Verify CMake Windows outputs & run tests
+        shell: pwsh
+        run: |
+          $client = "build-cmake/bin/Release/client.dll"
+          $server = "build-cmake/bin/Release/hl.dll"
+          $tests = "build-cmake/bin/Release/hl_tests.exe"
+          if (-not (Test-Path $client)) { throw "CMake Client DLL was not produced: $client" }
+          if (-not (Test-Path $server)) { throw "CMake Server DLL was not produced: $server" }
+          if (-not (Test-Path $tests)) { throw "CMake Test executable was not produced: $tests" }
+          & $tests
+
       - name: Prepare packaging
         shell: pwsh
         run: |
@@ -81,7 +97,21 @@ jobs:
             gcc-multilib \
             g++-multilib \
             libc6-dev-i386 \
-            make
+            make \
+            cmake
+
+      - name: Build via CMake (Linux x86)
+        run: |
+          cmake -B build-cmake -DCMAKE_BUILD_TYPE=Release
+          cmake --build build-cmake
+
+      - name: Verify CMake Linux outputs & run tests
+        run: |
+          file build-cmake/bin/client.so
+          file build-cmake/bin/client.so | grep -q "ELF 32-bit"
+          file build-cmake/bin/hl.so
+          file build-cmake/bin/hl.so | grep -q "ELF 32-bit"
+          ./build-cmake/bin/hl_tests
 
       - name: Build Linux Client DLL
         working-directory: linux

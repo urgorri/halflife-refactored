@@ -47,21 +47,67 @@ Changes should provide a concrete architectural or maintenance benefit. Cosmetic
 
 ## Building
 
-Build requirements and procedures remain based on the original Half-Life SDK.
+### CMake (Recommended)
 
-For Windows, the original SDK provides Visual Studio projects under:
+A modern cross-platform CMake build system is provided to compile the server library (`hl`), client library (`client`), and behavioral equivalence test suite (`hl_tests`).
 
-```text
-projects/vs2019
+#### Windows (Visual Studio 2019 / 2022 / BuildTools)
+
+Configure for 32-bit x86 architecture and compile:
+
+```cmd
+cmake -B build -A Win32
+cmake --build build --config Release
 ```
 
-For Linux, build files are provided under:
+Output binaries are generated in `build/bin/Release/`:
+- `hl.dll` (Server)
+- `client.dll` (Client)
+- `hl_tests.exe` (Behavioral equivalence test suite)
 
-```text
-linux
+To run the test suite:
+
+```cmd
+ctest --test-dir build -C Release --output-on-failure
 ```
 
-Refer to the original SDK documentation and project files for environment-specific requirements.
+#### Linux (GCC / Clang x86)
+
+Ensure 32-bit multilib tools and CMake are installed:
+
+```bash
+sudo dpkg --add-architecture i386
+sudo apt-get update && sudo apt-get install -y gcc-multilib g++-multilib make cmake
+```
+
+Configure and compile:
+
+```bash
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+```
+
+Output binaries are generated in `build/bin/`:
+- `hl.so` (Server)
+- `client.so` (Client)
+- `hl_tests` (Behavioral equivalence test suite)
+
+To run tests:
+
+```bash
+ctest --test-dir build --output-on-failure
+```
+
+#### Downstream Mod Extension Hooks
+
+Downstream mods and forks can place custom translation units inside `dlls/custom/` or `cl_dll/custom/` (or create subdirectories). CMake automatically discovers and compiles them into `hl` and `client` respectively via `CONFIGURE_DEPENDS`, eliminating git merge conflicts on upstream pulls.
+
+### Legacy Build Systems (Backward Compatibility)
+
+The original SDK build definitions remain fully retained and functional:
+
+* **Windows**: `projects/vs2019/projects.sln` (`hldll.vcxproj`, `hl_cdll.vcxproj`, `hl_tests.vcxproj`)
+* **Linux**: `linux/Makefile` (`make hl`, `make hl_cdll`, `make hl_tests`)
 
 ## License
 
