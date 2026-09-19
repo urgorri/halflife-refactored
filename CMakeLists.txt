@@ -262,10 +262,17 @@ if(BUILD_CLIENT)
             wsock32
         )
     else()
-        target_link_directories(client PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/linux")
+        add_library(vgui_bundled SHARED IMPORTED)
+        set_target_properties(vgui_bundled PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/linux/vgui.so"
+        )
+        add_library(sdl2_bundled SHARED IMPORTED)
+        set_target_properties(sdl2_bundled PROPERTIES
+            IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/linux/libSDL2.so"
+        )
         target_link_libraries(client PRIVATE
-            "${CMAKE_CURRENT_SOURCE_DIR}/linux/vgui.so"
-            "${CMAKE_CURRENT_SOURCE_DIR}/linux/libSDL2.so"
+            vgui_bundled
+            sdl2_bundled
             dl
             pthread
             m
