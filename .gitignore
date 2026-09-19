@@ -25,6 +25,7 @@ ipch/
 # CMake Build Artifacts
 build/
 build_*/
+build-*/
 cmake-build-*/
 CMakeCache.txt
 CMakeFiles/

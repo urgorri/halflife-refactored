@@ -38,6 +38,9 @@ enum glock_e
 
 LINK_ENTITY_TO_CLASS( weapon_glock, CGlock );
 LINK_ENTITY_TO_CLASS( weapon_9mmhandgun, CGlock );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_9mmhandgun, 300 );
+#endif
 
 void CGlock::Spawn()
 {

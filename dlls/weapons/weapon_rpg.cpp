@@ -40,6 +40,9 @@ enum rpg_e
 };
 
 LINK_ENTITY_TO_CLASS( weapon_rpg, CRpg );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_rpg, 700 );
+#endif
 
 void CRpg::Reload( void )
 {

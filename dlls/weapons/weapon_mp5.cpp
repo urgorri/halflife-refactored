@@ -38,6 +38,9 @@ enum mp5_e
 
 LINK_ENTITY_TO_CLASS( weapon_mp5, CMP5 );
 LINK_ENTITY_TO_CLASS( weapon_9mmAR, CMP5 );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_9mmAR, 400 );
+#endif
 
 //=========================================================
 //=========================================================

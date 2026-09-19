@@ -56,6 +56,9 @@ enum egon_e
 };
 
 LINK_ENTITY_TO_CLASS( weapon_egon, CEgon );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_egon, 900 );
+#endif
 
 void CEgon::Spawn()
 {

@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -27,6 +27,9 @@
 #define CROWBAR_WALLHIT_VOLUME 512
 
 LINK_ENTITY_TO_CLASS( weapon_crowbar, CCrowbar );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_crowbar, 200 );
+#endif
 
 enum gauss_e
 {

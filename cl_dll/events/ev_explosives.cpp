@@ -22,6 +22,7 @@
 #include "event_api.h"
 #include "event_args.h"
 #include "in_defs.h"
+#include "event_registry.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -287,3 +288,8 @@ void EV_SnarkFire( event_args_t *args )
 //======================
 //	   SQUEAK END
 //======================
+
+REGISTER_CLIENT_EVENT( "events/rpg.sc", EV_FireRpg );
+REGISTER_CLIENT_EVENT( "events/tripfire.sc", EV_TripmineFire );
+REGISTER_CLIENT_EVENT( "events/snarkfire.sc", EV_SnarkFire );
+

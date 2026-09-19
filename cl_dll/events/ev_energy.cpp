@@ -22,6 +22,7 @@
 #include "event_api.h"
 #include "event_args.h"
 #include "in_defs.h"
+#include "event_registry.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -488,3 +489,10 @@ void EV_HornetGunFire( event_args_t *args )
 //======================
 //	   HORNET END
 //======================
+
+REGISTER_CLIENT_EVENT( "events/gauss.sc", EV_FireGauss );
+REGISTER_CLIENT_EVENT( "events/gaussspin.sc", EV_SpinGauss );
+REGISTER_CLIENT_EVENT( "events/egon_fire.sc", EV_EgonFire );
+REGISTER_CLIENT_EVENT( "events/egon_stop.sc", EV_EgonStop );
+REGISTER_CLIENT_EVENT( "events/firehornet.sc", EV_HornetGunFire );
+

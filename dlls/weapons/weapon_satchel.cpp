@@ -26,6 +26,9 @@
 #include "gameplay/gamerules.h"
 
 LINK_ENTITY_TO_CLASS( weapon_satchel, CSatchel );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_satchel, 1100 );
+#endif
 
 //=========================================================
 // CALLED THROUGH the newly-touched weapon's instance. The existing player weapon is pOriginal

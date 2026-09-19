@@ -49,6 +49,18 @@
     <ClCompile Include="..\..\tests\test_saverestore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\tests\test_weapon_pipeline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons\weapon_registry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hl\client_weapon_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\events\event_registry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\pm_shared\pm_debug.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>

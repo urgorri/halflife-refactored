@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -36,6 +36,9 @@ enum handgrenade_e
 };
 
 LINK_ENTITY_TO_CLASS( weapon_handgrenade, CHandGrenade );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_handgrenade, 1200 );
+#endif
 
 void CHandGrenade::Spawn()
 {

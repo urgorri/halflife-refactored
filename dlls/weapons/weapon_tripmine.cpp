@@ -40,6 +40,9 @@ enum tripmine_e
 };
 
 LINK_ENTITY_TO_CLASS( weapon_tripmine, CTripmine );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_tripmine, 1000 );
+#endif
 
 void CTripmine::Spawn()
 {

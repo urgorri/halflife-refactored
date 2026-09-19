@@ -22,6 +22,7 @@
 #include "event_api.h"
 #include "event_args.h"
 #include "in_defs.h"
+#include "event_registry.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -380,3 +381,14 @@ void EV_FirePython( event_args_t *args )
 //	    PHYTON END
 //	     ( .357 )
 //======================
+
+REGISTER_CLIENT_EVENT( "events/glock1.sc", EV_FireGlock1 );
+REGISTER_CLIENT_EVENT( "events/glock2.sc", EV_FireGlock2 );
+REGISTER_CLIENT_EVENT( "events/shotgun1.sc", EV_FireShotGunSingle );
+REGISTER_CLIENT_EVENT( "events/shotgun2.sc", EV_FireShotGunDouble );
+REGISTER_CLIENT_EVENT( "events/mp5.sc", EV_FireMP5 );
+REGISTER_CLIENT_EVENT( "events/mp52.sc", EV_FireMP52 );
+REGISTER_CLIENT_EVENT( "events/python.sc", EV_FirePython );
+REGISTER_CLIENT_EVENT( "events/crossbow1.sc", EV_FireCrossbow );
+REGISTER_CLIENT_EVENT( "events/crossbow2.sc", EV_FireCrossbow2 );
+

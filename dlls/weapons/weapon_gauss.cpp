@@ -43,6 +43,9 @@ enum gauss_e
 };
 
 LINK_ENTITY_TO_CLASS( weapon_gauss, CGauss );
+#ifndef CLIENT_DLL
+REGISTER_WEAPON( weapon_gauss, 600 );
+#endif
 
 float CGauss::GetFullChargeTime( void )
 {

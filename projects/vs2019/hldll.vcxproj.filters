@@ -651,6 +651,9 @@
     <ClCompile Include="..\..\dlls\weapons\weapon_base.cpp">
       <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\weapons\weapon_registry.cpp">
+      <Filter>Source Files\dlls\weapons</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_box.cpp">
       <Filter>Source Files\dlls\weapons</Filter>
     </ClCompile>
@@ -882,6 +885,9 @@
       <Filter>Header Files\dlls\weapons</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\weapons\weapon_base.h">
+      <Filter>Header Files\dlls\weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\weapons\weapon_registry.h">
       <Filter>Header Files\dlls\weapons</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\weapons\weapon_crossbow.h">

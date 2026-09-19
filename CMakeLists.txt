@@ -293,6 +293,10 @@ if(BUILD_TESTS)
         tests/test_combat.cpp
         tests/test_abi_layout.cpp
         tests/test_saverestore.cpp
+        tests/test_weapon_pipeline.cpp
+        dlls/weapons/weapon_registry.cpp
+        cl_dll/hl/client_weapon_manager.cpp
+        cl_dll/events/event_registry.cpp
         ${PM_SHARED_SOURCES}
     )
 
@@ -318,6 +322,7 @@ if(BUILD_TESTS)
         dlls
         dlls/core
         dlls/weapons
+        cl_dll
         engine
         common
         pm_shared

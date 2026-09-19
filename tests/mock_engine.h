@@ -19,3 +19,4 @@ extern TraceResult g_mockTraceResult;
 void SetMockTraceLineResult( const TraceResult &tr );
 void ResetMockEngine();
 void InitMockEngine();
+void UTIL_PrecacheOtherWeapon( const char *szClassname );
