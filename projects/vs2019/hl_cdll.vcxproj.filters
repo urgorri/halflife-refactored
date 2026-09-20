@@ -199,6 +199,9 @@
     <ClCompile Include="..\..\cl_dll\hud\hud_redraw.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cl_dll\hud\hud_registry.cpp">
+      <Filter>Source Files\cl_dll\hud</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\hud_servers.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>
@@ -470,6 +473,12 @@
       <Filter>Header Files\cl_dll\hud</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\hud\hud.h">
+      <Filter>Header Files\cl_dll\hud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\hud\hud_base.h">
+      <Filter>Header Files\cl_dll\hud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\hud\hud_registry.h">
       <Filter>Header Files\cl_dll\hud</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\hud\hud_servers.h">

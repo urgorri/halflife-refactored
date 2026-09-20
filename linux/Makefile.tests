@@ -31,7 +31,9 @@ TEST_OBJS = \
 	$(TESTS_OBJ_DIR)/test_weapon_pipeline.o \
 	$(TESTS_OBJ_DIR)/weapon_registry.o \
 	$(TESTS_OBJ_DIR)/client_weapon_manager.o \
-	$(TESTS_OBJ_DIR)/event_registry.o
+	$(TESTS_OBJ_DIR)/event_registry.o \
+	$(TESTS_OBJ_DIR)/hud_registry.o \
+	$(TESTS_OBJ_DIR)/test_hud_registry.o
 
 PM_OBJS = \
 	$(PM_OBJ_DIR)/pm_shared.o \
@@ -68,6 +70,9 @@ $(TESTS_OBJ_DIR)/client_weapon_manager.o: $(SOURCE_DIR)/cl_dll/hl/client_weapon_
 	$(DO_TESTS_CXX)
 
 $(TESTS_OBJ_DIR)/event_registry.o: $(SOURCE_DIR)/cl_dll/events/event_registry.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/hud_registry.o: $(SOURCE_DIR)/cl_dll/hud/hud_registry.cpp | dirs
 	$(DO_TESTS_CXX)
 
 $(PM_OBJ_DIR)/%.o: $(PM_SRC_DIR)/%.c | dirs

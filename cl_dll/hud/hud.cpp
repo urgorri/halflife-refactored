@@ -350,23 +350,10 @@ void CHud ::Init( void )
 	// In case we get messages before the first update -- time will be valid
 	m_flTime = 1.0;
 
-	m_Ammo.Init();
-	m_Health.Init();
-	m_SayText.Init();
-	m_Spectator.Init();
-	m_Geiger.Init();
-	m_Train.Init();
-	m_Battery.Init();
-	m_Flash.Init();
-	m_Message.Init();
-	m_StatusBar.Init();
-	m_DeathNotice.Init();
-	m_AmmoSecondary.Init();
-	m_TextMessage.Init();
-	m_StatusIcons.Init();
+	// Register base HUD elements and attach all elements in draw order
+	HudRegistry::RegisterBaseElements( this );
 	GetClientVoiceMgr()->Init( &g_VoiceStatusHelper, (vgui::Panel **)&gViewPort );
-
-	m_Menu.Init();
+	HudRegistry::AttachAll( this );
 
 	ServersInit();
 
@@ -508,22 +495,7 @@ void CHud ::VidInit( void )
 
 	m_iFontHeight = m_rgrcRects[m_HUD_number_0].bottom - m_rgrcRects[m_HUD_number_0].top;
 
-	m_Ammo.VidInit();
-	m_Health.VidInit();
-	m_Spectator.VidInit();
-	m_Geiger.VidInit();
-	m_Train.VidInit();
-	m_Battery.VidInit();
-	m_Flash.VidInit();
-	m_Message.VidInit();
-	m_StatusBar.VidInit();
-	m_DeathNotice.VidInit();
-	m_SayText.VidInit();
-	m_Menu.VidInit();
-	m_AmmoSecondary.VidInit();
-	m_TextMessage.VidInit();
-	m_StatusIcons.VidInit();
-	GetClientVoiceMgr()->VidInit();
+	HudRegistry::VidInitAll( this );
 }
 
 int CHud::MsgFunc_Logo( const char *pszName, int iSize, void *pbuf )
@@ -672,10 +644,15 @@ void CHud::AddHudElem( CHudBase *phudelem )
 {
 	HUDLIST *pdl, *ptemp;
 
-	// phudelem->Think();
-
 	if ( !phudelem )
 		return;
+
+	// Deduplication: avoid adding the same element twice
+	for ( HUDLIST *p = m_pHudList; p; p = p->pNext )
+	{
+		if ( p->p == phudelem )
+			return;
+	}
 
 	pdl = (HUDLIST *)malloc( sizeof( HUDLIST ) );
 	if ( !pdl )
@@ -696,6 +673,31 @@ void CHud::AddHudElem( CHudBase *phudelem )
 		ptemp = ptemp->pNext;
 
 	ptemp->pNext = pdl;
+}
+
+void CHud::RemoveHudElem( CHudBase *phudelem )
+{
+	if ( !phudelem || !m_pHudList )
+		return;
+
+	HUDLIST *pCurr = m_pHudList;
+	HUDLIST *pPrev = NULL;
+
+	while ( pCurr )
+	{
+		if ( pCurr->p == phudelem )
+		{
+			if ( pPrev )
+				pPrev->pNext = pCurr->pNext;
+			else
+				m_pHudList = pCurr->pNext;
+
+			free( pCurr );
+			return;
+		}
+		pPrev = pCurr;
+		pCurr = pCurr->pNext;
+	}
 }
 
 float CHud::GetSensitivity( void )

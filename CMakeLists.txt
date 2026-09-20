@@ -297,6 +297,7 @@ if(BUILD_TESTS)
         tests/test_item_registry.cpp
         tests/test_ai_factions.cpp
         tests/test_gamerules_skill.cpp
+        tests/test_hud_registry.cpp
         dlls/weapons/weapon_registry.cpp
         dlls/items/item_registry.cpp
         dlls/ai/monster_relationship_manager.cpp
@@ -306,6 +307,7 @@ if(BUILD_TESTS)
         dlls/core/skill.cpp
         cl_dll/hl/client_weapon_manager.cpp
         cl_dll/events/event_registry.cpp
+        cl_dll/hud/hud_registry.cpp
         ${PM_SHARED_SOURCES}
     )
 
