@@ -151,4 +151,6 @@ extern DLL_GLOBAL int g_iSkillLevel;
 #define SKILL_MEDIUM 2
 #define SKILL_HARD 3
 
+#include "core/skill_manager.h"
+
 #endif // SKILL_H

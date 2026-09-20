@@ -170,11 +170,76 @@ static void stub_WriteString( const char *sz ) {
 static void stub_WriteEntity( int iValue ) {
 	stub_WriteShort( iValue );
 }
-static void stub_CVarRegister( cvar_t *pCvar ) {}
-static float stub_CVarGetFloat( const char *szVarName ) { return 0.0f; }
-static const char *stub_CVarGetString( const char *szVarName ) { return ""; }
-static void stub_CVarSetFloat( const char *szVarName, float flValue ) {}
-static void stub_CVarSetString( const char *szVarName, const char *szValue ) {}
+static std::unordered_map<std::string, cvar_t> s_mockCvars;
+static std::unordered_map<std::string, std::string> s_mockCvarStrings;
+
+int g_teamplay = 0;
+cvar_t teamplay = { "mp_teamplay", "0", 0 };
+cvar_t sv_busters = { "sv_busters", "0", 0 };
+
+void SetMockCvar( const char *szVarName, float flValue ) {
+	if ( !szVarName ) return;
+	char buf[32];
+	snprintf( buf, sizeof( buf ), "%g", flValue );
+	s_mockCvarStrings[szVarName] = buf;
+
+	cvar_t &cv = s_mockCvars[szVarName];
+	cv.name = const_cast<char *>( s_mockCvarStrings.find( szVarName )->first.c_str() );
+	cv.string = const_cast<char *>( s_mockCvarStrings[szVarName].c_str() );
+	cv.value = flValue;
+}
+
+void SetMockCvar( const char *szVarName, const char *szValue ) {
+	if ( !szVarName ) return;
+	s_mockCvarStrings[szVarName] = szValue ? szValue : "";
+
+	cvar_t &cv = s_mockCvars[szVarName];
+	cv.name = const_cast<char *>( s_mockCvarStrings.find( szVarName )->first.c_str() );
+	cv.string = const_cast<char *>( s_mockCvarStrings[szVarName].c_str() );
+	cv.value = static_cast<float>( std::atof( cv.string ) );
+}
+
+void ClearMockCvars() {
+	s_mockCvars.clear();
+	s_mockCvarStrings.clear();
+}
+
+static void stub_CVarRegister( cvar_t *pCvar ) {
+	if ( pCvar && pCvar->name ) {
+		s_mockCvars[pCvar->name] = *pCvar;
+	}
+}
+
+static cvar_t *stub_CVarGetPointer( const char *szVarName ) {
+	if ( !szVarName ) return nullptr;
+	auto it = s_mockCvars.find( szVarName );
+	if ( it != s_mockCvars.end() ) return &it->second;
+	return nullptr;
+}
+
+static float stub_CVarGetFloat( const char *szVarName ) {
+	if ( !szVarName ) return 0.0f;
+	auto it = s_mockCvars.find( szVarName );
+	if ( it != s_mockCvars.end() ) return it->second.value;
+	return 0.0f;
+}
+
+static const char *stub_CVarGetString( const char *szVarName ) {
+	if ( !szVarName ) return "";
+	auto it = s_mockCvars.find( szVarName );
+	if ( it != s_mockCvars.end() && it->second.string ) return it->second.string;
+	return "";
+}
+
+static void stub_CVarSetFloat( const char *szVarName, float flValue ) {
+	if ( !szVarName ) return;
+	SetMockCvar( szVarName, flValue );
+}
+
+static void stub_CVarSetString( const char *szVarName, const char *szValue ) {
+	if ( !szVarName ) return;
+	SetMockCvar( szVarName, szValue ? szValue : "" );
+}
 static void stub_AlertMessage( ALERT_TYPE atype, char *szFmt, ... ) {}
 static void stub_EngineFprintf( void *pfile, char *szFmt, ... ) {}
 
@@ -288,6 +353,11 @@ void ResetMockEngine()
 	std::memset( &g_mockTraceResult, 0, sizeof( g_mockTraceResult ) );
 	g_mockTraceResult.flFraction = 1.0f;
 
+	ClearMockCvars();
+	g_teamplay = 0;
+	teamplay.value = 0.0f;
+	sv_busters.value = 0.0f;
+
 	std::memset( &s_mockGlobals, 0, sizeof( s_mockGlobals ) );
 	s_mockGlobals.time = 1.0f;
 	s_mockGlobals.frametime = 0.01f;
@@ -356,6 +426,7 @@ void InitMockEngine()
 	g_engfuncs.pfnWriteString = stub_WriteString;
 	g_engfuncs.pfnWriteEntity = stub_WriteEntity;
 	g_engfuncs.pfnCVarRegister = stub_CVarRegister;
+	g_engfuncs.pfnCVarGetPointer = stub_CVarGetPointer;
 	g_engfuncs.pfnCVarGetFloat = stub_CVarGetFloat;
 	g_engfuncs.pfnCVarGetString = stub_CVarGetString;
 	g_engfuncs.pfnCVarSetFloat = stub_CVarSetFloat;
@@ -450,4 +521,13 @@ int CBaseEntity::IsInWorld( void ) { return 1; }
 CBaseEntity *CBaseEntity::GetNextTarget( void ) { return nullptr; }
 int CBaseEntity::FVisible( CBaseEntity *pEntity ) { return 1; }
 int CBaseEntity::FVisible( const Vector &vecTarget ) { return 1; }
+
+#include "gameplay/gamerules.h"
+
+int g_iSkillLevel = 1;
+
+void CGameRules::RefreshSkillData( void ) {}
+edict_t *CGameRules::GetPlayerSpawnSpot( CBasePlayer *pPlayer ) { return nullptr; }
+BOOL CGameRules::CanHavePlayerItem( CBasePlayer *pPlayer, CBasePlayerItem *pWeapon ) { return TRUE; }
+BOOL CGameRules::CanHaveAmmo( CBasePlayer *pPlayer, const char *pszAmmoName, int iMaxCarry ) { return TRUE; }
 

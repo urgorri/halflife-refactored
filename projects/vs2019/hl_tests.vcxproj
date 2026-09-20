@@ -58,9 +58,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;VALVE_DLL;CATCH_AMALGAMATED_CUSTOM_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;VALVE_DLL;HL_TESTS;CATCH_AMALGAMATED_CUSTOM_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <AdditionalIncludeDirectories>..\..\;..\..\tests;..\..\external\catch2;..\..\dlls;..\..\dlls\core;..\..\dlls\weapons;..\..\cl_dll;..\..\engine;..\..\common;..\..\pm_shared;..\..\game_shared;..\..\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\;..\..\tests;..\..\external\catch2;..\..\dlls;..\..\dlls\core;..\..\dlls\weapons;..\..\dlls\gameplay;..\..\cl_dll;..\..\engine;..\..\common;..\..\pm_shared;..\..\game_shared;..\..\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
@@ -77,8 +77,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;VALVE_DLL;CATCH_AMALGAMATED_CUSTOM_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\;..\..\tests;..\..\external\catch2;..\..\dlls;..\..\dlls\core;..\..\dlls\weapons;..\..\cl_dll;..\..\engine;..\..\common;..\..\pm_shared;..\..\game_shared;..\..\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;VALVE_DLL;HL_TESTS;CATCH_AMALGAMATED_CUSTOM_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\;..\..\tests;..\..\external\catch2;..\..\dlls;..\..\dlls\core;..\..\dlls\weapons;..\..\dlls\gameplay;..\..\cl_dll;..\..\engine;..\..\common;..\..\pm_shared;..\..\game_shared;..\..\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <LanguageStandard>stdcpp14</LanguageStandard>
@@ -122,6 +122,10 @@
     <ClCompile Include="..\..\dlls\ai\talk_companion_registry.cpp" />
     <ClCompile Include="..\..\cl_dll\hl\client_weapon_manager.cpp" />
     <ClCompile Include="..\..\cl_dll\events\event_registry.cpp" />
+    <ClCompile Include="..\..\tests\test_gamerules_skill.cpp" />
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_factory.cpp" />
+    <ClCompile Include="..\..\dlls\core\skill_manager.cpp" />
+    <ClCompile Include="..\..\dlls\core\skill.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

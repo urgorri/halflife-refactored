@@ -161,6 +161,8 @@ class CGameRules
 
 extern CGameRules *InstallGameRules( void );
 
+#include "gameplay/gamerules_factory.h"
+
 //=========================================================
 // CHalfLifeRules - rules for the single player Half-Life
 // game.

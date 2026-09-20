@@ -296,10 +296,14 @@ if(BUILD_TESTS)
         tests/test_weapon_pipeline.cpp
         tests/test_item_registry.cpp
         tests/test_ai_factions.cpp
+        tests/test_gamerules_skill.cpp
         dlls/weapons/weapon_registry.cpp
         dlls/items/item_registry.cpp
         dlls/ai/monster_relationship_manager.cpp
         dlls/ai/talk_companion_registry.cpp
+        dlls/gameplay/gamerules_factory.cpp
+        dlls/core/skill_manager.cpp
+        dlls/core/skill.cpp
         cl_dll/hl/client_weapon_manager.cpp
         cl_dll/events/event_registry.cpp
         ${PM_SHARED_SOURCES}
@@ -313,6 +317,7 @@ if(BUILD_TESTS)
 
     target_compile_definitions(hl_tests PRIVATE
         VALVE_DLL
+        HL_TESTS
         CATCH_AMALGAMATED_CUSTOM_MAIN
     )
 
@@ -328,6 +333,7 @@ if(BUILD_TESTS)
         dlls/core
         dlls/weapons
         dlls/ai
+        dlls/gameplay
         cl_dll
         engine
         common
