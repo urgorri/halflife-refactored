@@ -146,6 +146,7 @@ OBJ = \
 	$(DLL_OBJDIR)/systems/func_tankmortar.o \
 	$(CORE_OBJDIR)/game.o \
 	$(DLL_OBJDIR)/gameplay/gamerules.o \
+	$(DLL_OBJDIR)/gameplay/gamerules_factory.o \
 	$(DLL_OBJDIR)/monsters/gargantua.o \
 	$(DLL_OBJDIR)/weapons/weapon_gauss.o \
 	$(DLL_OBJDIR)/monsters/genericmonster.o \
@@ -230,6 +231,7 @@ OBJ = \
 	$(DLL_OBJDIR)/weapons/weapon_shotgun.o \
 	$(DLL_OBJDIR)/gameplay/singleplay_gamerules.o \
 	$(CORE_OBJDIR)/skill.o \
+	$(CORE_OBJDIR)/skill_manager.o \
 	$(DLL_OBJDIR)/gameplay/stats.o \
 	$(DLL_OBJDIR)/systems/sound.o \
 	$(DLL_OBJDIR)/ai/soundent.o \

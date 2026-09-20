@@ -198,6 +198,9 @@
     <ClCompile Include="..\..\dlls\gameplay\gamerules.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\gameplay\gamerules_factory.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\monsters\gargantua.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
@@ -496,6 +499,9 @@
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\skill.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\skill_manager.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\systems\sound.cpp">
@@ -832,6 +838,12 @@
     </ClInclude>
     <ClInclude Include="..\..\dlls\items\item_registry.h">
       <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\gameplay\gamerules_factory.h">
+      <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\core\skill_manager.h">
+      <Filter>Header Files\dlls\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\ai\monsterevent.h">
       <Filter>Header Files\dlls</Filter>

@@ -94,6 +94,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/systems/func_tank.o \
 	$(HLCORE_OBJ_DIR)/game.o \
 	$(HLDLL_OBJ_DIR)/gameplay/gamerules.o \
+	$(HLDLL_OBJ_DIR)/gameplay/gamerules_factory.o \
 	$(HLDLL_OBJ_DIR)/monsters/gargantua.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_gauss.o \
 	$(HLDLL_OBJ_DIR)/monsters/genericmonster.o \
@@ -157,6 +158,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/scientist.o \
 	$(HLDLL_OBJ_DIR)/weapons/weapon_shotgun.o \
 	$(HLCORE_OBJ_DIR)/skill.o \
+	$(HLCORE_OBJ_DIR)/skill_manager.o \
 	$(HLDLL_OBJ_DIR)/systems/sound.o \
 	$(HLDLL_OBJ_DIR)/systems/sound_ambient.o \
 	$(HLDLL_OBJ_DIR)/systems/sound_dsp.o \

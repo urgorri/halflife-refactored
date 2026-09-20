@@ -27,16 +27,12 @@ skilldata_t gSkillData;
 //=========================================================
 float GetSkillCvar( char *pName )
 {
-	int iCount;
-	float flValue;
-	char szBuffer[64];
-
-	iCount = sprintf( szBuffer, "%s%d", pName, gSkillData.iSkillLevel );
-
-	flValue = CVAR_GET_FLOAT( szBuffer );
+	float flValue = SkillManager::Query( pName, 0.0f );
 
 	if ( flValue <= 0 )
 	{
+		char szBuffer[64];
+		sprintf( szBuffer, "%s%d", pName, gSkillData.iSkillLevel );
 		ALERT( at_console, "\n\n** GetSkillCVar Got a zero for %s **\n\n", szBuffer );
 	}
 

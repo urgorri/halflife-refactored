@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -128,6 +128,9 @@ void CGameRules::RefreshSkillData( void )
 	}
 
 	gSkillData.iSkillLevel = iSkill;
+
+	SkillManager::InvalidateCache();
+	SkillManager::SetSkillLevel( iSkill );
 
 	ALERT( at_console, "\nGAME SKILL LEVEL:%d\n", iSkill );
 
@@ -313,38 +316,5 @@ CGameRules *InstallGameRules( void )
 	SERVER_COMMAND( "exec game.cfg\n" );
 	SERVER_EXECUTE();
 
-	if ( !gpGlobals->deathmatch )
-	{
-		// generic half-life
-		g_teamplay = 0;
-		return new CHalfLifeRules;
-	}
-	else
-	{
-		if ( teamplay.value > 0 )
-		{
-			// teamplay
-
-			g_teamplay = 1;
-			return new CHalfLifeTeamplay;
-		}
-
-		if ( sv_busters.value == 1 )
-		{
-			g_teamplay = 0;
-			return new CMultiplayBusters;
-		}
-		else if ( (int)gpGlobals->deathmatch == 1 )
-		{
-			// vanilla deathmatch
-			g_teamplay = 0;
-			return new CHalfLifeMultiplay;
-		}
-		else
-		{
-			// vanilla deathmatch??
-			g_teamplay = 0;
-			return new CHalfLifeMultiplay;
-		}
-	}
+	return GameRulesFactory::CreateGameRules();
 }

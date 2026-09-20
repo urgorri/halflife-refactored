@@ -21,3 +21,11 @@ void ResetMockEngine();
 void InitMockEngine();
 void UTIL_PrecacheOtherWeapon( const char *szClassname );
 void UTIL_PrecacheOther( const char *szClassname );
+
+void SetMockCvar( const char *szVarName, float flValue );
+void SetMockCvar( const char *szVarName, const char *szValue );
+void ClearMockCvars();
+
+extern int g_teamplay;
+extern cvar_t teamplay;
+extern cvar_t sv_busters;
