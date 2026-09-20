@@ -15,7 +15,7 @@ TESTS_INCLUDEDIRS=-I$(SOURCE_DIR) -I$(TESTS_SRC_DIR) -I$(EXTERNAL_SRC_DIR)/catch
 TESTS_CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS) -std=c++14 -DCATCH_AMALGAMATED_CUSTOM_MAIN
 PM_CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS)
 
-LDFLAGS=-lm -lstdc++ -lpthread
+LDFLAGS=-lm -ldl -lstdc++ -lpthread
 
 DO_TESTS_CXX=$(CPLUS) $(TESTS_INCLUDEDIRS) $(TESTS_CFLAGS) -o $@ -c $<
 DO_PM_CC=$(CC) $(TESTS_INCLUDEDIRS) $(PM_CFLAGS) -o $@ -c $<
@@ -23,13 +23,25 @@ DO_PM_CC=$(CC) $(TESTS_INCLUDEDIRS) $(PM_CFLAGS) -o $@ -c $<
 TEST_OBJS = \
 	$(TESTS_OBJ_DIR)/catch_amalgamated.o \
 	$(TESTS_OBJ_DIR)/mock_engine.o \
+	$(TESTS_OBJ_DIR)/mock_client_engine.o \
 	$(TESTS_OBJ_DIR)/test_main.o \
 	$(TESTS_OBJ_DIR)/test_pm_movement.o \
 	$(TESTS_OBJ_DIR)/test_combat.o \
 	$(TESTS_OBJ_DIR)/test_abi_layout.o \
 	$(TESTS_OBJ_DIR)/test_saverestore.o \
 	$(TESTS_OBJ_DIR)/test_weapon_pipeline.o \
+	$(TESTS_OBJ_DIR)/test_item_registry.o \
+	$(TESTS_OBJ_DIR)/test_ai_factions.o \
+	$(TESTS_OBJ_DIR)/test_gamerules_skill.o \
+	$(TESTS_OBJ_DIR)/test_client_lifecycle.o \
+	$(TESTS_OBJ_DIR)/test_client_studio.o \
 	$(TESTS_OBJ_DIR)/weapon_registry.o \
+	$(TESTS_OBJ_DIR)/item_registry.o \
+	$(TESTS_OBJ_DIR)/monster_relationship_manager.o \
+	$(TESTS_OBJ_DIR)/talk_companion_registry.o \
+	$(TESTS_OBJ_DIR)/gamerules_factory.o \
+	$(TESTS_OBJ_DIR)/skill_manager.o \
+	$(TESTS_OBJ_DIR)/skill.o \
 	$(TESTS_OBJ_DIR)/client_weapon_manager.o \
 	$(TESTS_OBJ_DIR)/event_registry.o \
 	$(TESTS_OBJ_DIR)/hud_registry.o \
@@ -47,7 +59,7 @@ PM_OBJS = \
 	$(PM_OBJ_DIR)/pm_math.o \
 	$(PM_OBJ_DIR)/pm_debug.o
 
-all: dirs $(BUILD_DIR)/hl_tests
+all: dirs $(BUILD_DIR)/hl_tests $(BUILD_DIR)/smoke_test_client
 
 dirs:
 	-mkdir -p $(BUILD_DIR)
@@ -57,6 +69,9 @@ dirs:
 $(BUILD_DIR)/hl_tests: $(TEST_OBJS) $(PM_OBJS)
 	$(CPLUS) -m32 -o $@ $(TEST_OBJS) $(PM_OBJS) $(LDFLAGS)
 
+$(BUILD_DIR)/smoke_test_client: $(TESTS_OBJ_DIR)/smoke_test_client.o
+	$(CPLUS) -m32 -o $@ $< -ldl -lm -lpthread
+
 $(TESTS_OBJ_DIR)/catch_amalgamated.o: $(EXTERNAL_SRC_DIR)/catch2/catch_amalgamated.cpp | dirs
 	$(DO_TESTS_CXX)
 
@@ -64,6 +79,24 @@ $(TESTS_OBJ_DIR)/%.o: $(TESTS_SRC_DIR)/%.cpp | dirs
 	$(DO_TESTS_CXX)
 
 $(TESTS_OBJ_DIR)/weapon_registry.o: $(HLDLL_SRC_DIR)/weapons/weapon_registry.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/item_registry.o: $(HLDLL_SRC_DIR)/items/item_registry.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/monster_relationship_manager.o: $(HLDLL_SRC_DIR)/ai/monster_relationship_manager.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/talk_companion_registry.o: $(HLDLL_SRC_DIR)/ai/talk_companion_registry.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/gamerules_factory.o: $(HLDLL_SRC_DIR)/gameplay/gamerules_factory.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/skill_manager.o: $(HLCORE_SRC_DIR)/skill_manager.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/skill.o: $(HLCORE_SRC_DIR)/skill.cpp | dirs
 	$(DO_TESTS_CXX)
 
 $(TESTS_OBJ_DIR)/client_weapon_manager.o: $(SOURCE_DIR)/cl_dll/hl/client_weapon_manager.cpp | dirs
@@ -81,7 +114,7 @@ $(PM_OBJ_DIR)/%.o: $(PM_SRC_DIR)/%.c | dirs
 clean:
 	-rm -rf $(TESTS_OBJ_DIR)
 	-rm -rf $(PM_OBJ_DIR)
-	-rm -f $(BUILD_DIR)/hl_tests
+	-rm -f $(BUILD_DIR)/hl_tests $(BUILD_DIR)/smoke_test_client
 
 test: all
 	$(BUILD_DIR)/hl_tests

@@ -62,6 +62,16 @@ jobs:
       - name: Run unit tests (Layer 3)
         run: projects/vs2019/Release/hl_tests/hl_tests.exe
 
+      - name: Build smoke test runner
+        run: >
+          msbuild projects/vs2019/smoke_test_client.vcxproj
+          /p:Configuration=Release
+          /p:Platform=Win32
+          /m
+
+      - name: Run client DLL smoke test
+        run: projects/vs2019/Release/smoke_test_client/smoke_test_client.exe projects/vs2019/Release/hl_cdll/client.dll
+
   verify-linux:
     name: Linux Equivalence Verification
     runs-on: ubuntu-24.04
@@ -132,3 +142,6 @@ jobs:
 
       - name: Run unit tests (Layer 3)
         run: linux/release/hl_tests
+
+      - name: Run client SO smoke test
+        run: linux/release/smoke_test_client linux/release/cl_dlls/client.so

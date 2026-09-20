@@ -58,10 +58,14 @@ jobs:
           $client = "build-cmake/bin/Release/client.dll"
           $server = "build-cmake/bin/Release/hl.dll"
           $tests = "build-cmake/bin/Release/hl_tests.exe"
+          $smoke = "build-cmake/bin/Release/smoke_test_client.exe"
           if (-not (Test-Path $client)) { throw "CMake Client DLL was not produced: $client" }
           if (-not (Test-Path $server)) { throw "CMake Server DLL was not produced: $server" }
           if (-not (Test-Path $tests)) { throw "CMake Test executable was not produced: $tests" }
+          if (-not (Test-Path $smoke)) { throw "CMake Smoke test executable was not produced: $smoke" }
           & $tests
+          & $smoke $client
+          & $smoke "projects/vs2019/Release/hl_cdll/client.dll"
 
       - name: Prepare packaging
         shell: pwsh
@@ -112,6 +116,7 @@ jobs:
           file build-cmake/bin/hl.so
           file build-cmake/bin/hl.so | grep -q "ELF 32-bit"
           ./build-cmake/bin/hl_tests
+          ./build-cmake/bin/smoke_test_client ./build-cmake/bin/client.so
 
       - name: Build Linux Client DLL
         working-directory: linux
@@ -123,6 +128,7 @@ jobs:
             ARCH_CFLAGS_AMD64="-m32" \
             HL_OUTPUT_DIR=release \
             CREATE_OUTPUT_DIRS=1
+          ../build-cmake/bin/smoke_test_client release/cl_dlls/client.so
 
       - name: Build Linux Server DLL
         working-directory: linux
