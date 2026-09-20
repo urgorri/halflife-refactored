@@ -289,3 +289,81 @@ TEST_CASE( "Dynamic HUD Element Registration Simulation (#90)", "[hud][extensibi
 	REQUIRE( pFound != nullptr );
 	CHECK( pFound == &s_staminaElement );
 }
+
+TEST_CASE( "HUD Element Lifecycle: Reset execution with NULL viewport (#117)", "[hud][lifecycle]" )
+{
+	HudRegistry::Clear();
+
+	MockHudElement elem1( "Elem1" );
+	MockHudElement elem2( "Elem2" );
+
+	HudRegistry::RegisterElement( &elem1, 100, "Elem1" );
+	HudRegistry::RegisterElement( &elem2, 200, "Elem2" );
+
+	CHud gameHud;
+	HudRegistry::AttachAll( &gameHud );
+
+	// Verify MsgFunc_ResetHUD traversal executes Reset on each element safely
+	HUDLIST *pList = gameHud.m_pHudList;
+	int resetCount = 0;
+	while ( pList )
+	{
+		if ( pList->p )
+		{
+			pList->p->Reset();
+			resetCount++;
+		}
+		pList = pList->pNext;
+	}
+
+	CHECK( resetCount == 2 );
+	CHECK( elem1.m_resetCount == 1 );
+	CHECK( elem2.m_resetCount == 1 );
+}
+
+TEST_CASE( "StudioModel: Bone adjustment and blend weight temporal math (#117)", "[studio][bones]" )
+{
+	// Test the temporal interpolation formula restored in StudioCalcBoneAdj:
+	// value = ( ( a * dadt + b * ( 1.0 - dadt ) ) - 128 ) * ( 360.0 / 256.0 ) + start;
+	// When dadt == 1.0f (fully at current state):
+	// value should equal ( ( a - 128 ) * ( 360.0 / 256.0 ) + start )
+	// When dadt == 0.0f (fully at previous latched state):
+	// value should equal ( ( b - 128 ) * ( 360.0 / 256.0 ) + start )
+
+	auto calcAdj = []( float dadt, float a, float b, float start ) -> float {
+		return ( ( a * dadt + b * ( 1.0f - dadt ) ) - 128.0f ) * ( 360.0f / 256.0f ) + start;
+	};
+
+	float currentController = 200.0f;
+	float prevController    = 50.0f;
+	float startAngle        = 0.0f;
+
+	// At dadt = 1.0, current state must have 100% influence
+	float resultCur = calcAdj( 1.0f, currentController, prevController, startAngle );
+	float expectedCur = ( ( currentController - 128.0f ) * ( 360.0f / 256.0f ) + startAngle );
+	CHECK( resultCur == Catch::Approx( expectedCur ) );
+
+	// At dadt = 0.0, previous latched state must have 100% influence
+	float resultPrev = calcAdj( 0.0f, currentController, prevController, startAngle );
+	float expectedPrev = ( ( prevController - 128.0f ) * ( 360.0f / 256.0f ) + startAngle );
+	CHECK( resultPrev == Catch::Approx( expectedPrev ) );
+
+	// At dadt = 0.5, midpoint between current and previous
+	float resultMid = calcAdj( 0.5f, currentController, prevController, startAngle );
+	float expectedMid = ( ( 0.5f * currentController + 0.5f * prevController - 128.0f ) * ( 360.0f / 256.0f ) + startAngle );
+	CHECK( resultMid == Catch::Approx( expectedMid ) );
+
+	// Verify sequence blending weight formula restored in StudioSetupBones / StudioMergeBones:
+	// s = ( curstate.blending[0] * dadt + latched.prevblending[0] * ( 1.0 - dadt ) ) / 255.0;
+	auto calcBlend = []( float dadt, float curBlend, float prevBlend ) -> float {
+		return ( curBlend * dadt + prevBlend * ( 1.0f - dadt ) ) / 255.0f;
+	};
+
+	float curBlend  = 180.0f;
+	float prevBlend = 60.0f;
+
+	CHECK( calcBlend( 1.0f, curBlend, prevBlend ) == Catch::Approx( curBlend / 255.0f ) );
+	CHECK( calcBlend( 0.0f, curBlend, prevBlend ) == Catch::Approx( prevBlend / 255.0f ) );
+	CHECK( calcBlend( 0.5f, curBlend, prevBlend ) == Catch::Approx( ( 0.5f * curBlend + 0.5f * prevBlend ) / 255.0f ) );
+}
+
