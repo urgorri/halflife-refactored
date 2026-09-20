@@ -59,6 +59,12 @@ jobs:
           /p:Platform=Win32
           /m
 
+      - name: Copy runtime dependencies
+        shell: pwsh
+        run: |
+          Copy-Item "lib/public/*.dll" "projects/vs2019/Release/hl_cdll/" -Force
+          Copy-Item "lib/public/*.dll" "projects/vs2019/Release/hl_tests/" -Force
+
       - name: Run unit tests (Layer 3)
         run: projects/vs2019/Release/hl_tests/hl_tests.exe
 
@@ -68,6 +74,11 @@ jobs:
           /p:Configuration=Release
           /p:Platform=Win32
           /m
+
+      - name: Copy runtime dependencies to smoke test runner
+        shell: pwsh
+        run: |
+          Copy-Item "lib/public/*.dll" "projects/vs2019/Release/smoke_test_client/" -Force
 
       - name: Run client DLL smoke test
         run: projects/vs2019/Release/smoke_test_client/smoke_test_client.exe projects/vs2019/Release/hl_cdll/client.dll
@@ -141,7 +152,7 @@ jobs:
             CREATE_OUTPUT_DIRS=1
 
       - name: Run unit tests (Layer 3)
-        run: linux/release/hl_tests
+        run: LD_LIBRARY_PATH="linux:linux/release/cl_dlls:$LD_LIBRARY_PATH" linux/release/hl_tests
 
       - name: Run client SO smoke test
-        run: linux/release/smoke_test_client linux/release/cl_dlls/client.so
+        run: LD_LIBRARY_PATH="linux:linux/release/cl_dlls:$LD_LIBRARY_PATH" linux/release/smoke_test_client linux/release/cl_dlls/client.so

@@ -63,6 +63,7 @@ jobs:
           if (-not (Test-Path $server)) { throw "CMake Server DLL was not produced: $server" }
           if (-not (Test-Path $tests)) { throw "CMake Test executable was not produced: $tests" }
           if (-not (Test-Path $smoke)) { throw "CMake Smoke test executable was not produced: $smoke" }
+          Copy-Item "lib/public/*.dll" "projects/vs2019/Release/hl_cdll/" -Force
           & $tests
           & $smoke $client
           & $smoke "projects/vs2019/Release/hl_cdll/client.dll"
@@ -115,8 +116,8 @@ jobs:
           file build-cmake/bin/client.so | grep -q "ELF 32-bit"
           file build-cmake/bin/hl.so
           file build-cmake/bin/hl.so | grep -q "ELF 32-bit"
-          ./build-cmake/bin/hl_tests
-          ./build-cmake/bin/smoke_test_client ./build-cmake/bin/client.so
+          LD_LIBRARY_PATH="linux:linux/release/cl_dlls:build-cmake/bin:$LD_LIBRARY_PATH" ./build-cmake/bin/hl_tests
+          LD_LIBRARY_PATH="linux:linux/release/cl_dlls:build-cmake/bin:$LD_LIBRARY_PATH" ./build-cmake/bin/smoke_test_client ./build-cmake/bin/client.so
 
       - name: Build Linux Client DLL
         working-directory: linux
@@ -128,7 +129,7 @@ jobs:
             ARCH_CFLAGS_AMD64="-m32" \
             HL_OUTPUT_DIR=release \
             CREATE_OUTPUT_DIRS=1
-          ../build-cmake/bin/smoke_test_client release/cl_dlls/client.so
+          LD_LIBRARY_PATH=".:release/cl_dlls:$LD_LIBRARY_PATH" ../build-cmake/bin/smoke_test_client release/cl_dlls/client.so
 
       - name: Build Linux Server DLL
         working-directory: linux

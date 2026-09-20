@@ -261,6 +261,14 @@ if(BUILD_CLIENT)
             "${CMAKE_CURRENT_SOURCE_DIR}/lib/public/sdl2.lib"
             wsock32
         )
+        add_custom_command(TARGET client POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${CMAKE_CURRENT_SOURCE_DIR}/lib/public/vgui.dll"
+                "$<TARGET_FILE_DIR:client>/"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${CMAKE_CURRENT_SOURCE_DIR}/lib/public/SDL2.dll"
+                "$<TARGET_FILE_DIR:client>/"
+        )
     else()
         add_library(vgui_bundled SHARED IMPORTED)
         set_target_properties(vgui_bundled PROPERTIES

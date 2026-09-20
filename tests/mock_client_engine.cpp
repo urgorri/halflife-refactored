@@ -786,10 +786,64 @@ bool LoadClientLibrary( const char *customPath )
 	candidatePaths.push_back( "./client.so" );
 #endif
 
+#if defined( _WIN32 )
+	const char *vguiPaths[] = { "lib/public/vgui.dll", "../lib/public/vgui.dll", "../../lib/public/vgui.dll", "vgui.dll" };
+	for ( const char *vp : vguiPaths )
+	{
+		char fullVgui[MAX_PATH];
+		if ( GetFullPathNameA( vp, MAX_PATH, fullVgui, NULL ) > 0 )
+		{
+			HMODULE hVgui = LoadLibraryA( fullVgui );
+			if ( hVgui )
+				break;
+		}
+	}
+	const char *sdlPaths[] = { "lib/public/SDL2.dll", "../lib/public/SDL2.dll", "../../lib/public/SDL2.dll", "SDL2.dll" };
+	for ( const char *sp : sdlPaths )
+	{
+		char fullSdl[MAX_PATH];
+		if ( GetFullPathNameA( sp, MAX_PATH, fullSdl, NULL ) > 0 )
+		{
+			HMODULE hSdl = LoadLibraryA( fullSdl );
+			if ( hSdl )
+				break;
+		}
+	}
+#else
+	const char *vguiLinuxPaths[] = { "linux/vgui.so", "../linux/vgui.so", "../../linux/vgui.so", "vgui.so" };
+	for ( const char *vp : vguiLinuxPaths )
+	{
+		void *hVgui = dlopen( vp, RTLD_NOW | RTLD_GLOBAL );
+		if ( hVgui )
+			break;
+	}
+	const char *sdlLinuxPaths[] = { "linux/libSDL2.so", "../linux/libSDL2.so", "../../linux/libSDL2.so", "libSDL2.so", "libSDL2-2.0.so.0" };
+	for ( const char *sp : sdlLinuxPaths )
+	{
+		void *hSdl = dlopen( sp, RTLD_NOW | RTLD_GLOBAL );
+		if ( hSdl )
+			break;
+	}
+#endif
+
 	for ( const auto &path : candidatePaths )
 	{
 #if defined( _WIN32 )
-		s_hClientLib = LoadLibraryExA( path.c_str(), NULL, LOAD_WITH_ALTERED_SEARCH_PATH );
+		char fullPath[MAX_PATH];
+		const char *loadPath = path.c_str();
+		if ( GetFullPathNameA( path.c_str(), MAX_PATH, fullPath, NULL ) > 0 )
+		{
+			loadPath = fullPath;
+			char fullDir[MAX_PATH];
+			char drive[_MAX_DRIVE], dir[_MAX_DIR];
+			_splitpath( fullPath, drive, dir, NULL, NULL );
+			snprintf( fullDir, sizeof( fullDir ), "%s%s", drive, dir );
+			if ( fullDir[0] )
+			{
+				SetDllDirectoryA( fullDir );
+			}
+		}
+		s_hClientLib = LoadLibraryExA( loadPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH );
 #else
 		s_hClientLib = dlopen( path.c_str(), RTLD_NOW | RTLD_GLOBAL );
 #endif
