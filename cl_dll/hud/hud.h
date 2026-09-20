@@ -30,6 +30,8 @@
 
 #include "wrect.h"
 #include "cl_dll.h"
+#include "hud_base.h"
+#include "hud_registry.h"
 
 #define DHN_DRAWZERO 1
 #define DHN_2DIGITS 2
@@ -37,11 +39,6 @@
 #define MIN_ALPHA 100
 
 #define HUDELEM_ACTIVE 1
-
-typedef struct
-{
-	int x, y;
-} POSITION;
 
 #include "global_consts.h"
 #include "hud_ammo.h"
@@ -53,36 +50,9 @@ typedef struct
 
 typedef struct cvar_s cvar_t;
 
-#define HUD_ACTIVE 1
-#define HUD_INTERMISSION 2
-
 #define MAX_PLAYER_NAME_LENGTH 32
 
 #define MAX_MOTD_LENGTH 1536
-
-//
-//-----------------------------------------------------
-//
-class CHudBase
-{
-  public:
-	POSITION m_pos;
-	int m_type;
-	int m_iFlags; // active, moving,
-	virtual ~CHudBase() {}
-	virtual int Init( void ) { return 0; }
-	virtual int VidInit( void ) { return 0; }
-	virtual int Draw( float flTime ) { return 0; }
-	virtual void Think( void ) { return; }
-	virtual void Reset( void ) { return; }
-	virtual void InitHUDData( void ) {} // called every time a server is connected to
-};
-
-struct HUDLIST
-{
-	CHudBase *p;
-	HUDLIST *pNext;
-};
 
 //
 //-----------------------------------------------------
@@ -530,6 +500,8 @@ class CHudBenchmark : public CHudBase
 
 class CHud
 {
+	friend class HudRegistry;
+
   private:
 	HUDLIST *m_pHudList;
 	HSPRITE m_hsprLogo;
@@ -632,6 +604,8 @@ class CHud
 	int m_HUD_number_0;
 
 	void AddHudElem( CHudBase *p );
+	void RemoveHudElem( CHudBase *p );
+	HUDLIST *GetHudList() const { return m_pHudList; }
 
 	float GetSensitivity();
 };

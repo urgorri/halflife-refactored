@@ -94,6 +94,8 @@
     <ClInclude Include="..\..\external\catch2\catch_amalgamated.hpp" />
     <ClInclude Include="..\..\tests\golden\golden_data.h" />
     <ClInclude Include="..\..\tests\mock_engine.h" />
+    <ClInclude Include="..\..\cl_dll\hud\hud_base.h" />
+    <ClInclude Include="..\..\cl_dll\hud\hud_registry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\external\catch2\catch_amalgamated.cpp" />
@@ -122,6 +124,8 @@
     <ClCompile Include="..\..\dlls\ai\talk_companion_registry.cpp" />
     <ClCompile Include="..\..\cl_dll\hl\client_weapon_manager.cpp" />
     <ClCompile Include="..\..\cl_dll\events\event_registry.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud\hud_registry.cpp" />
+    <ClCompile Include="..\..\tests\test_hud_registry.cpp" />
     <ClCompile Include="..\..\tests\test_gamerules_skill.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\gamerules_factory.cpp" />
     <ClCompile Include="..\..\dlls\core\skill_manager.cpp" />

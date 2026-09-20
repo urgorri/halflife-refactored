@@ -137,6 +137,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\hud\hud_benchtrace.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_msg.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_redraw.cpp" />
+    <ClCompile Include="..\..\cl_dll\hud\hud_registry.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_servers.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_spectator.cpp" />
     <ClCompile Include="..\..\cl_dll\hud\hud_update.cpp" />
@@ -225,6 +226,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClInclude Include="..\..\cl_dll\hl\client_weapon_manager.h" />
     <ClInclude Include="..\..\cl_dll\hud\health.h" />
     <ClInclude Include="..\..\cl_dll\hud\hud.h" />
+    <ClInclude Include="..\..\cl_dll\hud\hud_base.h" />
+    <ClInclude Include="..\..\cl_dll\hud\hud_registry.h" />
     <ClInclude Include="..\..\cl_dll\hud\hud_servers.h" />
     <ClInclude Include="..\..\cl_dll\hud\hud_servers_priv.h" />
     <ClInclude Include="..\..\cl_dll\hud\hud_spectator.h" />
