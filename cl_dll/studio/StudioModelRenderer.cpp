@@ -183,13 +183,28 @@ int CStudioModelRenderer::StudioDrawModel( int flags )
 	{
 		StudioCalcAttachments();
 		IEngineStudio.StudioClientEvents();
-		// copy attachments back to viewentity
-		// VectorCopy( m_pCurrentEntity->attachment[0], g_vViewEntityAttachment );
-		// VectorCopy( m_pCurrentEntity->attachment[0], cl.viewent.attachment[0] );
+		// copy attachments into global entity array
+		if ( m_pCurrentEntity->index > 0 )
+		{
+			cl_entity_t *ent = gEngfuncs.GetEntityByIndex( m_pCurrentEntity->index );
+
+			memcpy( ent->attachment, m_pCurrentEntity->attachment, sizeof( vec3_t ) * 4 );
+		}
 	}
 
 	if ( flags & STUDIO_RENDER )
 	{
+		if ( m_pCvarHiModels->value && m_pRenderModel != m_pCurrentEntity->model )
+		{
+			// show highest resolution multiplayer model
+			m_pCurrentEntity->curstate.body = 255;
+		}
+
+		if ( !( m_pCvarDeveloper->value == 0 && gEngfuncs.GetMaxClients() == 1 ) && ( m_pRenderModel == m_pCurrentEntity->model ) )
+		{
+			m_pCurrentEntity->curstate.body = 1; // force helmet
+		}
+
 		lighting.plightvec = dir;
 
 		IEngineStudio.StudioDynamicLight( m_pCurrentEntity, &lighting );
@@ -271,7 +286,37 @@ int CStudioModelRenderer::StudioDrawPlayer( int flags, entity_state_t *pplayer )
 	IEngineStudio.StudioSetHeader( m_pStudioHeader );
 	IEngineStudio.SetRenderModel( m_pRenderModel );
 
-	StudioSetUpTransform( 0 );
+	if ( pplayer->gaitsequence )
+	{
+		vec3_t orig_angles;
+		m_pPlayerInfo = IEngineStudio.PlayerInfo( m_nPlayerIndex );
+
+		VectorCopy( m_pCurrentEntity->angles, orig_angles );
+
+		StudioProcessGait( pplayer );
+
+		m_pPlayerInfo->gaitsequence = pplayer->gaitsequence;
+		m_pPlayerInfo               = NULL;
+
+		StudioSetUpTransform( 0 );
+		VectorCopy( orig_angles, m_pCurrentEntity->angles );
+	}
+	else
+	{
+		m_pCurrentEntity->curstate.controller[0]    = 127;
+		m_pCurrentEntity->curstate.controller[1]    = 127;
+		m_pCurrentEntity->curstate.controller[2]    = 127;
+		m_pCurrentEntity->curstate.controller[3]    = 127;
+		m_pCurrentEntity->latched.prevcontroller[0] = m_pCurrentEntity->curstate.controller[0];
+		m_pCurrentEntity->latched.prevcontroller[1] = m_pCurrentEntity->curstate.controller[1];
+		m_pCurrentEntity->latched.prevcontroller[2] = m_pCurrentEntity->curstate.controller[2];
+		m_pCurrentEntity->latched.prevcontroller[3] = m_pCurrentEntity->curstate.controller[3];
+
+		m_pPlayerInfo               = IEngineStudio.PlayerInfo( m_nPlayerIndex );
+		m_pPlayerInfo->gaitsequence = 0;
+
+		StudioSetUpTransform( 0 );
+	}
 
 	if ( flags & STUDIO_RENDER )
 	{
@@ -287,19 +332,23 @@ int CStudioModelRenderer::StudioDrawPlayer( int flags, entity_state_t *pplayer )
 	}
 
 	m_pPlayerInfo = IEngineStudio.PlayerInfo( m_nPlayerIndex );
-
-	StudioProcessGait( pplayer );
-
 	StudioSetupBones();
 	StudioSaveBones();
+	m_pPlayerInfo->renderframe = m_nFrameCount;
+
+	m_pPlayerInfo = NULL;
 
 	if ( flags & STUDIO_EVENTS )
 	{
 		StudioCalcAttachments();
 		IEngineStudio.StudioClientEvents();
-		// copy attachments back to viewentity
-		// VectorCopy( m_pCurrentEntity->attachment[0], g_vViewEntityAttachment );
-		// VectorCopy( m_pCurrentEntity->attachment[0], cl.viewent.attachment[0] );
+		// copy attachments into global entity array
+		if ( m_pCurrentEntity->index > 0 )
+		{
+			cl_entity_t *ent = gEngfuncs.GetEntityByIndex( m_pCurrentEntity->index );
+
+			memcpy( ent->attachment, m_pCurrentEntity->attachment, sizeof( vec3_t ) * 4 );
+		}
 	}
 
 	if ( flags & STUDIO_RENDER )

@@ -64,16 +64,16 @@ void CStudioModelRenderer::StudioCalcBoneAdj( float dadt, float *adj, const byte
 					int a, b;
 					a     = ( pcontroller1[i] + 128 ) % 256;
 					b     = ( pcontroller2[i] + 128 ) % 256;
-					value = ( ( a * ( 1.0 - dadt ) + b * dadt ) - 128 ) * ( 360.0 / 256.0 ) + pbonecontroller[j].start;
+					value = ( ( a * dadt + b * ( 1.0 - dadt ) ) - 128 ) * ( 360.0 / 256.0 ) + pbonecontroller[j].start;
 				}
 				else
 				{
-					value = ( pcontroller1[i] * ( 1.0 - dadt ) + pcontroller2[i] * dadt ) * ( 360.0 / 256.0 ) + pbonecontroller[j].start;
+					value = ( pcontroller1[i] * dadt + pcontroller2[i] * ( 1.0 - dadt ) ) * ( 360.0 / 256.0 ) + pbonecontroller[j].start;
 				}
 			}
 			else
 			{
-				value = ( pcontroller1[i] * ( 1.0 - dadt ) + pcontroller2[i] * dadt ) / 255.0;
+				value = ( pcontroller1[i] * dadt + pcontroller2[i] * ( 1.0 - dadt ) ) / 255.0;
 				if ( value < 0 )
 					value = 0;
 				if ( value > 1.0 )
@@ -718,7 +718,7 @@ void CStudioModelRenderer::StudioSetupBones( void )
 		StudioCalcRotations( pos2, q2, pseqdesc, panim, f );
 
 		dadt = StudioEstimateInterpolant();
-		s    = ( m_pCurrentEntity->curstate.blending[0] * ( 1.0 - dadt ) + m_pCurrentEntity->latched.prevblending[0] * dadt ) / 255.0;
+		s    = ( m_pCurrentEntity->curstate.blending[0] * dadt + m_pCurrentEntity->latched.prevblending[0] * ( 1.0 - dadt ) ) / 255.0;
 
 		StudioSlerpBones( q, pos, q2, pos2, s );
 
@@ -730,10 +730,10 @@ void CStudioModelRenderer::StudioSetupBones( void )
 			panim += m_pStudioHeader->numbones;
 			StudioCalcRotations( pos4, q4, pseqdesc, panim, f );
 
-			s = ( m_pCurrentEntity->curstate.blending[0] * ( 1.0 - dadt ) + m_pCurrentEntity->latched.prevblending[0] * dadt ) / 255.0;
+			s = ( m_pCurrentEntity->curstate.blending[0] * dadt + m_pCurrentEntity->latched.prevblending[0] * ( 1.0 - dadt ) ) / 255.0;
 			StudioSlerpBones( q3, pos3, q4, pos4, s );
 
-			s = ( m_pCurrentEntity->curstate.blending[1] * ( 1.0 - dadt ) + m_pCurrentEntity->latched.prevblending[1] * dadt ) / 255.0;
+			s = ( m_pCurrentEntity->curstate.blending[1] * dadt + m_pCurrentEntity->latched.prevblending[1] * ( 1.0 - dadt ) ) / 255.0;
 			StudioSlerpBones( q, pos, q3, pos3, s );
 		}
 	}
@@ -894,7 +894,7 @@ void CStudioModelRenderer::StudioMergeBones( model_t *m_pSubModel )
 		StudioCalcRotations( pos2, q2, pseqdesc, panim, f );
 
 		dadt = StudioEstimateInterpolant();
-		s    = ( m_pCurrentEntity->curstate.blending[0] * ( 1.0 - dadt ) + m_pCurrentEntity->latched.prevblending[0] * dadt ) / 255.0;
+		s    = ( m_pCurrentEntity->curstate.blending[0] * dadt + m_pCurrentEntity->latched.prevblending[0] * ( 1.0 - dadt ) ) / 255.0;
 
 		StudioSlerpBones( q, pos, q2, pos2, s );
 
@@ -906,10 +906,10 @@ void CStudioModelRenderer::StudioMergeBones( model_t *m_pSubModel )
 			panim += m_pStudioHeader->numbones;
 			StudioCalcRotations( pos4, q4, pseqdesc, panim, f );
 
-			s = ( m_pCurrentEntity->curstate.blending[0] * ( 1.0 - dadt ) + m_pCurrentEntity->latched.prevblending[0] * dadt ) / 255.0;
+			s = ( m_pCurrentEntity->curstate.blending[0] * dadt + m_pCurrentEntity->latched.prevblending[0] * ( 1.0 - dadt ) ) / 255.0;
 			StudioSlerpBones( q3, pos3, q4, pos4, s );
 
-			s = ( m_pCurrentEntity->curstate.blending[1] * ( 1.0 - dadt ) + m_pCurrentEntity->latched.prevblending[1] * dadt ) / 255.0;
+			s = ( m_pCurrentEntity->curstate.blending[1] * dadt + m_pCurrentEntity->latched.prevblending[1] * ( 1.0 - dadt ) ) / 255.0;
 			StudioSlerpBones( q, pos, q3, pos3, s );
 		}
 	}

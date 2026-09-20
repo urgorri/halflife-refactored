@@ -106,7 +106,8 @@ void SpectatorMenu( void )
 		return;
 	}
 
-	gViewPort->m_pSpectatorPanel->ShowMenu( atoi( gEngfuncs.Cmd_Argv( 1 ) ) != 0 );
+	if ( gViewPort && gViewPort->m_pSpectatorPanel )
+		gViewPort->m_pSpectatorPanel->ShowMenu( atoi( gEngfuncs.Cmd_Argv( 1 ) ) != 0 );
 }
 
 void ToggleScores( void )
@@ -226,7 +227,10 @@ int CHudSpectator::Draw( float flTime )
 	if ( !m_drawnames->value )
 		return 1;
 
-	gViewPort->GetAllPlayersInfo();
+	if ( gViewPort )
+	{
+		gViewPort->GetAllPlayersInfo();
+	}
 
 	for ( int i = 0; i < MAX_PLAYERS; i++ )
 	{
@@ -257,20 +261,24 @@ int CHudSpectator::Draw( float flTime )
 
 void CHudSpectator::Reset()
 {
-	m_IsInterpolating = false;
-	m_ChaseEntity     = 0;
-	m_WayPoint        = 0;
-	m_NumWayPoints    = 0;
-	m_FOV             = 90.0f;
-
-	SetModes( OBS_CHASE_FREE, INSET_OFF );
-	SetSpectatorStartPosition();
+	const char *levelName = gEngfuncs.pfnGetLevelName();
+	if ( levelName && *levelName && strcmp( m_OverviewData.map, levelName ) )
+	{
+		ParseOverviewFile();
+		LoadMapSprites();
+	}
 
 	memset( &m_OverviewEntities, 0, sizeof( m_OverviewEntities ) );
 	memset( &m_HUDMessages, 0, sizeof( m_HUDMessages ) );
 	m_lastHudMessage = 0;
 
-	CheckSettings();
+	m_FOV             = 90.0f;
+	m_IsInterpolating = false;
+	m_ChaseEntity     = 0;
+	m_WayPoint        = 0;
+	m_NumWayPoints    = 0;
+
+	SetSpectatorStartPosition();
 }
 
 void CHudSpectator::InitHUDData( void )
@@ -731,13 +739,20 @@ void CHudSpectator::DirectorMessage( int iSize, void *pbuf )
 		m_iSpectatorNumber = READ_LONG(); // total number of spectator
 		READ_WORD();                      // total number of relay proxies
 
-		gViewPort->UpdateSpectatorPanel();
+		if ( gViewPort )
+			gViewPort->UpdateSpectatorPanel();
 		break;
 
 	case DRC_CMD_BANNER:
-		gViewPort->m_pSpectatorPanel->m_TopBanner->LoadImage( READ_STRING() );
-		gViewPort->UpdateSpectatorPanel();
+	{
+		const char *banner = READ_STRING();
+		if ( gViewPort && gViewPort->m_pSpectatorPanel && gViewPort->m_pSpectatorPanel->m_TopBanner )
+		{
+			gViewPort->m_pSpectatorPanel->m_TopBanner->LoadImage( banner );
+			gViewPort->UpdateSpectatorPanel();
+		}
 		break;
+	}
 
 	case DRC_CMD_STUFFTEXT:
 		EngineFilteredClientCmd( READ_STRING() );
@@ -1366,7 +1381,8 @@ void CHudSpectator::FindNextPlayer( bool bReverse )
 	cl_entity_t *pEnt = NULL;
 
 	// make sure we have player info
-	gViewPort->GetAllPlayersInfo();
+	if ( gViewPort )
+		gViewPort->GetAllPlayersInfo();
 
 	do
 	{
@@ -1404,7 +1420,8 @@ void CHudSpectator::FindNextPlayer( bool bReverse )
 	}
 
 	iJumpSpectator = 1;
-	gViewPort->MsgFunc_ResetFade( NULL, 0, NULL );
+	if ( gViewPort )
+		gViewPort->MsgFunc_ResetFade( NULL, 0, NULL );
 }
 
 void CHudSpectator::FindPlayer( const char *name )
@@ -1422,7 +1439,8 @@ void CHudSpectator::FindPlayer( const char *name )
 	g_iUser2 = 0;
 
 	// make sure we have player info
-	gViewPort->GetAllPlayersInfo();
+	if ( gViewPort )
+		gViewPort->GetAllPlayersInfo();
 
 	cl_entity_t *pEnt = NULL;
 
@@ -1456,7 +1474,8 @@ void CHudSpectator::FindPlayer( const char *name )
 	}
 
 	iJumpSpectator = 1;
-	gViewPort->MsgFunc_ResetFade( NULL, 0, NULL );
+	if ( gViewPort )
+		gViewPort->MsgFunc_ResetFade( NULL, 0, NULL );
 }
 
 void CHudSpectator::HandleButtonsDown( int ButtonPressed )
@@ -1485,7 +1504,10 @@ void CHudSpectator::HandleButtonsDown( int ButtonPressed )
 
 	// enable spectator screen
 	if ( ButtonPressed & IN_DUCK )
-		gViewPort->m_pSpectatorPanel->ShowMenu( !gViewPort->m_pSpectatorPanel->m_menuVisible );
+	{
+		if ( gViewPort && gViewPort->m_pSpectatorPanel )
+			gViewPort->m_pSpectatorPanel->ShowMenu( !gViewPort->m_pSpectatorPanel->m_menuVisible );
+	}
 
 	//  'Use' changes inset window mode
 	if ( ButtonPressed & IN_USE )
@@ -1557,7 +1579,7 @@ void CHudSpectator::HandleButtonsDown( int ButtonPressed )
 
 void CHudSpectator::HandleButtonsUp( int ButtonPressed )
 {
-	if ( !gViewPort )
+	if ( !gViewPort || !gViewPort->m_pSpectatorPanel )
 		return;
 
 	if ( !gViewPort->m_pSpectatorPanel->isVisible() )
@@ -1668,7 +1690,8 @@ void CHudSpectator::SetModes( int iNewMainMode, int iNewInsetMode )
 			SetCrosshair( 0, m_crosshairRect, 0, 0, 0 );
 		}
 
-		gViewPort->MsgFunc_ResetFade( NULL, 0, NULL );
+		if ( gViewPort )
+			gViewPort->MsgFunc_ResetFade( NULL, 0, NULL );
 
 		char string[128];
 		sprintf( string, "#Spec_Mode%d", g_iUser1 );
@@ -1676,7 +1699,8 @@ void CHudSpectator::SetModes( int iNewMainMode, int iNewInsetMode )
 		gHUD.m_TextMessage.MsgFunc_TextMsg( NULL, strlen( string ) + 1, string );
 	}
 
-	gViewPort->UpdateSpectatorPanel();
+	if ( gViewPort )
+		gViewPort->UpdateSpectatorPanel();
 }
 
 bool CHudSpectator::IsActivePlayer( cl_entity_t *ent )
@@ -1735,7 +1759,8 @@ void CHudSpectator::CheckSettings()
 	if ( ( ( g_iTeamNumber == 1 ) || ( g_iTeamNumber == 2 ) ) && ( g_iUser1 == OBS_IN_EYE ) )
 		m_pip->value = INSET_OFF;
 
-	gViewPort->m_pSpectatorPanel->EnableInsetView( m_pip->value != INSET_OFF );
+	if ( gViewPort && gViewPort->m_pSpectatorPanel )
+		gViewPort->m_pSpectatorPanel->EnableInsetView( m_pip->value != INSET_OFF );
 }
 
 int CHudSpectator::ToggleInset( bool allowOff )
