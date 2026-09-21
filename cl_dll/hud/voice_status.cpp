@@ -33,6 +33,7 @@
 #include "vgui_loadtga.h"
 #include "vgui_helpers.h"
 #include "VGUI_MouseCode.h"
+#include "VGUI_App.h"
 
 using namespace vgui;
 
@@ -185,31 +186,42 @@ int CVoiceStatus::Init(
 	m_VoiceHeadModel = NULL;
 	memset( m_Labels, 0, sizeof( m_Labels ) );
 
-	for ( int i = 0; i < MAX_VOICE_SPEAKERS; i++ )
+	if ( App::getInstance() )
 	{
-		CVoiceLabel *pLabel = &m_Labels[i];
-
-		pLabel->m_pBackground = new Label( "" );
-
-		if ( pLabel->m_pLabel = new Label( "" ) )
+		for ( int i = 0; i < MAX_VOICE_SPEAKERS; i++ )
 		{
-			pLabel->m_pLabel->setVisible( true );
-			pLabel->m_pLabel->setFont( Scheme::sf_primary2 );
-			pLabel->m_pLabel->setTextAlignment( Label::a_east );
-			pLabel->m_pLabel->setContentAlignment( Label::a_east );
-			pLabel->m_pLabel->setParent( pLabel->m_pBackground );
+			CVoiceLabel *pLabel = &m_Labels[i];
+
+			pLabel->m_pBackground = new Label( "" );
+
+			if ( pLabel->m_pLabel = new Label( "" ) )
+			{
+				pLabel->m_pLabel->setVisible( true );
+				pLabel->m_pLabel->setFont( Scheme::sf_primary2 );
+				pLabel->m_pLabel->setTextAlignment( Label::a_east );
+				pLabel->m_pLabel->setContentAlignment( Label::a_east );
+				pLabel->m_pLabel->setParent( pLabel->m_pBackground );
+			}
+
+			if ( pLabel->m_pIcon = new ImagePanel( NULL ) )
+			{
+				pLabel->m_pIcon->setVisible( true );
+				pLabel->m_pIcon->setParent( pLabel->m_pBackground );
+			}
+
+			pLabel->m_clientindex = -1;
 		}
 
-		if ( pLabel->m_pIcon = new ImagePanel( NULL ) )
-		{
-			pLabel->m_pIcon->setVisible( true );
-			pLabel->m_pIcon->setParent( pLabel->m_pBackground );
-		}
-
-		pLabel->m_clientindex = -1;
+		m_pLocalLabel = new ImagePanel( NULL );
 	}
-
-	m_pLocalLabel = new ImagePanel( NULL );
+	else
+	{
+		for ( int i = 0; i < MAX_VOICE_SPEAKERS; i++ )
+		{
+			m_Labels[i].m_clientindex = -1;
+		}
+		m_pLocalLabel = NULL;
+	}
 
 	m_bInSquelchMode = false;
 
@@ -242,8 +254,11 @@ int CVoiceStatus::VidInit()
 		m_pAckBitmap->setColor( Color( 255, 255, 255, 135 ) ); // Give just a tiny bit of translucency so software draws correctly.
 	}
 
-	m_pLocalLabel->setImage( m_pLocalBitmap );
-	m_pLocalLabel->setVisible( false );
+	if ( m_pLocalLabel )
+	{
+		m_pLocalLabel->setImage( m_pLocalBitmap );
+		m_pLocalLabel->setVisible( false );
+	}
 
 	if ( m_pSpeakerLabelIcon = vgui_LoadTGANoInvertAlpha( "gfx/vgui/speaker4.tga" ) )
 		m_pSpeakerLabelIcon->setColor( Color( 255, 255, 255, 1 ) ); // Give just a tiny bit of translucency so software draws correctly.
@@ -299,12 +314,18 @@ void CVoiceStatus::Frame( double frametime )
 	if ( m_pHelper->CanShowSpeakerLabels() )
 	{
 		for ( int i = 0; i < MAX_VOICE_SPEAKERS; i++ )
-			m_Labels[i].m_pBackground->setVisible( m_Labels[i].m_clientindex != -1 );
+		{
+			if ( m_Labels[i].m_pBackground )
+				m_Labels[i].m_pBackground->setVisible( m_Labels[i].m_clientindex != -1 );
+		}
 	}
 	else
 	{
 		for ( int i = 0; i < MAX_VOICE_SPEAKERS; i++ )
-			m_Labels[i].m_pBackground->setVisible( false );
+		{
+			if ( m_Labels[i].m_pBackground )
+				m_Labels[i].m_pBackground->setVisible( false );
+		}
 	}
 
 	for ( int i = 0; i < VOICE_MAX_PLAYERS; i++ )

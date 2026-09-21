@@ -40,6 +40,7 @@ linux/hl_cdll_map.txt
 
 # Keep essential precompiled libraries
 !lib/public/*.lib
+!lib/public/*.dll
 !linux/libSDL2.so
 !linux/vgui.so
 !utils/**/*.lib

@@ -261,6 +261,14 @@ if(BUILD_CLIENT)
             "${CMAKE_CURRENT_SOURCE_DIR}/lib/public/sdl2.lib"
             wsock32
         )
+        add_custom_command(TARGET client POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${CMAKE_CURRENT_SOURCE_DIR}/lib/public/vgui.dll"
+                "$<TARGET_FILE_DIR:client>/"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${CMAKE_CURRENT_SOURCE_DIR}/lib/public/SDL2.dll"
+                "$<TARGET_FILE_DIR:client>/"
+        )
     else()
         add_library(vgui_bundled SHARED IMPORTED)
         set_target_properties(vgui_bundled PROPERTIES
@@ -298,6 +306,9 @@ if(BUILD_TESTS)
         tests/test_ai_factions.cpp
         tests/test_gamerules_skill.cpp
         tests/test_hud_registry.cpp
+        tests/mock_client_engine.cpp
+        tests/test_client_lifecycle.cpp
+        tests/test_client_studio.cpp
         dlls/weapons/weapon_registry.cpp
         dlls/items/item_registry.cpp
         dlls/ai/monster_relationship_manager.cpp
@@ -345,9 +356,35 @@ if(BUILD_TESTS)
     )
 
     if(NOT MSVC)
-        target_link_libraries(hl_tests PRIVATE m pthread stdc++)
+        target_link_libraries(hl_tests PRIVATE m dl pthread stdc++)
     endif()
 
     enable_testing()
     add_test(NAME behavioral_equivalence COMMAND hl_tests)
+
+    # ==============================================================================
+    # Smoke Test Target: smoke_test_client (smoke_test_client.exe / smoke_test_client)
+    # ==============================================================================
+    add_executable(smoke_test_client tests/smoke_test_client.cpp)
+
+    set_target_properties(smoke_test_client PROPERTIES
+        OUTPUT_NAME "smoke_test_client"
+    )
+
+    if(MSVC)
+        target_compile_definitions(smoke_test_client PRIVATE _CONSOLE)
+    endif()
+
+    target_include_directories(smoke_test_client PRIVATE
+        .
+        tests
+        engine
+        common
+        pm_shared
+        public
+    )
+
+    if(NOT MSVC)
+        target_link_libraries(smoke_test_client PRIVATE dl m pthread)
+    endif()
 endif()
