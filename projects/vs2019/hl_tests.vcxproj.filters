@@ -109,6 +109,9 @@
     <ClCompile Include="..\..\tests\test_studio_transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\tests\test_level_transition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\gamerules_factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
