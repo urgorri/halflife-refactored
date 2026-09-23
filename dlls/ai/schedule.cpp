@@ -25,6 +25,7 @@
 #include "ai/nodes.h"
 #include "ai/defaultai.h"
 #include "ai/soundent.h"
+#include "systems/crash_handler.h"
 
 extern CGraph WorldGraph;
 
@@ -77,6 +78,11 @@ BOOL CBaseMonster ::FScheduleDone( void )
 void CBaseMonster ::ChangeSchedule( Schedule_t *pNewSchedule )
 {
 	ASSERT( pNewSchedule != NULL );
+
+	if ( pNewSchedule )
+	{
+		g_CrashHandler.LogScheduleChange( edict(), pNewSchedule->pName );
+	}
 
 	m_pSchedule      = pNewSchedule;
 	m_iScheduleIndex = 0;

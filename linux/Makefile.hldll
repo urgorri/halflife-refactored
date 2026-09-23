@@ -47,6 +47,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/monsters/bloater.o \
 	$(HLDLL_OBJ_DIR)/world/bmodels.o \
 	$(HLDLL_OBJ_DIR)/systems/chargers.o \
+	$(HLDLL_OBJ_DIR)/systems/crash_handler.o \
 	$(HLDLL_OBJ_DIR)/items/items.o \
 	$(HLDLL_OBJ_DIR)/items/ammo_items.o \
 	$(HLDLL_OBJ_DIR)/systems/effects_shooters.o \

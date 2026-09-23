@@ -439,6 +439,12 @@ void InitMockEngine()
 {
 	std::memset( &g_engfuncs, 0, sizeof( g_engfuncs ) );
 
+	if ( s_stringPool.empty() )
+	{
+		s_stringPool.push_back( "" );
+		s_stringMap[""] = 0;
+	}
+
 	g_engfuncs.pfnPrecacheModel = stub_PrecacheModel;
 	g_engfuncs.pfnPrecacheSound = stub_PrecacheSound;
 	g_engfuncs.pfnSetModel = stub_SetModel;

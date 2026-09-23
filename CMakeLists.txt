@@ -145,6 +145,10 @@ if(BUILD_SERVER)
         target_include_directories(hl PRIVATE dlls/custom)
     endif()
 
+    if(WIN32)
+        target_link_libraries(hl PRIVATE dbghelp)
+    endif()
+
     if(NOT MSVC)
         target_link_libraries(hl PRIVATE m dl pthread stdc++)
     endif()
@@ -313,8 +317,10 @@ if(BUILD_TESTS)
         tests/test_studio_transform.cpp
         tests/test_level_transition.cpp
         tests/test_effects_beams.cpp
+        tests/test_crash_handler.cpp
         dlls/systems/effects_beams.cpp
         dlls/systems/chargers.cpp
+        dlls/systems/crash_handler.cpp
         dlls/weapons/weapon_registry.cpp
         dlls/items/item_registry.cpp
         dlls/ai/monster_relationship_manager.cpp
@@ -362,6 +368,10 @@ if(BUILD_TESTS)
         game_shared
         public
     )
+
+    if(WIN32)
+        target_link_libraries(hl_tests PRIVATE dbghelp)
+    endif()
 
     if(NOT MSVC)
         target_link_libraries(hl_tests PRIVATE m dl pthread stdc++)
