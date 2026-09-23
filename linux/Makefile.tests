@@ -35,6 +35,7 @@ TEST_OBJS = \
 	$(TESTS_OBJ_DIR)/test_gamerules_skill.o \
 	$(TESTS_OBJ_DIR)/test_client_lifecycle.o \
 	$(TESTS_OBJ_DIR)/test_client_studio.o \
+	$(TESTS_OBJ_DIR)/test_studio_transform.o \
 	$(TESTS_OBJ_DIR)/weapon_registry.o \
 	$(TESTS_OBJ_DIR)/item_registry.o \
 	$(TESTS_OBJ_DIR)/monster_relationship_manager.o \
