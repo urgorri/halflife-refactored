@@ -10,7 +10,7 @@ TYPEDESCRIPTION CBaseWallCharger::m_SaveData[] =
         DEFINE_FIELD( CBaseWallCharger, m_flSoundTime, FIELD_TIME ),
 };
 
-IMPLEMENT_SAVERESTORE( CBaseWallCharger, CBaseToggle );
+IMPLEMENT_SAVERESTORE( CBaseWallCharger, CBaseEntity );
 
 LINK_ENTITY_TO_CLASS( func_healthcharger, CWallHealth );
 LINK_ENTITY_TO_CLASS( func_recharge, CWallRecharge );

@@ -28,6 +28,10 @@ void SetMockCvar( const char *szVarName, float flValue );
 void SetMockCvar( const char *szVarName, const char *szValue );
 void ClearMockCvars();
 
+typedef void ( *ENTITYFACTORY )( entvars_t *pev );
+void RegisterMockEntityFactory( const char *pszClassname, ENTITYFACTORY pfnFactory );
+void ClearMockEntityFactories();
+
 extern int g_teamplay;
 extern cvar_t teamplay;
 extern cvar_t sv_busters;

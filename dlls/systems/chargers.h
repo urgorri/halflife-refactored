@@ -25,6 +25,12 @@ class CBaseWallCharger : public CBaseToggle
 	void EXPORT Off( void );
 	void EXPORT Recharge( void );
 
+	float m_flNextCharge;
+	int m_iReactivate; // DeathMatch delay until reactivated
+	int m_iJuice;
+	int m_iOn; // 0 = off, 1 = startup, 2 = going
+	float m_flSoundTime;
+
   protected:
 	virtual int GetCapacity( void ) const                = 0;
 	virtual float GetRechargeTime( void ) const          = 0;
@@ -33,12 +39,6 @@ class CBaseWallCharger : public CBaseToggle
 	virtual const char *GetLoopSound( void ) const       = 0;
 	virtual const char *GetDenySound( void ) const       = 0;
 	virtual float GetSoundVolume( void ) const { return 1.0f; }
-
-	float m_flNextCharge;
-	int m_iReactivate; // DeathMatch delay until reactivated
-	int m_iJuice;
-	int m_iOn; // 0 = off, 1 = startup, 2 = going
-	float m_flSoundTime;
 };
 
 class CWallHealth : public CBaseWallCharger
