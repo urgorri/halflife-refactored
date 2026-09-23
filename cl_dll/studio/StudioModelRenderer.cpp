@@ -122,30 +122,32 @@ int CStudioModelRenderer::StudioDrawModel( int flags )
 	{
 		entity_state_t deadplayer;
 
-		int player = m_pCurrentEntity->curstate.renderamt;
+		int result;
+		int save_interp;
 
-		if ( player < 1 || player > gEngfuncs.GetMaxClients() )
+		if ( m_pCurrentEntity->curstate.renderamt <= 0 || m_pCurrentEntity->curstate.renderamt > gEngfuncs.GetMaxClients() )
 			return 0;
 
 		// get copy of player
-		deadplayer = *( IEngineStudio.GetPlayerState( m_pCurrentEntity->curstate.renderamt - 1 ) ); // cl.frames[cl.parsecount & CL_UPDATE_MASK].playerstate[m_pCurrentEntity->curstate.renderamt-1];
+		deadplayer = *( IEngineStudio.GetPlayerState( m_pCurrentEntity->curstate.renderamt - 1 ) );
 
-		// get player model
-		// m_pRenderModel = IEngineStudio.SetupPlayerModel( player - 1 );
+		// clear weapon, movement state
+		deadplayer.number       = m_pCurrentEntity->curstate.renderamt;
+		deadplayer.weaponmodel  = 0;
+		deadplayer.gaitsequence = 0;
 
-		// get dead player sequence
-		deadplayer.sequence = m_pCurrentEntity->curstate.sequence;
-		deadplayer.frame    = m_pCurrentEntity->curstate.frame;
+		deadplayer.movetype = MOVETYPE_NONE;
 		VectorCopy( m_pCurrentEntity->curstate.angles, deadplayer.angles );
+		VectorCopy( m_pCurrentEntity->curstate.origin, deadplayer.origin );
 
-		// copy monster angles
-		// VectorCopy( m_pCurrentEntity->angles, deadplayer.angles );
-		// VectorCopy( m_pCurrentEntity->origin, deadplayer.origin );
+		save_interp = m_fDoInterp;
+		m_fDoInterp = 0;
 
-		// if (deadplayer.angles[0] > 0)
-		//	deadplayer.angles[0] = 0;
+		// draw as though it were a player
+		result = StudioDrawPlayer( flags, &deadplayer );
 
-		return StudioDrawPlayer( flags, &deadplayer );
+		m_fDoInterp = save_interp;
+		return result;
 	}
 
 	m_pRenderModel  = m_pCurrentEntity->model;
