@@ -23,6 +23,7 @@
 #include "weapons/weapon_satchel.h"
 #include "weapons/weapon_shotgun.h"
 #include "weapons/weapon_box.h"
+#include "systems/chargers.h"
 
 #if defined( _MSC_VER )
 
@@ -138,6 +139,15 @@ static_assert( offsetof( CBaseToggle, m_pfnCallWhenMoveDone ) == 204, "CBaseTogg
 static_assert( offsetof( CBaseToggle, m_vecFinalDest ) == 208, "CBaseToggle::m_vecFinalDest offset shifted" );
 static_assert( offsetof( CBaseToggle, m_vecFinalAngle ) == 220, "CBaseToggle::m_vecFinalAngle offset shifted" );
 
+// --- CBaseWallCharger ---
+static_assert( offsetof( CBaseWallCharger, m_flNextCharge ) == 240, "CBaseWallCharger::m_flNextCharge offset shifted" );
+static_assert( offsetof( CBaseWallCharger, m_iReactivate ) == 244, "CBaseWallCharger::m_iReactivate offset shifted" );
+static_assert( offsetof( CBaseWallCharger, m_iJuice ) == 248, "CBaseWallCharger::m_iJuice offset shifted" );
+static_assert( offsetof( CBaseWallCharger, m_iOn ) == 252, "CBaseWallCharger::m_iOn offset shifted" );
+static_assert( offsetof( CBaseWallCharger, m_flSoundTime ) == 256, "CBaseWallCharger::m_flSoundTime offset shifted" );
+static_assert( sizeof( CWallHealth ) == sizeof( CBaseWallCharger ), "CWallHealth size diverges from CBaseWallCharger" );
+static_assert( sizeof( CWallRecharge ) == sizeof( CBaseWallCharger ), "CWallRecharge size diverges from CBaseWallCharger" );
+
 #elif defined( __GNUC__ )
 
 // ============================================================================
@@ -251,5 +261,14 @@ static_assert( offsetof( CBaseToggle, m_hActivator ) == 212, "CBaseToggle::m_hAc
 static_assert( offsetof( CBaseToggle, m_pfnCallWhenMoveDone ) == 220, "CBaseToggle::m_pfnCallWhenMoveDone offset shifted" );
 static_assert( offsetof( CBaseToggle, m_vecFinalDest ) == 228, "CBaseToggle::m_vecFinalDest offset shifted" );
 static_assert( offsetof( CBaseToggle, m_vecFinalAngle ) == 240, "CBaseToggle::m_vecFinalAngle offset shifted" );
+
+// --- CBaseWallCharger ---
+static_assert( offsetof( CBaseWallCharger, m_flNextCharge ) == 260, "CBaseWallCharger::m_flNextCharge offset shifted" );
+static_assert( offsetof( CBaseWallCharger, m_iReactivate ) == 264, "CBaseWallCharger::m_iReactivate offset shifted" );
+static_assert( offsetof( CBaseWallCharger, m_iJuice ) == 268, "CBaseWallCharger::m_iJuice offset shifted" );
+static_assert( offsetof( CBaseWallCharger, m_iOn ) == 272, "CBaseWallCharger::m_iOn offset shifted" );
+static_assert( offsetof( CBaseWallCharger, m_flSoundTime ) == 276, "CBaseWallCharger::m_flSoundTime offset shifted" );
+static_assert( sizeof( CWallHealth ) == sizeof( CBaseWallCharger ), "CWallHealth size diverges from CBaseWallCharger" );
+static_assert( sizeof( CWallRecharge ) == sizeof( CBaseWallCharger ), "CWallRecharge size diverges from CBaseWallCharger" );
 
 #endif

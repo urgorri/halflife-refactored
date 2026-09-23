@@ -21,6 +21,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
+#include "core/player.h"
 
 #include "tests/mock_engine.h"
 #include "gameplay/gamerules.h"
@@ -240,4 +241,30 @@ TEST_CASE( "EntityVisualRegistry: RegisterModifier, HasModifiers, and ApplyModif
 	EntityVisualRegistry::Clear();
 	CHECK( EntityVisualRegistry::HasModifiers() == false );
 	CHECK( EntityVisualRegistry::GetModifiers().empty() );
+}
+
+TEST_CASE( "Player: entity factory export creates valid CBasePlayer via CBaseEntity::Create", "[player][factory]" )
+{
+	ResetMockEngine();
+
+	Vector vecOrigin( 100.0f, 200.0f, 300.0f );
+	Vector vecAngles( 0.0f, 90.0f, 0.0f );
+
+	CBaseEntity *pEntity = CBaseEntity::Create( "player", vecOrigin, vecAngles, NULL );
+	REQUIRE( pEntity != nullptr );
+
+	CBasePlayer *pPlayer = (CBasePlayer *)pEntity;
+	REQUIRE( pPlayer->pev != nullptr );
+	CHECK( pPlayer->edict() != nullptr );
+	CHECK( pPlayer->pev->pContainingEntity == pPlayer->edict() );
+	CHECK( pPlayer->pev->origin.x == 100.0f );
+	CHECK( pPlayer->pev->origin.y == 200.0f );
+	CHECK( pPlayer->pev->origin.z == 300.0f );
+	CHECK( pPlayer->pev->angles.x == 0.0f );
+	CHECK( pPlayer->pev->angles.y == 90.0f );
+	CHECK( pPlayer->pev->angles.z == 0.0f );
+
+	// Nonexistent entity classname should return NULL
+	CBaseEntity *pInvalid = CBaseEntity::Create( "nonexistent_class", g_vecZero, g_vecZero, NULL );
+	CHECK( pInvalid == nullptr );
 }

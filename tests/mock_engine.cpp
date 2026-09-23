@@ -59,9 +59,64 @@ static void stub_AngleVectors( const float *rgflVector, float *forward, float *r
 	if ( right ) { right[0] = 0; right[1] = 1; right[2] = 0; }
 	if ( up ) { up[0] = 0; up[1] = 0; up[2] = 1; }
 }
-static edict_t *stub_CreateEntity( void ) { return nullptr; }
-static void stub_RemoveEntity( edict_t *e ) {}
-static edict_t *stub_CreateNamedEntity( int className ) { return nullptr; }
+static void stub_FreeEntPrivateData( edict_t *pEdict );
+static const char *stub_SzFromIndex( int iString );
+
+static std::unordered_map<std::string, ENTITYFACTORY> s_mockEntityFactories;
+
+void RegisterMockEntityFactory( const char *pszClassname, ENTITYFACTORY pfnFactory )
+{
+	if ( pszClassname && pfnFactory )
+		s_mockEntityFactories[pszClassname] = pfnFactory;
+}
+
+void ClearMockEntityFactories()
+{
+	s_mockEntityFactories.clear();
+}
+
+static edict_t *stub_CreateEntity( void )
+{
+	edict_t *pEdict = (edict_t *)std::calloc( 1, sizeof( edict_t ) );
+	if ( pEdict )
+		pEdict->v.pContainingEntity = pEdict;
+	return pEdict;
+}
+
+static void stub_RemoveEntity( edict_t *e )
+{
+	if ( e )
+	{
+		stub_FreeEntPrivateData( e );
+		std::free( e );
+	}
+}
+
+static edict_t *stub_CreateNamedEntity( int className )
+{
+	const char *szClass = nullptr;
+	if ( gpGlobals && gpGlobals->pStringBase )
+		szClass = (const char *)( gpGlobals->pStringBase + className );
+	else if ( className >= 0 && className < static_cast<int>( s_stringPool.size() ) )
+		szClass = stub_SzFromIndex( className );
+	else
+		szClass = reinterpret_cast<const char *>( className );
+
+	if ( !szClass || !*szClass )
+		return nullptr;
+
+	auto it = s_mockEntityFactories.find( szClass );
+	if ( it == s_mockEntityFactories.end() )
+		return nullptr;
+
+	edict_t *pEdict = stub_CreateEntity();
+	if ( !pEdict )
+		return nullptr;
+
+	pEdict->v.classname = className;
+	it->second( &pEdict->v );
+	return pEdict;
+}
 static void stub_MakeStatic( edict_t *ent ) {}
 static int stub_EntIsOnFloor( edict_t *e ) { return 1; }
 static int stub_DropToFloor( edict_t *e ) { return 1; }
@@ -347,6 +402,8 @@ void SetMockTraceLineResult( const TraceResult &tr )
 	g_mockTraceResult = tr;
 }
 
+extern "C" void player( entvars_t *pev );
+
 void ResetMockEngine()
 {
 	g_mockMessageBuffer.clear();
@@ -360,6 +417,9 @@ void ResetMockEngine()
 	g_mockTraceResult.flFraction = 1.0f;
 
 	ClearMockCvars();
+	ClearMockEntityFactories();
+	RegisterMockEntityFactory( "player", player );
+
 	g_teamplay = 0;
 	teamplay.value = 0.0f;
 	sv_busters.value = 0.0f;
@@ -527,6 +587,37 @@ int CBaseEntity::IsInWorld( void ) { return 1; }
 CBaseEntity *CBaseEntity::GetNextTarget( void ) { return nullptr; }
 int CBaseEntity::FVisible( CBaseEntity *pEntity ) { return 1; }
 int CBaseEntity::FVisible( const Vector &vecTarget ) { return 1; }
+
+#include "player.h"
+
+extern "C" void player( entvars_t *pev )
+{
+	if ( !pev )
+		return;
+	if ( pev->pContainingEntity && pev->pContainingEntity->pvPrivateData == NULL )
+	{
+		ALLOC_PRIVATE( pev->pContainingEntity, sizeof( CBasePlayer ) );
+		CBaseEntity *pEntity = (CBaseEntity *)pev->pContainingEntity->pvPrivateData;
+		if ( pEntity )
+			pEntity->pev = pev;
+	}
+}
+
+CBaseEntity *CBaseEntity::Create( char *szName, const Vector &vecOrigin, const Vector &vecAngles, edict_t *pentOwner )
+{
+	edict_t *pent = CREATE_NAMED_ENTITY( MAKE_STRING( szName ) );
+	if ( !pent )
+		return nullptr;
+
+	CBaseEntity *pEntity = Instance( pent );
+	if ( pEntity )
+	{
+		pEntity->pev->owner = pentOwner;
+		pEntity->pev->origin = vecOrigin;
+		pEntity->pev->angles = vecAngles;
+	}
+	return pEntity;
+}
 
 #include "gameplay/gamerules.h"
 
