@@ -139,6 +139,9 @@
     <ClCompile Include="..\..\dlls\core\skill.cpp" />
     <ClCompile Include="..\..\dlls\core\user_message_registry.cpp" />
     <ClCompile Include="..\..\cl_dll\entities\entity_visual_registry.cpp" />
+    <ClCompile Include="..\..\dlls\systems\chargers.cpp" />
+    <ClCompile Include="..\..\dlls\systems\effects_beams.cpp" />
+    <ClCompile Include="..\..\tests\test_effects_beams.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

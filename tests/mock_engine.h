@@ -35,3 +35,8 @@ void ClearMockEntityFactories();
 extern int g_teamplay;
 extern cvar_t teamplay;
 extern cvar_t sv_busters;
+
+extern std::string g_mockLastSaveChunk;
+extern std::string g_mockLastRestoreChunk;
+extern std::string g_mockRestoreAvailableChunk;
+

@@ -272,3 +272,58 @@ static_assert( sizeof( CWallHealth ) == sizeof( CBaseWallCharger ), "CWallHealth
 static_assert( sizeof( CWallRecharge ) == sizeof( CBaseWallCharger ), "CWallRecharge size diverges from CBaseWallCharger" );
 
 #endif
+
+#include "external/catch2/catch_amalgamated.hpp"
+#include "tests/mock_engine.h"
+
+TEST_CASE( "Charger: CWallHealth save/restore canonical chunk identifier and fallback", "[charger][saverestore]" )
+{
+	ResetMockEngine();
+
+	CWallHealth healthCharger;
+	SAVERESTOREDATA data;
+	memset( &data, 0, sizeof( data ) );
+	CSave saveHelper( &data );
+	CRestore restoreHelper( &data );
+
+	// Canonical rule: CWallHealth::Save must serialize under chunk identifier "CWallHealth"
+	healthCharger.Save( saveHelper );
+	CHECK( g_mockLastSaveChunk == "CWallHealth" );
+
+	// Canonical rule: CWallHealth::Restore must deserialize from "CWallHealth"
+	g_mockRestoreAvailableChunk = "CWallHealth";
+	int ok = healthCharger.Restore( restoreHelper );
+	CHECK( ok == 1 );
+	CHECK( g_mockLastRestoreChunk == "CWallHealth" );
+
+	// Fallback rule: CWallHealth::Restore must also accept "CBaseWallCharger" fallback
+	g_mockRestoreAvailableChunk = "CBaseWallCharger";
+	ok = healthCharger.Restore( restoreHelper );
+	CHECK( ok == 1 );
+}
+
+TEST_CASE( "Charger: CWallRecharge save/restore canonical chunk identifier (CRecharge) and fallback", "[charger][saverestore]" )
+{
+	ResetMockEngine();
+
+	CWallRecharge suitCharger;
+	SAVERESTOREDATA data;
+	memset( &data, 0, sizeof( data ) );
+	CSave saveHelper( &data );
+	CRestore restoreHelper( &data );
+
+	// Canonical rule: CWallRecharge::Save must serialize under canonical chunk identifier "CRecharge"
+	suitCharger.Save( saveHelper );
+	CHECK( g_mockLastSaveChunk == "CRecharge" );
+
+	// Canonical rule: CWallRecharge::Restore must deserialize from "CRecharge"
+	g_mockRestoreAvailableChunk = "CRecharge";
+	int ok = suitCharger.Restore( restoreHelper );
+	CHECK( ok == 1 );
+	CHECK( g_mockLastRestoreChunk == "CRecharge" );
+
+	// Fallback rule: CWallRecharge::Restore must also accept "CBaseWallCharger" fallback
+	g_mockRestoreAvailableChunk = "CBaseWallCharger";
+	ok = suitCharger.Restore( restoreHelper );
+	CHECK( ok == 1 );
+}

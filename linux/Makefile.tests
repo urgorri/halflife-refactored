@@ -50,7 +50,10 @@ TEST_OBJS = \
 	$(TESTS_OBJ_DIR)/event_registry.o \
 	$(TESTS_OBJ_DIR)/hud_registry.o \
 	$(TESTS_OBJ_DIR)/entity_visual_registry.o \
-	$(TESTS_OBJ_DIR)/test_hud_registry.o
+	$(TESTS_OBJ_DIR)/test_hud_registry.o \
+	$(TESTS_OBJ_DIR)/test_effects_beams.o \
+	$(TESTS_OBJ_DIR)/chargers.o \
+	$(TESTS_OBJ_DIR)/effects_beams.o
 
 PM_OBJS = \
 	$(PM_OBJ_DIR)/pm_shared.o \
@@ -117,6 +120,12 @@ $(TESTS_OBJ_DIR)/user_message_registry.o: $(HLCORE_SRC_DIR)/user_message_registr
 	$(DO_TESTS_CXX)
 
 $(TESTS_OBJ_DIR)/entity_visual_registry.o: $(SOURCE_DIR)/cl_dll/entities/entity_visual_registry.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/chargers.o: $(HLDLL_SRC_DIR)/systems/chargers.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/effects_beams.o: $(HLDLL_SRC_DIR)/systems/effects_beams.cpp | dirs
 	$(DO_TESTS_CXX)
 
 $(PM_OBJ_DIR)/%.o: $(PM_SRC_DIR)/%.c | dirs
