@@ -67,7 +67,8 @@ const Vector &CBeam::GetStartPos( void )
 	if ( GetType() == BEAM_ENTS )
 	{
 		edict_t *pent = g_engfuncs.pfnPEntityOfEntIndex( GetStartEntity() );
-		return pent->v.origin;
+		if ( pent )
+			return pent->v.origin;
 	}
 	return pev->origin;
 }
@@ -795,6 +796,9 @@ void CLightning::BeamUpdateVars( void )
 
 	edict_t *pStart = g_engfuncs.pfnFindEntityByString( NULL, "targetname", STRING( m_iszStartEntity ) );
 	edict_t *pEnd   = g_engfuncs.pfnFindEntityByString( NULL, "targetname", STRING( m_iszEndEntity ) );
+	if ( pStart == NULL || FNullEnt( pStart ) || pEnd == NULL || FNullEnt( pEnd ) )
+		return;
+
 	pointStart      = IsPointEntity( CBaseEntity::Instance( pStart ) );
 	pointEnd        = IsPointEntity( CBaseEntity::Instance( pEnd ) );
 
