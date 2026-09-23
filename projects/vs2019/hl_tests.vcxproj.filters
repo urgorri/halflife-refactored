@@ -103,6 +103,9 @@
     <ClCompile Include="..\..\tests\test_gamerules_skill.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\tests\test_gameplay_hooks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\gameplay\gamerules_factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -110,6 +113,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dlls\core\skill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\user_message_registry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\entities\entity_visual_registry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\pm_shared\pm_debug.c">

@@ -716,7 +716,7 @@ LINK_ENTITY_TO_CLASS( trigger_autosave, CTriggerSave );
 
 void CTriggerSave::Spawn( void )
 {
-	if ( g_pGameRules->IsDeathmatch() )
+	if ( !g_pGameRules->FAllowAutoSave() )
 	{
 		REMOVE_ENTITY( ENT( pev ) );
 		return;

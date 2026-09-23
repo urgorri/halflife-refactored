@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <string>
 
 #include "extdll.h"
 
@@ -10,6 +11,7 @@ extern globalvars_t *gpGlobals;
 
 // Message recording buffers for testing engine network messages
 extern std::vector<uint8_t> g_mockMessageBuffer;
+extern std::vector<std::string> g_mockServerCommands;
 extern int g_mockMessageDest;
 extern int g_mockMessageType;
 extern float g_mockMessageOrigin[3];

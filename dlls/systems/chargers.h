@@ -44,7 +44,10 @@ class CBaseWallCharger : public CBaseToggle
 class CWallHealth : public CBaseWallCharger
 {
   protected:
-	int GetCapacity( void ) const override { return gSkillData.healthchargerCapacity; }
+	int GetCapacity( void ) const override
+	{
+		return g_pGameRules ? (int)g_pGameRules->FlHealthChargerCapacity() : (int)gSkillData.healthchargerCapacity;
+	}
 	float GetRechargeTime( void ) const override { return g_pGameRules->FlHealthChargerRechargeTime(); }
 	BOOL GiveResource( CBaseEntity *pActivator ) override { return pActivator->TakeHealth( 1, DMG_GENERIC ); }
 	const char *GetStartSound( void ) const override { return "items/medshot4.wav"; }
@@ -55,7 +58,10 @@ class CWallHealth : public CBaseWallCharger
 class CWallRecharge : public CBaseWallCharger
 {
   protected:
-	int GetCapacity( void ) const override { return gSkillData.suitchargerCapacity; }
+	int GetCapacity( void ) const override
+	{
+		return g_pGameRules ? (int)g_pGameRules->FlHEVChargerCapacity() : (int)gSkillData.suitchargerCapacity;
+	}
 	float GetRechargeTime( void ) const override { return g_pGameRules->FlHEVChargerRechargeTime(); }
 	BOOL GiveResource( CBaseEntity *pActivator ) override
 	{

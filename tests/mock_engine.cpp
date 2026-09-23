@@ -118,7 +118,12 @@ static void stub_GetAimVector( edict_t *ent, float speed, float *rgflReturn ) {
 		rgflReturn[0] = 1; rgflReturn[1] = 0; rgflReturn[2] = 0;
 	}
 }
-static void stub_ServerCommand( char *str ) {}
+std::vector<std::string> g_mockServerCommands;
+static void stub_ServerCommand( char *str ) {
+	if ( str ) {
+		g_mockServerCommands.push_back( str );
+	}
+}
 static void stub_ServerExecute( void ) {}
 static void stub_ClientCommand( edict_t *pEdict, char *szFmt, ... ) {}
 static void stub_ParticleEffect( const float *org, const float *dir, float color, float count ) {}
@@ -345,6 +350,7 @@ void SetMockTraceLineResult( const TraceResult &tr )
 void ResetMockEngine()
 {
 	g_mockMessageBuffer.clear();
+	g_mockServerCommands.clear();
 	g_mockMessageDest = 0;
 	g_mockMessageType = 0;
 	std::memset( g_mockMessageOrigin, 0, sizeof( g_mockMessageOrigin ) );

@@ -744,8 +744,17 @@
     <ClCompile Include="..\..\dlls\items\item_registry.cpp">
       <Filter>Source Files\items</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\core\user_message_registry.cpp">
+      <Filter>Source Files\dlls\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\dlls\core\user_message_registry.h">
+      <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\core\client_usermsg.h">
+      <Filter>Header Files\dlls</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\dlls\weapons\ammo_base.h">
       <Filter>Header Files\dlls\weapons</Filter>
     </ClInclude>

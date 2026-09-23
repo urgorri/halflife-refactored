@@ -128,6 +128,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\core\player_combat.cpp" />
     <ClCompile Include="..\..\dlls\core\player_cheats.cpp" />
     <ClCompile Include="..\..\dlls\core\client_usermsg.cpp" />
+    <ClCompile Include="..\..\dlls\core\user_message_registry.cpp" />
     <ClCompile Include="..\..\dlls\core\client_spectator.cpp" />
     <ClCompile Include="..\..\dlls\core\client_networking.cpp" />
     <ClCompile Include="..\..\dlls\core\client_commands.cpp" />
@@ -323,6 +324,8 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClInclude Include="..\..\dlls\core\player_inventory.h" />
     <ClInclude Include="..\..\dlls\core\player_physics.h" />
     <ClInclude Include="..\..\dlls\core\player_network.h" />
+    <ClInclude Include="..\..\dlls\core\user_message_registry.h" />
+    <ClInclude Include="..\..\dlls\core\client_usermsg.h" />
     <ClInclude Include="..\..\dlls\core\saverestore.h" />
     <ClInclude Include="..\..\dlls\schedule.h" />
     <ClInclude Include="..\..\dlls\gameplay\scripted.h" />
