@@ -131,6 +131,7 @@
     <ClCompile Include="..\..\tests\test_client_lifecycle.cpp" />
     <ClCompile Include="..\..\tests\test_client_studio.cpp" />
     <ClCompile Include="..\..\tests\test_gamerules_skill.cpp" />
+    <ClCompile Include="..\..\tests\test_studio_transform.cpp" />
     <ClCompile Include="..\..\dlls\gameplay\gamerules_factory.cpp" />
     <ClCompile Include="..\..\dlls\core\skill_manager.cpp" />
     <ClCompile Include="..\..\dlls\core\skill.cpp" />

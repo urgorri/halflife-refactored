@@ -373,52 +373,70 @@ void CStudioModelRenderer::StudioSetUpTransform( int trivial_accept )
 {
 	int i;
 	vec3_t angles;
-	vec3_t origin;
+	vec3_t modelpos;
 
-	// VectorCopy( m_pCurrentEntity->origin, origin );
-	// VectorCopy( m_pCurrentEntity->angles, angles );
+	VectorCopy( m_pCurrentEntity->origin, modelpos );
 
-	// Entity-level animation state caching
-	//  interpolate origin and angles
-	if ( !trivial_accept && m_fDoInterp )
+	angles[ROLL]  = m_pCurrentEntity->curstate.angles[ROLL];
+	angles[PITCH] = m_pCurrentEntity->curstate.angles[PITCH];
+	angles[YAW]   = m_pCurrentEntity->curstate.angles[YAW];
+
+	if ( m_pCurrentEntity->curstate.movetype == MOVETYPE_STEP )
 	{
+		float f = 0;
+		float d;
+
+		if ( ( m_clTime < m_pCurrentEntity->curstate.animtime + 1.0f ) &&
+		     ( m_pCurrentEntity->curstate.animtime != m_pCurrentEntity->latched.prevanimtime ) )
+		{
+			f = ( m_clTime - m_pCurrentEntity->curstate.animtime ) / ( m_pCurrentEntity->curstate.animtime - m_pCurrentEntity->latched.prevanimtime );
+		}
+
+		if ( m_fDoInterp )
+		{
+			f = f - 1.0;
+		}
+		else
+		{
+			f = 0;
+		}
+
 		for ( i = 0; i < 3; i++ )
 		{
-			origin[i] = m_pCurrentEntity->curstate.origin[i] * ( 1.0 - m_clTime ) + m_pCurrentEntity->latched.prevorigin[i] * m_clTime;
-			angles[i] = m_pCurrentEntity->curstate.angles[i] * ( 1.0 - m_clTime ) + m_pCurrentEntity->latched.prevangles[i] * m_clTime;
+			modelpos[i] += ( m_pCurrentEntity->origin[i] - m_pCurrentEntity->latched.prevorigin[i] ) * f;
+		}
+
+		for ( i = 0; i < 3; i++ )
+		{
+			float ang1, ang2;
+
+			ang1 = m_pCurrentEntity->angles[i];
+			ang2 = m_pCurrentEntity->latched.prevangles[i];
+
+			d = ang1 - ang2;
+			if ( d > 180 )
+			{
+				d -= 360;
+			}
+			else if ( d < -180 )
+			{
+				d += 360;
+			}
+
+			angles[i] += d * f;
 		}
 	}
-	else
+	else if ( m_pCurrentEntity->curstate.movetype != MOVETYPE_NONE )
 	{
-		VectorCopy( m_pCurrentEntity->curstate.origin, origin );
-		VectorCopy( m_pCurrentEntity->curstate.angles, angles );
+		VectorCopy( m_pCurrentEntity->angles, angles );
 	}
 
-	// Con_DPrintf( "%f %f\n", origin[0], m_pCurrentEntity->curstate.origin[0] );
-
-	// Auto-rotate the TFC flag
-	if ( m_pCurrentEntity->curstate.effects & EF_ROTATE )
-	{
-		angles[1] = fmod( 100 * (float)m_clTime, 360.0 );
-	}
-
-	if ( m_pCurrentEntity->curstate.effects & EF_BRIGHTFIELD )
-	{
-		angles[1] = 0;
-	}
-
-	angles[0] = -angles[0];
-	angles[2] = -angles[2];
-
-	// gEngfuncs.Con_DPrintf( "angles %f %f %f\n", angles[0], angles[1], angles[2] );
-
+	angles[PITCH] = -angles[PITCH];
 	AngleMatrix( angles, ( *m_protationmatrix ) );
 
-	( *m_protationmatrix )[0][3] = origin[0];
-	( *m_protationmatrix )[1][3] = origin[1];
-	( *m_protationmatrix )[2][3] = origin[2];
-
-	// m_pCurrentEntity->curstate.scale = 0.5;
+	( *m_protationmatrix )[0][3] = modelpos[0];
+	( *m_protationmatrix )[1][3] = modelpos[1];
+	( *m_protationmatrix )[2][3] = modelpos[2];
 
 	// Scale the model, if requested
 	if ( m_pCurrentEntity->curstate.scale > 0.001 )
@@ -433,16 +451,6 @@ void CStudioModelRenderer::StudioSetUpTransform( int trivial_accept )
 		}
 	}
 
-	if ( m_pCurrentEntity->curstate.rendermode == kRenderTransAdd )
-	{
-	}
-	else if ( m_pCurrentEntity->curstate.rendermode != kRenderNormal )
-	{
-		// Set custom blend amounts
-		//
-		//
-	}
-
 	if ( !IEngineStudio.IsHardware() )
 	{
 		static float viewmatrix[3][4];
@@ -452,24 +460,25 @@ void CStudioModelRenderer::StudioSetUpTransform( int trivial_accept )
 		VectorInverse( viewmatrix[1] );
 		VectorCopy( m_vNormal, viewmatrix[2] );
 
-		viewmatrix[0][3] = -DotProduct( m_vRenderOrigin, viewmatrix[0] );
-		viewmatrix[1][3] = -DotProduct( m_vRenderOrigin, viewmatrix[1] );
-		viewmatrix[2][3] = -DotProduct( m_vRenderOrigin, viewmatrix[2] );
+		( *m_protationmatrix )[0][3] = modelpos[0] - m_vRenderOrigin[0];
+		( *m_protationmatrix )[1][3] = modelpos[1] - m_vRenderOrigin[1];
+		( *m_protationmatrix )[2][3] = modelpos[2] - m_vRenderOrigin[2];
 
 		ConcatTransforms( viewmatrix, ( *m_protationmatrix ), ( *m_paliastransform ) );
 
-		// do the scaling up front
-		for ( i = 0; i < 3; i++ )
+		if ( trivial_accept )
 		{
-			( *m_paliastransform )[0][i] *= m_fSoftwareXScale * ( 1.0 / ( ZISCALE * 0x10000 ) );
-			( *m_paliastransform )[1][i] *= m_fSoftwareYScale * ( 1.0 / ( ZISCALE * 0x10000 ) );
-			( *m_paliastransform )[2][i] *= ( 1.0 / ( ZISCALE * 0x10000 ) );
+			for ( i = 0; i < 4; i++ )
+			{
+				( *m_paliastransform )[0][i] *= m_fSoftwareXScale * ( 1.0 / ( ZISCALE * 0x10000 ) );
+				( *m_paliastransform )[1][i] *= m_fSoftwareYScale * ( 1.0 / ( ZISCALE * 0x10000 ) );
+				( *m_paliastransform )[2][i] *= 1.0 / ( ZISCALE * 0x10000 );
+			}
 		}
-		( *m_paliastransform )[0][3] *= m_fSoftwareXScale * ( 1.0 / ( ZISCALE * 0x10000 ) );
-		( *m_paliastransform )[0][3] += ( (float)ScreenWidth / 2.0 ) * ( 1.0 / ( ZISCALE * 0x10000 ) );
-		( *m_paliastransform )[1][3] *= m_fSoftwareYScale * ( 1.0 / ( ZISCALE * 0x10000 ) );
-		( *m_paliastransform )[1][3] += ( (float)ScreenHeight / 2.0 ) * ( 1.0 / ( ZISCALE * 0x10000 ) );
-		( *m_paliastransform )[2][3] *= ( 1.0 / ( ZISCALE * 0x10000 ) );
+
+		( *m_protationmatrix )[0][3] = modelpos[0];
+		( *m_protationmatrix )[1][3] = modelpos[1];
+		( *m_protationmatrix )[2][3] = modelpos[2];
 	}
 }
 
@@ -787,10 +796,38 @@ void CStudioModelRenderer::StudioSetupBones( void )
 
 	pbones = (mstudiobone_t *)( (byte *)m_pStudioHeader + m_pStudioHeader->boneindex );
 
-	//	if (m_pPlayerInfo)
-	//	{
-	//		StudioPlayerGait( m_pPlayerInfo );
-	//	}
+	if ( m_pPlayerInfo && m_pPlayerInfo->gaitsequence != 0 )
+	{
+		if ( m_pPlayerInfo->gaitsequence >= m_pStudioHeader->numseq )
+		{
+			m_pPlayerInfo->gaitsequence = 0;
+		}
+
+		int copy = 1;
+
+		pseqdesc = (mstudioseqdesc_t *)( (byte *)m_pStudioHeader + m_pStudioHeader->seqindex ) + m_pPlayerInfo->gaitsequence;
+
+		panim = StudioGetAnim( m_pRenderModel, pseqdesc );
+		StudioCalcRotations( pos2, q2, pseqdesc, panim, m_pPlayerInfo->gaitframe );
+
+		for ( i = 0; i < m_pStudioHeader->numbones; i++ )
+		{
+			if ( !strcmp( pbones[i].name, "Bip01 Spine" ) )
+			{
+				copy = 0;
+			}
+			else if ( !strcmp( pbones[pbones[i].parent].name, "Bip01 Pelvis" ) )
+			{
+				copy = 1;
+			}
+
+			if ( copy )
+			{
+				memcpy( pos[i], pos2[i], sizeof( pos[i] ) );
+				memcpy( q[i], q2[i], sizeof( q[i] ) );
+			}
+		}
+	}
 
 	for ( i = 0; i < m_pStudioHeader->numbones; i++ )
 	{
@@ -805,7 +842,7 @@ void CStudioModelRenderer::StudioSetupBones( void )
 			if ( IEngineStudio.IsHardware() )
 			{
 				ConcatTransforms( ( *m_protationmatrix ), bonematrix, ( *m_pbonetransform )[i] );
-				ConcatTransforms( ( *m_protationmatrix ), bonematrix, ( *m_plighttransform )[i] );
+				MatrixCopy( ( *m_pbonetransform )[i], ( *m_plighttransform )[i] );
 			}
 			else
 			{
@@ -1031,26 +1068,51 @@ void CStudioModelRenderer::StudioEstimateGait( entity_state_t *pplayer )
 		return;
 	}
 
-	// if (length == 0)
-	if ( ( pplayer->sequence >= 23 && pplayer->sequence <= 39 ) ||
-	     ( pplayer->sequence >= 50 && pplayer->sequence <= 68 ) )
+	// VectorAdd( pplayer->velocity, pplayer->prediction_error, est_velocity );
+	if ( m_fGaitEstimation )
 	{
-		m_flGaitMovement = 0;
-		// m_pPlayerInfo->gaitsequence = 0;
-		return;
-	}
-
-	VectorSubtract( m_pCurrentEntity->origin, m_pPlayerInfo->prevgaitorigin, est_velocity );
-	VectorCopy( m_pCurrentEntity->origin, m_pPlayerInfo->prevgaitorigin );
-
-	m_flGaitMovement = Length( est_velocity );
-	if ( dt > 0 )
-	{
-		m_flGaitMovement = m_flGaitMovement / dt;
+		VectorSubtract( m_pCurrentEntity->origin, m_pPlayerInfo->prevgaitorigin, est_velocity );
+		VectorCopy( m_pCurrentEntity->origin, m_pPlayerInfo->prevgaitorigin );
+		m_flGaitMovement = Length( est_velocity );
+		if ( dt <= 0 || m_flGaitMovement / dt < 5 )
+		{
+			m_flGaitMovement = 0;
+			est_velocity[0]  = 0;
+			est_velocity[1]  = 0;
+		}
 	}
 	else
 	{
+		VectorCopy( pplayer->velocity, est_velocity );
+		m_flGaitMovement = Length( est_velocity ) * dt;
+	}
+
+	if ( est_velocity[1] == 0 && est_velocity[0] == 0 )
+	{
+		float flYawDiff = m_pCurrentEntity->angles[YAW] - m_pPlayerInfo->gaityaw;
+		flYawDiff       = flYawDiff - (int)( flYawDiff / 360 ) * 360;
+		if ( flYawDiff > 180 )
+			flYawDiff -= 360;
+		if ( flYawDiff < -180 )
+			flYawDiff += 360;
+
+		if ( dt < 0.25 )
+			flYawDiff *= dt * 4;
+		else
+			flYawDiff *= dt;
+
+		m_pPlayerInfo->gaityaw += flYawDiff;
+		m_pPlayerInfo->gaityaw = m_pPlayerInfo->gaityaw - (int)( m_pPlayerInfo->gaityaw / 360 ) * 360;
+
 		m_flGaitMovement = 0;
+	}
+	else
+	{
+		m_pPlayerInfo->gaityaw = ( atan2( est_velocity[1], est_velocity[0] ) * 180 / M_PI );
+		if ( m_pPlayerInfo->gaityaw > 180 )
+			m_pPlayerInfo->gaityaw = 180;
+		if ( m_pPlayerInfo->gaityaw < -180 )
+			m_pPlayerInfo->gaityaw = -180;
 	}
 }
 
@@ -1064,13 +1126,22 @@ void CStudioModelRenderer::StudioProcessGait( entity_state_t *pplayer )
 {
 	mstudioseqdesc_t *pseqdesc;
 	float dt;
+	int iBlend;
+	float flYaw; // view direction relative to movement
 
-	if ( pplayer->sequence >= m_pStudioHeader->numseq )
+	if ( m_pCurrentEntity->curstate.sequence >= m_pStudioHeader->numseq )
 	{
-		pplayer->sequence = 0;
+		m_pCurrentEntity->curstate.sequence = 0;
 	}
 
-	pseqdesc = (mstudioseqdesc_t *)( (byte *)m_pStudioHeader + m_pStudioHeader->seqindex ) + pplayer->sequence;
+	pseqdesc = (mstudioseqdesc_t *)( (byte *)m_pStudioHeader + m_pStudioHeader->seqindex ) + m_pCurrentEntity->curstate.sequence;
+
+	StudioPlayerBlend( pseqdesc, &iBlend, &m_pCurrentEntity->angles[PITCH] );
+
+	m_pCurrentEntity->latched.prevangles[PITCH]  = m_pCurrentEntity->angles[PITCH];
+	m_pCurrentEntity->curstate.blending[0]       = iBlend;
+	m_pCurrentEntity->latched.prevblending[0]    = m_pCurrentEntity->curstate.blending[0];
+	m_pCurrentEntity->latched.prevseqblending[0] = m_pCurrentEntity->curstate.blending[0];
 
 	dt = ( m_clTime - m_clOldTime );
 	if ( dt < 0 )
@@ -1080,41 +1151,61 @@ void CStudioModelRenderer::StudioProcessGait( entity_state_t *pplayer )
 
 	StudioEstimateGait( pplayer );
 
-	// Calc gait frame
+	// calc side to side turning
+	flYaw = m_pCurrentEntity->angles[YAW] - m_pPlayerInfo->gaityaw;
+	flYaw = flYaw - (int)( flYaw / 360 ) * 360;
+	if ( flYaw < -180 )
+		flYaw = flYaw + 360;
+	if ( flYaw > 180 )
+		flYaw = flYaw - 360;
+
+	if ( flYaw > 120 )
+	{
+		m_pPlayerInfo->gaityaw = m_pPlayerInfo->gaityaw - 180;
+		m_flGaitMovement       = -m_flGaitMovement;
+		flYaw                  = flYaw - 180;
+	}
+	else if ( flYaw < -120 )
+	{
+		m_pPlayerInfo->gaityaw = m_pPlayerInfo->gaityaw + 180;
+		m_flGaitMovement       = -m_flGaitMovement;
+		flYaw                  = flYaw + 180;
+	}
+
+	// adjust torso
+	m_pCurrentEntity->curstate.controller[0]    = ( ( flYaw / 4.0 ) + 30 ) / ( 60.0 / 255.0 );
+	m_pCurrentEntity->curstate.controller[1]    = ( ( flYaw / 4.0 ) + 30 ) / ( 60.0 / 255.0 );
+	m_pCurrentEntity->curstate.controller[2]    = ( ( flYaw / 4.0 ) + 30 ) / ( 60.0 / 255.0 );
+	m_pCurrentEntity->curstate.controller[3]    = ( ( flYaw / 4.0 ) + 30 ) / ( 60.0 / 255.0 );
+	m_pCurrentEntity->latched.prevcontroller[0] = m_pCurrentEntity->curstate.controller[0];
+	m_pCurrentEntity->latched.prevcontroller[1] = m_pCurrentEntity->curstate.controller[1];
+	m_pCurrentEntity->latched.prevcontroller[2] = m_pCurrentEntity->curstate.controller[2];
+	m_pCurrentEntity->latched.prevcontroller[3] = m_pCurrentEntity->curstate.controller[3];
+
+	m_pCurrentEntity->angles[YAW] = m_pPlayerInfo->gaityaw;
+	if ( m_pCurrentEntity->angles[YAW] < -0 )
+		m_pCurrentEntity->angles[YAW] += 360;
+	m_pCurrentEntity->latched.prevangles[YAW] = m_pCurrentEntity->angles[YAW];
+
 	if ( pplayer->gaitsequence >= m_pStudioHeader->numseq )
 	{
 		pplayer->gaitsequence = 0;
 	}
 
-	// Team Fortress Classic gait animation adjustment
-	if ( pplayer->gaitsequence == 0 )
-	{
-		pplayer->gaitsequence = m_nPlayerGaitSequences[m_nPlayerIndex - 1];
-	}
-
 	pseqdesc = (mstudioseqdesc_t *)( (byte *)m_pStudioHeader + m_pStudioHeader->seqindex ) + pplayer->gaitsequence;
 
-	// Reset gait frame if player changed sequences
-	if ( pplayer->gaitsequence != m_pPlayerInfo->gaitsequence )
-	{
-		m_pPlayerInfo->gaitsequence = pplayer->gaitsequence;
-		m_pPlayerInfo->gaitframe    = 0;
-	}
-
-	// Set gait frame
+	// calc gait frame
 	if ( pseqdesc->linearmovement[0] > 0 )
 	{
-		m_pPlayerInfo->gaitframe += ( m_flGaitMovement * dt ) / pseqdesc->linearmovement[0];
-		m_pPlayerInfo->gaitframe = m_pPlayerInfo->gaitframe - (int)( m_pPlayerInfo->gaitframe );
-
-		if ( m_pPlayerInfo->gaitframe < 0 )
-			m_pPlayerInfo->gaitframe += 1.0;
+		m_pPlayerInfo->gaitframe += ( m_flGaitMovement / pseqdesc->linearmovement[0] ) * pseqdesc->numframes;
 	}
 	else
 	{
-		m_pPlayerInfo->gaitframe = 0;
+		m_pPlayerInfo->gaitframe += pseqdesc->fps * dt;
 	}
 
-	// Clear out interpolated frame
-	m_pPlayerInfo->renderframe = m_nFrameCount;
+	// do modulo
+	m_pPlayerInfo->gaitframe = m_pPlayerInfo->gaitframe - (int)( m_pPlayerInfo->gaitframe / pseqdesc->numframes ) * pseqdesc->numframes;
+	if ( m_pPlayerInfo->gaitframe < 0 )
+		m_pPlayerInfo->gaitframe += pseqdesc->numframes;
 }
