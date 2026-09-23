@@ -24,8 +24,6 @@
 
 extern cvar_t *tfc_newmodels;
 
-extern extra_player_info_t g_PlayerExtraInfo[MAX_PLAYERS + 1];
-
 // team colors for old TFC models
 #define TEAM1_COLOR 150
 #define TEAM2_COLOR 250
@@ -113,6 +111,8 @@ int CStudioModelRenderer::StudioDrawModel( int flags )
 	alight_t lighting;
 	vec3_t dir;
 
+	m_pPlayerInfo = NULL;
+
 	m_pCurrentEntity = IEngineStudio.GetCurrentEntity();
 	IEngineStudio.GetTimes( &m_nFrameCount, &m_clTime, &m_clOldTime );
 	IEngineStudio.GetViewInfo( m_vRenderOrigin, m_vUp, m_vRight, m_vNormal );
@@ -196,17 +196,6 @@ int CStudioModelRenderer::StudioDrawModel( int flags )
 
 	if ( flags & STUDIO_RENDER )
 	{
-		if ( m_pCvarHiModels->value && m_pRenderModel != m_pCurrentEntity->model )
-		{
-			// show highest resolution multiplayer model
-			m_pCurrentEntity->curstate.body = 255;
-		}
-
-		if ( !( m_pCvarDeveloper->value == 0 && gEngfuncs.GetMaxClients() == 1 ) && ( m_pRenderModel == m_pCurrentEntity->model ) )
-		{
-			m_pCurrentEntity->curstate.body = 1; // force helmet
-		}
-
 		lighting.plightvec = dir;
 
 		IEngineStudio.StudioDynamicLight( m_pCurrentEntity, &lighting );
@@ -219,37 +208,6 @@ int CStudioModelRenderer::StudioDrawModel( int flags )
 		// get remap colors
 		m_nTopColor    = m_pCurrentEntity->curstate.colormap & 0xFF;
 		m_nBottomColor = ( m_pCurrentEntity->curstate.colormap & 0xFF00 ) >> 8;
-
-		// Fixup for model colors
-		//
-		if ( ( m_nTopColor == 0 ) && ( m_nBottomColor == 0 ) )
-		{
-			// Need to do this, otherwise, players will appear with black shirts and pants!
-			//
-			m_nTopColor    = g_PlayerExtraInfo[m_pCurrentEntity->index].playerclass;
-			m_nBottomColor = g_PlayerExtraInfo[m_pCurrentEntity->index].teamnumber;
-
-			if ( m_nBottomColor == 1 )
-			{
-				m_nBottomColor = TEAM1_COLOR;
-			}
-			else if ( m_nBottomColor == 2 )
-			{
-				m_nBottomColor = TEAM2_COLOR;
-			}
-			else if ( m_nBottomColor == 3 )
-			{
-				m_nBottomColor = TEAM3_COLOR;
-			}
-			else if ( m_nBottomColor == 4 )
-			{
-				m_nBottomColor = TEAM4_COLOR;
-			}
-			else
-			{
-				m_nBottomColor = 0;
-			}
-		}
 
 		IEngineStudio.StudioSetRemapColors( m_nTopColor, m_nBottomColor );
 
@@ -367,43 +325,22 @@ int CStudioModelRenderer::StudioDrawPlayer( int flags, entity_state_t *pplayer )
 		m_pPlayerInfo = IEngineStudio.PlayerInfo( m_nPlayerIndex );
 
 		// get remap colors
-		m_nTopColor    = pplayer->colormap & 0xFF;
-		m_nBottomColor = ( pplayer->colormap & 0xFF00 ) >> 8;
+		m_nTopColor    = m_pPlayerInfo->topcolor;
+		m_nBottomColor = m_pPlayerInfo->bottomcolor;
 
-		// Fixup for model colors
-		//
-		if ( ( m_nTopColor == 0 ) && ( m_nBottomColor == 0 ) )
-		{
-			// Need to do this, otherwise, players will appear with black shirts and pants!
-			//
-			m_nTopColor    = g_PlayerExtraInfo[m_nPlayerIndex + 1].playerclass;
-			m_nBottomColor = g_PlayerExtraInfo[m_nPlayerIndex + 1].teamnumber;
-
-			if ( m_nBottomColor == 1 )
-			{
-				m_nBottomColor = TEAM1_COLOR;
-			}
-			else if ( m_nBottomColor == 2 )
-			{
-				m_nBottomColor = TEAM2_COLOR;
-			}
-			else if ( m_nBottomColor == 3 )
-			{
-				m_nBottomColor = TEAM3_COLOR;
-			}
-			else if ( m_nBottomColor == 4 )
-			{
-				m_nBottomColor = TEAM4_COLOR;
-			}
-			else
-			{
-				m_nBottomColor = 0;
-			}
-		}
+		if ( m_nTopColor < 0 )
+			m_nTopColor = 0;
+		if ( m_nTopColor > 360 )
+			m_nTopColor = 360;
+		if ( m_nBottomColor < 0 )
+			m_nBottomColor = 0;
+		if ( m_nBottomColor > 360 )
+			m_nBottomColor = 360;
 
 		IEngineStudio.StudioSetRemapColors( m_nTopColor, m_nBottomColor );
 
 		StudioRenderModel();
+		m_pPlayerInfo = NULL;
 
 		if ( pplayer->weaponmodel )
 		{
@@ -426,6 +363,7 @@ int CStudioModelRenderer::StudioDrawPlayer( int flags, entity_state_t *pplayer )
 		}
 	}
 
+	m_pPlayerInfo = NULL;
 	return 1;
 }
 
@@ -542,7 +480,8 @@ void CStudioModelRenderer::StudioRenderFinal_Hardware( void )
 
 			if ( m_fDoInterp )
 			{
-				// IEngineStudio.StudioInterpolateModel( m_pSubModel, &m_pCurrentEntity->latched.prevbody );
+				// interpolation messes up bounding boxes.
+				m_pCurrentEntity->trivial_accept = 0;
 			}
 
 			IEngineStudio.GL_SetRenderMode( rendermode );

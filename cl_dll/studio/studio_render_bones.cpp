@@ -203,7 +203,7 @@ void CStudioModelRenderer::StudioCalcBonePosition( int frame, float s, mstudiobo
 
 	for ( j = 0; j < 3; j++ )
 	{
-		pos[j] = pbone->value[j]; // default value
+		pos[j] = pbone->value[j]; // default;
 		if ( panim->offset[j] != 0 )
 		{
 			panimvalue = (mstudioanimvalue_t *)( (byte *)panim + panim->offset[j] );
@@ -225,41 +225,29 @@ void CStudioModelRenderer::StudioCalcBonePosition( int frame, float s, mstudiobo
 			if ( panimvalue->num.valid > k )
 			{
 				// short to float conversion
-				pos[j] += panimvalue[k + 1].value * pbone->scale[j];
-
 				if ( panimvalue->num.valid > k + 1 )
 				{
-					pos[j] += ( panimvalue[k + 2].value - panimvalue[k + 1].value ) * s * pbone->scale[j];
+					pos[j] += ( panimvalue[k + 1].value * ( 1.0 - s ) + s * panimvalue[k + 2].value ) * pbone->scale[j];
 				}
 				else
 				{
-					if ( panimvalue->num.total > k + 1 )
-					{
-						// In-between span
-					}
-					else
-					{
-						// Advance to next span
-						pos[j] += ( panimvalue[panimvalue->num.valid + 2].value - panimvalue[k + 1].value ) * s * pbone->scale[j];
-					}
+					pos[j] += panimvalue[k + 1].value * pbone->scale[j];
 				}
 			}
 			else
 			{
-				// In-between span
-				pos[j] += panimvalue[panimvalue->num.valid].value * pbone->scale[j];
-				if ( panimvalue->num.total > k + 1 )
+				// are we at the end of the repeating values, but not the end of the span?
+				if ( panimvalue->num.total <= k + 1 )
 				{
-					// In-between span
+					pos[j] += ( panimvalue[panimvalue->num.valid].value * ( 1.0 - s ) + s * panimvalue[panimvalue->num.valid + 2].value ) * pbone->scale[j];
 				}
 				else
 				{
-					// Advance to next span
-					pos[j] += ( panimvalue[panimvalue->num.valid + 2].value - panimvalue[panimvalue->num.valid].value ) * s * pbone->scale[j];
+					pos[j] += panimvalue[panimvalue->num.valid].value * pbone->scale[j];
 				}
 			}
 		}
-		if ( pbone->bonecontroller[j] != -1 )
+		if ( pbone->bonecontroller[j] != -1 && adj )
 		{
 			pos[j] += adj[pbone->bonecontroller[j]];
 		}
@@ -816,7 +804,7 @@ void CStudioModelRenderer::StudioSetupBones( void )
 			{
 				copy = 0;
 			}
-			else if ( !strcmp( pbones[pbones[i].parent].name, "Bip01 Pelvis" ) )
+			else if ( pbones[i].parent != -1 && !strcmp( pbones[pbones[i].parent].name, "Bip01 Pelvis" ) )
 			{
 				copy = 1;
 			}
@@ -894,22 +882,15 @@ void CStudioModelRenderer::StudioMergeBones( model_t *m_pSubModel )
 {
 	int i, j;
 	double f;
-	int hitch = 0;
+	int do_hunt = true;
 
 	mstudiobone_t *pbones;
 	mstudioseqdesc_t *pseqdesc;
 	mstudioanim_t *panim;
 
 	static float pos[MAXSTUDIOBONES][3];
-	static vec4_t q[MAXSTUDIOBONES];
 	float bonematrix[3][4];
-
-	static float pos2[MAXSTUDIOBONES][3];
-	static vec4_t q2[MAXSTUDIOBONES];
-	static float pos3[MAXSTUDIOBONES][3];
-	static vec4_t q3[MAXSTUDIOBONES];
-	static float pos4[MAXSTUDIOBONES][3];
-	static vec4_t q4[MAXSTUDIOBONES];
+	static vec4_t q[MAXSTUDIOBONES];
 
 	if ( m_pCurrentEntity->curstate.sequence >= m_pStudioHeader->numseq )
 	{
@@ -918,85 +899,15 @@ void CStudioModelRenderer::StudioMergeBones( model_t *m_pSubModel )
 
 	pseqdesc = (mstudioseqdesc_t *)( (byte *)m_pStudioHeader + m_pStudioHeader->seqindex ) + m_pCurrentEntity->curstate.sequence;
 
-	f     = StudioEstimateFrame( pseqdesc );
+	f = StudioEstimateFrame( pseqdesc );
+
+	if ( m_pCurrentEntity->latched.prevframe > f )
+	{
+		// Con_DPrintf("%f %f\n", m_pCurrentEntity->prevframe, f );
+	}
+
 	panim = StudioGetAnim( m_pSubModel, pseqdesc );
 	StudioCalcRotations( pos, q, pseqdesc, panim, f );
-
-	if ( pseqdesc->numblends > 1 )
-	{
-		float s;
-		float dadt;
-
-		panim += m_pStudioHeader->numbones;
-		StudioCalcRotations( pos2, q2, pseqdesc, panim, f );
-
-		dadt = StudioEstimateInterpolant();
-		s    = ( m_pCurrentEntity->curstate.blending[0] * dadt + m_pCurrentEntity->latched.prevblending[0] * ( 1.0 - dadt ) ) / 255.0;
-
-		StudioSlerpBones( q, pos, q2, pos2, s );
-
-		if ( pseqdesc->numblends == 4 )
-		{
-			panim += m_pStudioHeader->numbones;
-			StudioCalcRotations( pos3, q3, pseqdesc, panim, f );
-
-			panim += m_pStudioHeader->numbones;
-			StudioCalcRotations( pos4, q4, pseqdesc, panim, f );
-
-			s = ( m_pCurrentEntity->curstate.blending[0] * dadt + m_pCurrentEntity->latched.prevblending[0] * ( 1.0 - dadt ) ) / 255.0;
-			StudioSlerpBones( q3, pos3, q4, pos4, s );
-
-			s = ( m_pCurrentEntity->curstate.blending[1] * dadt + m_pCurrentEntity->latched.prevblending[1] * ( 1.0 - dadt ) ) / 255.0;
-			StudioSlerpBones( q, pos, q3, pos3, s );
-		}
-	}
-
-	if ( m_fDoInterp &&
-	     m_pCurrentEntity->latched.sequencetime &&
-	     ( m_pCurrentEntity->latched.sequencetime + 0.2 > m_clTime ) &&
-	     ( m_pCurrentEntity->latched.prevsequence < m_pStudioHeader->numseq ) )
-	{
-		// blend from last sequence
-		static float pos1b[MAXSTUDIOBONES][3];
-		static vec4_t q1b[MAXSTUDIOBONES];
-		float s;
-
-		pseqdesc = (mstudioseqdesc_t *)( (byte *)m_pStudioHeader + m_pStudioHeader->seqindex ) + m_pCurrentEntity->latched.prevsequence;
-		panim    = StudioGetAnim( m_pSubModel, pseqdesc );
-		// clip from last sequence
-		StudioCalcRotations( pos1b, q1b, pseqdesc, panim, m_pCurrentEntity->latched.prevframe );
-
-		if ( pseqdesc->numblends > 1 )
-		{
-			panim += m_pStudioHeader->numbones;
-			StudioCalcRotations( pos2, q2, pseqdesc, panim, m_pCurrentEntity->latched.prevframe );
-
-			s = ( m_pCurrentEntity->latched.prevseqblending[0] ) / 255.0;
-			StudioSlerpBones( q1b, pos1b, q2, pos2, s );
-
-			if ( pseqdesc->numblends == 4 )
-			{
-				panim += m_pStudioHeader->numbones;
-				StudioCalcRotations( pos3, q3, pseqdesc, panim, m_pCurrentEntity->latched.prevframe );
-
-				panim += m_pStudioHeader->numbones;
-				StudioCalcRotations( pos4, q4, pseqdesc, panim, m_pCurrentEntity->latched.prevframe );
-
-				s = ( m_pCurrentEntity->latched.prevseqblending[0] ) / 255.0;
-				StudioSlerpBones( q3, pos3, q4, pos4, s );
-
-				s = ( m_pCurrentEntity->latched.prevseqblending[1] ) / 255.0;
-				StudioSlerpBones( q1b, pos1b, q3, pos3, s );
-			}
-		}
-
-		s = 1.0 - ( m_clTime - m_pCurrentEntity->latched.sequencetime ) / 0.2;
-		StudioSlerpBones( q, pos, q1b, pos1b, s );
-	}
-	else
-	{
-		m_pCurrentEntity->latched.prevframe = f;
-	}
 
 	pbones = (mstudiobone_t *)( (byte *)m_pStudioHeader + m_pStudioHeader->boneindex );
 
@@ -1024,7 +935,7 @@ void CStudioModelRenderer::StudioMergeBones( model_t *m_pSubModel )
 				if ( IEngineStudio.IsHardware() )
 				{
 					ConcatTransforms( ( *m_protationmatrix ), bonematrix, ( *m_pbonetransform )[i] );
-					ConcatTransforms( ( *m_protationmatrix ), bonematrix, ( *m_plighttransform )[i] );
+					MatrixCopy( ( *m_pbonetransform )[i], ( *m_plighttransform )[i] );
 				}
 				else
 				{
@@ -1034,7 +945,6 @@ void CStudioModelRenderer::StudioMergeBones( model_t *m_pSubModel )
 
 				// Apply client-side effects to the transformation matrix
 				StudioFxTransform( m_pCurrentEntity, ( *m_pbonetransform )[i] );
-				hitch = 1;
 			}
 			else
 			{
