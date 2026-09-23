@@ -305,6 +305,7 @@ if(BUILD_TESTS)
         tests/test_item_registry.cpp
         tests/test_ai_factions.cpp
         tests/test_gamerules_skill.cpp
+        tests/test_gameplay_hooks.cpp
         tests/test_hud_registry.cpp
         tests/mock_client_engine.cpp
         tests/test_client_lifecycle.cpp
@@ -317,9 +318,11 @@ if(BUILD_TESTS)
         dlls/gameplay/gamerules_factory.cpp
         dlls/core/skill_manager.cpp
         dlls/core/skill.cpp
+        dlls/core/user_message_registry.cpp
         cl_dll/hl/client_weapon_manager.cpp
         cl_dll/events/event_registry.cpp
         cl_dll/hud/hud_registry.cpp
+        cl_dll/entities/entity_visual_registry.cpp
         ${PM_SHARED_SOURCES}
     )
 

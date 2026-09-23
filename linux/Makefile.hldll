@@ -72,6 +72,7 @@ HLDLL_OBJS = \
 	$(HLCORE_OBJ_DIR)/player_combat.o \
 	$(HLCORE_OBJ_DIR)/player_cheats.o \
 	$(HLCORE_OBJ_DIR)/client_usermsg.o \
+	$(HLCORE_OBJ_DIR)/user_message_registry.o \
 	$(HLCORE_OBJ_DIR)/client_spectator.o \
 	$(HLCORE_OBJ_DIR)/client_networking.o \
 	$(HLCORE_OBJ_DIR)/client_commands.o \
