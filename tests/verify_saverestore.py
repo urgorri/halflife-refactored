@@ -211,7 +211,8 @@ def build_golden_baseline(repo_root: Path) -> dict:
         "CBaseDelay",
         "CBaseAnimating",
         "CBaseToggle",
-        "CBaseWallCharger",
+        "CWallHealth",
+        "CWallRecharge",
         "gEntvarsDescription",
     ]
 

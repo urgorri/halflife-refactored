@@ -312,6 +312,9 @@ if(BUILD_TESTS)
         tests/test_client_studio.cpp
         tests/test_studio_transform.cpp
         tests/test_level_transition.cpp
+        tests/test_effects_beams.cpp
+        dlls/systems/effects_beams.cpp
+        dlls/systems/chargers.cpp
         dlls/weapons/weapon_registry.cpp
         dlls/items/item_registry.cpp
         dlls/ai/monster_relationship_manager.cpp

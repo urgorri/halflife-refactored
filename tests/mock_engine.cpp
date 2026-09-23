@@ -428,6 +428,10 @@ void ResetMockEngine()
 	s_mockGlobals.time = 1.0f;
 	s_mockGlobals.frametime = 0.01f;
 	s_mockGlobals.maxClients = 1;
+
+	g_mockLastSaveChunk.clear();
+	g_mockLastRestoreChunk.clear();
+	g_mockRestoreAvailableChunk.clear();
 	gpGlobals = &s_mockGlobals;
 }
 
@@ -574,8 +578,108 @@ void UTIL_PrecacheOther( const char *szClassname )
 
 const Vector g_vecZero = Vector( 0, 0, 0 );
 
-int CBaseEntity::Save( CSave &save ) { return 0; }
-int CBaseEntity::Restore( CRestore &restore ) { return 0; }
+std::string g_mockLastSaveChunk;
+std::string g_mockLastRestoreChunk;
+std::string g_mockRestoreAvailableChunk;
+
+int CBaseEntity::Save( CSave &save ) { return 1; }
+int CBaseEntity::Restore( CRestore &restore ) { return 1; }
+
+int CBaseEntity::ShouldToggle( USE_TYPE useType, int currentState )
+{
+	if ( useType == USE_TOGGLE )
+		return 1;
+	return ( useType == USE_ON && !currentState ) || ( useType == USE_OFF && currentState );
+}
+
+void CBaseEntity::SUB_Remove( void )
+{
+	UTIL_Remove( this );
+}
+
+void CPointEntity::Spawn( void )
+{
+	pev->solid = SOLID_NOT;
+}
+
+void CBaseToggle::KeyValue( KeyValueData *pkvd )
+{
+	if ( pkvd )
+		pkvd->fHandled = FALSE;
+}
+
+
+void UTIL_SetOrigin( entvars_t *pev, const Vector &vecOrigin )
+{
+	pev->origin = vecOrigin;
+}
+
+void UTIL_SetSize( entvars_t *pev, const Vector &vecMin, const Vector &vecMax )
+{
+	pev->mins = vecMin;
+	pev->maxs = vecMax;
+}
+
+void UTIL_TraceLine( const Vector &vecStart, const Vector &vecEnd, IGNORE_MONSTERS igmon, edict_t *pentIgnore, TraceResult *ptr )
+{
+	(void)vecStart;
+	(void)vecEnd;
+	(void)igmon;
+	(void)pentIgnore;
+	if ( ptr )
+		*ptr = g_mockTraceResult;
+}
+
+void UTIL_Sparks( const Vector &position ) {}
+void UTIL_DecalTrace( TraceResult *pTrace, int decalNumber ) {}
+void UTIL_Remove( CBaseEntity *pEntity ) {}
+
+CBaseEntity *UTIL_FindEntityByTargetname( CBaseEntity *pStartEntity, const char *szName )
+{
+	return nullptr;
+}
+
+void ClearMultiDamage( void ) {}
+void ApplyMultiDamage( entvars_t *pevInflictor, entvars_t *pevAttacker ) {}
+
+#include "core/saverestore.h"
+
+CSaveRestoreBuffer::CSaveRestoreBuffer( SAVERESTOREDATA *pdata ) { m_pdata = pdata; }
+CSaveRestoreBuffer::~CSaveRestoreBuffer() {}
+
+void CBaseDelay::KeyValue( KeyValueData *pkvd ) { if ( pkvd ) pkvd->fHandled = FALSE; }
+int CBaseDelay::Save( CSave &save ) { return 1; }
+int CBaseDelay::Restore( CRestore &restore ) { return 1; }
+
+int CBaseAnimating::Save( CSave &save ) { return 1; }
+int CBaseAnimating::Restore( CRestore &restore ) { return 1; }
+
+int CBaseToggle::Save( CSave &save ) { return 1; }
+int CBaseToggle::Restore( CRestore &restore ) { return 1; }
+void CBaseToggle::PlaySentence( const char *pszSentence, float duration, float volume, float attenuation ) {}
+void CBaseToggle::PlayScriptedSentence( const char *pszSentence, float duration, float volume, float attenuation, int bConcurrent, CBaseEntity *pListener ) {}
+void CBaseToggle::SentenceStop( void ) {}
+
+void CBaseEntity::SUB_DoNothing( void ) {}
+
+void EMIT_SOUND_DYN( edict_t *entity, int channel, const char *sample, float volume, float attenuation, int flags, int pitch ) {}
+
+int CSave::WriteFields( const char *pname, void *pBaseData, TYPEDESCRIPTION *pFields, int fieldCount )
+{
+	g_mockLastSaveChunk = ( pname != nullptr ) ? pname : "";
+	return 1;
+}
+
+int CRestore::ReadFields( const char *pname, void *pBaseData, TYPEDESCRIPTION *pFields, int fieldCount )
+{
+	g_mockLastRestoreChunk = ( pname != nullptr ) ? pname : "";
+	if ( !g_mockRestoreAvailableChunk.empty() )
+	{
+		return ( g_mockRestoreAvailableChunk == g_mockLastRestoreChunk ) ? 1 : 0;
+	}
+	return 1;
+}
+
 void CBaseEntity::SetObjectCollisionBox( void ) {}
 void CBaseEntity::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vecDir, TraceResult *ptr, int bitsDamageType ) {}
 int CBaseEntity::TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType ) { return 0; }
@@ -621,7 +725,9 @@ CBaseEntity *CBaseEntity::Create( char *szName, const Vector &vecOrigin, const V
 
 #include "gameplay/gamerules.h"
 
+CGameRules *g_pGameRules = nullptr;
 int g_iSkillLevel = 1;
+
 
 void CGameRules::RefreshSkillData( void ) {}
 edict_t *CGameRules::GetPlayerSpawnSpot( CBasePlayer *pPlayer ) { return nullptr; }

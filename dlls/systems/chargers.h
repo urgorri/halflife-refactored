@@ -18,9 +18,9 @@ class CBaseWallCharger : public CBaseToggle
 	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 	int ObjectCaps( void ) { return ( CBaseToggle::ObjectCaps() | FCAP_CONTINUOUS_USE ) & ~FCAP_ACROSS_TRANSITION; }
 
-	int Save( CSave &save );
-	int Restore( CRestore &restore );
-	static TYPEDESCRIPTION m_SaveData[];
+	int Save( CSave &save ) override;
+	int Restore( CRestore &restore ) override;
+
 
 	void EXPORT Off( void );
 	void EXPORT Recharge( void );
@@ -43,6 +43,11 @@ class CBaseWallCharger : public CBaseToggle
 
 class CWallHealth : public CBaseWallCharger
 {
+  public:
+	int Save( CSave &save ) override;
+	int Restore( CRestore &restore ) override;
+	static TYPEDESCRIPTION m_SaveData[];
+
   protected:
 	int GetCapacity( void ) const override
 	{
@@ -57,6 +62,11 @@ class CWallHealth : public CBaseWallCharger
 
 class CWallRecharge : public CBaseWallCharger
 {
+  public:
+	int Save( CSave &save ) override;
+	int Restore( CRestore &restore ) override;
+	static TYPEDESCRIPTION m_SaveData[];
+
   protected:
 	int GetCapacity( void ) const override
 	{
@@ -77,5 +87,7 @@ class CWallRecharge : public CBaseWallCharger
 	const char *GetDenySound( void ) const override { return "items/suitchargeno1.wav"; }
 	float GetSoundVolume( void ) const override { return 0.85f; }
 };
+
+typedef CWallRecharge CRecharge;
 
 #endif // CHARGERS_H
