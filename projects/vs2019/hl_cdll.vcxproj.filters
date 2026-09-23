@@ -283,12 +283,6 @@
     <ClCompile Include="..\..\cl_dll\studio\StudioModelRenderer.cpp">
       <Filter>Source Files\studio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl_dll\studio\studio_render_bones.cpp">
-      <Filter>Source Files\studio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cl_dll\studio\studio_render_attachments.cpp">
-      <Filter>Source Files\studio</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cl_dll\hud\text_message.cpp">
       <Filter>Source Files\cl_dll\hud</Filter>
     </ClCompile>

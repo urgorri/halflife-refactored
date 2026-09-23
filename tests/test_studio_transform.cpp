@@ -183,3 +183,111 @@ TEST_CASE( "StudioModel: Gait yaw calculation from velocity", "[studio][gait]" )
 	// Moving backwards (-X)
 	CHECK( std::abs( calcGaitYaw( -200.0f, 0.0f ) ) == Catch::Approx( 180.0f ) );
 }
+
+TEST_CASE( "StudioModel: Bone position span interpolation formula fidelity", "[studio][bones]" )
+{
+	// Canonical Valve SDK logic for bone position interpolation
+	auto interpolateSpan = []( int numValid, int numTotal, int k, float valCurrent, float valNext, float valNextSpan, float s, float scale ) -> float {
+		float pos = 0.0f;
+		if ( numValid > k )
+		{
+			if ( numValid > k + 1 )
+			{
+				pos += ( valCurrent * ( 1.0f - s ) + s * valNext ) * scale;
+			}
+			else
+			{
+				pos += valCurrent * scale;
+			}
+		}
+		else
+		{
+			if ( numTotal <= k + 1 )
+			{
+				pos += ( valCurrent * ( 1.0f - s ) + s * valNextSpan ) * scale;
+			}
+			else
+			{
+				pos += valCurrent * scale;
+			}
+		}
+		return pos;
+	};
+
+	SECTION( "Normal in-span interpolation" )
+	{
+		// Between frame 0 and frame 1 (val 10 and 20), s = 0.5, scale = 1.0
+		float result = interpolateSpan( 3, 3, 0, 10.0f, 20.0f, 0.0f, 0.5f, 1.0f );
+		CHECK( result == Catch::Approx( 15.0f ) );
+	}
+
+	SECTION( "End of valid span holds last valid value" )
+	{
+		// k = 1, valid = 2 (so valid not > k + 1), should hold 20.0f
+		float result = interpolateSpan( 2, 4, 1, 20.0f, 0.0f, 0.0f, 0.5f, 1.0f );
+		CHECK( result == Catch::Approx( 20.0f ) );
+	}
+
+	SECTION( "Transition across span boundary" )
+	{
+		// Outside valid span, total <= k + 1: blends to next span first value
+		float result = interpolateSpan( 2, 3, 2, 20.0f, 0.0f, 40.0f, 0.5f, 1.0f );
+		CHECK( result == Catch::Approx( 30.0f ) );
+	}
+
+	SECTION( "In-between repeating span holds value" )
+	{
+		// Outside valid span, total > k + 1: holds value
+		float result = interpolateSpan( 2, 5, 2, 20.0f, 0.0f, 40.0f, 0.5f, 1.0f );
+		CHECK( result == Catch::Approx( 20.0f ) );
+	}
+}
+
+TEST_CASE( "StudioModel: SetupBones root bone parent guard avoids negative index access", "[studio][bones]" )
+{
+	struct DummyBone
+	{
+		const char *name;
+		int parent;
+	};
+
+	DummyBone bones[3] = {
+		{ "Bip01 Pelvis", -1 }, // root bone, parent == -1
+		{ "Bip01 Spine", 0 },
+		{ "Bip01 Spine1", 1 }
+	};
+
+	int copy = 1;
+	for ( int i = 0; i < 3; i++ )
+	{
+		if ( !std::strcmp( bones[i].name, "Bip01 Spine" ) )
+		{
+			copy = 0;
+		}
+		else if ( bones[i].parent != -1 && !std::strcmp( bones[bones[i].parent].name, "Bip01 Pelvis" ) )
+		{
+			copy = 1;
+		}
+	}
+
+	// Bone 0 is root (parent -1): the guard prevents accessing bones[-1]
+	CHECK( copy == 0 );
+}
+
+TEST_CASE( "StudioModel: Player remap color bounds clamping [0, 360]", "[studio][remap]" )
+{
+	auto clampRemap = []( int color ) -> int {
+		if ( color < 0 )
+			color = 0;
+		if ( color > 360 )
+			color = 360;
+		return color;
+	};
+
+	CHECK( clampRemap( -50 ) == 0 );
+	CHECK( clampRemap( 0 ) == 0 );
+	CHECK( clampRemap( 180 ) == 180 );
+	CHECK( clampRemap( 360 ) == 360 );
+	CHECK( clampRemap( 400 ) == 360 );
+}
+

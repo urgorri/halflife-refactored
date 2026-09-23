@@ -156,8 +156,6 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\cl_dlls
     <ClCompile Include="..\..\cl_dll\input\input_hardware.cpp" />
     <ClCompile Include="..\..\cl_dll\input\in_camera.cpp" />
     <ClCompile Include="..\..\cl_dll\studio\StudioModelRenderer.cpp" />
-    <ClCompile Include="..\..\cl_dll\studio\studio_render_bones.cpp" />
-    <ClCompile Include="..\..\cl_dll\studio\studio_render_attachments.cpp" />
     <ClCompile Include="..\..\cl_dll\studio\studio_util.cpp" />
     <ClCompile Include="..\..\cl_dll\render\tri.cpp" />
     <ClCompile Include="..\..\cl_dll\core\util.cpp" />
