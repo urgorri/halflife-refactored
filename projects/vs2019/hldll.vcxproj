@@ -137,6 +137,7 @@ call ..\..\filecopy.bat $(TargetDir)\$(TargetName).pdb ..\..\..\game\mod\dlls\$(
     <ClCompile Include="..\..\dlls\ai\defaultai.cpp" />
     <ClCompile Include="..\..\dlls\systems\doors.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_beams.cpp" />
+    <ClCompile Include="..\..\dlls\systems\crash_handler.cpp" />
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp" />
     <ClCompile Include="..\..\dlls\systems\explode.cpp" />
     <ClCompile Include="..\..\dlls\ai\flyingmonster.cpp" />

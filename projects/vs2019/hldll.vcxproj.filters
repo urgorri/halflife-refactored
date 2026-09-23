@@ -165,6 +165,9 @@
     <ClCompile Include="..\..\dlls\systems\effects_beams.cpp">
       <Filter>Source Files\dlls\systems</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\crash_handler.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\weapons\weapon_egon.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>

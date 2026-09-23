@@ -141,7 +141,9 @@
     <ClCompile Include="..\..\cl_dll\entities\entity_visual_registry.cpp" />
     <ClCompile Include="..\..\dlls\systems\chargers.cpp" />
     <ClCompile Include="..\..\dlls\systems\effects_beams.cpp" />
+    <ClCompile Include="..\..\dlls\systems\crash_handler.cpp" />
     <ClCompile Include="..\..\tests\test_effects_beams.cpp" />
+    <ClCompile Include="..\..\tests\test_crash_handler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
