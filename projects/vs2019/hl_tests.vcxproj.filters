@@ -148,6 +148,12 @@
     <ClCompile Include="..\..\tests\test_triggers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\tests\test_player_customization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\core\client_customization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\pm_shared\pm_debug.c">
       <Filter>Source Files\pm_shared</Filter>
     </ClCompile>

@@ -319,6 +319,8 @@ if(BUILD_TESTS)
         tests/test_effects_beams.cpp
         tests/test_crash_handler.cpp
         tests/test_triggers.cpp
+        tests/test_player_customization.cpp
+        dlls/core/client_customization.cpp
         dlls/systems/effects_beams.cpp
         dlls/systems/chargers.cpp
         dlls/systems/crash_handler.cpp
