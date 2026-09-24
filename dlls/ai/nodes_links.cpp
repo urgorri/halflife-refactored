@@ -299,7 +299,10 @@ int CGraph ::LinkVisibleNodes( CLink *pLinkPool, FILE *file, int *piBadNode )
 			if ( cLinksThisNode == MAX_NODE_INITIAL_LINKS )
 			{
 				ALERT( at_aiconsole, "**LinkVisibleNodes:\nNode %d has NodeLinks > MAX_NODE_INITIAL_LINKS", i );
-				fprintf( file, "** NODE %d HAS NodeLinks > MAX_NODE_INITIAL_LINKS **\n", i );
+				if ( file )
+				{
+					fprintf( file, "** NODE %d HAS NodeLinks > MAX_NODE_INITIAL_LINKS **\n", i );
+				}
 				*piBadNode = i;
 				return FALSE;
 			}
@@ -312,7 +315,10 @@ int CGraph ::LinkVisibleNodes( CLink *pLinkPool, FILE *file, int *piBadNode )
 
 			if ( cLinksThisNode == 0 )
 			{
-				fprintf( file, "**NO INITIAL LINKS**\n" );
+				if ( file )
+				{
+					fprintf( file, "**NO INITIAL LINKS**\n" );
+				}
 			}
 
 			WorldGraph.m_pNodes[i].m_cNumLinks = cLinksThisNode;
@@ -329,8 +335,11 @@ int CGraph ::LinkVisibleNodes( CLink *pLinkPool, FILE *file, int *piBadNode )
 		}
 	}
 
-	fprintf( file, "\n%4d Total Initial Connections - %4d Maximum connections for a single node.\n", cTotalLinks, cMaxInitialLinks );
-	fprintf( file, "----------------------------------------------------------------------------\n\n\n" );
+	if ( file )
+	{
+		fprintf( file, "\n%4d Total Initial Connections - %4d Maximum connections for a single node.\n", cTotalLinks, cMaxInitialLinks );
+		fprintf( file, "----------------------------------------------------------------------------\n\n\n" );
+	}
 
 	return cTotalLinks;
 }
