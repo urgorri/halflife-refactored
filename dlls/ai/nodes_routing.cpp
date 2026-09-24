@@ -224,7 +224,7 @@ int CGraph ::FindShortestPath( int *piPath, int iStart, int iDest, int iHull, in
 		while ( iCurrentNode != iDest )
 		{
 			iNext = NextNodeInRoute( iCurrentNode, iDest, iHull, iCap );
-			if ( iCurrentNode == iNext )
+			if ( iCurrentNode == iNext || iNext < 0 || iNext >= m_cNodes )
 			{
 				return 0;
 			}
@@ -315,17 +315,29 @@ int CGraph ::FindShortestPath( int *piPath, int iStart, int iDest, int iHull, in
 		iCurrentNode  = iDest;
 		iNumPathNodes = 1; // count the dest
 
-		while ( iCurrentNode != iStart )
+		while ( iCurrentNode != iStart && iNumPathNodes < m_cNodes && iNumPathNodes < MAX_PATH_SIZE )
 		{
+			if ( iCurrentNode < 0 || iCurrentNode >= m_cNodes )
+				return 0;
+			int iPrev = m_pNodes[iCurrentNode].m_iPreviousNode;
+			if ( iPrev == iCurrentNode || iPrev < 0 || iPrev >= m_cNodes )
+				return 0;
 			iNumPathNodes++;
-			iCurrentNode = m_pNodes[iCurrentNode].m_iPreviousNode;
+			iCurrentNode = iPrev;
+		}
+
+		if ( iCurrentNode != iStart )
+		{
+			return 0;
 		}
 
 		iCurrentNode = iDest;
 		for ( i = iNumPathNodes - 1; i >= 0; i-- )
 		{
-			piPath[i]    = iCurrentNode;
-			iCurrentNode = m_pNodes[iCurrentNode].m_iPreviousNode;
+			if ( i < MAX_PATH_SIZE )
+				piPath[i]    = iCurrentNode;
+			if ( iCurrentNode >= 0 && iCurrentNode < m_cNodes )
+				iCurrentNode = m_pNodes[iCurrentNode].m_iPreviousNode;
 		}
 	}
 

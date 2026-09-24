@@ -119,6 +119,10 @@ int CGraph ::HandleLinkEnt( int iNode, entvars_t *pevLinkEnt, int afCapMask, NOD
 	{ // ent is a door.
 
 		pDoor = ( CBaseEntity::Instance( pevLinkEnt ) );
+		if ( !pDoor )
+		{
+			return FALSE;
+		}
 
 		if ( ( pevLinkEnt->spawnflags & SF_DOOR_USE_ONLY ) )
 		{ // door is use only.
