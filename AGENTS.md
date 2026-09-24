@@ -33,6 +33,27 @@ Before making changes:
 1. Inspect the relevant code and surrounding dependencies.
 2. Identify the smallest safe change that solves the problem.
 
+When modifying, adding, or moving files:
+
+1. Update all build systems simultaneously (`CMakeLists.txt`, `projects/vs2019/`, `linux/Makefile.*`).
+2. Add or update unit tests to verify behavior and prevent regressions.
+3. Verify symbol exports and run tests across build configurations.
+
+## Build Systems & File Synchronization
+
+The repository maintains multiple build systems that must remain strictly synchronized:
+
+* **CMake**: `CMakeLists.txt` (used for local builds, unit tests, and CI CMake targets).
+* **Visual Studio 2019 Projects**: `projects/vs2019/*.vcxproj` and `*.vcxproj.filters` (`hldll`, `hl_cdll`, `hl_tests`, `smoke_test_client`).
+* **Linux Makefiles**: `linux/Makefile.*` (`Makefile.hldll`, `Makefile.hl_cdll`, `Makefile.tests`).
+
+### Rules for File Additions, Moves, and Deletions:
+
+* **Always synchronize all build targets**: When adding, renaming, or removing any `.cpp` or `.c` source or test file, update all three build systems (`CMakeLists.txt`, `projects/vs2019/`, and `linux/Makefile.*`) simultaneously.
+* **Update filters**: Keep Visual Studio `.vcxproj.filters` aligned with the folder structure under `dlls/`, `cl_dll/`, and `tests/`.
+* **Verify symbol exports**: Ensure entity factories and exported functions (`tests/verify_symbols.py`, `dlls/hl.def`, `tests/golden/symbols_*`) compile and export properly across both Windows DLLs and Linux `.so` shared libraries.
+* **Synchronize test suites**: Ensure all unit test files added under `tests/` are included in `CMakeLists.txt` (`TESTS_SOURCES`), `projects/vs2019/hl_tests.vcxproj`, and `linux/Makefile.tests`.
+
 ## Refactoring Standard
 
 A good refactor should make the code:
@@ -57,4 +78,5 @@ When choosing between improvements, prioritize:
 5. Cosmetic consistency
 
 The final implementation should feel like a professionally engineered, internally optimized version of the original GoldSrc DLL while remaining functionally equivalent.
+
 
