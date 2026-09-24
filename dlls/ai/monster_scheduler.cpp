@@ -1105,6 +1105,11 @@ BOOL CBaseMonster ::FGetNodeRoute( Vector vecDest )
 	int i;
 	int iNumToCopy;
 
+	if ( !WorldGraph.m_fGraphPresent || !WorldGraph.m_fGraphPointersSet || WorldGraph.m_cNodes <= 0 || !WorldGraph.m_pNodes )
+	{
+		return FALSE;
+	}
+
 	iSrcNode  = WorldGraph.FindNearestNode( pev->origin, this );
 	iDestNode = WorldGraph.FindNearestNode( vecDest, this );
 
@@ -1192,7 +1197,7 @@ int CBaseMonster ::FindHintNode( void )
 	int i;
 	TraceResult tr;
 
-	if ( !WorldGraph.m_fGraphPresent )
+	if ( !WorldGraph.m_fGraphPresent || !WorldGraph.m_fGraphPointersSet || WorldGraph.m_cNodes <= 0 || !WorldGraph.m_pNodes )
 	{
 		ALERT( at_aiconsole, "find_hintnode: graph not ready!\n" );
 		return NO_NODE;

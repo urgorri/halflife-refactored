@@ -635,7 +635,14 @@ void CBaseMonster ::StartTask( Task_t *pTask )
 	{
 		// monsters verify that they have a sequence for the node's activity BEFORE
 		// moving towards the node, so it's ok to just set the activity without checking here.
-		m_IdealActivity = (Activity)WorldGraph.m_pNodes[m_iHintNode].m_sHintActivity;
+		if ( m_iHintNode >= 0 && m_iHintNode < WorldGraph.m_cNodes && WorldGraph.m_pNodes )
+		{
+			m_IdealActivity = (Activity)WorldGraph.m_pNodes[m_iHintNode].m_sHintActivity;
+		}
+		else
+		{
+			TaskFail();
+		}
 		break;
 	}
 	case TASK_SET_SCHEDULE:
@@ -794,8 +801,15 @@ void CBaseMonster ::StartTask( Task_t *pTask )
 	}
 	case TASK_FACE_HINTNODE:
 	{
-		pev->ideal_yaw = WorldGraph.m_pNodes[m_iHintNode].m_flHintYaw;
-		SetTurnActivity();
+		if ( m_iHintNode >= 0 && m_iHintNode < WorldGraph.m_cNodes && WorldGraph.m_pNodes )
+		{
+			pev->ideal_yaw = WorldGraph.m_pNodes[m_iHintNode].m_flHintYaw;
+			SetTurnActivity();
+		}
+		else
+		{
+			TaskFail();
+		}
 		break;
 	}
 
@@ -1043,7 +1057,7 @@ void CBaseMonster ::StartTask( Task_t *pTask )
 	}
 	case TASK_GET_PATH_TO_HINTNODE: // for active idles!
 	{
-		if ( MoveToLocation( m_movementActivity, 2, WorldGraph.m_pNodes[m_iHintNode].m_vecOrigin ) )
+		if ( m_iHintNode >= 0 && m_iHintNode < WorldGraph.m_cNodes && WorldGraph.m_pNodes && MoveToLocation( m_movementActivity, 2, WorldGraph.m_pNodes[m_iHintNode].m_vecOrigin ) )
 		{
 			TaskComplete();
 		}
