@@ -196,11 +196,7 @@ int CGraph ::LinkVisibleNodes( CLink *pLinkPool, FILE *file, int *piBadNode )
 		return FALSE;
 	}
 
-	if ( !file )
-	{
-		ALERT( at_aiconsole, "**LinkVisibleNodes:\ncan't write to file." );
-	}
-	else
+	if ( file )
 	{
 		fprintf( file, "----------------------------------------------------------------------------\n" );
 		fprintf( file, "LinkVisibleNodes - Initial Connections\n" );
