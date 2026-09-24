@@ -246,7 +246,7 @@ void CBaseMonster ::MaintainSchedule( void )
 			ASSERT( pTask != NULL );
 			if ( pTask )
 			{
-				g_CrashHandler.LogCustom( "TASK_START", "[%3d] %-20s -> starting task %d (idx=%d, data=%.1f)",
+				g_CrashHandler.LogCustom( "TASK_START: [%3d] %-20s -> starting task %d (idx=%d, data=%.1f)",
 				                          entindex(), STRING( pev->classname ), pTask->iTask, m_iScheduleIndex, pTask->flData );
 			}
 			TaskBegin();
@@ -990,7 +990,7 @@ void CBaseMonster ::StartTask( Task_t *pTask )
 			return;
 		}
 
-		g_CrashHandler.LogCustom( "TASK_ENEMY", "[%3d] %-20s -> TASK_GET_PATH_TO_ENEMY target=[%3d] at (%.1f, %.1f, %.1f)",
+		g_CrashHandler.LogCustom( "TASK_ENEMY: [%3d] %-20s -> TASK_GET_PATH_TO_ENEMY target=[%3d] at (%.1f, %.1f, %.1f)",
 		                          entindex(), STRING( pev->classname ), pEnemy->entindex(),
 		                          pEnemy->pev->origin.x, pEnemy->pev->origin.y, pEnemy->pev->origin.z );
 

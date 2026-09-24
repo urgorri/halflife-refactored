@@ -247,3 +247,63 @@ TEST_CASE( "CGraph: FindShortestPath bounds validation and unreachable targets",
 
 	WorldGraph.InitGraph();
 }
+
+TEST_CASE( "CGraph: FindShortestPath never overflows MAX_PATH_SIZE in routing mode", "[ai][navigation][path]" )
+{
+	WorldGraph.InitGraph();
+
+	const int kNumNodes = 25;
+	WorldGraph.m_cNodes = kNumNodes;
+	WorldGraph.m_pNodes = (CNode *)calloc( sizeof( CNode ), kNumNodes );
+	for ( int i = 0; i < kNumNodes; ++i )
+	{
+		WorldGraph.m_pNodes[i].m_vecOrigin = Vector( (float)( i * 50 ), 0, 0 );
+		WorldGraph.m_pNodes[i].m_afNodeInfo = bits_NODE_LAND;
+		// Each node points to offset 0 in route info
+		for ( int h = 0; h < MAX_NODE_HULLS; ++h )
+		{
+			WorldGraph.m_pNodes[i].m_pNextBestNode[h][0] = 0;
+			WorldGraph.m_pNodes[i].m_pNextBestNode[h][1] = 0;
+		}
+	}
+
+	// Route info that says: for all destinations, next node is iCurrentNode + 1
+	// Repeat phrase: count = 126 (byte 125), delta = +1
+	char routeData[4] = { 125, 1, 0, 0 };
+	WorldGraph.m_nRouteInfo = sizeof( routeData );
+	WorldGraph.m_pRouteInfo = (char *)malloc( sizeof( routeData ) );
+	memcpy( WorldGraph.m_pRouteInfo, routeData, sizeof( routeData ) );
+
+	WorldGraph.m_fGraphPresent = TRUE;
+	WorldGraph.m_fGraphPointersSet = TRUE;
+	WorldGraph.m_fRoutingComplete = TRUE;
+
+	// Stack buffer matching FGetNodeRoute with boundary canaries
+	struct StackGuard
+	{
+		int canaryBefore = 0xDEADBEEF;
+		int pathBuffer[MAX_PATH_SIZE];
+		int canaryAfter = 0xCAFEBABE;
+	} guard;
+
+	for ( int i = 0; i < MAX_PATH_SIZE; ++i )
+		guard.pathBuffer[i] = -1;
+
+	// Find path from 0 to 24 (24 hops, which far exceeds MAX_PATH_SIZE = 10)
+	int result = WorldGraph.FindShortestPath( guard.pathBuffer, 0, 24, NODE_HUMAN_HULL, 0 );
+
+	// Must be capped at MAX_PATH_SIZE (10)
+	CHECK( result == MAX_PATH_SIZE );
+	// Stack canaries MUST NOT be corrupted
+	CHECK( guard.canaryBefore == 0xDEADBEEF );
+	CHECK( guard.canaryAfter == 0xCAFEBABE );
+
+	// Path elements must be strictly within bounds
+	for ( int i = 0; i < MAX_PATH_SIZE; ++i )
+	{
+		CHECK( guard.pathBuffer[i] >= 0 );
+		CHECK( guard.pathBuffer[i] < kNumNodes );
+	}
+
+	WorldGraph.InitGraph();
+}

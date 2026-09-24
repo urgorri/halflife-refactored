@@ -23,8 +23,6 @@
 #include "ai/nodes.h"
 #include "core/animation.h"
 
-#undef MAX_PATH_SIZE
-#define MAX_PATH_SIZE 36
 
 int CGraph::HullIndex( const CBaseEntity *pEntity )
 {
@@ -336,7 +334,7 @@ int CGraph ::FindShortestPath( int *piPath, int iStart, int iDest, int iHull, in
 		iCurrentNode  = iDest;
 		iNumPathNodes = 1; // count the dest
 
-		while ( iCurrentNode != iStart && iNumPathNodes < m_cNodes && iNumPathNodes < MAX_PATH_SIZE )
+		while ( iCurrentNode != iStart && iNumPathNodes < m_cNodes )
 		{
 			if ( iCurrentNode < 0 || iCurrentNode >= m_cNodes )
 				return 0;
@@ -355,8 +353,7 @@ int CGraph ::FindShortestPath( int *piPath, int iStart, int iDest, int iHull, in
 		iCurrentNode = iDest;
 		for ( i = iNumPathNodes - 1; i >= 0; i-- )
 		{
-			if ( i < MAX_PATH_SIZE )
-				piPath[i]    = iCurrentNode;
+			piPath[i] = iCurrentNode;
 			if ( iCurrentNode >= 0 && iCurrentNode < m_cNodes )
 				iCurrentNode = m_pNodes[iCurrentNode].m_iPreviousNode;
 		}
