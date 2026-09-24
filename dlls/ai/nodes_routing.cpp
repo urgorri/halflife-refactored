@@ -353,9 +353,17 @@ int CGraph ::FindShortestPath( int *piPath, int iStart, int iDest, int iHull, in
 		iCurrentNode = iDest;
 		for ( i = iNumPathNodes - 1; i >= 0; i-- )
 		{
-			piPath[i] = iCurrentNode;
+			if ( i < MAX_PATH_SIZE )
+			{
+				piPath[i] = iCurrentNode;
+			}
 			if ( iCurrentNode >= 0 && iCurrentNode < m_cNodes )
 				iCurrentNode = m_pNodes[iCurrentNode].m_iPreviousNode;
+		}
+
+		if ( iNumPathNodes > MAX_PATH_SIZE )
+		{
+			iNumPathNodes = MAX_PATH_SIZE;
 		}
 	}
 
