@@ -146,6 +146,8 @@
     <ClCompile Include="..\..\tests\test_effects_beams.cpp" />
     <ClCompile Include="..\..\tests\test_crash_handler.cpp" />
     <ClCompile Include="..\..\tests\test_triggers.cpp" />
+    <ClCompile Include="..\..\tests\test_player_customization.cpp" />
+    <ClCompile Include="..\..\dlls\core\client_customization.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

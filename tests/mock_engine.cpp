@@ -356,15 +356,33 @@ static int stub_AllocString( const char *szValue ) {
 static struct entvars_s *stub_GetVarsOfEnt( edict_t *pEdict ) {
 	return pEdict ? &pEdict->v : nullptr;
 }
-static edict_t s_mockClientEntity;
-static edict_t *stub_PEntityOfEntIndex( int iEntIndex ) {
-	if ( iEntIndex == 1 ) {
-		s_mockClientEntity.v.pContainingEntity = &s_mockClientEntity;
-		return &s_mockClientEntity;
+static edict_t s_mockClientEntities[33];
+
+edict_t *GetMockClientEntity( int clientIndex ) {
+	if ( clientIndex >= 1 && clientIndex <= 32 ) {
+		s_mockClientEntities[clientIndex].v.pContainingEntity = &s_mockClientEntities[clientIndex];
+		return &s_mockClientEntities[clientIndex];
 	}
 	return nullptr;
 }
-static int stub_EntIndexOfPEntity( const edict_t *pEdict ) { return 0; }
+
+static edict_t *stub_PEntityOfEntIndex( int iEntIndex ) {
+	if ( iEntIndex >= 1 && iEntIndex <= 32 ) {
+		s_mockClientEntities[iEntIndex].v.pContainingEntity = &s_mockClientEntities[iEntIndex];
+		return &s_mockClientEntities[iEntIndex];
+	}
+	return nullptr;
+}
+
+static int stub_EntIndexOfPEntity( const edict_t *pEdict ) {
+	if ( !pEdict )
+		return 0;
+	for ( int i = 1; i <= 32; i++ ) {
+		if ( pEdict == &s_mockClientEntities[i] )
+			return i;
+	}
+	return 0;
+}
 static edict_t *stub_FindEntityByVars( struct entvars_s *pvars ) { return nullptr; }
 static void *stub_GetModelPtr( edict_t *pEdict ) { return nullptr; }
 static int stub_RegUserMsg( const char *pszName, int iSize ) { return 1; }
@@ -442,6 +460,8 @@ void ResetMockEngine()
 
 	std::memset( &g_mockTraceResult, 0, sizeof( g_mockTraceResult ) );
 	g_mockTraceResult.flFraction = 1.0f;
+
+	std::memset( s_mockClientEntities, 0, sizeof( s_mockClientEntities ) );
 
 	ClearMockCvars();
 	ClearMockEntityFactories();
