@@ -1,4 +1,4 @@
-﻿/***
+/***
  *
  *	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
  *
@@ -893,10 +893,15 @@ BOOL CBaseMonster ::FindCover( Vector vecThreat, Vector vecViewOffset, float flM
 		flMinDist = 0.5 * flMaxDist;
 	}
 
-	if ( !WorldGraph.m_fGraphPresent || !WorldGraph.m_fGraphPointersSet )
+	if ( !WorldGraph.m_fGraphPresent || !WorldGraph.m_fGraphPointersSet || WorldGraph.m_cNodes <= 0 || !WorldGraph.m_pNodes )
 	{
 		ALERT( at_aiconsole, "Graph not ready for findcover!\n" );
 		return FALSE;
+	}
+
+	if ( WorldGraph.m_iLastCoverSearch < 0 || WorldGraph.m_iLastCoverSearch >= WorldGraph.m_cNodes )
+	{
+		WorldGraph.m_iLastCoverSearch = 0;
 	}
 
 	iMyNode      = WorldGraph.FindNearestNode( pev->origin, this );
@@ -997,10 +1002,15 @@ BOOL CBaseMonster ::BuildNearestRoute( Vector vecThreat, Vector vecViewOffset, f
 		flMinDist = 0.5 * flMaxDist;
 	}
 
-	if ( !WorldGraph.m_fGraphPresent || !WorldGraph.m_fGraphPointersSet )
+	if ( !WorldGraph.m_fGraphPresent || !WorldGraph.m_fGraphPointersSet || !WorldGraph.m_fRoutingComplete || !WorldGraph.m_pRouteInfo || !WorldGraph.m_pNodes || WorldGraph.m_cNodes <= 0 )
 	{
 		ALERT( at_aiconsole, "Graph not ready for BuildNearestRoute!\n" );
 		return FALSE;
+	}
+
+	if ( WorldGraph.m_iLastCoverSearch < 0 || WorldGraph.m_iLastCoverSearch >= WorldGraph.m_cNodes )
+	{
+		WorldGraph.m_iLastCoverSearch = 0;
 	}
 
 	iMyNode      = WorldGraph.FindNearestNode( pev->origin, this );

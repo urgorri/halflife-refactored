@@ -101,13 +101,35 @@ float CGraph::PathLength( int iStart, int iDest, int iHull, int afCapMask )
 // Parse the routing table at iCurrentNode for the next node on the shortest path to iDest
 int CGraph::NextNodeInRoute( int iCurrentNode, int iDest, int iHull, int iCap )
 {
-	int iNext    = iCurrentNode;
-	int nCount   = iDest + 1;
-	char *pRoute = m_pRouteInfo + m_pNodes[iCurrentNode].m_pNextBestNode[iHull][iCap];
+	if ( !m_fGraphPresent || !m_fGraphPointersSet || !m_fRoutingComplete || !m_pRouteInfo || !m_pNodes || m_cNodes <= 0 )
+	{
+		return iCurrentNode;
+	}
+
+	if ( iCurrentNode < 0 || iCurrentNode >= m_cNodes || iDest < 0 || iDest >= m_cNodes )
+	{
+		return iCurrentNode;
+	}
+
+	if ( iHull < 0 || iHull >= MAX_NODE_HULLS || iCap < 0 || iCap >= 2 )
+	{
+		return iCurrentNode;
+	}
+
+	int offset = m_pNodes[iCurrentNode].m_pNextBestNode[iHull][iCap];
+	if ( offset < 0 || offset >= m_nRouteInfo )
+	{
+		return iCurrentNode;
+	}
+
+	int iNext       = iCurrentNode;
+	int nCount      = iDest + 1;
+	char *pRoute    = m_pRouteInfo + offset;
+	char *pRouteEnd = m_pRouteInfo + m_nRouteInfo;
 
 	// Until we decode the next best node
 	//
-	while ( nCount > 0 )
+	while ( nCount > 0 && pRoute < pRouteEnd )
 	{
 		char ch = *pRoute++;
 		if ( ch < 0 )
@@ -129,6 +151,10 @@ int CGraph::NextNodeInRoute( int iCurrentNode, int iDest, int iHull, int iCap )
 		{
 			// Repeat phrase
 			//
+			if ( pRoute >= pRouteEnd )
+			{
+				break;
+			}
 			if ( nCount <= ch + 1 )
 			{
 				iNext = iCurrentNode + *pRoute;
@@ -788,13 +814,13 @@ void CGraph ::ComputeStaticRoutingTables( void )
 		ALERT( at_aiconsole, "Size of Routes = %d\n", nTotalCompressedSize );
 	}
 	if ( Routes )
-		delete Routes;
+		delete[] Routes;
 	if ( BestNextNodes )
-		delete BestNextNodes;
+		delete[] BestNextNodes;
 	if ( pRoute )
-		delete pRoute;
+		delete[] pRoute;
 	if ( pMyPath )
-		delete pMyPath;
+		delete[] pMyPath;
 	Routes        = 0;
 	BestNextNodes = 0;
 	pRoute        = 0;

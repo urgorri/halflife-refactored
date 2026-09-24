@@ -41,13 +41,18 @@ static LONG WINAPI GoldSrcCrashFilter( PEXCEPTION_POINTERS pExceptionInfo )
 
 	DWORD code = pExceptionInfo->ExceptionRecord->ExceptionCode;
 
-	// Trap fatal memory, illegal instruction, and corruption exceptions
+	// Trap fatal memory, illegal instruction, divide by zero, and corruption exceptions
 	if ( code != EXCEPTION_ACCESS_VIOLATION &&
 	     code != EXCEPTION_ILLEGAL_INSTRUCTION &&
 	     code != EXCEPTION_STACK_OVERFLOW &&
 	     code != EXCEPTION_DATATYPE_MISALIGNMENT &&
 	     code != EXCEPTION_IN_PAGE_ERROR &&
-	     code != EXCEPTION_ARRAY_BOUNDS_EXCEEDED )
+	     code != EXCEPTION_ARRAY_BOUNDS_EXCEEDED &&
+	     code != EXCEPTION_INT_DIVIDE_BY_ZERO &&
+	     code != EXCEPTION_FLT_DIVIDE_BY_ZERO &&
+	     code != (DWORD)0xC0000409 && /* STATUS_STACK_BUFFER_OVERRUN */
+	     code != (DWORD)0xC0000374 && /* STATUS_HEAP_CORRUPTION */
+	     code != (DWORD)0x40000015 )  /* STATUS_FATAL_APP_EXIT */
 	{
 		return EXCEPTION_CONTINUE_SEARCH;
 	}
@@ -566,6 +571,8 @@ void CrashHandler::WriteCrashReport( void *pExceptionInfoPtr )
 	if ( !pFile )
 		return;
 
+	setvbuf( pFile, NULL, _IONBF, 0 );
+
 	time_t now = time( NULL );
 	char timeBuf[64];
 	strftime( timeBuf, sizeof( timeBuf ), "%Y-%m-%d %H:%M:%S", localtime( &now ) );
@@ -578,12 +585,13 @@ void CrashHandler::WriteCrashReport( void *pExceptionInfoPtr )
 	fprintf( pFile, "Engine Time:  %.3fs\n", gpGlobals ? gpGlobals->time : 0.0f );
 
 #if defined(_WIN32)
+	const char *pszCodeName = "UNKNOWN_EXCEPTION";
+	DWORD code = 0;
 	PEXCEPTION_POINTERS pExceptionInfo = (PEXCEPTION_POINTERS)pExceptionInfoPtr;
 	if ( pExceptionInfo && pExceptionInfo->ExceptionRecord )
 	{
 		PEXCEPTION_RECORD pRec = pExceptionInfo->ExceptionRecord;
-		DWORD code = pRec->ExceptionCode;
-		const char *pszCodeName = "UNKNOWN_EXCEPTION";
+		code = pRec->ExceptionCode;
 		switch ( code )
 		{
 		case EXCEPTION_ACCESS_VIOLATION: pszCodeName = "EXCEPTION_ACCESS_VIOLATION"; break;
@@ -592,6 +600,11 @@ void CrashHandler::WriteCrashReport( void *pExceptionInfoPtr )
 		case EXCEPTION_DATATYPE_MISALIGNMENT: pszCodeName = "EXCEPTION_DATATYPE_MISALIGNMENT"; break;
 		case EXCEPTION_IN_PAGE_ERROR: pszCodeName = "EXCEPTION_IN_PAGE_ERROR"; break;
 		case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: pszCodeName = "EXCEPTION_ARRAY_BOUNDS_EXCEEDED"; break;
+		case EXCEPTION_INT_DIVIDE_BY_ZERO: pszCodeName = "EXCEPTION_INT_DIVIDE_BY_ZERO"; break;
+		case EXCEPTION_FLT_DIVIDE_BY_ZERO: pszCodeName = "EXCEPTION_FLT_DIVIDE_BY_ZERO"; break;
+		case (DWORD)0xC0000409: pszCodeName = "STATUS_STACK_BUFFER_OVERRUN"; break;
+		case (DWORD)0xC0000374: pszCodeName = "STATUS_HEAP_CORRUPTION"; break;
+		case (DWORD)0x40000015: pszCodeName = "STATUS_FATAL_APP_EXIT"; break;
 		}
 
 		fprintf( pFile, "Exception:    %s (0x%08lX)\n", pszCodeName, code );
@@ -643,117 +656,142 @@ void CrashHandler::WriteCrashReport( void *pExceptionInfoPtr )
 #endif
 	}
 
+	fflush( pFile );
+
+	// Echo crash header directly to active execution trace log
+	if ( m_pTraceFile )
+	{
+		PEXCEPTION_RECORD pRec = ( pExceptionInfo && pExceptionInfo->ExceptionRecord ) ? pExceptionInfo->ExceptionRecord : NULL;
+		fprintf( m_pTraceFile, "\n================================================================================\n" );
+		fprintf( m_pTraceFile, "[CRASH DETECTED] %s (0x%08lX) at IP=0x%p\n",
+		         pszCodeName,
+		         pRec ? pRec->ExceptionCode : code,
+		         pRec ? pRec->ExceptionAddress : 0 );
+		fprintf( m_pTraceFile, "================================================================================\n" );
+		fflush( m_pTraceFile );
+	}
+
 	// Stack backtrace
 	fprintf( pFile, "\nStack Backtrace:\n" );
 	fprintf( pFile, "--------------------------------------------------------------------------------\n" );
+	fflush( pFile );
 
-	HANDLE hProcess = GetCurrentProcess();
-	HANDLE hThread = GetCurrentThread();
+	__try
+	{
+		HANDLE hProcess = GetCurrentProcess();
+		HANDLE hThread = GetCurrentThread();
 
-	SymSetOptions( SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES );
-	SymInitialize( hProcess, NULL, TRUE );
+		SymSetOptions( SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES );
+		SymInitialize( hProcess, NULL, TRUE );
 
-	CONTEXT ctxCopy;
-	if ( pExceptionInfo && pExceptionInfo->ContextRecord )
-		ctxCopy = *pExceptionInfo->ContextRecord;
-	else
-		RtlCaptureContext( &ctxCopy );
+		CONTEXT ctxCopy;
+		if ( pExceptionInfo && pExceptionInfo->ContextRecord )
+			ctxCopy = *pExceptionInfo->ContextRecord;
+		else
+			RtlCaptureContext( &ctxCopy );
 
-	STACKFRAME64 stackFrame;
-	memset( &stackFrame, 0, sizeof( stackFrame ) );
+		STACKFRAME64 stackFrame;
+		memset( &stackFrame, 0, sizeof( stackFrame ) );
 
-	DWORD machineType = 0;
+		DWORD machineType = 0;
 #if defined(_M_IX86)
-	machineType = IMAGE_FILE_MACHINE_I386;
-	stackFrame.AddrPC.Offset = ctxCopy.Eip;
-	stackFrame.AddrPC.Mode = AddrModeFlat;
-	stackFrame.AddrFrame.Offset = ctxCopy.Ebp;
-	stackFrame.AddrFrame.Mode = AddrModeFlat;
-	stackFrame.AddrStack.Offset = ctxCopy.Esp;
-	stackFrame.AddrStack.Mode = AddrModeFlat;
+		machineType = IMAGE_FILE_MACHINE_I386;
+		stackFrame.AddrPC.Offset = ctxCopy.Eip;
+		stackFrame.AddrPC.Mode = AddrModeFlat;
+		stackFrame.AddrFrame.Offset = ctxCopy.Ebp;
+		stackFrame.AddrFrame.Mode = AddrModeFlat;
+		stackFrame.AddrStack.Offset = ctxCopy.Esp;
+		stackFrame.AddrStack.Mode = AddrModeFlat;
 #elif defined(_M_X64) || defined(__x86_64__)
-	machineType = IMAGE_FILE_MACHINE_AMD64;
-	stackFrame.AddrPC.Offset = ctxCopy.Rip;
-	stackFrame.AddrPC.Mode = AddrModeFlat;
-	stackFrame.AddrFrame.Offset = ctxCopy.Rbp;
-	stackFrame.AddrFrame.Mode = AddrModeFlat;
-	stackFrame.AddrStack.Offset = ctxCopy.Rsp;
-	stackFrame.AddrStack.Mode = AddrModeFlat;
+		machineType = IMAGE_FILE_MACHINE_AMD64;
+		stackFrame.AddrPC.Offset = ctxCopy.Rip;
+		stackFrame.AddrPC.Mode = AddrModeFlat;
+		stackFrame.AddrFrame.Offset = ctxCopy.Rbp;
+		stackFrame.AddrFrame.Mode = AddrModeFlat;
+		stackFrame.AddrStack.Offset = ctxCopy.Rsp;
+		stackFrame.AddrStack.Mode = AddrModeFlat;
 #endif
 
-	int frameIndex = 0;
-	while ( frameIndex < 64 )
-	{
-		BOOL bSuccess = FALSE;
-		if ( machineType != 0 )
+		int frameIndex = 0;
+		while ( frameIndex < 64 )
 		{
-			bSuccess = StackWalk64(
-			    machineType,
-			    hProcess,
-			    hThread,
-			    &stackFrame,
-			    &ctxCopy,
-			    NULL,
-			    SymFunctionTableAccess64,
-			    SymGetModuleBase64,
-			    NULL
-			);
-		}
-
-		if ( !bSuccess || stackFrame.AddrPC.Offset == 0 )
-			break;
-
-		DWORD64 addr = stackFrame.AddrPC.Offset;
-
-		char szModName[MAX_PATH] = "unknown_module";
-		DWORD64 modBase = SymGetModuleBase64( hProcess, addr );
-		if ( modBase != 0 )
-		{
-			HMODULE hMod = (HMODULE)modBase;
-			char fullPath[MAX_PATH];
-			if ( GetModuleFileNameA( hMod, fullPath, sizeof( fullPath ) ) )
+			BOOL bSuccess = FALSE;
+			if ( machineType != 0 )
 			{
-				const char *pSlash = strrchr( fullPath, '\\' );
-				if ( !pSlash ) pSlash = strrchr( fullPath, '/' );
-				strncpy( szModName, pSlash ? pSlash + 1 : fullPath, sizeof( szModName ) - 1 );
+				bSuccess = StackWalk64(
+				    machineType,
+				    hProcess,
+				    hThread,
+				    &stackFrame,
+				    &ctxCopy,
+				    NULL,
+				    SymFunctionTableAccess64,
+				    SymGetModuleBase64,
+				    NULL
+				);
 			}
+
+			if ( !bSuccess || stackFrame.AddrPC.Offset == 0 )
+				break;
+
+			DWORD64 addr = stackFrame.AddrPC.Offset;
+
+			char szModName[MAX_PATH] = "unknown_module";
+			DWORD64 modBase = SymGetModuleBase64( hProcess, addr );
+			if ( modBase != 0 )
+			{
+				HMODULE hMod = (HMODULE)modBase;
+				char fullPath[MAX_PATH];
+				if ( GetModuleFileNameA( hMod, fullPath, sizeof( fullPath ) ) )
+				{
+					const char *pSlash = strrchr( fullPath, '\\' );
+					if ( !pSlash ) pSlash = strrchr( fullPath, '/' );
+					strncpy( szModName, pSlash ? pSlash + 1 : fullPath, sizeof( szModName ) - 1 );
+				}
+			}
+
+			DWORD64 rva = ( modBase != 0 ) ? ( addr - modBase ) : addr;
+
+			char symBuffer[sizeof( SYMBOL_INFO ) + 256];
+			PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)symBuffer;
+			pSymbol->SizeOfStruct = sizeof( SYMBOL_INFO );
+			pSymbol->MaxNameLen = 255;
+			DWORD64 disp64 = 0;
+			char szSymbolName[256] = "";
+			if ( SymFromAddr( hProcess, addr, &disp64, pSymbol ) )
+			{
+				if ( disp64 != 0 )
+					snprintf( szSymbolName, sizeof( szSymbolName ), "%s+0x%llX", pSymbol->Name, disp64 );
+				else
+					snprintf( szSymbolName, sizeof( szSymbolName ), "%s", pSymbol->Name );
+			}
+
+			IMAGEHLP_LINE64 line;
+			line.SizeOfStruct = sizeof( IMAGEHLP_LINE64 );
+			DWORD lineDisp = 0;
+			char szLineInfo[MAX_PATH] = "";
+			if ( SymGetLineFromAddr64( hProcess, addr, &lineDisp, &line ) )
+			{
+				const char *pSlash = strrchr( line.FileName, '\\' );
+				if ( !pSlash ) pSlash = strrchr( line.FileName, '/' );
+				snprintf( szLineInfo, sizeof( szLineInfo ), "[%s:%u]", pSlash ? pSlash + 1 : line.FileName, line.LineNumber );
+			}
+
+			fprintf( pFile, "#%02d  0x%p in %s+0x%llX", frameIndex, (void *)addr, szModName, rva );
+			if ( szSymbolName[0] )
+				fprintf( pFile, " (%s)", szSymbolName );
+			if ( szLineInfo[0] )
+				fprintf( pFile, " %s", szLineInfo );
+			fprintf( pFile, "\n" );
+			fflush( pFile );
+
+			frameIndex++;
 		}
-
-		DWORD64 rva = ( modBase != 0 ) ? ( addr - modBase ) : addr;
-
-		char symBuffer[sizeof( SYMBOL_INFO ) + 256];
-		PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)symBuffer;
-		pSymbol->SizeOfStruct = sizeof( SYMBOL_INFO );
-		pSymbol->MaxNameLen = 255;
-		DWORD64 disp64 = 0;
-		char szSymbolName[256] = "";
-		if ( SymFromAddr( hProcess, addr, &disp64, pSymbol ) )
-		{
-			if ( disp64 != 0 )
-				snprintf( szSymbolName, sizeof( szSymbolName ), "%s+0x%llX", pSymbol->Name, disp64 );
-			else
-				snprintf( szSymbolName, sizeof( szSymbolName ), "%s", pSymbol->Name );
-		}
-
-		IMAGEHLP_LINE64 line;
-		line.SizeOfStruct = sizeof( IMAGEHLP_LINE64 );
-		DWORD lineDisp = 0;
-		char szLineInfo[MAX_PATH] = "";
-		if ( SymGetLineFromAddr64( hProcess, addr, &lineDisp, &line ) )
-		{
-			const char *pSlash = strrchr( line.FileName, '\\' );
-			if ( !pSlash ) pSlash = strrchr( line.FileName, '/' );
-			snprintf( szLineInfo, sizeof( szLineInfo ), "[%s:%u]", pSlash ? pSlash + 1 : line.FileName, line.LineNumber );
-		}
-
-		fprintf( pFile, "#%02d  0x%p in %s+0x%llX", frameIndex, (void *)addr, szModName, rva );
-		if ( szSymbolName[0] )
-			fprintf( pFile, " (%s)", szSymbolName );
-		if ( szLineInfo[0] )
-			fprintf( pFile, " %s", szLineInfo );
-		fprintf( pFile, "\n" );
-
-		frameIndex++;
+	}
+	__except ( EXCEPTION_EXECUTE_HANDLER )
+	{
+		fprintf( pFile, "<Stack walk failed due to secondary exception>\n" );
+		fflush( pFile );
 	}
 #endif
 
