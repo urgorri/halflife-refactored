@@ -5,17 +5,20 @@
  *
  ****/
 
+#include "external/catch2/catch_amalgamated.hpp"
+
 #include <cstring>
 #include <vector>
 
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-
-#include "external/catch2/catch_amalgamated.hpp"
 #include "tests/mock_engine.h"
 #include "dlls/ai/nodes.h"
 #include "dlls/ai/basemonster.h"
+#include "dlls/world/rotating.h"
+#include "dlls/monsters/apache.h"
+#include "pm_shared/pm_shared.h"
 
 extern CGraph WorldGraph;
 
@@ -298,12 +301,81 @@ TEST_CASE( "CGraph: FindShortestPath never overflows MAX_PATH_SIZE in routing mo
 	CHECK( guard.canaryBefore == 0xDEADBEEF );
 	CHECK( guard.canaryAfter == 0xCAFEBABE );
 
-	// Path elements must be strictly within bounds
+	WorldGraph.InitGraph();
+}
+
+TEST_CASE( "CGraph: FindShortestPath never overflows MAX_PATH_SIZE in dynamic Dijkstra mode (!m_fRoutingComplete)", "[ai][navigation][path]" )
+{
+	WorldGraph.InitGraph();
+
+	const int kNumNodes = 25;
+	WorldGraph.m_cNodes = kNumNodes;
+	WorldGraph.m_pNodes = (CNode *)calloc( sizeof( CNode ), kNumNodes );
+	for ( int i = 0; i < kNumNodes; ++i )
+	{
+		WorldGraph.m_pNodes[i].m_vecOrigin = Vector( (float)( i * 50 ), 0, 0 );
+		WorldGraph.m_pNodes[i].m_afNodeInfo = bits_NODE_LAND;
+		WorldGraph.m_pNodes[i].m_cNumLinks  = ( i < kNumNodes - 1 ) ? 1 : 0;
+		WorldGraph.m_pNodes[i].m_iFirstLink = i;
+	}
+
+	WorldGraph.m_cLinks    = kNumNodes - 1;
+	WorldGraph.m_pLinkPool = (CLink *)calloc( sizeof( CLink ), WorldGraph.m_cLinks );
+	for ( int i = 0; i < WorldGraph.m_cLinks; ++i )
+	{
+		WorldGraph.m_pLinkPool[i].m_iSrcNode   = i;
+		WorldGraph.m_pLinkPool[i].m_iDestNode  = i + 1;
+		WorldGraph.m_pLinkPool[i].m_afLinkInfo = bits_LINK_HUMAN_HULL | bits_LINK_SMALL_HULL | bits_LINK_LARGE_HULL;
+		WorldGraph.m_pLinkPool[i].m_flWeight   = 50.0f;
+		WorldGraph.m_pLinkPool[i].m_pLinkEnt   = NULL;
+	}
+
+	WorldGraph.m_fGraphPresent     = TRUE;
+	WorldGraph.m_fGraphPointersSet = TRUE;
+	WorldGraph.m_fRoutingComplete  = FALSE; // Dynamic Dijkstra mode
+
+	struct StackGuard
+	{
+		int canaryBefore = 0xDEADBEEF;
+		int pathBuffer[MAX_PATH_SIZE];
+		int canaryAfter = 0xCAFEBABE;
+	} guard;
+
+	for ( int i = 0; i < MAX_PATH_SIZE; ++i )
+		guard.pathBuffer[i] = -1;
+
+	// Path from 0 to 24 (24 hops) must be capped to MAX_PATH_SIZE = 10
+	int result = WorldGraph.FindShortestPath( guard.pathBuffer, 0, 24, NODE_HUMAN_HULL, 0 );
+
+	CHECK( result == MAX_PATH_SIZE );
+	CHECK( guard.canaryBefore == 0xDEADBEEF );
+	CHECK( guard.canaryAfter == 0xCAFEBABE );
+
 	for ( int i = 0; i < MAX_PATH_SIZE; ++i )
 	{
-		CHECK( guard.pathBuffer[i] >= 0 );
-		CHECK( guard.pathBuffer[i] < kNumNodes );
+		CHECK( guard.pathBuffer[i] == i );
 	}
 
 	WorldGraph.InitGraph();
+}
+
+TEST_CASE( "Spawnflags and spectator constants match canonical GoldSrc values", "[ai][spawnflags][constants]" )
+{
+	SECTION( "Rotating and pendulum spawnflags" )
+	{
+		CHECK( SF_BRUSH_ROTATE_INSTANT == 1 );
+		CHECK( SF_BRUSH_ROTATE_START_ON == 1 );
+		CHECK( SF_PENDULUM_PASSABLE == 32 );
+	}
+
+	SECTION( "Apache helicopter spawnflags" )
+	{
+		CHECK( SF_WAITFORTRIGGER == ( 0x04 | 0x40 ) );
+		CHECK( SF_NOWRECKAGE == 0x08 );
+	}
+
+	SECTION( "Spectator modes" )
+	{
+		CHECK( OBS_ROAMING == 3 );
+	}
 }
