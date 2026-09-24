@@ -180,7 +180,16 @@ static void stub_ServerCommand( char *str ) {
 	}
 }
 static void stub_ServerExecute( void ) {}
-static void stub_ClientCommand( edict_t *pEdict, char *szFmt, ... ) {}
+std::vector<std::string> g_mockClientCommands;
+static void stub_ClientCommand( edict_t *pEdict, char *szFmt, ... ) {
+	if ( !szFmt ) return;
+	char buffer[2048];
+	va_list argptr;
+	va_start( argptr, szFmt );
+	vsnprintf( buffer, sizeof( buffer ), szFmt, argptr );
+	va_end( argptr );
+	g_mockClientCommands.push_back( buffer );
+}
 static void stub_ParticleEffect( const float *org, const float *dir, float color, float count ) {}
 static void stub_LightStyle( int style, char *val ) {}
 static int stub_DecalIndex( const char *name ) { return 1; }
@@ -300,7 +309,16 @@ static void stub_CVarSetString( const char *szVarName, const char *szValue ) {
 	if ( !szVarName ) return;
 	SetMockCvar( szVarName, szValue ? szValue : "" );
 }
-static void stub_AlertMessage( ALERT_TYPE atype, char *szFmt, ... ) {}
+std::vector<std::string> g_mockAlertMessages;
+static void stub_AlertMessage( ALERT_TYPE atype, char *szFmt, ... ) {
+	if ( !szFmt ) return;
+	char buffer[2048];
+	va_list argptr;
+	va_start( argptr, szFmt );
+	vsnprintf( buffer, sizeof( buffer ), szFmt, argptr );
+	va_end( argptr );
+	g_mockAlertMessages.push_back( buffer );
+}
 static void stub_EngineFprintf( void *pfile, char *szFmt, ... ) {}
 
 static void *stub_PvAllocEntPrivateData( edict_t *pEdict, int32 cb ) {
@@ -338,7 +356,14 @@ static int stub_AllocString( const char *szValue ) {
 static struct entvars_s *stub_GetVarsOfEnt( edict_t *pEdict ) {
 	return pEdict ? &pEdict->v : nullptr;
 }
-static edict_t *stub_PEntityOfEntIndex( int iEntIndex ) { return nullptr; }
+static edict_t s_mockClientEntity;
+static edict_t *stub_PEntityOfEntIndex( int iEntIndex ) {
+	if ( iEntIndex == 1 ) {
+		s_mockClientEntity.v.pContainingEntity = &s_mockClientEntity;
+		return &s_mockClientEntity;
+	}
+	return nullptr;
+}
 static int stub_EntIndexOfPEntity( const edict_t *pEdict ) { return 0; }
 static edict_t *stub_FindEntityByVars( struct entvars_s *pvars ) { return nullptr; }
 static void *stub_GetModelPtr( edict_t *pEdict ) { return nullptr; }
@@ -408,6 +433,8 @@ void ResetMockEngine()
 {
 	g_mockMessageBuffer.clear();
 	g_mockServerCommands.clear();
+	g_mockAlertMessages.clear();
+	g_mockClientCommands.clear();
 	g_mockMessageDest = 0;
 	g_mockMessageType = 0;
 	std::memset( g_mockMessageOrigin, 0, sizeof( g_mockMessageOrigin ) );
@@ -430,6 +457,8 @@ void ResetMockEngine()
 	s_mockGlobals.maxClients = 1;
 
 	g_mockLastSaveChunk.clear();
+	g_mockLastSaveFieldCount = 0;
+	g_mockLastSaveFields = nullptr;
 	g_mockLastRestoreChunk.clear();
 	g_mockRestoreAvailableChunk.clear();
 	gpGlobals = &s_mockGlobals;
@@ -585,6 +614,8 @@ void UTIL_PrecacheOther( const char *szClassname )
 const Vector g_vecZero = Vector( 0, 0, 0 );
 
 std::string g_mockLastSaveChunk;
+int g_mockLastSaveFieldCount = 0;
+TYPEDESCRIPTION *g_mockLastSaveFields = nullptr;
 std::string g_mockLastRestoreChunk;
 std::string g_mockRestoreAvailableChunk;
 
@@ -613,6 +644,19 @@ void CBaseToggle::KeyValue( KeyValueData *pkvd )
 	if ( pkvd )
 		pkvd->fHandled = FALSE;
 }
+
+#include "systems/triggers_brush.h"
+
+void CBaseTrigger::InitTrigger( void ) {}
+void CBaseTrigger::KeyValue( KeyValueData *pkvd ) { if ( pkvd ) pkvd->fHandled = FALSE; }
+void CBaseTrigger::ActivateMultiTrigger( CBaseEntity *pActivator ) {}
+void CBaseTrigger::TeleportTouch( CBaseEntity *pOther ) {}
+void CBaseTrigger::MultiTouch( CBaseEntity *pOther ) {}
+void CBaseTrigger::HurtTouch( CBaseEntity *pOther ) {}
+void CBaseTrigger::CDAudioTouch( CBaseEntity *pOther ) {}
+void CBaseTrigger::MultiWaitOver( void ) {}
+void CBaseTrigger::CounterUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value ) {}
+void CBaseTrigger::ToggleUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value ) {}
 
 
 void UTIL_SetOrigin( entvars_t *pev, const Vector &vecOrigin )
@@ -673,6 +717,8 @@ void EMIT_SOUND_DYN( edict_t *entity, int channel, const char *sample, float vol
 int CSave::WriteFields( const char *pname, void *pBaseData, TYPEDESCRIPTION *pFields, int fieldCount )
 {
 	g_mockLastSaveChunk = ( pname != nullptr ) ? pname : "";
+	g_mockLastSaveFieldCount = fieldCount;
+	g_mockLastSaveFields = pFields;
 	return 1;
 }
 

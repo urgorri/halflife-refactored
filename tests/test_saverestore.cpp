@@ -327,3 +327,34 @@ TEST_CASE( "Charger: CWallRecharge save/restore canonical chunk identifier (CRec
 	ok = suitCharger.Restore( restoreHelper );
 	CHECK( ok == 1 );
 }
+
+TEST_CASE( "Charger: CWallHealth save table contains canonical 5 fields including m_flSoundTime (#145)", "[charger][saverestore]" )
+{
+	ResetMockEngine();
+
+	CWallHealth healthCharger;
+	SAVERESTOREDATA data;
+	memset( &data, 0, sizeof( data ) );
+	CSave saveHelper( &data );
+
+	healthCharger.Save( saveHelper );
+
+	// Canonical Valve GoldSrc healthkit.cpp defines 5 fields for CWallHealth::m_SaveData
+	// 0: m_flNextCharge (FIELD_TIME)
+	// 1: m_iReactivate (FIELD_INTEGER)
+	// 2: m_iJuice (FIELD_INTEGER)
+	// 3: m_iOn (FIELD_INTEGER)
+	// 4: m_flSoundTime (FIELD_TIME)
+	REQUIRE( g_mockLastSaveFieldCount == 5 );
+	REQUIRE( g_mockLastSaveFields != nullptr );
+	CHECK( strcmp( g_mockLastSaveFields[0].fieldName, "m_flNextCharge" ) == 0 );
+	CHECK( g_mockLastSaveFields[0].fieldType == FIELD_TIME );
+	CHECK( strcmp( g_mockLastSaveFields[1].fieldName, "m_iReactivate" ) == 0 );
+	CHECK( g_mockLastSaveFields[1].fieldType == FIELD_INTEGER );
+	CHECK( strcmp( g_mockLastSaveFields[2].fieldName, "m_iJuice" ) == 0 );
+	CHECK( g_mockLastSaveFields[2].fieldType == FIELD_INTEGER );
+	CHECK( strcmp( g_mockLastSaveFields[3].fieldName, "m_iOn" ) == 0 );
+	CHECK( g_mockLastSaveFields[3].fieldType == FIELD_INTEGER );
+	CHECK( strcmp( g_mockLastSaveFields[4].fieldName, "m_flSoundTime" ) == 0 );
+	CHECK( g_mockLastSaveFields[4].fieldType == FIELD_TIME );
+}

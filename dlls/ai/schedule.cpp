@@ -244,6 +244,11 @@ void CBaseMonster ::MaintainSchedule( void )
 		{
 			Task_t *pTask = GetTask();
 			ASSERT( pTask != NULL );
+			if ( pTask )
+			{
+				g_CrashHandler.LogCustom( "TASK_START", "[%3d] %-20s -> starting task %d (idx=%d, data=%.1f)",
+				                          entindex(), STRING( pev->classname ), pTask->iTask, m_iScheduleIndex, pTask->flData );
+			}
 			TaskBegin();
 			StartTask( pTask );
 		}
@@ -965,11 +970,15 @@ void CBaseMonster ::StartTask( Task_t *pTask )
 	{
 		CBaseEntity *pEnemy = m_hEnemy;
 
-		if ( pEnemy == NULL )
+		if ( pEnemy == NULL || pEnemy->pev == NULL )
 		{
 			TaskFail();
 			return;
 		}
+
+		g_CrashHandler.LogCustom( "TASK_ENEMY", "[%3d] %-20s -> TASK_GET_PATH_TO_ENEMY target=[%3d] at (%.1f, %.1f, %.1f)",
+		                          entindex(), STRING( pev->classname ), pEnemy->entindex(),
+		                          pEnemy->pev->origin.x, pEnemy->pev->origin.y, pEnemy->pev->origin.z );
 
 		if ( BuildRoute( pEnemy->pev->origin, bits_MF_TO_ENEMY, pEnemy ) )
 		{

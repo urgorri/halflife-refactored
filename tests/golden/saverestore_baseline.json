@@ -835,7 +835,7 @@
     "CWallHealth": {
       "array": "m_SaveData",
       "file": "dlls/systems/chargers.cpp",
-      "field_count": 4,
+      "field_count": 5,
       "fields": [
         {
           "name": "m_flNextCharge",
@@ -858,6 +858,12 @@
         {
           "name": "m_iOn",
           "type": "FIELD_INTEGER",
+          "size": 1,
+          "global": false
+        },
+        {
+          "name": "m_flSoundTime",
+          "type": "FIELD_TIME",
           "size": 1,
           "global": false
         }

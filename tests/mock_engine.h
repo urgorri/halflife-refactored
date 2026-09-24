@@ -37,6 +37,11 @@ extern cvar_t teamplay;
 extern cvar_t sv_busters;
 
 extern std::string g_mockLastSaveChunk;
+extern int g_mockLastSaveFieldCount;
+extern TYPEDESCRIPTION *g_mockLastSaveFields;
 extern std::string g_mockLastRestoreChunk;
 extern std::string g_mockRestoreAvailableChunk;
+
+extern std::vector<std::string> g_mockAlertMessages;
+extern std::vector<std::string> g_mockClientCommands;
 

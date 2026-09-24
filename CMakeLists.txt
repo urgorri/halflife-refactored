@@ -318,9 +318,11 @@ if(BUILD_TESTS)
         tests/test_level_transition.cpp
         tests/test_effects_beams.cpp
         tests/test_crash_handler.cpp
+        tests/test_triggers.cpp
         dlls/systems/effects_beams.cpp
         dlls/systems/chargers.cpp
         dlls/systems/crash_handler.cpp
+        dlls/systems/triggers_audio.cpp
         dlls/weapons/weapon_registry.cpp
         dlls/items/item_registry.cpp
         dlls/ai/monster_relationship_manager.cpp
