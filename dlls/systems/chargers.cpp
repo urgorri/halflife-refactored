@@ -7,6 +7,7 @@ TYPEDESCRIPTION CWallHealth::m_SaveData[] =
 	DEFINE_FIELD( CWallHealth, m_iReactivate, FIELD_INTEGER ),
 	DEFINE_FIELD( CWallHealth, m_iJuice, FIELD_INTEGER ),
 	DEFINE_FIELD( CWallHealth, m_iOn, FIELD_INTEGER ),
+	DEFINE_FIELD( CWallHealth, m_flSoundTime, FIELD_TIME ),
 };
 
 int CWallHealth::Save( CSave &save )
