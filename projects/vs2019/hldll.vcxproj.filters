@@ -546,6 +546,9 @@
     <ClCompile Include="..\..\dlls\systems\trigger_cdaudio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\systems\triggers_audio.cpp">
+      <Filter>Source Files\dlls\systems</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\systems\trigger_changelevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

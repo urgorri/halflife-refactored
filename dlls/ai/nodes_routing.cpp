@@ -950,9 +950,9 @@ void CGraph ::TestRoutingTables( void )
 EnoughSaid:
 
 	if ( pMyPath )
-		delete pMyPath;
+		delete[] pMyPath;
 	if ( pMyPath2 )
-		delete pMyPath2;
+		delete[] pMyPath2;
 	pMyPath  = 0;
 	pMyPath2 = 0;
 }
