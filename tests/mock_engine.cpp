@@ -962,4 +962,61 @@ TYPEDESCRIPTION CBaseMonster::m_SaveData[] = {
 	DEFINE_FIELD( CBaseMonster, m_iTaskStatus, FIELD_INTEGER ),
 };
 
+void ExplosionCreate( const Vector &center, const Vector &angles, edict_t *pOwner, int magnitude, BOOL doDamage ) {}
+void SpawnBlood( Vector vecSpot, int bloodColor, float flDamage ) {}
+cvar_t sv_pushable_fixed_tick_fudge = { "sv_pushable_fixed_tick_fudge", "15" };
+
+int DispatchSpawn( edict_t *pent )
+{
+	if ( !pent )
+		return -1;
+
+	CBaseEntity *pEntity = (CBaseEntity *)GET_PRIVATE( pent );
+	if ( pEntity )
+	{
+		pEntity->pev->absmin = pEntity->pev->origin - Vector( 1, 1, 1 );
+		pEntity->pev->absmax = pEntity->pev->origin + Vector( 1, 1, 1 );
+
+		pEntity->Spawn();
+
+		pEntity = (CBaseEntity *)GET_PRIVATE( pent );
+		if ( pEntity )
+		{
+			if ( g_pGameRules && !g_pGameRules->IsAllowedToSpawn( pEntity ) )
+				return -1;
+			if ( pEntity->pev->flags & FL_KILLME )
+				return -1;
+		}
+
+		if ( pEntity && g_pGameRules )
+			g_pGameRules->OnEntitySpawned( pEntity );
+	}
+
+	return 0;
+}
+
+void UTIL_ForEachEntity( void ( *pfnCallback )( CBaseEntity *pEntity, void *pUserData ), void *pUserData )
+{
+	if ( !pfnCallback || !gpGlobals )
+		return;
+
+	for ( int i = 1; i < gpGlobals->maxEntities; i++ )
+	{
+		edict_t *pEdict = INDEXENT( i );
+		if ( !pEdict || pEdict->free )
+			continue;
+		CBaseEntity *pEntity = CBaseEntity::Instance( pEdict );
+		if ( !pEntity )
+			continue;
+		pfnCallback( pEntity, pUserData );
+	}
+}
+
+Vector g_vecAttackDir( 0, 0, 0 );
+void UTIL_MakeVectors( const Vector &vecAngles ) {}
+void UTIL_Ricochet( const Vector &position, float pvol ) {}
+int UTIL_EntitiesInBox( CBaseEntity **pList, int listMax, const Vector &mins, const Vector &maxs, int flagMask ) { return 0; }
+
+
+
 
