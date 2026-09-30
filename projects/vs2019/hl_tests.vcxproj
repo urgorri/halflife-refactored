@@ -152,6 +152,10 @@
     <ClCompile Include="..\..\tests\test_triggers.cpp" />
     <ClCompile Include="..\..\tests\test_player_customization.cpp" />
     <ClCompile Include="..\..\tests\test_ai_navigation.cpp" />
+    <ClCompile Include="..\..\tests\test_bodygroup_bounds.cpp" />
+    <ClCompile Include="..\..\tests\test_buttons.cpp" />
+    <ClCompile Include="..\..\dlls\core\animation.cpp" />
+    <ClCompile Include="..\..\dlls\systems\buttons.cpp" />
     <ClCompile Include="..\..\dlls\core\client_customization.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
