@@ -348,7 +348,9 @@ if(BUILD_TESTS)
         cl_dll/hl/client_weapon_manager.cpp
         cl_dll/events/event_registry.cpp
         cl_dll/hud/hud_registry.cpp
+        cl_dll/hud/hud_ammo.cpp
         cl_dll/entities/entity_visual_registry.cpp
+        tests/test_weapons_resource.cpp
         ${PM_SHARED_SOURCES}
     )
 
@@ -378,6 +380,7 @@ if(BUILD_TESTS)
         dlls/ai
         dlls/gameplay
         cl_dll
+        cl_dll/core
         engine
         common
         pm_shared
