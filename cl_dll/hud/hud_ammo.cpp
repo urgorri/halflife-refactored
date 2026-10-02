@@ -41,6 +41,14 @@ int g_weaponselect = 0;
 #define max(a,b) (((a)>(b))?(a):(b))
 #endif
 
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+
 #define SPR_GetList (*g_mockClientEngineFuncs.pfnSPR_GetList)
 #define SPR_Load (*g_mockClientEngineFuncs.pfnSPR_Load)
 
