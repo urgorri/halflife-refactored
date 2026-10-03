@@ -187,6 +187,12 @@
     <ClCompile Include="..\..\tests\test_entity_iteration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\tests\test_orphaned_effects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\test_monster_drop_hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\core\animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

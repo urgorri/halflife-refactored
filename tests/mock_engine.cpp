@@ -706,7 +706,28 @@ void UTIL_TraceLine( const Vector &vecStart, const Vector &vecEnd, IGNORE_MONSTE
 
 void UTIL_Sparks( const Vector &position ) {}
 void UTIL_DecalTrace( TraceResult *pTrace, int decalNumber ) {}
-void UTIL_Remove( CBaseEntity *pEntity ) {}
+
+BOOL UTIL_IsValidEntity( edict_t *pent )
+{
+	if ( !pent || pent->free || ( pent->v.flags & FL_KILLME ) )
+		return FALSE;
+	return TRUE;
+}
+
+void CBaseEntity::UpdateOnRemove( void ) {}
+
+void UTIL_Remove( CBaseEntity *pEntity )
+{
+	if ( !pEntity )
+		return;
+
+	pEntity->UpdateOnRemove();
+	if ( pEntity->pev )
+	{
+		pEntity->pev->flags |= FL_KILLME;
+		pEntity->pev->targetname = 0;
+	}
+}
 
 CBaseEntity *UTIL_FindEntityByTargetname( CBaseEntity *pStartEntity, const char *szName )
 {
@@ -900,6 +921,24 @@ Vector VecBModelOrigin( entvars_t *pev ) { return pev ? pev->origin : g_vecZero;
 void CTestHull::Spawn( entvars_t *pevMasterNode ) {}
 
 BOOL CBaseMonster::ShouldFadeOnDeath( void ) { return FALSE; }
+CBaseEntity *CBaseMonster::DropItem( char *pszItemName, const Vector &vecPos, const Vector &vecAng )
+{
+	if ( !pszItemName )
+		return NULL;
+
+	if ( g_pGameRules && !g_pGameRules->FCanMonsterDropItem( this, pszItemName ) )
+		return NULL;
+
+	CBaseEntity *pItem = CBaseEntity::Create( pszItemName, vecPos, vecAng, edict() );
+	if ( pItem )
+	{
+		if ( pev )
+			pItem->pev->velocity = pev->velocity;
+		pItem->pev->avelocity = Vector( 0, 0, 0 );
+		return pItem;
+	}
+	return NULL;
+}
 
 float UTIL_AngleMod( float a )
 {
