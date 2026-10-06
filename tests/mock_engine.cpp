@@ -375,13 +375,13 @@ static edict_t *stub_PEntityOfEntIndex( int iEntIndex ) {
 }
 
 static int stub_EntIndexOfPEntity( const edict_t *pEdict ) {
-	if ( !pEdict )
+	if ( !pEdict || pEdict == &s_mockClientEntities[0] )
 		return 0;
 	for ( int i = 1; i <= 32; i++ ) {
 		if ( pEdict == &s_mockClientEntities[i] )
 			return i;
 	}
-	return 0;
+	return 100;
 }
 static edict_t *stub_FindEntityByVars( struct entvars_s *pvars ) { return nullptr; }
 static void *stub_GetModelPtr( edict_t *pEdict ) { return nullptr; }
@@ -446,6 +446,8 @@ void SetMockTraceLineResult( const TraceResult &tr )
 }
 
 extern "C" void player( entvars_t *pev );
+extern "C" void env_explosion( entvars_t *pev );
+extern "C" void spark_shower( entvars_t *pev );
 
 void ResetMockEngine()
 {
@@ -466,6 +468,9 @@ void ResetMockEngine()
 	ClearMockCvars();
 	ClearMockEntityFactories();
 	RegisterMockEntityFactory( "player", player );
+	RegisterMockEntityFactory( "env_explosion", env_explosion );
+	RegisterMockEntityFactory( "spark_shower", spark_shower );
+	g_mockRadiusDamageCalls.clear();
 
 	g_teamplay = 0;
 	teamplay.value = 0.0f;
@@ -1076,7 +1081,33 @@ TYPEDESCRIPTION CBaseMonster::m_SaveData[] = {
 	DEFINE_FIELD( CBaseMonster, m_iTaskStatus, FIELD_INTEGER ),
 };
 
-void ExplosionCreate( const Vector &center, const Vector &angles, edict_t *pOwner, int magnitude, BOOL doDamage ) {}
+std::vector<MockRadiusDamageCall> g_mockRadiusDamageCalls;
+short g_sModelIndexFireball = 1;
+short g_sModelIndexSmoke    = 2;
+
+void RadiusDamage( Vector vecSrc, entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, float flRadius, int iClassIgnore, int bitsDamageType )
+{
+	MockRadiusDamageCall call;
+	call.vecSrc         = vecSrc;
+	call.pevInflictor   = pevInflictor;
+	call.pevAttacker    = pevAttacker;
+	call.flDamage       = flDamage;
+	call.flRadius       = flRadius;
+	call.iClassIgnore   = iClassIgnore;
+	call.bitsDamageType = bitsDamageType;
+	g_mockRadiusDamageCalls.push_back( call );
+}
+
+void CBaseMonster::RadiusDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int iClassIgnore, int bitsDamageType )
+{
+	::RadiusDamage( pev ? pev->origin : g_vecZero, pevInflictor, pevAttacker, flDamage, flDamage * 2.5f, iClassIgnore, bitsDamageType );
+}
+
+void CBaseMonster::RadiusDamage( Vector vecSrc, entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int iClassIgnore, int bitsDamageType )
+{
+	::RadiusDamage( vecSrc, pevInflictor, pevAttacker, flDamage, flDamage * 2.5f, iClassIgnore, bitsDamageType );
+}
+
 void SpawnBlood( Vector vecSpot, int bloodColor, float flDamage ) {}
 cvar_t sv_pushable_fixed_tick_fudge = { "sv_pushable_fixed_tick_fudge", "15" };
 
