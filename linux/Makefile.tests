@@ -71,6 +71,7 @@ TEST_OBJS = \
 	$(TESTS_OBJ_DIR)/test_orphaned_effects.o \
 	$(TESTS_OBJ_DIR)/test_monster_drop_hook.o \
 	$(TESTS_OBJ_DIR)/test_chargers.o \
+	$(TESTS_OBJ_DIR)/test_ai_soundent.o \
 	$(TESTS_OBJ_DIR)/client_customization.o \
 	$(TESTS_OBJ_DIR)/animation.o \
 	$(TESTS_OBJ_DIR)/buttons.o \
@@ -80,6 +81,7 @@ TEST_OBJS = \
 	$(TESTS_OBJ_DIR)/effects_beams.o \
 	$(TESTS_OBJ_DIR)/triggers_audio.o \
 	$(TESTS_OBJ_DIR)/sound_sentences.o \
+	$(TESTS_OBJ_DIR)/soundent.o \
 	$(TESTS_OBJ_DIR)/crash_handler.o
 
 PM_OBJS = \
@@ -195,6 +197,9 @@ $(TESTS_OBJ_DIR)/triggers_audio.o: $(HLDLL_SRC_DIR)/systems/triggers_audio.cpp |
 	$(DO_TESTS_CXX)
 
 $(TESTS_OBJ_DIR)/sound_sentences.o: $(HLDLL_SRC_DIR)/systems/sound_sentences.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/soundent.o: $(HLDLL_SRC_DIR)/ai/soundent.cpp | dirs
 	$(DO_TESTS_CXX)
 
 $(TESTS_OBJ_DIR)/crash_handler.o: $(HLDLL_SRC_DIR)/systems/crash_handler.cpp | dirs
