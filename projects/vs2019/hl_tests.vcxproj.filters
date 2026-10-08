@@ -208,6 +208,12 @@
     <ClCompile Include="..\..\tests\test_chargers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\tests\test_ai_soundent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\ai\soundent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\core\animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

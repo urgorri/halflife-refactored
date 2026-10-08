@@ -358,6 +358,8 @@ if(BUILD_TESTS)
         cl_dll/render/triangle_render_registry.cpp
         tests/test_weapons_resource.cpp
         tests/test_weapons_pickup.cpp
+        tests/test_ai_soundent.cpp
+        dlls/ai/soundent.cpp
         ${PM_SHARED_SOURCES}
     )
 
