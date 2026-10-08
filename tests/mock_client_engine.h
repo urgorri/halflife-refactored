@@ -51,6 +51,18 @@ extern int g_mockPlayerCount;
 extern float g_mockClientTime;
 extern SCREENINFO g_mockScreenInfo;
 
+struct MockHUD
+{
+	float m_flTime;
+	int GetSpriteIndex( const char *szName ) { return 0; }
+};
+extern MockHUD gHUD;
+
+inline float CVAR_GET_FLOAT( const char *x )
+{
+	return g_mockClientEngineFuncs.pfnGetCvarFloat ? g_mockClientEngineFuncs.pfnGetCvarFloat( (char *)x ) : 0.0f;
+}
+
 // Initialization and teardown
 void InitMockClientEngine( void );
 void ResetMockClientEngine( void );
