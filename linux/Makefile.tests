@@ -58,6 +58,7 @@ TEST_OBJS = \
 	$(TESTS_OBJ_DIR)/test_hud_registry.o \
 	$(TESTS_OBJ_DIR)/test_triangle_render_registry.o \
 	$(TESTS_OBJ_DIR)/test_weapons_resource.o \
+	$(TESTS_OBJ_DIR)/test_weapons_pickup.o \
 	$(TESTS_OBJ_DIR)/test_effects_beams.o \
 	$(TESTS_OBJ_DIR)/test_crash_handler.o \
 	$(TESTS_OBJ_DIR)/test_triggers.o \
@@ -155,6 +156,9 @@ $(TESTS_OBJ_DIR)/hud_ammo.o: $(SOURCE_DIR)/cl_dll/hud/hud_ammo.cpp | dirs
 	$(DO_TESTS_CXX)
 
 $(TESTS_OBJ_DIR)/test_weapons_resource.o: $(TESTS_SRC_DIR)/test_weapons_resource.cpp | dirs
+	$(DO_TESTS_CXX)
+
+$(TESTS_OBJ_DIR)/test_weapons_pickup.o: $(TESTS_SRC_DIR)/test_weapons_pickup.cpp | dirs
 	$(DO_TESTS_CXX)
 
 $(TESTS_OBJ_DIR)/user_message_registry.o: $(HLCORE_SRC_DIR)/user_message_registry.cpp | dirs

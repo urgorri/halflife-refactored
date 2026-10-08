@@ -357,6 +357,7 @@ if(BUILD_TESTS)
         cl_dll/entities/entity_visual_registry.cpp
         cl_dll/render/triangle_render_registry.cpp
         tests/test_weapons_resource.cpp
+        tests/test_weapons_pickup.cpp
         ${PM_SHARED_SOURCES}
     )
 
