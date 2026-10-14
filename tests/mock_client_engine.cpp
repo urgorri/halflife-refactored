@@ -386,6 +386,7 @@ static void stub_SPR_DisableScissor( void )
 
 static client_sprite_t *s_customMockSprites = nullptr;
 static int s_customMockSpriteCount = 0;
+static bool s_forceNullMockSprites = false;
 
 void SetMockSpriteList( client_sprite_t *pSprites, int count )
 {
@@ -393,15 +394,27 @@ void SetMockSpriteList( client_sprite_t *pSprites, int count )
 	s_customMockSpriteCount = count;
 }
 
+void SetMockSpriteListNull( bool bNull )
+{
+	s_forceNullMockSprites = bNull;
+}
+
 void ResetMockSpriteList( void )
 {
 	s_customMockSprites = nullptr;
 	s_customMockSpriteCount = 0;
+	s_forceNullMockSprites = false;
 }
 
 static struct client_sprite_s *stub_SPR_GetList( char *psz, int *piCount )
 {
 	(void)psz;
+	if ( s_forceNullMockSprites )
+	{
+		if ( piCount )
+			*piCount = 0;
+		return nullptr;
+	}
 	if ( s_customMockSprites )
 	{
 		if ( piCount )
