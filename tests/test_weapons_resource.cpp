@@ -337,7 +337,7 @@ TEST_CASE( "WeaponsResource: 16-bit Ammo Capacity and Network Protocol (#201)", 
 	WEAPON *pW = gWR.GetWeapon( 11 );
 	REQUIRE( pW != nullptr );
 	CHECK( pW->iMax1 == 5000 );
-	CHECK( gWR.HasAmmo( pW ) == TRUE );
+	CHECK( gWR.HasAmmo( pW ) != 0 );
 
 	// 16-bit AmmoX protocol decoding simulation:
 	// 2-byte legacy message (size 2): reads byte
