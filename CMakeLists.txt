@@ -323,6 +323,7 @@ if(BUILD_TESTS)
         tests/test_player_customization.cpp
         tests/test_ai_navigation.cpp
         tests/test_bodygroup_bounds.cpp
+        tests/test_bounded_strings.cpp
         tests/test_buttons.cpp
         tests/test_breakable_lifecycle.cpp
         tests/test_entity_iteration.cpp
