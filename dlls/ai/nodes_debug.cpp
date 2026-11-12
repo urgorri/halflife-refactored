@@ -22,6 +22,7 @@
 #include "ai/monsters.h"
 #include "ai/nodes.h"
 #include "core/animation.h"
+#include "gameplay/gamerules.h"
 
 #if !defined( _WIN32 )
 #include <sys/stat.h>
@@ -663,6 +664,11 @@ void CTestHull ::BuildNodeGraph( void )
 	// save the node graph for this level
 	WorldGraph.FSaveGraph( (char *)STRING( gpGlobals->mapname ) );
 	ALERT( at_console, "Done.\n" );
+
+	if ( g_pGameRules )
+	{
+		g_pGameRules->OnNodeGraphBuilt();
+	}
 }
 
 //=========================================================

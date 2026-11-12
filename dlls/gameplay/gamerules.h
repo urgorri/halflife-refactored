@@ -64,6 +64,8 @@ enum
 class CGameRules
 {
   public:
+	virtual ~CGameRules() {}
+
 	virtual void RefreshSkillData( void );                     // fill skill data struct with proper values
 	virtual void Think( void )                            = 0; // GR_Think - runs every server frame, should handle any timer tasks, periodic events, etc.
 	virtual BOOL IsAllowedToSpawn( CBaseEntity *pEntity ) = 0; // Can this item spawn (eg monsters don't spawn in deathmatch).
@@ -93,6 +95,7 @@ class CGameRules
 	virtual void InitHUD( CBasePlayer *pl )                                                                                 = 0; // the client dll is ready for updating
 	virtual void ClientDisconnected( edict_t *pClient )                                                                     = 0; // a client just disconnected from the server
 	virtual void UpdateGameMode( CBasePlayer *pPlayer ) {}                                                                       // the client needs to be informed of the current game mode
+	virtual void ServerDeactivate( void ) {}                                                                                     // called when server deactivates / level unloads
 
 	// Client damage rules
 	virtual float FlPlayerFallDamage( CBasePlayer *pPlayer ) = 0;                                       // this client just hit the ground after a fall. How much damage?
@@ -204,6 +207,12 @@ class CGameRules
 	virtual void OnMonsterAttackDetonation( CBaseMonster *pMonster, const char *pszAttackType, const Vector &vecOrigin ) {}
 	// Dispatches an event when a monster projectile impacts geometry or entities (e.g. Bullsquid spit)
 	virtual void OnMonsterProjectileImpact( CBaseEntity *pProjectile, const TraceResult &tr ) {}
+
+	// AI node graph query and lifecycle hooks
+	// Allows gamemodes to customize or override passability of brush/link entities in AI node graph
+	virtual BOOL FHandleNodeLinkEnt( int iNode, entvars_t *pevLinkEnt, int afCapMask, int queryType, BOOL &bOutPassable ) { return FALSE; }
+	// Dispatched when CTestHull finishes building and saving the runtime AI node graph (.nod)
+	virtual void OnNodeGraphBuilt( void ) {}
 
 	// Weapons, audio, and combat lifecycle hooks
 	virtual BOOL FFixMeleeCorpseAttackDelay( void ) { return FALSE; }
