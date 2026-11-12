@@ -317,6 +317,11 @@ void ServerDeactivate( void )
 	g_serveractive = 0;
 	CPlayerCustomizationBuffer::ClearAll();
 
+	if ( g_pGameRules )
+	{
+		g_pGameRules->ServerDeactivate();
+	}
+
 	// Peform any shutdown operations here...
 	//
 }

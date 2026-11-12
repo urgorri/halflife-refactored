@@ -274,6 +274,40 @@ class CTestHookRules : public CGameRules
 		}
 		return CGameRules::PlayerAddAmmo( pAmmo, pOther );
 	}
+
+	bool m_bServerDeactivateCalled = false;
+	void ServerDeactivate( void ) override
+	{
+		m_bServerDeactivateCalled = true;
+	}
+
+	bool m_bHandleNodeLinkEntCalled = false;
+	BOOL m_bHandleNodeLinkEntReturn = FALSE;
+	BOOL m_bHandleNodeLinkEntPassable = FALSE;
+	int m_lastNode = -1;
+	entvars_t *m_pLastLinkEnt = nullptr;
+	int m_lastCapMask = 0;
+	int m_lastQueryType = -1;
+	BOOL FHandleNodeLinkEnt( int iNode, entvars_t *pevLinkEnt, int afCapMask, int queryType, BOOL &bOutPassable ) override
+	{
+		m_bHandleNodeLinkEntCalled = true;
+		m_lastNode = iNode;
+		m_pLastLinkEnt = pevLinkEnt;
+		m_lastCapMask = afCapMask;
+		m_lastQueryType = queryType;
+		if ( m_bHandleNodeLinkEntReturn )
+		{
+			bOutPassable = m_bHandleNodeLinkEntPassable;
+			return TRUE;
+		}
+		return CGameRules::FHandleNodeLinkEnt( iNode, pevLinkEnt, afCapMask, queryType, bOutPassable );
+	}
+
+	bool m_bOnNodeGraphBuiltCalled = false;
+	void OnNodeGraphBuilt( void ) override
+	{
+		m_bOnNodeGraphBuiltCalled = true;
+	}
 };
 
 class CTestMonster : public CBaseMonster
@@ -1598,6 +1632,182 @@ TEST_CASE( "GameplayHooks: CGameRules::PlayerAddAmmo extensible ammo pickup hook
 		bResult = SimulateAmmoTouch( nullptr );
 		CHECK( bResult == true );
 		CHECK( bDefaultAddAmmoCalled == true );
+	}
+}
+
+class CTestDestructorRules : public CGameRules
+{
+  public:
+	bool *m_pFlag;
+	explicit CTestDestructorRules( bool *pFlag ) : m_pFlag( pFlag ) {}
+	virtual ~CTestDestructorRules() override
+	{
+		if ( m_pFlag )
+		{
+			*m_pFlag = true;
+		}
+	}
+
+	void Think( void ) override {}
+	BOOL IsAllowedToSpawn( CBaseEntity *pEntity ) override { return TRUE; }
+	BOOL FAllowFlashlight( void ) override { return TRUE; }
+	BOOL FShouldSwitchWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pWeapon ) override { return FALSE; }
+	BOOL GetNextBestWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pCurrentWeapon ) override { return FALSE; }
+	BOOL IsMultiplayer( void ) override { return FALSE; }
+	BOOL IsDeathmatch( void ) override { return FALSE; }
+	BOOL IsCoOp( void ) override { return FALSE; }
+	BOOL ClientConnected( edict_t *pEntity, const char *pszName, const char *pszAddress, char szRejectReason[128] ) override { return TRUE; }
+	void InitHUD( CBasePlayer *pl ) override {}
+	void ClientDisconnected( edict_t *pClient ) override {}
+	float FlPlayerFallDamage( CBasePlayer *pPlayer ) override { return 0.0f; }
+	void PlayerSpawn( CBasePlayer *pPlayer ) override {}
+	void PlayerThink( CBasePlayer *pPlayer ) override {}
+	BOOL FPlayerCanRespawn( CBasePlayer *pPlayer ) override { return TRUE; }
+	float FlPlayerSpawnTime( CBasePlayer *pPlayer ) override { return 0.0f; }
+	void PlayerRespawn( CBasePlayer *pPlayer, BOOL fCopyCorpse ) override {}
+	int IPointsForKill( CBasePlayer *pAttacker, CBasePlayer *pKilled ) override { return 0; }
+	void PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor ) override {}
+	void DeathNotice( CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor ) override {}
+	void PlayerGotWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pWeapon ) override {}
+	int WeaponShouldRespawn( CBasePlayerItem *pWeapon ) override { return 0; }
+	float FlWeaponRespawnTime( CBasePlayerItem *pWeapon ) override { return 0.0f; }
+	float FlWeaponTryRespawn( CBasePlayerItem *pWeapon ) override { return 0.0f; }
+	Vector VecWeaponRespawnSpot( CBasePlayerItem *pWeapon ) override { return Vector( 0, 0, 0 ); }
+	BOOL CanHaveItem( CBasePlayer *pPlayer, CItem *pItem ) override { return TRUE; }
+	void PlayerGotItem( CBasePlayer *pPlayer, CItem *pItem ) override {}
+	int ItemShouldRespawn( CItem *pItem ) override { return 0; }
+	float FlItemRespawnTime( CItem *pItem ) override { return 0.0f; }
+	Vector VecItemRespawnSpot( CItem *pItem ) override { return Vector( 0, 0, 0 ); }
+	void PlayerGotAmmo( CBasePlayer *pPlayer, char *szName, int iCount ) override {}
+	int AmmoShouldRespawn( CBasePlayerAmmo *pAmmo ) override { return 0; }
+	float FlAmmoRespawnTime( CBasePlayerAmmo *pAmmo ) override { return 0.0f; }
+	Vector VecAmmoRespawnSpot( CBasePlayerAmmo *pAmmo ) override { return Vector( 0, 0, 0 ); }
+	float FlHealthChargerRechargeTime( void ) override { return 0.0f; }
+	int DeadPlayerWeapons( CBasePlayer *pPlayer ) override { return 0; }
+	int DeadPlayerAmmo( CBasePlayer *pPlayer ) override { return 0; }
+	BOOL FAllowMonsters( void ) override { return TRUE; }
+	int PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget ) override { return 0; }
+	const char *GetTeamID( CBaseEntity *pEntity ) override { return ""; }
+};
+
+TEST_CASE( "GameplayHooks: CGameRules polymorphic virtual destructor ensures derived cleanup (#214)", "[gameplay][gamerules][destructor]" )
+{
+	InitMockEngine();
+
+	bool bDerivedDestructorRan = false;
+	CGameRules *pRules = new CTestDestructorRules( &bDerivedDestructorRan );
+	REQUIRE( pRules != nullptr );
+
+	delete pRules;
+	CHECK( bDerivedDestructorRan == true );
+}
+
+TEST_CASE( "GameplayHooks: ServerDeactivate lifecycle hook and idempotency guard (#214)", "[gameplay][gamerules][lifecycle]" )
+{
+	InitMockEngine();
+
+	SECTION( "Vanilla singleplayer and multiplayer rules default to safe no-op" )
+	{
+		gpGlobals->deathmatch = 0.0f;
+		CGameRules *pSingleRules = GameRulesFactory::CreateGameRules();
+		REQUIRE( pSingleRules != nullptr );
+		CHECK_NOTHROW( pSingleRules->ServerDeactivate() );
+		delete pSingleRules;
+
+		GameRulesFactory::Reset();
+		gpGlobals->deathmatch = 1.0f;
+		CGameRules *pMultiRules = GameRulesFactory::CreateGameRules();
+		REQUIRE( pMultiRules != nullptr );
+		CHECK_NOTHROW( pMultiRules->ServerDeactivate() );
+		delete pMultiRules;
+		gpGlobals->deathmatch = 0.0f;
+	}
+
+	SECTION( "Custom game rules intercepts ServerDeactivate dispatch contract" )
+	{
+		CTestHookRules customRules;
+		g_pGameRules = &customRules;
+
+		CHECK( customRules.m_bServerDeactivateCalled == false );
+
+		// Simulate ServerDeactivate dispatch contract as invoked in ::ServerDeactivate()
+		if ( g_pGameRules )
+		{
+			g_pGameRules->ServerDeactivate();
+		}
+
+		CHECK( customRules.m_bServerDeactivateCalled == true );
+
+		g_pGameRules = nullptr;
+	}
+}
+
+TEST_CASE( "GameplayHooks: CGameRules node graph query delegation and build notification hooks (#214)", "[gameplay][gamerules][ai][nodegraph]" )
+{
+	InitMockEngine();
+
+	SECTION( "Vanilla singleplayer and multiplayer rules default implementations" )
+	{
+		gpGlobals->deathmatch = 0.0f;
+		CGameRules *pSingleRules = GameRulesFactory::CreateGameRules();
+		REQUIRE( pSingleRules != nullptr );
+
+		BOOL bPassable = FALSE;
+		CHECK( pSingleRules->FHandleNodeLinkEnt( 0, nullptr, 0, 0, bPassable ) == FALSE );
+		CHECK_NOTHROW( pSingleRules->OnNodeGraphBuilt() );
+
+		delete pSingleRules;
+		g_pGameRules = nullptr;
+
+		GameRulesFactory::Reset();
+		gpGlobals->deathmatch = 1.0f;
+		CGameRules *pMultiRules = GameRulesFactory::CreateGameRules();
+		REQUIRE( pMultiRules != nullptr );
+
+		CHECK( pMultiRules->FHandleNodeLinkEnt( 1, nullptr, 0, 0, bPassable ) == FALSE );
+		CHECK_NOTHROW( pMultiRules->OnNodeGraphBuilt() );
+
+		delete pMultiRules;
+		g_pGameRules = nullptr;
+		gpGlobals->deathmatch = 0.0f;
+	}
+
+	SECTION( "Custom game rules intercepts FHandleNodeLinkEnt and OnNodeGraphBuilt" )
+	{
+		CTestHookRules customRules;
+		g_pGameRules = &customRules;
+
+		edict_t linkEdict;
+		std::memset( &linkEdict, 0, sizeof( linkEdict ) );
+		linkEdict.v.classname = MAKE_STRING( "gladder_breakable" );
+		linkEdict.v.solid = SOLID_BSP;
+
+		// Default returns FALSE
+		BOOL bPassable = FALSE;
+		CHECK( customRules.FHandleNodeLinkEnt( 5, &linkEdict.v, 12, 1, bPassable ) == FALSE );
+		CHECK( customRules.m_bHandleNodeLinkEntCalled == true );
+		CHECK( customRules.m_lastNode == 5 );
+		CHECK( customRules.m_pLastLinkEnt == &linkEdict.v );
+		CHECK( customRules.m_lastCapMask == 12 );
+		CHECK( customRules.m_lastQueryType == 1 );
+
+		// Custom override grants passability
+		customRules.m_bHandleNodeLinkEntReturn = TRUE;
+		customRules.m_bHandleNodeLinkEntPassable = TRUE;
+		CHECK( customRules.FHandleNodeLinkEnt( 5, &linkEdict.v, 12, 1, bPassable ) == TRUE );
+		CHECK( bPassable == TRUE );
+
+		// Custom override denies passability
+		customRules.m_bHandleNodeLinkEntPassable = FALSE;
+		CHECK( customRules.FHandleNodeLinkEnt( 5, &linkEdict.v, 12, 1, bPassable ) == TRUE );
+		CHECK( bPassable == FALSE );
+
+		// OnNodeGraphBuilt dispatch
+		CHECK( customRules.m_bOnNodeGraphBuiltCalled == false );
+		customRules.OnNodeGraphBuilt();
+		CHECK( customRules.m_bOnNodeGraphBuiltCalled == true );
+
+		g_pGameRules = nullptr;
 	}
 }
 

@@ -19,6 +19,7 @@
 #include "dlls/world/rotating.h"
 #include "dlls/monsters/apache.h"
 #include "pm_shared/pm_shared.h"
+#include "gameplay/gamerules.h"
 
 extern CGraph WorldGraph;
 
@@ -378,4 +379,153 @@ TEST_CASE( "Spawnflags and spectator constants match canonical GoldSrc values", 
 	{
 		CHECK( OBS_ROAMING == 3 );
 	}
+}
+
+class CTestLinkRules : public CGameRules
+{
+  public:
+	BOOL m_bHandled = FALSE;
+	BOOL m_bPassable = FALSE;
+	int m_lastNode = -1;
+
+	void Think( void ) override {}
+	BOOL IsAllowedToSpawn( CBaseEntity *pEntity ) override { return TRUE; }
+	BOOL FAllowFlashlight( void ) override { return TRUE; }
+	BOOL FShouldSwitchWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pWeapon ) override { return FALSE; }
+	BOOL GetNextBestWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pCurrentWeapon ) override { return FALSE; }
+	BOOL IsMultiplayer( void ) override { return FALSE; }
+	BOOL IsDeathmatch( void ) override { return FALSE; }
+	BOOL IsCoOp( void ) override { return FALSE; }
+	BOOL ClientConnected( edict_t *pEntity, const char *pszName, const char *pszAddress, char szRejectReason[128] ) override { return TRUE; }
+	void InitHUD( CBasePlayer *pl ) override {}
+	void ClientDisconnected( edict_t *pClient ) override {}
+	float FlPlayerFallDamage( CBasePlayer *pPlayer ) override { return 0.0f; }
+	void PlayerSpawn( CBasePlayer *pPlayer ) override {}
+	void PlayerThink( CBasePlayer *pPlayer ) override {}
+	BOOL FPlayerCanRespawn( CBasePlayer *pPlayer ) override { return TRUE; }
+	float FlPlayerSpawnTime( CBasePlayer *pPlayer ) override { return 0.0f; }
+	void PlayerRespawn( CBasePlayer *pPlayer, BOOL fCopyCorpse ) override {}
+	int IPointsForKill( CBasePlayer *pAttacker, CBasePlayer *pKilled ) override { return 0; }
+	void PlayerKilled( CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor ) override {}
+	void DeathNotice( CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor ) override {}
+	void PlayerGotWeapon( CBasePlayer *pPlayer, CBasePlayerItem *pWeapon ) override {}
+	int WeaponShouldRespawn( CBasePlayerItem *pWeapon ) override { return 0; }
+	float FlWeaponRespawnTime( CBasePlayerItem *pWeapon ) override { return 0.0f; }
+	float FlWeaponTryRespawn( CBasePlayerItem *pWeapon ) override { return 0.0f; }
+	Vector VecWeaponRespawnSpot( CBasePlayerItem *pWeapon ) override { return Vector( 0, 0, 0 ); }
+	BOOL CanHaveItem( CBasePlayer *pPlayer, CItem *pItem ) override { return TRUE; }
+	void PlayerGotItem( CBasePlayer *pPlayer, CItem *pItem ) override {}
+	int ItemShouldRespawn( CItem *pItem ) override { return 0; }
+	float FlItemRespawnTime( CItem *pItem ) override { return 0.0f; }
+	Vector VecItemRespawnSpot( CItem *pItem ) override { return Vector( 0, 0, 0 ); }
+	void PlayerGotAmmo( CBasePlayer *pPlayer, char *szName, int iCount ) override {}
+	int AmmoShouldRespawn( CBasePlayerAmmo *pAmmo ) override { return 0; }
+	float FlAmmoRespawnTime( CBasePlayerAmmo *pAmmo ) override { return 0.0f; }
+	Vector VecAmmoRespawnSpot( CBasePlayerAmmo *pAmmo ) override { return Vector( 0, 0, 0 ); }
+	float FlHealthChargerRechargeTime( void ) override { return 0.0f; }
+	int DeadPlayerWeapons( CBasePlayer *pPlayer ) override { return 0; }
+	int DeadPlayerAmmo( CBasePlayer *pPlayer ) override { return 0; }
+	BOOL FAllowMonsters( void ) override { return TRUE; }
+	int PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget ) override { return 0; }
+	const char *GetTeamID( CBaseEntity *pEntity ) override { return ""; }
+
+	BOOL FHandleNodeLinkEnt( int iNode, entvars_t *pevLinkEnt, int afCapMask, int queryType, BOOL &bOutPassable ) override
+	{
+		m_lastNode = iNode;
+		if ( m_bHandled )
+		{
+			bOutPassable = m_bPassable;
+			return TRUE;
+		}
+		return FALSE;
+	}
+};
+
+TEST_CASE( "CGraph: HandleLinkEnt passability on SOLID_NOT and FHandleNodeLinkEnt delegation (#214)", "[ai][navigation][cgraph][links]" )
+{
+	InitMockEngine();
+	WorldGraph.InitGraph();
+
+	SECTION( "HandleLinkEnt returns FALSE when graph pointers are not set" )
+	{
+		WorldGraph.m_fGraphPresent = FALSE;
+		WorldGraph.m_fGraphPointersSet = FALSE;
+		CHECK( WorldGraph.HandleLinkEnt( 0, nullptr, 0, CGraph::NODEGRAPH_STATIC ) == FALSE );
+	}
+
+	SECTION( "HandleLinkEnt returns TRUE when ent is null or dead" )
+	{
+		WorldGraph.m_fGraphPresent = TRUE;
+		WorldGraph.m_fGraphPointersSet = TRUE;
+		CHECK( WorldGraph.HandleLinkEnt( 0, nullptr, 0, CGraph::NODEGRAPH_STATIC ) == TRUE );
+		CHECK( WorldGraph.HandleLinkEnt( 0, nullptr, 0, CGraph::NODEGRAPH_DYNAMIC ) == TRUE );
+	}
+
+	SECTION( "HandleLinkEnt returns TRUE for SOLID_NOT entities regardless of classname (#214)" )
+	{
+		WorldGraph.m_fGraphPresent = TRUE;
+		WorldGraph.m_fGraphPointersSet = TRUE;
+
+		edict_t brokenCrate;
+		std::memset( &brokenCrate, 0, sizeof( brokenCrate ) );
+		brokenCrate.v.pContainingEntity = &brokenCrate;
+		brokenCrate.v.classname = MAKE_STRING( "gladder_breakable" );
+		brokenCrate.v.solid = SOLID_NOT;
+
+		CHECK( WorldGraph.HandleLinkEnt( 0, &brokenCrate.v, 0, CGraph::NODEGRAPH_STATIC ) == TRUE );
+		CHECK( WorldGraph.HandleLinkEnt( 0, &brokenCrate.v, 0, CGraph::NODEGRAPH_DYNAMIC ) == TRUE );
+	}
+
+	SECTION( "HandleLinkEnt delegates to CGameRules::FHandleNodeLinkEnt (#214)" )
+	{
+		WorldGraph.m_fGraphPresent = TRUE;
+		WorldGraph.m_fGraphPointersSet = TRUE;
+
+		CTestLinkRules testRules;
+		g_pGameRules = &testRules;
+
+		edict_t customBrush;
+		std::memset( &customBrush, 0, sizeof( customBrush ) );
+		customBrush.v.pContainingEntity = &customBrush;
+		customBrush.v.classname = MAKE_STRING( "gladder_breakable" );
+		customBrush.v.solid = SOLID_BSP;
+
+		// 1. Without gamemode handling: unhandled ent returns FALSE
+		testRules.m_bHandled = FALSE;
+		CHECK( WorldGraph.HandleLinkEnt( 3, &customBrush.v, 0, CGraph::NODEGRAPH_STATIC ) == FALSE );
+		CHECK( testRules.m_lastNode == 3 );
+
+		// 2. Gamemode handles and grants passability
+		testRules.m_bHandled = TRUE;
+		testRules.m_bPassable = TRUE;
+		CHECK( WorldGraph.HandleLinkEnt( 7, &customBrush.v, bits_CAP_OPEN_DOORS, CGraph::NODEGRAPH_STATIC ) == TRUE );
+		CHECK( testRules.m_lastNode == 7 );
+
+		// 3. Gamemode handles and blocks passability
+		testRules.m_bHandled = TRUE;
+		testRules.m_bPassable = FALSE;
+		CHECK( WorldGraph.HandleLinkEnt( 2, &customBrush.v, 0, CGraph::NODEGRAPH_DYNAMIC ) == FALSE );
+
+		g_pGameRules = nullptr;
+	}
+
+	SECTION( "HandleLinkEnt preserves vanilla func_breakable and func_door behavior (#214)" )
+	{
+		WorldGraph.m_fGraphPresent = TRUE;
+		WorldGraph.m_fGraphPointersSet = TRUE;
+		g_pGameRules = nullptr;
+
+		edict_t breakableEnt;
+		std::memset( &breakableEnt, 0, sizeof( breakableEnt ) );
+		breakableEnt.v.pContainingEntity = &breakableEnt;
+		breakableEnt.v.classname = MAKE_STRING( "func_breakable" );
+		breakableEnt.v.solid = SOLID_BSP;
+
+		// func_breakable is passable statically during nodegraph build
+		CHECK( WorldGraph.HandleLinkEnt( 0, &breakableEnt.v, 0, CGraph::NODEGRAPH_STATIC ) == TRUE );
+		// func_breakable is NOT passable dynamically while solid
+		CHECK( WorldGraph.HandleLinkEnt( 0, &breakableEnt.v, 0, CGraph::NODEGRAPH_DYNAMIC ) == FALSE );
+	}
+
+	WorldGraph.InitGraph();
 }

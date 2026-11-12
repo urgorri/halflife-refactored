@@ -23,6 +23,7 @@
 #include "ai/nodes.h"
 #include "core/animation.h"
 #include "systems/doors.h"
+#include "gameplay/gamerules.h"
 
 extern DLL_GLOBAL edict_t *g_pBodyQueueHead;
 
@@ -112,6 +113,20 @@ int CGraph ::HandleLinkEnt( int iNode, entvars_t *pevLinkEnt, int afCapMask, NOD
 	{
 		ALERT( at_aiconsole, "dead path ent!\n" );
 		return TRUE;
+	}
+
+	if ( pevLinkEnt->solid == SOLID_NOT )
+	{
+		return TRUE;
+	}
+
+	if ( g_pGameRules )
+	{
+		BOOL bPassable = FALSE;
+		if ( g_pGameRules->FHandleNodeLinkEnt( iNode, pevLinkEnt, afCapMask, (int)queryType, bPassable ) )
+		{
+			return bPassable;
+		}
 	}
 
 	// func_door
